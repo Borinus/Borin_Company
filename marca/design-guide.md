@@ -3,9 +3,21 @@
 > Você pode editar esse arquivo a qualquer momento.
 > As skills de carrossel, proposta e slide leem este arquivo antes de criar qualquer visual.
 
-> **Status:** identidade ainda não definida. A direção abaixo é a que o Mateus declarou no /setup
-> (minimalista, monocromático) e vale como base provisória até a marca ser criada de verdade.
-> Criar a identidade é uma das prioridades atuais — ver `_contexto/estrategia.md`.
+> **Status:** nome definido (**Borin Projetos Elétricos**), identidade visual em construção. Cores,
+> tipografia e logo abaixo são direção provisória — minimalista e monocromática, conforme o /setup.
+
+## Nome
+
+**Borin Projetos Elétricos**.
+
+Nome próprio porque o canal de venda é indicação: quem indica, indica o Mateus. Nunca acompanhar de
+"Engenharia" — o serviço é projeto e documentação técnica, e o termo é regulado pelo CREA.
+
+Assinatura padrão: `BORIN` em caixa alta, peso alto, com o descritor *projetos elétricos industriais*
+em corpo menor logo abaixo. Versão reduzida, pra carimbo de folha e favicon: monograma `BRN`.
+O descritor é parte fixa do logo enquanto a marca for desconhecida.
+
+Domínio alvo: `borinprojetos.com.br` (livre em 26/07/2026).
 
 ---
 
@@ -65,7 +77,9 @@ agência ou startup. Nada decorativo: se um elemento não informa, sai.
 
 ## Logo
 
-*Ainda não existe. Quando tiver, salvar em `marca/` e preencher abaixo.*
+*Ainda não desenhado. Direção: assinatura tipográfica `BORIN` em caixa alta, sem símbolo desenhado —
+símbolo reduz mal no canto de folha técnica. Monograma `BRN` para uso reduzido.
+Quando tiver arquivo, salvar em `marca/` e preencher abaixo.*
 
 - **Arquivo:** *(ex: marca/logo.png ou marca/logo.svg)*
 - **Versão pra fundo escuro:** *(se tiver variação — ex: marca/logo-branco.png)*
@@ -85,4 +99,5 @@ agência ou startup. Nada decorativo: se um elemento não informa, sai.
 
 ## Observações adicionais
 
-Nome do negócio ainda não definido — usar "Mateus Borin" como assinatura até lá.
+Assinatura em documento técnico: `Borin Projetos Elétricos — Mateus Borin, projetista`.
+Não usar "Engenheiro" nem "Engenharia" em nenhuma peça.

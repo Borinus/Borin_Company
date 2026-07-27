@@ -2,8 +2,13 @@
 
 ## Estruturar o negócio
 
-- [ ] Definir nome do negócio
-- [ ] Criar identidade visual (logo, paleta, aplicação) — direção: minimalista, monocromática
+- [x] Definir nome do negócio — **Borin Projetos Elétricos**
+- [ ] Registrar `borinprojetos.com.br` (estava livre em 26/07/2026)
+- [ ] Conferir a marca na base do INPI antes de registrar — a busca web não cobre isso
+- [ ] Checar o @ disponível no Instagram
+- [ ] Desenhar o logo: assinatura `BORIN` em caixa alta + monograma `BRN` reduzido
+- [ ] Criar identidade visual completa (paleta, tipografia, aplicação) — minimalista, monocromática
+- [ ] Mapear um engenheiro eletricista parceiro pra assinar ART quando algum cliente exigir
 - [ ] Escrever `padroes/padrao-entrega.md` — o que todo projeto entrega
 - [ ] Escrever `padroes/checklist-conferencia.md` — o que conferir antes de entregar
 - [ ] Preencher `comercial/precificacao.md` — modelo de cobrança e valores

@@ -1,9 +1,9 @@
-# Mateus Borin — Projetos Elétricos — Claude Code OS
+# Borin Projetos Elétricos — Claude Code OS
 
 ## O que é esse workspace
 
-Workspace do negócio próprio do Mateus Borin: prestação de serviço de projeto elétrico industrial
-ponta a ponta (freelancer, solo). Aqui ficam os clientes, os projetos, o lado comercial
+Workspace da **Borin Projetos Elétricos**, negócio próprio do Mateus Borin: prestação de serviço de
+projeto elétrico industrial ponta a ponta (freelancer, solo). Aqui ficam os clientes, os projetos, o lado comercial
 (proposta, contrato, preço), o padrão de entrega e a identidade da marca.
 
 **Estrutura de pastas:**
@@ -20,11 +20,16 @@ ponta a ponta (freelancer, solo). Aqui ficam os clientes, os projetos, o lado co
 
 ## Sobre o negócio
 
-Mateus Borin presta serviço de projeto elétrico industrial por conta própria. Trabalha hoje como
-terceiro na FlowSistem (Caxias do Sul/RS, fabricante de sistemas de pintura industrial — dosagem e
-aplicação de fluidos), onde é o projetista elétrico único e implanta o padrão EPLAN da empresa.
-O negócio próprio está na fase de estruturação: definindo identidade, padrão de entrega, preço e
-fluxo comercial. Ainda sem nome definido.
+Mateus Borin presta serviço de projeto elétrico industrial por conta própria, sob a marca
+**Borin Projetos Elétricos**. Trabalha hoje como terceiro na FlowSistem (Caxias do Sul/RS, fabricante de sistemas de pintura
+industrial — dosagem e aplicação de fluidos), onde é o projetista elétrico único e implanta o padrão
+EPLAN da empresa. O negócio próprio está na fase de estruturação: identidade, padrão de entrega,
+preço e fluxo comercial.
+
+**Importante para qualquer texto que saia daqui:** Mateus é **projetista**, não engenheiro
+eletricista (cursa Engenharia Civil). O serviço que ele vende não exige ART. Nunca usar a palavra
+"Engenharia" no nome, na assinatura ou em material de cliente — é termo com registro no CREA.
+Posicionar sempre como projeto e documentação técnica.
 
 ## O que mais fazemos aqui
 

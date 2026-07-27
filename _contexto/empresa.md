@@ -1,7 +1,7 @@
 # Contexto da Empresa — Mateus Borin
 
 **Nome:** Mateus Borin
-**Negócio:** ainda sem nome definido (workspace: "Borin Company") — serviço de projeto elétrico industrial
+**Negócio:** Borin Projetos Elétricos
 **O que faz:** projeto elétrico industrial completo, do início ao fim — diagramas, listas de materiais, tags, I/Os e padronização, usando EPLAN Electric Pro Panel
 **Perfil:** freelancer
 **Atende clientes:** sim (externos)
@@ -10,6 +10,27 @@
 **Principais entregas:** projeto elétrico completo em EPLAN, diagramas, lista de materiais, lista de tags e I/Os, padronização de projeto, conferência/revisão de projeto, planilhas técnicas de apoio
 
 ## Contexto adicional
+
+**Nome da marca:** Borin Projetos Elétricos (definido em 26/07/2026). Marca gráfica prevista:
+monograma `BRN` ou a assinatura `BORIN` em caixa alta, peso alto, monocromática, com o descritor
+"projetos elétricos industriais" em corpo menor embaixo.
+
+**Domínio:** `borinprojetos.com.br` estava livre em 26/07/2026 e é o alvo de registro
+(`borin.com.br` está ocupado).
+
+**Por que nome próprio e não marca abstrata:** foram avaliadas duas rodadas de nomes abstratos e
+termos técnicos (Fasor, Farad, Gauss, Neper, Estator, Entreferro, Quadratura, Prumo). Fasor chegou a
+ser escolhido e foi descartado por já existirem quatro empresas do mesmo ramo com esse nome
+(Fasor Engenharia, Fasor Serviços Elétricos, Fasor Tecnologia, Fasor Eletricidade). A conclusão foi
+que nome abstrato exige construir reconhecimento do zero, e o canal de venda dele é indicação — onde
+o nome próprio já carrega o lastro. Não reabrir essa discussão sem motivo novo.
+
+**Formação e habilitação:** Mateus é **projetista**, não engenheiro eletricista — cursa Engenharia
+Civil na FSG. O tipo de trabalho que ele vende (projeto e documentação técnica de sistemas elétricos
+industriais) não exige ART nem engenheiro para assinar. Consequências práticas:
+- Não usar a palavra "Engenharia" no nome, material ou assinatura — é termo com registro no CREA
+- Posicionar como projetista / projeto e documentação técnica, nunca como serviço de engenharia
+- Se um cliente exigir ART (obra ou máquina sob NR-12), precisa de engenheiro eletricista parceiro para assinar — ainda não tem esse parceiro mapeado
 
 **Situação atual:** trabalha como terceiro na FlowSistem (Caxias do Sul/RS), fabricante de sistemas de
 pintura industrial (dosagem e aplicação de fluidos). É o projetista elétrico único da empresa e está
