@@ -18,18 +18,16 @@ dados/*.pdf
 dados/*.json
 !dados/README.md
 
-# Pastas de trabalho do usuário (geradas pelo /setup, conteúdo pessoal)
-clientes/
-propostas/
+# Pastas de trabalho do usuário.
+# No repo do kit (público) elas eram ignoradas. Aqui o repositório é privado e o objetivo
+# é justamente não perder esse material, então clientes/, propostas/ e tarefas.md são versionados.
 conteudo/
-projetos/
 briefings/
 trabalho/
 estudos/
 publicacoes/
 anotacoes/
 curriculo/
-tarefas.md
 
 # Skills: as 6 do kit vêm versionadas; as que o aluno cria com /mapear ficam locais.
 .claude/skills/*

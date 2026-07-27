@@ -1,18 +1,17 @@
 # Agora — contexto vivo
 
-<!-- NOT CONFIGURED -->
 > Este é o contexto que muda toda semana (diferente de `estrategia.md`, que é o foco de fundo).
 > O `/iniciar` lê isto no começo da sessão; o `/atualizar` escreve aqui no fim.
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
 ## Onde paramos
-[a última coisa em que você estava trabalhando, pra retomar rápido]
+Acabei de configurar o sistema pro meu negócio com o /setup. Próximo passo sugerido: rodar /mapear pra criar skills pro meu dia a dia.
 
 ## Decisões recentes
-[decisões tomadas nas últimas semanas, uma linha cada, com data]
+[vazio por enquanto — o /atualizar preenche no fim de cada sessão]
 
 ## Pendências
-[coisas em aberto esperando você ou terceiros — o que precisa acontecer]
+- Rodar /mapear pra criar as primeiras skills personalizadas.
 
 ## Quente agora
-[o que está ativo esta semana: prazos, threads, entregas em andamento]
+[o que estiver ativo esta semana]

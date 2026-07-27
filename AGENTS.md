@@ -1,28 +1,79 @@
-# Claude Code OS — Kit Ratos de IA
+# Mateus Borin — Projetos Elétricos — Claude Code OS
 
-Este repositório é o kit de boas-vindas do curso Claude Code OS.
+## O que é esse workspace
 
-Se você acabou de clonar esse repositório:
-1. Rode `/setup` pra configurar o sistema pro seu negócio (uns 5 minutos)
-2. Depois rode `/mapear` pra criar skills personalizadas pro que você faz no dia a dia
+Workspace do negócio próprio do Mateus Borin: prestação de serviço de projeto elétrico industrial
+ponta a ponta (freelancer, solo). Aqui ficam os clientes, os projetos, o lado comercial
+(proposta, contrato, preço), o padrão de entrega e a identidade da marca.
+
+**Estrutura de pastas:**
+- `_contexto/` — memória do sistema (não apagar)
+- `clientes/` — uma pasta por cliente, com os projetos daquele cliente dentro
+  - `_modelo-cliente/` — modelo pra copiar quando entrar cliente novo
+- `comercial/` — propostas, contratos e precificação
+- `padroes/` — padrão de entrega: checklists, normas, o que vai em cada projeto
+- `marca/` — identidade visual (`design-guide.md`) e arquivos de logo
+- `dados/` — arquivos pra analisar (PDF, planilha, print)
+- `tarefas.md` — lista de tarefas corrente
+- `templates/skills/` — templates de skills prontos pra personalizar com /mapear
+- `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
+
+## Sobre o negócio
+
+Mateus Borin presta serviço de projeto elétrico industrial por conta própria. Trabalha hoje como
+terceiro na FlowSistem (Caxias do Sul/RS, fabricante de sistemas de pintura industrial — dosagem e
+aplicação de fluidos), onde é o projetista elétrico único e implanta o padrão EPLAN da empresa.
+O negócio próprio está na fase de estruturação: definindo identidade, padrão de entrega, preço e
+fluxo comercial. Ainda sem nome definido.
+
+## O que mais fazemos aqui
+
+- Projeto elétrico industrial completo, do início ao fim (EPLAN Electric Pro Panel)
+- Diagramas elétricos, listas de materiais, listas de tags e I/Os
+- Padronização de projeto: folhas, macros, potenciais, banco de artigos
+- Conferência e revisão de projeto (tags, cabos, folhas, nomenclatura)
+- Planilhas técnicas de apoio (materiais, estoque, consumo de fontes)
+- Lado comercial: proposta, contrato, precificação, apresentação
+- **Futuro:** programação de CLP como serviço (hoje em aprendizado — LOGO! Soft Comfort / Siemens)
+
+## Clientes e contexto
+
+Atende clientes externos. Público-alvo ainda em aberto: integradores e fabricantes de máquina,
+indústria direta ou escritórios de engenharia. Primeiros clientes devem vir por indicação de contatos.
+Trabalha solo — não há equipe, sócio ou terceirizado.
+
+Experiência de domínio: pintura industrial (Promix/Graco, Viscon, HotSpray, aplicação eletrostática,
+pintura robotizada), painéis de controle, automação industrial. Clientes já atendidos via empresa:
+John Deere, Meritor.
+
+## Tom de voz
+
+**Comigo (conversa interna):** direto e técnico. Sem explicação básica, sem rodeio, sem repetir o que
+já foi dito. Português brasileiro. O Mateus digita rápido e com erros de ortografia — interpretar a
+intenção, não a letra.
+
+**Pro cliente (proposta, email, contrato, apresentação):** texto corrido e profissional, não tópicos
+soltos. Frase completa, tom sério mas não empolado. É o rosto do negócio pra fora.
+
+Evitar em qualquer texto: entusiasmo artificial, jargão de marketing, emoji em documento técnico.
+
+## Ferramentas conectadas
+
+- EPLAN Electric Pro Panel (nível avançado)
+- Excel
+- Claude Code
+- Python e Node.js (usa em automações pontuais)
+- LOGO! Soft Comfort V8 / Siemens LOGO! 8 (aprendizado de CLP)
+- Nenhum MCP instalado até agora
 
 ---
 
-## Como este kit é organizado (Claude Code e Codex)
+## Como este workspace é organizado (Claude Code e Codex)
 
-Este kit funciona nos dois agentes. Quem lê o quê:
+- **Instruções:** `AGENTS.md` é a fonte (este arquivo). `CLAUDE.md` tem só `@AGENTS.md`. Nunca escrever conteúdo no `CLAUDE.md`.
+- **Skills:** em `.claude/skills/<nome>/SKILL.md`. Pro Codex enxergar, existe `.agents/skills` apontando pra `.claude/skills` (criado pelo `/setup`, não vai pro git). Nesta máquina a ponte é junction, então skill nova aparece sozinha.
 
-- **Instruções:** `AGENTS.md` é a fonte (este arquivo). `CLAUDE.md` tem só uma linha (`@AGENTS.md`),
-  que é como o Claude Code importa este conteúdo. O Codex lê `AGENTS.md` direto. Nunca escrever
-  conteúdo no `CLAUDE.md`.
-- **Skills:** ficam em `.claude/skills/<nome>/SKILL.md`. O Claude Code lê daí direto. Pro Codex
-  enxergar, existe `.agents/skills` apontando pra `.claude/skills` (symlink no Mac/Linux, cópia no
-  Windows), criado pelo `/setup` na sua máquina. **Esse ponte não vai pro git** — cada máquina cria
-  a sua. As 6 skills do kit vêm versionadas; as que você criar com `/mapear` ficam locais.
-- Se você abrir este kit no Codex e ele não achar as skills, rode `/setup` (ou peça pro agente ler e
-  seguir `.claude/skills/setup/SKILL.md`) — ele cria a ponte.
-
-<!-- Este arquivo será atualizado pelo /setup com o contexto do seu negócio. -->
+---
 
 ## Contexto do negócio
 
@@ -38,6 +89,16 @@ Usar essas informações como base pra qualquer resposta ou decisão. Ao sugerir
 Para qualquer tarefa visual (carrossel, proposta, slide, landing page), consultar `marca/design-guide.md` como referência de estilo.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o contexto naturalmente.
+
+---
+
+## Regras do sistema
+
+- Cada cliente tem sua pasta em `clientes/[nome-cliente]/`, com os projetos dele em `clientes/[nome-cliente]/projetos/[nome-projeto]/`
+- Cliente novo: copiar `clientes/_modelo-cliente/` e renomear
+- Proposta fechada e contrato assinado ficam na pasta do cliente; modelos e versões em rascunho ficam em `comercial/`
+- Antes de definir escopo ou entregável de um projeto, consultar `padroes/` — é lá que mora o padrão de entrega
+- Chave de API ou token vai sempre no `.env`, nunca em arquivo versionado
 
 ---
 
@@ -95,7 +156,7 @@ Mostrar o que vai mudar antes de salvar. Não reformatar o arquivo inteiro, só 
 - Perguntas simples ou conversas sem ação
 - Mudanças que já foram salvas pelo bloco "Aprender com correções"
 
-**Dica:** se não sabe se algo mudou, rode `/atualizar` pra uma varredura completa.
+**Dica:** se o usuário não sabe se algo mudou, rodar `/atualizar` faz uma varredura completa.
 
 ---
 
