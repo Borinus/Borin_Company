@@ -1,31 +1,44 @@
 # Tarefas
 
-## Estruturar o negócio
+## Trava tudo — fazer primeiro
 
-- [x] Definir nome do negócio — **Borin Projetos Elétricos**
-- [ ] Registrar `borinprojetos.com.br` (estava livre em 26/07/2026)
-- [ ] Conferir a marca na base do INPI antes de registrar — a busca web não cobre isso
+- [ ] Registrar `borinprojetos.com.br` no registro.br — R$ 40/ano. Sem domínio não existe email da empresa
+- [ ] Criar email profissional (Zoho gratuito): `mateus@` e `contato@borinprojetos.com.br`
+- [ ] Conversar com contador: MEI, ME ou autônomo, CNAE da atividade, como emitir nota
+- [ ] Resolver a questão de conflito de interesse com a FlowSistem antes de prospectar
+
+## Marca
+
+- [x] Definir nome — **Borin Projetos Elétricos**
+- [x] Identidade visual: logo, carimbo, paleta, tipografia (`marca/design-guide.md`)
+- [ ] Instalar a fonte Inter na máquina — rsms.me/inter
+- [ ] Converter os SVGs do logo em curvas antes de mandar pra gráfica
+- [ ] Conferir a marca na base do INPI antes de registrar
 - [ ] Checar o @ disponível no Instagram
-- [ ] Desenhar o logo: assinatura `BORIN` em caixa alta + monograma `BRN` reduzido
-- [ ] Criar identidade visual completa (paleta, tipografia, aplicação) — minimalista, monocromática
-- [ ] Mapear um engenheiro eletricista parceiro pra assinar ART quando algum cliente exigir
-- [ ] Escrever `padroes/padrao-entrega.md` — o que todo projeto entrega
-- [ ] Escrever `padroes/checklist-conferencia.md` — o que conferir antes de entregar
-- [ ] Preencher `comercial/precificacao.md` — modelo de cobrança e valores
-- [ ] Criar modelo de proposta
-- [ ] Criar modelo de contrato de prestação de serviço
-- [ ] Definir fluxo comercial: do primeiro contato ao pagamento
 
-## Sistema
+## Entrega
 
-- [ ] Rodar `/mapear` pra criar as primeiras skills personalizadas
-- [ ] Rodar `/syncar` pra conectar o workspace ao GitHub
+- [x] Padrão de entrega — Escopos A e B (`padroes/padrao-entrega.md`)
+- [x] Checklist de conferência (`padroes/checklist-conferencia.md`)
+- [ ] Calibrar o padrão com um projeto real já entregue — colocar o exemplo em `dados/`
+- [ ] Montar o template de capa, memorial e índice no EPLAN, com o carimbo da marca
+- [ ] Montar os templates das planilhas: material, identificações, I/Os, dimensionamento térmico
+
+## Comercial
+
+- [x] Fluxo comercial do contato ao pagamento (`comercial/fluxo-comercial.md`)
+- [x] Modelo de proposta (`comercial/modelo-proposta.md`)
+- [x] Modelo de contrato (`comercial/modelo-contrato.md`)
+- [ ] Revisar o contrato com advogado antes de assinar o primeiro
+- [ ] Cronometrar horas dos próximos projetos pra fechar a precificação
+- [ ] Preencher `comercial/precificacao.md` com os números reais
+- [ ] Montar a proposta em PDF com a identidade aplicada
+- [ ] Levantar lista de integradoras e fabricantes de máquina da Serra pra prospectar
 
 ## MCPs pra instalar depois
 
 Nenhuma das ferramentas que você usa hoje (EPLAN, Excel) tem conector pronto — são locais e o Claude
-já lê/escreve os arquivos direto. Opções que podem fazer sentido conforme o negócio andar:
+já lê e escreve os arquivos direto.
 
-- [ ] Playwright — renderiza HTML em PNG/PDF. Útil pra gerar proposta e apresentação com visual próprio: `npx playwright install chromium`
+- [ ] Playwright — renderiza HTML em PNG/PDF. Útil pra gerar proposta e apresentação com a identidade: `npx playwright install chromium`
 - [ ] Gmail — ler e escrever email de cliente sem sair do Claude: `claude mcp add gmail -- npx -y @gongrzhe/server-gmail-autoauth-mcp`
-- [ ] Google Drive / Google Sheets — se em algum momento o material de cliente for morar na nuvem
