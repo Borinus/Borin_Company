@@ -47,6 +47,12 @@ automacoes-dm.md
 prioridades.md
 contas.yaml
 
+# Material de projeto real usado como referencia — NUNCA vai pro git.
+# Sao arquivos de cliente/empregador: confidencialidade antes de tudo.
+04003478*/
+*_REFERENCIA/
+referencia-projetos/
+
 # Sistema
 .DS_Store
 node_modules/

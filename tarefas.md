@@ -20,9 +20,20 @@
 
 - [x] Padrão de entrega — Escopos A e B (`padroes/padrao-entrega.md`)
 - [x] Checklist de conferência (`padroes/checklist-conferencia.md`)
-- [ ] Calibrar o padrão com um projeto real já entregue — colocar o exemplo em `dados/`
-- [ ] Montar o template de capa, memorial e índice no EPLAN, com o carimbo da marca
-- [ ] Montar os templates das planilhas: material, identificações, I/Os, dimensionamento térmico
+- [x] Calibrar o padrão com um projeto real (04003478 — Painel de Interface)
+
+### Construir os próprios templates — não dá pra usar os da FlowSistem
+
+- [ ] Template de folha do EPLAN com o carimbo da Borin
+- [ ] Template de capa com a tabela *Descrição do Quadro* e a tabela de revisões
+- [ ] Template de memorial descritivo com os seis blocos
+- [ ] Folha de simbologia própria
+- [ ] Planilha modelo de lista de materiais
+- [ ] Planilha modelo de arquitetura de CLP
+- [ ] Planilha modelo de design térmico, com a base de dissipação por componente
+- [ ] Seis planilhas modelo de identificações, com as abas de instrução de impressão
+- [ ] Planilha ou macro própria de lista de instalação, com a aba de acompanhamento e horas
+- [ ] Banco de artigos próprio no EPLAN
 
 ## Comercial
 
