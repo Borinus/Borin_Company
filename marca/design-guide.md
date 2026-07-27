@@ -61,17 +61,53 @@ projetos elétricos industriais
 
 **Tamanho mínimo:** 24mm de largura em impresso, 90px em tela. Abaixo disso, usar o monograma.
 
-**Versões:**
+O logo padrão é monocromático de propósito: assim funciona em impressão preto e branco, em carimbo,
+gravado ou fotocopiado. A versão com o nó vermelho é exceção, não regra.
+
+### Como chamar a marca em cada lugar
+
+Esta é a regra que evita repetir o nome inteiro numa folha de projeto:
+
+| Onde | Como aparece |
+|---|---|
+| Capa do projeto, proposta, apresentação, assinatura de email | Logo completo: `BORIN` + fio + nó + *projetos elétricos industriais* |
+| **Carimbo de folha do EPLAN** | **Só `BORIN`** — sem fio, sem nó, sem descritor |
+| Espaço muito curto: favicon, rodapé de slide, etiqueta | Monograma `BRN` |
+| Texto corrido, contrato, nota fiscal | Nome por extenso: Borin Projetos Elétricos |
+
+O nome completo aparece **uma vez por documento**, na capa ou no memorial. Repetir "Borin Projetos
+Elétricos" em 51 folhas não reforça a marca — polui a folha.
+
+### Arquivos
+
+**Vetor** — peça definitiva e gráfica:
 
 | Arquivo | Uso |
 |---|---|
-| `marca/logo.svg` | Fundo claro, 100% monocromático. **É a versão padrão** |
-| `marca/logo-branco.svg` | Fundo escuro, monocromático |
-| `marca/logo-comando.svg` | Só em peça digital colorida — o nó em vermelho de comando |
-| `marca/monograma-brn.svg` | Uso reduzido: carimbo, favicon, rodapé |
+| `marca/logo.svg` | Fundo claro, monocromático. **É a versão padrão** |
+| `marca/logo-branco.svg` | Fundo escuro |
+| `marca/logo-comando.svg` | Só em peça digital colorida — nó em vermelho |
+| `marca/monograma-brn.svg` | Uso reduzido |
 
-O logo padrão é monocromático de propósito: assim funciona em impressão preto e branco, em carimbo,
-gravado ou fotocopiado. A versão com o nó vermelho é exceção, não regra.
+**PNG** — para colocar dentro do EPLAN, Word e apresentação (`marca/png/`):
+
+| Arquivo | Uso |
+|---|---|
+| `borin-completo.png` | Capa de projeto e proposta — fundo transparente |
+| `borin-completo-branco.png` | Sobre fundo escuro |
+| `borin-completo-comando.png` | Peça digital colorida, nó em vermelho |
+| `borin-carimbo.png` | **Carimbo de folha do EPLAN** — só o nome, transparente, alta resolução |
+| `borin-carimbo-600px.png` | Mesma coisa reduzida, se o EPLAN engasgar com arquivo grande |
+| `borin-carimbo-fundo.png` | Com fundo branco sólido, se a transparência não se comportar |
+| `brn-monograma.png` · `-branco.png` | Espaço curto e favicon |
+
+Os PNGs saem de `marca/gerar-logos.py`, que lê as medidas deste guia. **Depois de instalar a fonte
+Inter, rode o script de novo** — ele detecta a Inter sozinho e refaz tudo com a tipografia
+definitiva. Os arquivos atuais foram gerados com Arial Bold, o fallback previsto.
+
+```
+python marca/gerar-logos.py
+```
 
 > Os SVGs usam a fonte Inter por referência. Antes de mandar pra gráfica, abra no Inkscape ou
 > Illustrator e converta o texto em curvas — assim o logo não depende da fonte estar instalada.

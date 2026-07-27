@@ -8,6 +8,9 @@ _configurar-mcps.md
 
 # Outputs de renderização (binários pesados)
 *.png
+# ...menos os arquivos de marca, que sao entregavel e precisam estar versionados
+!marca/png/*.png
+!marca/*.png
 
 # Arquivos de dados do usuário (CSVs, planilhas, etc)
 dados/*.csv
