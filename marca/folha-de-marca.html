@@ -2,23 +2,15 @@
 
 <style>
   :root {
-    --papel:      #FFFFFF;
-    --tinta:      #111111;
-    --cinza-100:  #F4F4F4;
-    --cinza-300:  #DCDCDC;
-    --cinza-600:  #6B6B6B;
-    --cinza-900:  #171717;
-
-    --ground:     var(--papel);
-    --ground-alt: var(--cinza-100);
-    --ink:        var(--tinta);
-    --ink-soft:   var(--cinza-600);
-    --rule:       var(--cinza-300);
-    --invert-bg:  var(--cinza-900);
+    --ground:     #FFFFFF;
+    --ground-alt: #F4F4F4;
+    --ink:        #111111;
+    --ink-soft:   #6B6B6B;
+    --rule:       #DCDCDC;
+    --invert-bg:  #171717;
     --invert-ink: #FFFFFF;
-
-    --alerta:     #B45309;
-    --critico:    #991B1B;
+    --comando:    #C1121F;
+    --critico:    #7F1D1D;
 
     --sans: Inter, "Inter Variable", "Segoe UI", system-ui, Arial, Helvetica, sans-serif;
     --mono: "JetBrains Mono", "IBM Plex Mono", Consolas, "SF Mono", ui-monospace, monospace;
@@ -43,8 +35,8 @@
       --rule:       #333333;
       --invert-bg:  #F4F4F4;
       --invert-ink: #111111;
-      --alerta:     #D97706;
-      --critico:    #DC2626;
+      --comando:    #E5484D;
+      --critico:    #C93B3B;
     }
   }
 
@@ -56,8 +48,8 @@
     --rule:       #333333;
     --invert-bg:  #F4F4F4;
     --invert-ink: #111111;
-    --alerta:     #D97706;
-    --critico:    #DC2626;
+    --comando:    #E5484D;
+    --critico:    #C93B3B;
   }
 
   :root[data-theme="light"] {
@@ -68,8 +60,8 @@
     --rule:       #DCDCDC;
     --invert-bg:  #171717;
     --invert-ink: #FFFFFF;
-    --alerta:     #B45309;
-    --critico:    #991B1B;
+    --comando:    #C1121F;
+    --critico:    #7F1D1D;
   }
 
   body {
@@ -100,7 +92,7 @@
   }
 
   .topo__marca { color: var(--ink); }
-  .topo__marca svg { width: min(22rem, 78%); height: auto; display: block; }
+  .topo__marca svg { width: min(23rem, 80%); height: auto; display: block; }
 
   .topo__titulo {
     display: flex;
@@ -120,18 +112,14 @@
   }
 
   .topo__titulo p {
-    max-width: 60ch;
+    max-width: 62ch;
     color: var(--ink-soft);
     margin: 0;
   }
 
   /* ---------- seções ---------- */
 
-  .secao {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-  }
+  .secao { display: flex; flex-direction: column; gap: 1.75rem; }
 
   .secao__cabeca {
     display: grid;
@@ -158,7 +146,7 @@
 
   .secao__cabeca p {
     grid-column: 2;
-    max-width: 62ch;
+    max-width: 64ch;
     color: var(--ink-soft);
     font-size: var(--fs-small);
     margin: 0.4rem 0 0;
@@ -167,11 +155,7 @@
   .corpo { display: flex; flex-direction: column; gap: 1.5rem; }
   .corpo p { max-width: 65ch; margin: 0; }
 
-  h3 {
-    font-size: var(--fs-h3);
-    font-weight: 600;
-    margin: 0;
-  }
+  h3 { font-size: var(--fs-h3); font-weight: 600; margin: 0; }
 
   .rotulo {
     font-family: var(--mono);
@@ -181,9 +165,17 @@
     color: var(--ink-soft);
   }
 
+  .nota {
+    font-size: var(--fs-small);
+    color: var(--ink-soft);
+    border-left: 2px solid var(--rule);
+    padding-left: 1rem;
+    max-width: 64ch;
+  }
+
   /* ---------- grades ---------- */
 
-  .grade-2 {
+  .grade {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     gap: 1px;
@@ -199,15 +191,12 @@
     gap: 1rem;
   }
 
-  .quadro--escuro {
-    background: var(--invert-bg);
-    color: var(--invert-ink);
-  }
-
+  .quadro--escuro { background: var(--invert-bg); color: var(--invert-ink); }
   .quadro--escuro .rotulo { color: inherit; opacity: 0.65; }
 
   .quadro__marca svg { width: 100%; max-width: 15rem; height: auto; display: block; }
   .quadro__marca--mini svg { max-width: 6rem; }
+  .quadro__nota { font-size: var(--fs-small); color: var(--ink-soft); margin: 0; }
 
   /* ---------- construção ---------- */
 
@@ -222,7 +211,6 @@
     border: 1px solid var(--rule);
     padding: 2rem 1.5rem;
     background: var(--ground-alt);
-    position: relative;
     color: var(--ink);
   }
 
@@ -253,7 +241,54 @@
     vertical-align: top;
   }
 
-  td.mono, th.mono { font-family: var(--mono); }
+  .mono { font-family: var(--mono); }
+
+  /* ---------- carimbo ---------- */
+
+  .carimbo {
+    border: 1px solid var(--ink);
+    display: grid;
+    font-family: var(--mono);
+    font-size: var(--fs-micro);
+    background: var(--ground);
+    overflow: hidden;
+  }
+
+  .carimbo--completo { grid-template-columns: 5.5rem 1.4fr 1.4fr 0.6fr 1fr; }
+  .carimbo--curto    { grid-template-columns: 4.5rem 1fr 1fr; }
+
+  .carimbo > div {
+    padding: 0.5rem 0.7rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .carimbo > div:last-child { border-right: 0; }
+
+  .carimbo .campo { color: var(--ink-soft); letter-spacing: 0.1em; }
+  .carimbo .valor { color: var(--ink); overflow-wrap: anywhere; }
+
+  .carimbo__marca {
+    align-items: flex-start;
+    justify-content: center;
+    color: var(--ink);
+  }
+  .carimbo__marca svg { width: 3.25rem; height: auto; }
+
+  .rev-marca {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--comando);
+    margin-left: 0.35rem;
+    vertical-align: 0.02rem;
+  }
+
+  .carimbo-wrap { overflow-x: auto; }
+  .carimbo-wrap .carimbo { min-width: 34rem; }
 
   /* ---------- cores ---------- */
 
@@ -265,12 +300,9 @@
     border: 1px solid var(--rule);
   }
 
-  .amostra {
-    background: var(--ground);
-    display: flex;
-    flex-direction: column;
-  }
+  .paleta--curta { grid-template-columns: repeat(auto-fit, minmax(9rem, 13rem)); }
 
+  .amostra { background: var(--ground); display: flex; flex-direction: column; }
   .amostra__chip { height: 5.5rem; border-bottom: 1px solid var(--rule); }
   .amostra__dados {
     padding: 0.85rem 1rem 1.1rem;
@@ -286,14 +318,21 @@
     text-transform: uppercase;
   }
 
+  .regras-cor {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .regras-cor > div { background: var(--ground); padding: 1.25rem; }
+  .regras-cor h3 { margin-bottom: 0.6rem; }
+  .regras-cor ul { margin: 0; padding-left: 1.1rem; font-size: var(--fs-small); color: var(--ink-soft); }
+  .regras-cor li { margin-bottom: 0.3rem; }
+
   /* ---------- tipografia ---------- */
 
-  .escala {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border-top: 1px solid var(--rule);
-  }
+  .escala { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
 
   .escala__linha {
     display: grid;
@@ -312,10 +351,6 @@
   }
 
   .amostra-texto { line-height: 1.15; }
-  .t-700 { font-weight: 700; }
-  .t-600 { font-weight: 600; }
-  .t-500 { font-weight: 500; }
-  .t-400 { font-weight: 400; }
 
   /* ---------- elementos ---------- */
 
@@ -333,17 +368,9 @@
     text-decoration: none;
   }
 
-  .botao--vazado {
-    background: transparent;
-    color: var(--ink);
-  }
+  .botao--vazado { background: transparent; color: var(--ink); }
 
-  .linha-elementos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
+  .linha-elementos { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
 
   /* ---------- aplicações ---------- */
 
@@ -363,27 +390,36 @@
     overflow: hidden;
   }
 
-  /* capa de projeto */
   .capa {
     background: var(--invert-bg);
     color: var(--invert-ink);
-    padding: 1.5rem;
+    padding: 1.4rem;
     justify-content: space-between;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-  .capa svg { width: 60%; height: auto; }
-  .capa__dados {
+  .capa svg { width: 62%; height: auto; }
+  .capa__carimbo {
+    border: 1px solid currentColor;
+    display: grid;
+    grid-template-columns: 1.3fr 0.5fr 0.9fr;
     font-family: var(--mono);
-    font-size: var(--fs-micro);
-    line-height: 1.9;
-    opacity: 0.8;
+    font-size: 0.5625rem;
   }
+  .capa__carimbo > div {
+    padding: 0.4rem 0.5rem;
+    border-right: 1px solid currentColor;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+  .capa__carimbo > div:last-child { border-right: 0; }
+  .capa__carimbo .campo { opacity: 0.55; letter-spacing: 0.1em; }
 
-  /* carimbo de folha */
-  .carimbo-demo {
-    background: var(--ground);
+  .folha-a3 {
+    background: var(--ground-alt);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -391,58 +427,21 @@
     padding: 1.25rem;
   }
 
-  .carimbo {
-    border: 1px solid var(--ink);
-    display: grid;
-    grid-template-columns: 5rem 1fr 1fr;
-    font-family: var(--mono);
-    font-size: var(--fs-micro);
-  }
-
-  .carimbo > div {
-    padding: 0.5rem 0.6rem;
-    border-right: 1px solid var(--rule);
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 0;
-  }
-  .carimbo > div:last-child { border-right: 0; }
-  .carimbo .campo { color: var(--ink-soft); letter-spacing: 0.1em; }
-  .carimbo .valor { color: var(--ink); overflow-wrap: anywhere; }
-  .carimbo__marca {
-    align-items: flex-start;
-    justify-content: center;
-    color: var(--ink);
-  }
-  .carimbo__marca svg { width: 3.25rem; height: auto; }
-
-  /* cabeçalho de proposta */
   .proposta {
     background: var(--ground);
-    padding: 1.5rem;
+    padding: 1.4rem;
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.9rem;
   }
-  .proposta svg { width: 48%; height: auto; color: var(--ink); }
+  .proposta svg { width: 50%; height: auto; color: var(--ink); }
   .proposta__regua { border-top: 1px solid var(--ink); }
   .proposta__titulo { font-size: 1.05rem; font-weight: 700; }
-  .proposta__texto {
-    font-size: var(--fs-small);
-    color: var(--ink-soft);
-    line-height: 1.6;
-  }
+  .proposta__texto { font-size: var(--fs-small); color: var(--ink-soft); line-height: 1.6; }
+  .proposta__rodape { margin-top: auto; }
 
-  /* assinatura de email */
-  .email {
-    background: var(--ground-alt);
-    padding: 1.5rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
+  .email { background: var(--ground-alt); padding: 1.4rem; height: 100%; display: flex; align-items: center; }
   .assinatura {
     background: var(--ground);
     border: 1px solid var(--rule);
@@ -475,40 +474,11 @@
     font-size: var(--fs-small);
   }
 
-  .nunca__marca {
-    font-family: var(--mono);
-    color: var(--critico);
-    font-weight: 700;
-    line-height: 1.5;
-  }
-
-  /* ---------- carimbo final ---------- */
-
-  .rodape {
-    border-top: 1px solid var(--ink);
-    padding-top: 1.25rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    gap: 1.25rem;
-    font-family: var(--mono);
-    font-size: var(--fs-micro);
-    line-height: 1.8;
-  }
-
-  .rodape__campo { color: var(--ink-soft); letter-spacing: 0.1em; }
-  .rodape__valor { color: var(--ink); }
-
-  .nota {
-    font-size: var(--fs-small);
-    color: var(--ink-soft);
-    border-left: 2px solid var(--rule);
-    padding-left: 1rem;
-    max-width: 62ch;
-  }
+  .nunca__marca { font-family: var(--mono); color: var(--ink-soft); font-weight: 700; line-height: 1.5; }
 
   a { color: var(--ink); }
   a:focus-visible, .botao:focus-visible {
-    outline: 2px solid var(--ink);
+    outline: 2px solid var(--comando);
     outline-offset: 3px;
   }
 
@@ -522,18 +492,19 @@
   <header class="topo">
     <div class="topo__marca">
       <svg viewBox="0 0 420 128" role="img" aria-label="Borin Projetos Elétricos">
-        <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
-          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-          <rect x="0" y="84" width="332" height="4"></rect>
-          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.62">projetos elétricos industriais</text>
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="81" width="10" height="10" fill="var(--comando)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
         </g>
       </svg>
     </div>
 
     <div class="topo__titulo">
-      <span class="rotulo">Folha de marca · versão 1</span>
+      <span class="rotulo">Folha de marca · revisão 02</span>
       <h1>Identidade visual</h1>
-      <p>Tudo que define como a marca aparece: logo, cores, tipografia, elementos e aplicação. Toda peça que sair daqui — proposta, capa de projeto, apresentação, email — segue esta folha.</p>
+      <p>O mercado de elétrica da Serra é todo azul-corporativo com foto de máquina. Esta marca não compete por abrangência — compete por rigor de documentação. Por isso ela é feita da linguagem da folha de desenho técnico: o carimbo e a cor de comando.</p>
     </div>
   </header>
 
@@ -542,30 +513,33 @@
     <div class="secao__cabeca">
       <span class="secao__num">01</span>
       <h2>Logo</h2>
-      <p>Nome em caixa alta, fio horizontal, descritor embaixo. O fio é o único elemento gráfico da marca — vem da linha de cota do desenho técnico, e é ele que impede o logo de virar só um texto qualquer.</p>
+      <p>Nome em caixa alta, fio horizontal com um nó no fim, descritor embaixo. O fio é a linha de cota do desenho técnico; o nó é o ponto de conexão que a encerra. A versão padrão é monocromática — assim funciona impressa, fotocopiada ou gravada.</p>
     </div>
 
-    <div class="grade-2">
+    <div class="grade">
       <div class="quadro">
-        <span class="rotulo">Principal · fundo claro</span>
-        <div class="quadro__marca" style="color: var(--tinta);">
-          <svg viewBox="0 0 420 128" role="img" aria-label="Logo principal">
-            <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+        <span class="rotulo">Padrão · fundo claro</span>
+        <div class="quadro__marca" style="color:#111111;">
+          <svg viewBox="0 0 420 128" role="img" aria-label="Logo padrão">
+            <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
               <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-              <rect x="0" y="84" width="332" height="4"></rect>
+              <rect x="0" y="84" width="316" height="4"></rect>
+              <rect x="322" y="81" width="10" height="10"></rect>
               <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.62">projetos elétricos industriais</text>
             </g>
           </svg>
         </div>
+        <p class="quadro__nota">É esta que se usa em 90% dos casos.</p>
       </div>
 
       <div class="quadro quadro--escuro">
         <span class="rotulo">Negativo · fundo escuro</span>
         <div class="quadro__marca">
           <svg viewBox="0 0 420 128" role="img" aria-label="Logo em negativo">
-            <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+            <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
               <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-              <rect x="0" y="84" width="332" height="4"></rect>
+              <rect x="0" y="84" width="316" height="4"></rect>
+              <rect x="322" y="81" width="10" height="10"></rect>
               <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.7">projetos elétricos industriais</text>
             </g>
           </svg>
@@ -573,15 +547,30 @@
       </div>
 
       <div class="quadro">
+        <span class="rotulo">Nó em comando · só digital</span>
+        <div class="quadro__marca" style="color:#111111;">
+          <svg viewBox="0 0 420 128" role="img" aria-label="Logo com nó em vermelho de comando">
+            <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+              <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+              <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+              <rect x="322" y="81" width="10" height="10" fill="#C1121F"></rect>
+              <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+            </g>
+          </svg>
+        </div>
+        <p class="quadro__nota">Exceção, não regra. Nunca em peça que vai ser impressa em preto e branco.</p>
+      </div>
+
+      <div class="quadro">
         <span class="rotulo">Monograma · uso reduzido</span>
-        <div class="quadro__marca quadro__marca--mini" style="color: var(--tinta);">
+        <div class="quadro__marca quadro__marca--mini" style="color:#111111;">
           <svg viewBox="0 0 160 72" role="img" aria-label="Monograma BRN">
-            <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+            <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
               <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
             </g>
           </svg>
         </div>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft);">Para carimbo de folha, favicon e rodapé — onde o logo completo não cabe.</p>
+        <p class="quadro__nota">Carimbo de folha, favicon e rodapé — onde o logo completo não cabe.</p>
       </div>
     </div>
   </section>
@@ -598,31 +587,31 @@
       <div class="diagrama">
         <svg viewBox="0 0 460 200" role="img" aria-label="Diagrama de construção do logo">
           <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
-            <!-- area de protecao -->
             <rect x="40" y="30" width="380" height="140" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-dasharray="4 4"></rect>
-            <!-- logo -->
             <g fill="currentColor">
               <text x="70" y="88" font-size="52" font-weight="700" letter-spacing="4.16">BORIN</text>
-              <rect x="70" y="104" width="240" height="3"></rect>
+              <rect x="70" y="104" width="222" height="3"></rect>
+              <rect x="297" y="102" width="7" height="7"></rect>
               <text x="70" y="129" font-size="12" font-weight="500" letter-spacing="1.44" opacity="0.62">projetos elétricos industriais</text>
             </g>
-            <!-- cotas -->
             <g stroke="currentColor" stroke-opacity="0.45" stroke-width="1">
               <line x1="52" y1="52" x2="52" y2="88"></line>
               <line x1="48" y1="52" x2="56" y2="52"></line>
               <line x1="48" y1="88" x2="56" y2="88"></line>
-              <line x1="330" y1="88" x2="330" y2="104"></line>
-              <line x1="326" y1="88" x2="334" y2="88"></line>
-              <line x1="326" y1="104" x2="334" y2="104"></line>
-              <line x1="330" y1="107" x2="330" y2="123"></line>
-              <line x1="326" y1="123" x2="334" y2="123"></line>
+              <line x1="324" y1="88" x2="324" y2="104"></line>
+              <line x1="320" y1="88" x2="328" y2="88"></line>
+              <line x1="320" y1="104" x2="328" y2="104"></line>
+              <line x1="324" y1="107" x2="324" y2="123"></line>
+              <line x1="320" y1="123" x2="328" y2="123"></line>
             </g>
             <g fill="currentColor" fill-opacity="0.6" font-size="10" font-family="Consolas, monospace">
               <text x="20" y="74">B</text>
-              <text x="342" y="99">0,4 B</text>
-              <text x="342" y="119">0,4 B</text>
+              <text x="336" y="99">0,4 B</text>
+              <text x="336" y="119">0,4 B</text>
+              <text x="272" y="152">nó 0,2 B</text>
               <text x="40" y="188" fill-opacity="0.5">área de proteção = 1 B em volta</text>
             </g>
+            <line x1="300" y1="112" x2="300" y2="144" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"></line>
           </g>
         </svg>
       </div>
@@ -634,12 +623,12 @@
           </thead>
           <tbody>
             <tr><td>Nome</td><td>Inter Bold 700, caixa alta, <span class="mono">+0,08em</span></td></tr>
-            <tr><td>Fio</td><td>Espessura <span class="mono">0,08 B</span>, largura igual à do descritor</td></tr>
+            <tr><td>Fio</td><td>Espessura <span class="mono">0,08 B</span></td></tr>
+            <tr><td>Intervalo fio → nó</td><td><span class="mono">0,12 B</span></td></tr>
+            <tr><td>Nó</td><td>Quadrado de <span class="mono">0,2 B</span>, centrado no fio</td></tr>
             <tr><td>Descritor</td><td>Inter Medium 500, caixa baixa, <span class="mono">+0,12em</span></td></tr>
             <tr><td>Corpo do descritor</td><td><span class="mono">0,22</span> da altura do nome</td></tr>
-            <tr><td>Nome → fio</td><td><span class="mono">0,4 B</span></td></tr>
-            <tr><td>Fio → descritor</td><td><span class="mono">0,4 B</span></td></tr>
-            <tr><td>Alinhamento</td><td>Tudo à esquerda</td></tr>
+            <tr><td>Nome → fio · fio → descritor</td><td><span class="mono">0,4 B</span></td></tr>
             <tr><td>Tamanho mínimo</td><td><span class="mono">24 mm</span> impresso · <span class="mono">90 px</span> tela</td></tr>
           </tbody>
         </table>
@@ -647,17 +636,78 @@
     </div>
   </section>
 
-  <!-- 03 CORES -->
+  <!-- 03 CARIMBO -->
   <section class="secao">
     <div class="secao__cabeca">
       <span class="secao__num">03</span>
+      <h2>O carimbo</h2>
+      <p>É o elemento mais característico da marca — mais até que o logo. Toda peça leva um no rodapé, ocupando a largura total. Vem direto do carimbo de folha do EPLAN: quem recebe reconhece na hora que veio de alguém que vive dentro de prancha. É a diferença entre parecer profissional e ser reconhecido como projetista.</p>
+    </div>
+
+    <div class="corpo">
+      <span class="rotulo">Completo · proposta e capa de projeto</span>
+      <div class="carimbo-wrap">
+        <div class="carimbo carimbo--completo">
+          <div class="carimbo__marca">
+            <svg viewBox="0 0 160 72" role="img" aria-label="Monograma no carimbo">
+              <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+                <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+              </g>
+            </svg>
+          </div>
+          <div><span class="campo">DOCUMENTO</span><span class="valor">Proposta técnica</span></div>
+          <div><span class="campo">CLIENTE</span><span class="valor">Metalúrgica Serra</span></div>
+          <div><span class="campo">REV</span><span class="valor">02<span class="rev-marca" aria-hidden="true"></span></span></div>
+          <div><span class="campo">DATA</span><span class="valor">27/07/2026</span></div>
+        </div>
+      </div>
+
+      <span class="rotulo">Curto · folha A3 dentro do EPLAN</span>
+      <div class="carimbo-wrap">
+        <div class="carimbo carimbo--curto">
+          <div class="carimbo__marca">
+            <svg viewBox="0 0 160 72" role="img" aria-label="Monograma no carimbo curto">
+              <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+                <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+              </g>
+            </svg>
+          </div>
+          <div><span class="campo">PROJETO</span><span class="valor">Dosagem linha 4</span></div>
+          <div><span class="campo">FOLHA</span><span class="valor">14 / 38</span></div>
+        </div>
+      </div>
+
+      <div class="tabela-wrap">
+        <table>
+          <thead>
+            <tr><th>Elemento</th><th>Especificação</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Moldura externa</td><td>1px Tinta</td></tr>
+            <tr><td>Divisórias</td><td>1px Cinza 300</td></tr>
+            <tr><td>Primeira célula</td><td>Monograma BRN, largura fixa</td></tr>
+            <tr><td>Rótulo do campo</td><td>Mono <span class="mono">7pt</span>, caixa alta, <span class="mono">+0,1em</span>, Cinza 600</td></tr>
+            <tr><td>Valor</td><td>Mono <span class="mono">9pt</span>, Tinta</td></tr>
+            <tr><td>Marcador de revisão</td><td>Quadrado de comando, só quando houver revisão em aberto</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="nota">Se a peça não tem o que preencher em algum campo, o campo sai. Nunca fica vazio nem com travessão.</p>
+    </div>
+  </section>
+
+  <!-- 04 CORES -->
+  <section class="secao">
+    <div class="secao__cabeca">
+      <span class="secao__num">04</span>
       <h2>Cores</h2>
-      <p>Monocromática, sem exceção. A hierarquia se faz por tamanho, peso e espaço — nunca por cor. É o que mantém a marca coerente com a folha de desenho técnico.</p>
+      <p>Monocromática com um único acento. Nenhum concorrente da Serra usa vermelho — todos são azuis. E este vermelho não é escolha estética: é a cor do 24VCC no próprio padrão de cabo da casa.</p>
     </div>
 
     <div class="paleta">
       <div class="amostra">
-        <div class="amostra__chip" style="background:#FFFFFF; border:1px solid var(--rule);"></div>
+        <div class="amostra__chip" style="background:#FFFFFF; border:1px solid #DCDCDC;"></div>
         <div class="amostra__dados"><span class="amostra__nome">Papel</span><span class="amostra__hex">#FFFFFF</span></div>
       </div>
       <div class="amostra">
@@ -683,68 +733,100 @@
     </div>
 
     <div class="corpo">
-      <h3>Cor funcional — fora da marca</h3>
-      <p style="font-size: var(--fs-small); color: var(--ink-soft);">Só em documento técnico, para marcar revisão, pendência ou item não catalogado. Nunca em logo, capa, proposta ou material comercial.</p>
-      <div class="paleta" style="grid-template-columns: repeat(auto-fit, minmax(9rem, 14rem));">
+      <h3>Comando — o acento</h3>
+      <div class="paleta paleta--curta">
         <div class="amostra">
-          <div class="amostra__chip" style="background:#B45309;"></div>
-          <div class="amostra__dados"><span class="amostra__nome">Alerta</span><span class="amostra__hex">#B45309</span></div>
+          <div class="amostra__chip" style="background:#C1121F;"></div>
+          <div class="amostra__dados"><span class="amostra__nome">Comando</span><span class="amostra__hex">#C1121F</span></div>
         </div>
         <div class="amostra">
-          <div class="amostra__chip" style="background:#991B1B;"></div>
-          <div class="amostra__dados"><span class="amostra__nome">Crítico</span><span class="amostra__hex">#991B1B</span></div>
+          <div class="amostra__chip" style="background:#E5484D;"></div>
+          <div class="amostra__dados"><span class="amostra__nome">Comando · escuro</span><span class="amostra__hex">#E5484D</span></div>
+        </div>
+        <div class="amostra">
+          <div class="amostra__chip" style="background:#7F1D1D;"></div>
+          <div class="amostra__dados"><span class="amostra__nome">Crítico</span><span class="amostra__hex">#7F1D1D</span></div>
+        </div>
+      </div>
+
+      <div class="regras-cor">
+        <div>
+          <h3>Onde pode</h3>
+          <ul>
+            <li>O nó do logo, em peça digital</li>
+            <li>Marcador de revisão no carimbo</li>
+            <li>Estado ativo, foco, item selecionado</li>
+            <li>Pendência ou divergência em documento técnico</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Onde não pode</h3>
+          <ul>
+            <li>Fundo de área grande, faixa, cabeçalho</li>
+            <li>Texto corrido ou título</li>
+            <li>Mais de uma ocorrência por vista</li>
+            <li>Qualquer peça impressa em preto e branco</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Teto</h3>
+          <ul>
+            <li>5% da área da peça</li>
+            <li>Se estiver dando na vista, já passou</li>
+            <li>Na dúvida, tira</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 04 TIPOGRAFIA -->
+  <!-- 05 TIPOGRAFIA -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">04</span>
+      <span class="secao__num">05</span>
       <h2>Tipografia</h2>
-      <p>Inter em toda a marca — neo-grotesca, licença SIL Open Font License, livre para uso comercial. Uma monoespaçada entra só onde número e tag precisam alinhar em coluna.</p>
+      <p>Inter em toda a marca — neo-grotesca, licença SIL Open Font License, livre para uso comercial. A monoespaçada não é enfeite: é o que alinha tag e número em coluna, e é a voz do carimbo. Ela separa o que é dado do que é texto.</p>
     </div>
 
     <div class="escala">
       <div class="escala__linha">
         <span class="escala__spec">Inter 700 · 48/1.05</span>
-        <span class="amostra-texto t-700" style="font-size: 2.4rem; letter-spacing: -0.02em;">Projeto elétrico</span>
+        <span class="amostra-texto" style="font-weight:700; font-size:2.4rem; letter-spacing:-0.02em;">Projeto elétrico</span>
       </div>
       <div class="escala__linha">
         <span class="escala__spec">Inter 700 · 24/1.2</span>
-        <span class="amostra-texto t-700" style="font-size: 1.4rem;">Diagrama unifilar</span>
+        <span class="amostra-texto" style="font-weight:700; font-size:1.4rem;">Diagrama unifilar</span>
       </div>
       <div class="escala__linha">
         <span class="escala__spec">Inter 600 · 17/1.4</span>
-        <span class="amostra-texto t-600" style="font-size: 1.0625rem;">Lista de materiais</span>
+        <span class="amostra-texto" style="font-weight:600; font-size:1.0625rem;">Lista de materiais</span>
       </div>
       <div class="escala__linha">
         <span class="escala__spec">Inter 400 · 16/1.55</span>
-        <span class="amostra-texto t-400">Escopo, prazo e forma de entrega descritos em texto corrido.</span>
+        <span class="amostra-texto" style="font-weight:400;">Escopo, prazo e forma de entrega descritos em texto corrido.</span>
       </div>
       <div class="escala__linha">
         <span class="escala__spec">Inter 500 · 13/1.6</span>
-        <span class="amostra-texto t-500" style="font-size: 0.8125rem; color: var(--ink-soft);">Legenda, descritor e rodapé em Cinza 600.</span>
+        <span class="amostra-texto" style="font-weight:500; font-size:0.8125rem; color:var(--ink-soft);">Legenda, descritor e rodapé em Cinza 600.</span>
       </div>
       <div class="escala__linha">
         <span class="escala__spec">Mono 400 · 13</span>
-        <span class="amostra-texto" style="font-family: var(--mono); font-size: 0.8125rem;">-K1.1  -Q2  -XD1:14  01005345</span>
+        <span class="amostra-texto mono" style="font-size:0.8125rem;">-K1.1  -Q2  -XD1:14  01005345</span>
       </div>
     </div>
 
     <p class="nota">Fallback quando a Inter não estiver instalada: Arial ou Helvetica. Nunca Calibri, Times ou Comic. Instale a Inter na máquina para usar também no Word e no EPLAN — baixe em rsms.me/inter.</p>
   </section>
 
-  <!-- 05 ELEMENTOS -->
+  <!-- 06 ELEMENTOS -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">05</span>
+      <span class="secao__num">06</span>
       <h2>Elementos</h2>
-      <p>Canto reto em tudo. Sem sombra, sem arredondamento, sem borda dupla. Tabela com linha horizontal apenas — é assim que a informação respira sem ruído.</p>
+      <p>Canto reto em tudo. Sem sombra, sem arredondamento, sem borda dupla. Tabela com linha horizontal apenas.</p>
     </div>
 
-    <div class="grade-2">
+    <div class="grade">
       <div class="quadro">
         <span class="rotulo">Botões</span>
         <div class="linha-elementos">
@@ -771,12 +853,12 @@
     </div>
   </section>
 
-  <!-- 06 APLICAÇÕES -->
+  <!-- 07 APLICAÇÕES -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">06</span>
+      <span class="secao__num">07</span>
       <h2>Aplicações</h2>
-      <p>Onde cada versão do logo entra. A regra é simples: logo completo onde há espaço e primeiro contato; monograma onde o espaço é curto e o cliente já sabe quem você é.</p>
+      <p>Logo completo onde há espaço e primeiro contato. Monograma onde o espaço é curto. Carimbo em todas, sem exceção.</p>
     </div>
 
     <div class="aplicacoes">
@@ -786,60 +868,69 @@
         <div class="app__tela">
           <div class="capa">
             <svg viewBox="0 0 420 128" role="img" aria-label="Logo na capa">
-              <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+              <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
                 <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-                <rect x="0" y="84" width="332" height="4"></rect>
+                <rect x="0" y="84" width="316" height="4"></rect>
+                <rect x="322" y="81" width="10" height="10"></rect>
                 <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.7">projetos elétricos industriais</text>
               </g>
             </svg>
-            <div class="capa__dados">
-              PROJETO ELÉTRICO<br>
-              Sistema de dosagem — linha 4<br>
-              REV. 02 · 27/07/2026
+            <div class="capa__carimbo">
+              <div><span class="campo">PROJETO</span><span>Dosagem linha 4</span></div>
+              <div><span class="campo">REV</span><span>02</span></div>
+              <div><span class="campo">DATA</span><span>27/07/2026</span></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="app">
-        <span class="rotulo">Carimbo de folha A3</span>
+        <span class="rotulo">Folha A3 no EPLAN</span>
         <div class="app__tela">
-          <div class="carimbo-demo">
-            <div class="carimbo">
+          <div class="folha-a3">
+            <div class="carimbo carimbo--curto">
               <div class="carimbo__marca">
-                <svg viewBox="0 0 160 72" role="img" aria-label="Monograma no carimbo">
-                  <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+                <svg viewBox="0 0 160 72" role="img" aria-label="Monograma na folha">
+                  <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
                     <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
                   </g>
                 </svg>
               </div>
-              <div>
-                <span class="campo">PROJETO</span>
-                <span class="valor">Dosagem linha 4</span>
-              </div>
-              <div>
-                <span class="campo">FOLHA</span>
-                <span class="valor">14 / 38</span>
-              </div>
+              <div><span class="campo">PROJETO</span><span class="valor">Dosagem linha 4</span></div>
+              <div><span class="campo">FOLHA</span><span class="valor">14 / 38</span></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="app">
-        <span class="rotulo">Cabeçalho de proposta</span>
+        <span class="rotulo">Proposta comercial</span>
         <div class="app__tela">
           <div class="proposta">
             <svg viewBox="0 0 420 128" role="img" aria-label="Logo na proposta">
-              <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
-                <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-                <rect x="0" y="84" width="332" height="4"></rect>
-                <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.62">projetos elétricos industriais</text>
+              <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+                <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+                <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+                <rect x="322" y="81" width="10" height="10" fill="var(--comando)"></rect>
+                <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
               </g>
             </svg>
             <div class="proposta__regua"></div>
             <div class="proposta__titulo">Proposta de projeto elétrico</div>
             <div class="proposta__texto">Escopo, prazo e condições para o desenvolvimento do projeto elétrico completo do sistema de dosagem.</div>
+            <div class="proposta__rodape">
+              <div class="carimbo carimbo--curto">
+                <div class="carimbo__marca">
+                  <svg viewBox="0 0 160 72" role="img" aria-label="Monograma na proposta">
+                    <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+                      <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+                    </g>
+                  </svg>
+                </div>
+                <div><span class="campo">CLIENTE</span><span class="valor">Metalúrgica Serra</span></div>
+                <div><span class="campo">REV</span><span class="valor">01</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -850,10 +941,11 @@
           <div class="email">
             <div class="assinatura">
               <svg viewBox="0 0 420 128" role="img" aria-label="Logo na assinatura">
-                <g fill="currentColor" font-family="Inter, 'Segoe UI', Arial, sans-serif">
-                  <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76">BORIN</text>
-                  <rect x="0" y="84" width="332" height="4"></rect>
-                  <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" opacity="0.62">projetos elétricos industriais</text>
+                <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+                  <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+                  <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+                  <rect x="322" y="81" width="10" height="10" fill="var(--comando)"></rect>
+                  <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
                 </g>
               </svg>
               <div class="assinatura__dados">
@@ -868,30 +960,40 @@
     </div>
   </section>
 
-  <!-- 07 O QUE NUNCA FAZER -->
+  <!-- 08 NUNCA -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">07</span>
+      <span class="secao__num">08</span>
       <h2>O que nunca fazer</h2>
-      <p>Cada item aqui já destruiu uma marca boa em algum lugar. A primeira linha é a mais importante e é jurídica, não estética.</p>
+      <p>A primeira linha é jurídica, não estética. A última é estratégica: foto de máquina é o que todo concorrente da Serra faz.</p>
     </div>
 
     <div class="nunca">
       <div class="nunca__item"><span class="nunca__marca">×</span><span>Usar "Engenharia" ou "Engenheiro" em qualquer peça — o termo é regulado pelo CREA</span></div>
-      <div class="nunca__item"><span class="nunca__marca">×</span><span>Gradiente, cor saturada, sombra ou canto arredondado</span></div>
+      <div class="nunca__item"><span class="nunca__marca">×</span><span>Azul corporativo, gradiente, sombra ou canto arredondado</span></div>
       <div class="nunca__item"><span class="nunca__marca">×</span><span>Emoji em material de cliente ou documento técnico</span></div>
       <div class="nunca__item"><span class="nunca__marca">×</span><span>Esticar, distorcer, rotacionar ou recolorir o logo</span></div>
-      <div class="nunca__item"><span class="nunca__marca">×</span><span>Logo sobre foto ou fundo com ruído</span></div>
-      <div class="nunca__item"><span class="nunca__marca">×</span><span>Ilustração de banco de imagem ou ícone decorativo</span></div>
+      <div class="nunca__item"><span class="nunca__marca">×</span><span>Peça sem carimbo</span></div>
+      <div class="nunca__item"><span class="nunca__marca">×</span><span>Foto de máquina de banco de imagem — é o que todo concorrente faz</span></div>
     </div>
   </section>
 
-  <footer class="rodape">
-    <div><span class="rodape__campo">DOCUMENTO</span><br><span class="rodape__valor">Folha de marca</span></div>
-    <div><span class="rodape__campo">MARCA</span><br><span class="rodape__valor">Borin Projetos Elétricos</span></div>
-    <div><span class="rodape__campo">AUTOR</span><br><span class="rodape__valor">Mateus Borin</span></div>
-    <div><span class="rodape__campo">REVISÃO</span><br><span class="rodape__valor">01</span></div>
-    <div><span class="rodape__campo">DATA</span><br><span class="rodape__valor">27/07/2026</span></div>
+  <footer>
+    <div class="carimbo-wrap">
+      <div class="carimbo carimbo--completo">
+        <div class="carimbo__marca">
+          <svg viewBox="0 0 160 72" role="img" aria-label="Monograma no carimbo do documento">
+            <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+              <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+            </g>
+          </svg>
+        </div>
+        <div><span class="campo">DOCUMENTO</span><span class="valor">Folha de marca</span></div>
+        <div><span class="campo">AUTOR</span><span class="valor">Mateus Borin</span></div>
+        <div><span class="campo">REV</span><span class="valor">02</span></div>
+        <div><span class="campo">DATA</span><span class="valor">27/07/2026</span></div>
+      </div>
+    </div>
   </footer>
 
 </div>
