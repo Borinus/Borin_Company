@@ -22,18 +22,26 @@
 - [x] Checklist de conferência (`padroes/checklist-conferencia.md`)
 - [x] Calibrar o padrão com um projeto real (04003478 — Painel de Interface)
 
-### Construir os próprios templates — não dá pra usar os da FlowSistem
+### Templates próprios — não dá pra usar os da FlowSistem
 
-- [ ] Template de folha do EPLAN com o carimbo da Borin
+**Planilhas — feitas** (`padroes/templates/xlsx/`, geradas por `gerar-planilhas.py`)
+
+- [x] Lista de materiais
+- [x] Arquitetura de CLP, com resumo automático de pontos
+- [x] Design térmico, com cálculo de superfície, ΔT e veredito de ventilação
+- [x] Seis planilhas de identificações, com aba de instrução de impressão
+- [x] Lista de instalação, com base de cabos, acompanhamento por horas e acessórios
+- [ ] Preencher a base de dissipação a partir dos catálogos dos fabricantes
+- [ ] Preencher a aba Impressão com impressora e modelo de etiqueta
+- [ ] Conferir se a exportação do EPLAN cai direto nessas colunas
+
+**EPLAN — precisa estar no PC**
+
+- [ ] Template de folha com o carimbo da Borin (usar `marca/png/borin-carimbo.png`)
 - [ ] Template de capa com a tabela *Descrição do Quadro* e a tabela de revisões
 - [ ] Template de memorial descritivo com os seis blocos
 - [ ] Folha de simbologia própria
-- [ ] Planilha modelo de lista de materiais
-- [ ] Planilha modelo de arquitetura de CLP
-- [ ] Planilha modelo de design térmico, com a base de dissipação por componente
-- [ ] Seis planilhas modelo de identificações, com as abas de instrução de impressão
-- [ ] Planilha ou macro própria de lista de instalação, com a aba de acompanhamento e horas
-- [ ] Banco de artigos próprio no EPLAN
+- [ ] Banco de artigos próprio
 
 ## Comercial
 
