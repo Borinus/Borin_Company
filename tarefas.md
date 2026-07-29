@@ -2,10 +2,19 @@
 
 ## Trava tudo — fazer primeiro
 
-- [ ] Registrar `borinprojetos.com.br` no registro.br — R$ 40/ano. Sem domínio não existe email da empresa
-- [ ] Criar email profissional (Zoho gratuito): `mateus@` e `contato@borinprojetos.com.br`
+- [ ] **Registrar `borinprojetos.com.br`** no registro.br — R$ 40/ano. Continuava livre em 28/07/2026. Trava o site e o email
+- [ ] Criar email profissional no Zoho (gratuito): `mateus@` e `contato@borinprojetos.com.br` — passo a passo em `site/LEIA-ME.md`
+- [ ] Publicar o site: `npx wrangler pages deploy site --project-name borin`
 - [ ] Conversar com contador: MEI, ME ou autônomo, CNAE da atividade, como emitir nota
 - [ ] Resolver a questão de conflito de interesse com a FlowSistem antes de prospectar
+
+## Site
+
+- [x] Landing page com a identidade aplicada (`site/index.html`)
+- [ ] Preencher o número de WhatsApp no `site/_pagina.html` e remontar
+- [ ] Reler os textos e ajustar o que não soar como você
+- [ ] Cadastrar no Google Search Console depois de publicar
+- [ ] Perfil no LinkedIn apontando pro site
 
 ## Marca
 
