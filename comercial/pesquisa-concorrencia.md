@@ -137,13 +137,13 @@ cliente, não rival.
 ### Lacunas a investigar nas próximas rodadas
 
 - [x] Quem no Brasil vende projeto de painel de máquina como serviço, sem obra e sem ART — rodada 2
-- [ ] Faixa de preço praticada em projeto de painel por I/O ou por folha
+- [x] Faixa de preço praticada em projeto de painel por I/O ou por folha — rodada 6 (não é público)
 - [x] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo — rodada 3
 - [x] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam — rodada 4
 - [x] Concorrentes que já usam geração automática e como comunicam isso ao cliente — rodada 5
 - [x] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda — rodada 2
 - [x] Se algum player publica prazo garantido — e como se protege — rodada 3
-- [ ] Como o mercado gringo cobra revisão e mudança de escopo
+- [x] Como o mercado gringo cobra revisão e mudança de escopo — rodada 6
 - [ ] As-built e revisão pós-montagem como serviço avulso: existe mercado?
 - [ ] Que garantia de qualidade os terceirizados oferecem por escrito
 - [ ] Fabricantes de painel do Sul: eles projetam internamente ou terceirizam?
@@ -398,3 +398,60 @@ redação a copiar.
 [KBMax — CPQ / configure to order](https://kbmax.com/cpq-solutions/modular-building-configuration/) ·
 [Zuken — modular design strategies](https://www.zuken.com/us/blog/modular-design-strategies-explained-platform-based-vs-150-design/) ·
 [Rittal — machine and panel builders](https://www.rittal.com/us-en_US/Solutions/Industry-Solutions/Machine-Builders-Panel-Builders-Systems-Integrators)
+
+---
+
+## Rodada 6 — 29/07/2026
+
+**Lacunas atacadas:** preço por folha ou por I/O · como se cobra revisão e mudança de escopo.
+
+### Preço por folha não é público — e isso é resposta, não fracasso
+
+Fechei a lacuna com um achado negativo. Os provedores confirmam que trabalham com **hora, por folha
+ou por projeto fechado**, mas **nenhum publica o valor da folha**. A frase padrão é "preço conforme
+escopo e complexidade".
+
+O único número que aparece é o piso de hora do offshore: **a partir de US$ 10/hora** em serviços de
+esquema elétrico, coerente com os US$ 9/hora da rodada 3. E a promessa de economia que usam é de
+**40% a 60% do custo total do projeto** — economia comparada a manter engenharia interna, não preço
+de tabela.
+
+**Conclusão prática para a precificação da Borin:** não existe referência pública de preço por folha
+para se ancorar. Sobram duas âncoras reais, e as duas já estão registradas em `precificacao.md`:
+
+1. **O custo-hora próprio** — o único número que importa de verdade
+2. **O orçamento que o cliente traz** — que é justamente o mecanismo da condição de abertura
+
+Isso reforça a decisão de não publicar tabela de preço no site. Ninguém publica, e publicar seria
+entregar a informação que todo concorrente esconde.
+
+### Como o mercado protege revisão e escopo
+
+Aqui a pesquisa foi produtiva, e valida o que já está no contrato da Borin. As práticas recorrentes:
+
+| Prática | Detalhe |
+|---|---|
+| **Número fechado de rodadas** | Duas ou três. A recomendação explícita é nunca escrever "revisões conforme necessário" — linguagem vaga é a origem mais frequente de litígio em contrato de serviço |
+| **Rodada extra por hora** | E o preço da hora extra vai **na descrição do serviço**, não enterrado nos termos |
+| **Change order formal** | Trabalho fora de escopo vira aditivo escrito, com preço e prazo novos, **antes de começar** — nunca acréscimo informal |
+| **Registro contemporâneo** | Numerar a rodada no próprio email de entrega: *"esta é a revisão 2 de 2"*. Cria prova sem exigir burocracia |
+
+O contrato da Borin já tem as duas primeiras (`modelo-contrato.md`, cláusula 5ª: duas rodadas, extra
+por hora) e a terceira em espírito. **Falta a quarta, que é a mais barata de implementar.**
+
+### Ajuste a fazer no fluxo
+
+- [ ] Numerar a rodada de revisão no email de entrega — *"revisão 1 de 2"* — e registrar no `fluxo-comercial.md`
+- [ ] Mover o valor da hora de revisão extra para dentro da proposta, visível, em vez de só no contrato
+
+O segundo ponto tem efeito comercial além do jurídico: cliente que vê o preço da rodada extra na
+proposta **junta os pedidos de alteração** em vez de mandar pingado. Isso economiza mais tempo do que
+qualquer ganho de automação.
+
+**Fontes:** [Microdras — electrical schematic drafting](https://microdras.com/engineering-drafting/electrical-drafting/electrical-schematic-drafting/) ·
+[M-Tech Control — documentação de painel](https://www.mtechcontrol.com/services/product-documentation/) ·
+[Eng-Source](https://www.eng-source.com/services/electrical-electrical-design/) ·
+[Control Design Inc — panel design](https://www.controldesigninc.com/capabilities/panel-design) ·
+[Terms.law — scope creep e revisões](https://www.terms.law/2025/12/04/scope-creep-endless-revisions-demand-letters/) ·
+[Mediabistro — quando a revisão vira faturável](https://www.mediabistro.com/be-inspired/advice-from-the-pros/when-does-a-revision-become-billable-the-question-every-agency-answers-too-late/) ·
+[ASCE — mudanças de escopo, prazo e orçamento](https://www.asce.org/publications-and-news/civil-engineering-source/article/2026/05/04/claim-reduction-addressing-changes-in-scope-schedule-and-budget)

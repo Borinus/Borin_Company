@@ -111,7 +111,7 @@ Depois disso, espera — insistência derruba preço.
 ### 7. Entrega
 
 - Enviar por link ou pasta compartilhada, com a nomenclatura do padrão de entrega
-- Deixar claro quantas rodadas de revisão restam
+- **Numerar a rodada no próprio email**: *"esta é a revisão 1 de 2"*. É prática recorrente no mercado de serviços de engenharia e cria registro sem burocracia nenhuma — quando o cliente pedir a terceira, a conversa já está documentada
 - Aceite por escrito, ou automático após 10 dias corridos
 
 ### 8. Cobrança

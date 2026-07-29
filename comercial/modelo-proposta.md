@@ -55,8 +55,14 @@ material, o arquivo-fonte do CAD e o acompanhamento em obra.
 O prazo de entrega é de **[N] dias úteis**, contados a partir da confirmação do sinal e do
 recebimento de toda a documentação técnica necessária.
 
-Estão inclusas **duas rodadas de revisão** após a primeira emissão. Alteração que altere premissa
-levantada no briefing é tratada como escopo adicional e cotada separadamente.
+Estão inclusas **duas rodadas de revisão** após a primeira emissão. Rodadas adicionais são cobradas a
+**R$ [valor] por hora técnica**. Alteração que altere premissa levantada no briefing é tratada como
+escopo adicional e cotada separadamente.
+
+> **Por que o valor da hora extra aparece aqui, e não só no contrato.** É prática recorrente no
+> mercado de serviços de engenharia deixar esse número visível na proposta. O efeito é comercial
+> antes de ser jurídico: cliente que enxerga o custo da rodada extra **junta os pedidos de alteração**
+> em vez de mandar pingado ao longo da semana. Economiza mais tempo que qualquer ganho de automação.
 
 ## Investimento
 
