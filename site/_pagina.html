@@ -190,6 +190,68 @@ body {
 
 @media (max-width: 52rem) { .fluxo { grid-template-columns: 1fr; } }
 
+/* ---------- modos de entrada ---------- */
+
+.modos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.modo {
+  background: var(--ground);
+  padding: 1.1rem 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.modo__topo { display: flex; align-items: center; gap: 0.5rem; }
+.modo__topo .no { width: 0.5rem; height: 0.5rem; background: var(--ink); flex: none; }
+.modo--definicao .no { background: var(--acento); }
+
+.modo h3 { font-size: 1rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+.modo p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
+.modo__manda {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  color: var(--ink);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.5rem;
+  margin-top: auto;
+  line-height: 1.6;
+}
+
+.perfil {
+  border: 1px solid var(--ink);
+  padding: 1.15rem 1.25rem 1.35rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.25rem 2rem;
+}
+.perfil h3 { font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
+.perfil p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
+.perfil ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.perfil li { font-size: var(--fs-small); padding: 0.3rem 0; border-bottom: 1px solid var(--rule); }
+.perfil li:last-child { border-bottom: 0; }
+
+/* ---------- figuras ---------- */
+
+.figuras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.figura { background: var(--ground); padding: 1rem 1.15rem 1.15rem; display: flex; flex-direction: column; gap: 0.7rem; }
+.figura svg { width: 100%; height: auto; display: block; color: var(--ink); }
+.figura figcaption { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); line-height: 1.6; margin: 0; }
+.figura figcaption b { color: var(--ink); font-weight: 400; display: block; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
+
 /* ---------- pacote ---------- */
 
 .pacote {
@@ -317,7 +379,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
     <div class="hero">
       <span class="rotulo">Projeto elétrico industrial · Caxias do Sul · RS</span>
       <h1>Projeto elétrico completo, conferido folha por folha.</h1>
-      <p class="hero__texto">O pacote inteiro pronto pra montagem, em EPLAN Electric&nbsp;P8. Para fabricante de máquina e integrador.</p>
+      <p class="hero__texto">O pacote inteiro pronto pra montagem. Para fabricante de máquina e integrador.</p>
 
       <div class="condicao">
         <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Condição de abertura · primeiros projetos</span></span>
@@ -326,7 +388,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
       </div>
 
       <div class="hero__acoes">
-        <a class="botao" href="#contato">Mandar meu orçamento</a>
+        <a class="botao" href="#contato">Enviar meu orçamento</a>
         <a class="botao botao--vazado" href="#pacote">Ver o pacote</a>
       </div>
     </div>
@@ -342,27 +404,25 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
       <div class="etapa-fluxo etapa-fluxo--voce">
         <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Você envia</span></div>
         <ul>
-          <li>Layout ou desenho da máquina</li>
-          <li>Tensão de alimentação e de comando</li>
-          <li>Hardware definido: CLP, inversor, marcas</li>
+          <li>O checklist do projeto preenchido</li>
+          <li>Descrição da máquina ou do processo</li>
+          <li>Layout da área, se precisar de instalação</li>
           <li>Lista de I/Os, se já existir</li>
-          <li>Normas exigidas pelo cliente final</li>
-          <li>Projeto anterior, se houver</li>
         </ul>
-        <p class="etapa-fluxo__nota">Não tem tudo isso? Manda o que tem. O que faltar, eu especifico.</p>
+        <p class="etapa-fluxo__nota">O que não estiver definido é fechado na etapa de levantamento, antes da proposta.</p>
       </div>
 
       <div class="etapa-fluxo">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Eu faço</span></div>
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Desenvolvo</span></div>
         <ul>
-          <li>Diagrama completo em EPLAN P8</li>
+          <li>Diagrama elétrico completo</li>
           <li>Dimensionamento e proteções</li>
           <li>Régua de bornes e layout do painel</li>
           <li>Design térmico do quadro</li>
           <li>Listas, identificações e I/Os</li>
           <li>Conferência de 12 blocos</li>
         </ul>
-        <p class="etapa-fluxo__nota">Prazo fechado na proposta. Mudança de escopo é avisada na hora, por escrito.</p>
+        <p class="etapa-fluxo__nota">Prazo fechado na proposta. Alteração de escopo é comunicada de imediato, por escrito.</p>
       </div>
 
       <div class="etapa-fluxo">
@@ -379,11 +439,59 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
     </div>
   </section>
 
+  <!-- MODOS -->
+  <section class="secao">
+    <div class="secao__cabeca">
+      <h2>Três formas de começar</h2>
+      <p>Depende de quanto o seu padrão já está definido. Quanto mais definido, mais rápido e mais barato sai cada projeto.</p>
+    </div>
+
+    <div class="modos">
+      <div class="modo">
+        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Direto</span></div>
+        <h3>Seu padrão já está definido</h3>
+        <p>Você preenche o checklist do projeto e eu desenvolvo o pacote completo, sem necessidade de reunião.</p>
+        <p class="modo__manda">VOCÊ MANDA<br>checklist do projeto</p>
+      </div>
+
+      <div class="modo">
+        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Com instalação</span></div>
+        <h3>O projeto também vai a campo</h3>
+        <p>Além do checklist, preciso do layout da área com a posição dos equipamentos, para especificar percurso de cabo e periféricos.</p>
+        <p class="modo__manda">VOCÊ MANDA<br>checklist do projeto<br>layout ou planta da área</p>
+      </div>
+
+      <div class="modo modo--definicao">
+        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Definição</span></div>
+        <h3>Você ainda não tem padrão fechado</h3>
+        <p>Uma ou duas reuniões para fechar as definições. O resultado é o seu Perfil de Padrão — a partir dele, todo projeto seguinte entra no modo Direto.</p>
+        <p class="modo__manda">VOCÊ MANDA<br>o que tiver<br>+ 1 a 2 reuniões</p>
+      </div>
+    </div>
+
+    <div class="perfil">
+      <div>
+        <h3>O Perfil de Padrão</h3>
+        <p>Preenchido uma vez, vale para todos os seus projetos. É o que separa o que muda a cada pedido — máquina, I/Os, prazo — do que nunca muda.</p>
+        <p style="margin-top:0.6rem;">Com ele fechado, a mesma definição não se repete a cada projeto — e nenhuma pergunta já respondida volta.</p>
+      </div>
+      <ul>
+        <li>Marcas por família: borne, disjuntor, relé, fonte, CLP, cabo</li>
+        <li>De/para dos seus códigos de ERP</li>
+        <li>Cores de cabo por função e seção padrão</li>
+        <li>O que é sempre obrigatório: NR-12, emergência, seccionadora</li>
+        <li>Tensões, aterramento e grau de proteção padrão</li>
+        <li>Padrão de tag e modelo de etiqueta</li>
+        <li>Formato e nomenclatura de entrega</li>
+      </ul>
+    </div>
+  </section>
+
   <!-- PACOTE -->
   <section class="secao" id="pacote">
     <div class="secao__cabeca">
       <h2>O que chega, documento por documento</h2>
-      <p>Este é o pacote completo. Ele vai anexo na proposta e no contrato — nada fica para "depois a gente vê".</p>
+      <p>Este é o pacote completo. Ele segue anexo à proposta e ao contrato, com o escopo fechado desde o início.</p>
     </div>
 
     <div class="pacote">
@@ -421,8 +529,8 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
 
       <div class="coluna">
         <h3>O diferencial</h3>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">Cada planilha de identificação já vem com impressora e modelo de etiqueta definidos. Seu pessoal imprime sem me ligar.</p>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">No Escopo B, a lista de instalação traz <strong style="color: var(--ink);">horas estimadas por tarefa</strong> e percentual de conclusão. Seu PCP dimensiona equipe e prazo antes da obra começar.</p>
+        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">Cada planilha de identificação já vem com impressora e modelo de etiqueta definidos, pronta para impressão direta.</p>
+        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">No Escopo B, a lista de instalação traz <strong style="color: var(--ink);">horas estimadas por tarefa</strong> e percentual de conclusão. Seu PCP dimensiona equipe e prazo antes do início da obra.</p>
         <div class="tabela-wrap">
           <table>
             <thead><tr><th>Tarefa</th><th>Cabo</th><th>Horas</th></tr></thead>
@@ -438,11 +546,117 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
     </div>
   </section>
 
+    <div class="figuras">
+      <figure class="figura">
+        <svg viewBox="0 0 400 250" role="img" aria-label="Ilustração de uma folha de diagrama elétrico">
+          <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="6" y="6" width="388" height="238" stroke-opacity="0.35"></rect>
+            <line x1="6" y1="22" x2="394" y2="22" stroke-opacity="0.2"></line>
+            <line x1="6" y1="222" x2="394" y2="222" stroke-opacity="0.2"></line>
+            <g stroke-opacity="0.2">
+              <line x1="103" y1="6" x2="103" y2="22"></line><line x1="200" y1="6" x2="200" y2="22"></line><line x1="297" y1="6" x2="297" y2="22"></line>
+            </g>
+            <g stroke-opacity="0.75">
+              <line x1="20" y1="48" x2="380" y2="48"></line>
+              <line x1="20" y1="62" x2="380" y2="62"></line>
+              <line x1="20" y1="76" x2="380" y2="76"></line>
+            </g>
+            <g stroke-opacity="0.85">
+              <line x1="80" y1="48" x2="80" y2="96"></line>
+              <rect x="72" y="96" width="16" height="26"></rect>
+              <line x1="80" y1="122" x2="80" y2="150"></line>
+              <rect x="66" y="150" width="28" height="20"></rect>
+              <line x1="80" y1="170" x2="80" y2="204"></line>
+              <circle cx="80" cy="208" r="4"></circle>
+              <line x1="185" y1="62" x2="185" y2="110"></line>
+              <rect x="177" y="110" width="16" height="24"></rect>
+              <line x1="185" y1="134" x2="185" y2="204"></line>
+              <circle cx="185" cy="208" r="4"></circle>
+              <line x1="290" y1="76" x2="290" y2="140"></line>
+              <rect x="272" y="140" width="36" height="22"></rect>
+              <line x1="290" y1="162" x2="290" y2="204"></line>
+              <circle cx="290" cy="208" r="4"></circle>
+              <path d="M330 186 l0 12 l-6 0 l6 8 l6 -8 l-6 0"></path>
+            </g>
+          </g>
+          <g fill="currentColor" font-family="Consolas, monospace" font-size="7" fill-opacity="0.75">
+            <text x="20" y="45">L1</text><text x="20" y="59">N</text><text x="20" y="73">PE</text>
+            <text x="94" y="112">-Q1</text><text x="98" y="164">-K1</text><text x="60" y="220">X1:1</text>
+            <text x="199" y="126">-F2</text><text x="165" y="220">X1:2</text>
+            <text x="314" y="155">-A1</text><text x="270" y="220">X2:1</text>
+            <text x="338" y="196">/7.3</text>
+          </g>
+          <g fill="currentColor" font-family="Consolas, monospace" font-size="6" fill-opacity="0.35">
+            <text x="50" y="18">1</text><text x="150" y="18">2</text><text x="248" y="18">3</text><text x="345" y="18">4</text>
+            <text x="14" y="236">DIAGRAMA</text><text x="330" y="236">FL. 12/38</text>
+          </g>
+        </svg>
+        <figcaption><b>Folha de diagrama</b>Potenciais, proteções, acionamento e referência cruzada entre folhas. Cada ponto que sai do painel passa por borne identificado.</figcaption>
+      </figure>
+
+      <figure class="figura">
+        <svg viewBox="0 0 400 250" role="img" aria-label="Ilustração do layout de um painel elétrico">
+          <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="30" y="24" width="340" height="196" stroke-opacity="0.35"></rect>
+            <rect x="44" y="38" width="312" height="168" stroke-opacity="0.6"></rect>
+            <g stroke-opacity="0.25">
+              <rect x="52" y="46" width="296" height="10"></rect>
+              <rect x="52" y="188" width="296" height="10"></rect>
+              <rect x="52" y="56" width="10" height="132"></rect>
+              <rect x="338" y="56" width="10" height="132"></rect>
+            </g>
+            <g stroke-opacity="0.75">
+              <line x1="70" y1="76" x2="330" y2="76"></line>
+              <line x1="70" y1="122" x2="330" y2="122"></line>
+              <line x1="70" y1="168" x2="330" y2="168"></line>
+            </g>
+            <g stroke-opacity="0.9">
+              <rect x="72" y="60" width="34" height="16"></rect>
+              <rect x="112" y="56" width="46" height="20"></rect>
+              <rect x="164" y="60" width="26" height="16"></rect>
+              <rect x="196" y="60" width="26" height="16"></rect>
+              <rect x="72" y="100" width="60" height="22"></rect>
+              <rect x="140" y="104" width="86" height="18"></rect>
+              <rect x="234" y="104" width="18" height="18"></rect>
+              <rect x="256" y="104" width="18" height="18"></rect>
+              <rect x="278" y="104" width="18" height="18"></rect>
+              <rect x="300" y="104" width="18" height="18"></rect>
+              <rect x="72" y="152" width="248" height="16"></rect>
+              <g stroke-opacity="0.4">
+                <line x1="94" y1="152" x2="94" y2="168"></line><line x1="116" y1="152" x2="116" y2="168"></line>
+                <line x1="138" y1="152" x2="138" y2="168"></line><line x1="160" y1="152" x2="160" y2="168"></line>
+                <line x1="182" y1="152" x2="182" y2="168"></line><line x1="204" y1="152" x2="204" y2="168"></line>
+                <line x1="226" y1="152" x2="226" y2="168"></line><line x1="248" y1="152" x2="248" y2="168"></line>
+                <line x1="270" y1="152" x2="270" y2="168"></line><line x1="292" y1="152" x2="292" y2="168"></line>
+              </g>
+            </g>
+            <g stroke-opacity="0.4">
+              <line x1="30" y1="234" x2="370" y2="234"></line>
+              <line x1="30" y1="230" x2="30" y2="238"></line><line x1="370" y1="230" x2="370" y2="238"></line>
+              <line x1="16" y1="24" x2="16" y2="220"></line>
+              <line x1="12" y1="24" x2="20" y2="24"></line><line x1="12" y1="220" x2="20" y2="220"></line>
+            </g>
+          </g>
+          <g fill="currentColor" font-family="Consolas, monospace" font-size="7" fill-opacity="0.8">
+            <text x="76" y="72">-Q1</text><text x="122" y="70">-G1</text><text x="170" y="72">-F1</text><text x="202" y="72">-F2</text>
+            <text x="78" y="115">-A1</text><text x="146" y="117">-A2 · I/O</text>
+            <text x="236" y="117">K1</text><text x="258" y="117">K2</text><text x="280" y="117">K3</text><text x="302" y="117">K4</text>
+            <text x="76" y="164">-X1</text>
+          </g>
+          <g fill="currentColor" font-family="Consolas, monospace" font-size="6" fill-opacity="0.4">
+            <text x="182" y="246">600</text><text x="4" y="126">500</text><text x="326" y="196">LAYOUT</text>
+          </g>
+        </svg>
+        <figcaption><b>Layout do painel</b>Disposição física na placa de montagem, com trilhos, canaletas e régua de bornes. É o que o montador usa para furar e montar.</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- CONFERÊNCIA -->
   <section class="secao">
     <div class="secao__cabeca">
       <h2>O que é conferido antes de sair</h2>
-      <p>Lista fechada, rodada em toda entrega e em toda revisão. É o que atrasa montagem quando passa batido.</p>
+      <p>Lista fechada, aplicada em toda entrega e em toda revisão. São os itens que, quando passam despercebidos, atrasam a montagem.</p>
     </div>
 
     <div class="checagem">
@@ -540,7 +754,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
           <tr><td>Quantidade de I/Os</td><td>Principal medida de tamanho do projeto</td></tr>
           <tr><td>Hardware já definido ou não</td><td>Especificar do zero soma horas</td></tr>
           <tr><td>Prazo abaixo do padrão</td><td>Urgência tem acréscimo declarado</td></tr>
-          <tr><td>Arquivo-fonte do EPLAN</td><td>Não incluso. Cotado à parte</td></tr>
+          <tr><td>Arquivo editável de origem</td><td>Não incluso. Cotado à parte</td></tr>
         </tbody>
       </table>
     </div>
@@ -551,8 +765,8 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
   <!-- CONTATO -->
   <section class="contato" id="contato">
     <div>
-      <h2>Manda o que você precisa projetar</h2>
-      <p>Tipo de máquina ou processo, se precisa só do painel ou também da instalação, e o prazo que você tem em mente. Se já tiver orçamento de outra empresa, manda junto.</p>
+      <h2>Descreva o que você precisa projetar</h2>
+      <p>Tipo de máquina ou processo, se precisa apenas do painel ou também da instalação, e o prazo previsto. Se já tiver orçamento de outra empresa, envie junto.</p>
     </div>
     <div class="dados">
       <div class="dado">

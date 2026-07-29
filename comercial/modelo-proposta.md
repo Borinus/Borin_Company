@@ -38,7 +38,7 @@ de material, lista de identificações, planilha de I/Os do CLP e dimensionament
 layout 2D da instalação com posicionamento de periféricos e passagem de cabos, a lista de
 instalação, a lista de material de instalação e as tags de campo.]
 
-Todo o projeto é desenvolvido em EPLAN Electric P8 e segue as normas IEC 81346, IEC 61082, NFPA 79 e
+Todo o projeto é desenvolvido em CAD elétrico e segue as normas IEC 81346, IEC 61082, NFPA 79 e
 IEC 60204-1. Antes da emissão, o pacote passa por conferência de tags, cabos, folhas, endereços de
 CLP e coerência entre diagrama e listas.
 
@@ -46,7 +46,7 @@ CLP e coerência entre diagrama e listas.
 
 Não fazem parte desta proposta a responsabilidade técnica com emissão de ART, a programação de CLP,
 IHM ou supervisório, a montagem e o comissionamento do painel, a compra ou a intermediação de
-material, o arquivo-fonte do EPLAN e o acompanhamento em obra.
+material, o arquivo-fonte do CAD e o acompanhamento em obra.
 
 [Se algum desses itens for necessário, pode ser cotado à parte.]
 
@@ -65,7 +65,7 @@ levantada no briefing é tratada como escopo adicional e cotada separadamente.
 O pagamento se dá em duas parcelas: **40% na assinatura do contrato**, quando o projeto entra na
 fila de execução, e **60% na entrega**, com vencimento em 15 dias.
 
-[Se houver opcional, listar aqui: arquivo-fonte do EPLAN, visita técnica, rodada extra de revisão.]
+[Se houver opcional, listar aqui: arquivo-fonte do CAD, visita técnica, rodada extra de revisão.]
 
 ## Validade
 

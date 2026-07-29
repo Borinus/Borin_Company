@@ -28,7 +28,7 @@ a hora faturável.
 | | |
 |---|---|
 | Quanto quer tirar por mês do negócio | R$ [ ] |
-| Licença EPLAN (mensalizada) | R$ [ ] |
+| Licença CAD elétrico (mensalizada) | R$ [ ] |
 | Domínio, email, contador | R$ [ ] |
 | Impostos (definir com contador) | [ ]% |
 | **Custo-hora mínimo** | **R$ [ ]** |
@@ -70,7 +70,7 @@ terceiro.
 | Escopo B — acréscimo sobre o Escopo A | projeto | R$ [ ] |
 | Revisão de projeto de terceiro | hora | R$ [ ] |
 | Rodada extra de revisão | hora | R$ [ ] |
-| Arquivo-fonte do EPLAN | projeto | [ ]% sobre o valor |
+| Arquivo-fonte do CAD | projeto | [ ]% sobre o valor |
 | Visita técnica | dia | R$ [ ] |
 | Urgência (prazo abaixo do padrão) | acréscimo | [ ]% |
 
@@ -121,7 +121,7 @@ térmico, tire a lista de identificações, reduza pra uma rodada de revisão.
 
 **Cobre a urgência.** Prazo apertado é o cliente comprando o teu fim de semana. Tem preço.
 
-**O arquivo-fonte do EPLAN é o teu ativo.** Quem tem o fonte não precisa de você na próxima revisão.
+**O arquivo-fonte do CAD é o teu ativo.** Quem tem o fonte não precisa de você na próxima revisão.
 Se for vender, venda caro — não menos que 50% sobre o valor do projeto.
 
 **Reajuste todo ano.** Escreva na agenda. Preço que não sobe, cai.

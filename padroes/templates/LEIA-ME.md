@@ -33,10 +33,10 @@ python padroes/templates/gerar-planilhas.py
 - Preencher a **Base de dissipação** a partir dos catálogos dos fabricantes. O dado é público no datasheet; a compilação é ativo seu e cresce a cada projeto
 - Preencher a aba **Impressão** de cada planilha de tags com a tua impressora e o modelo de etiqueta
 - Montar a base de **Fornecedores**
-- Ajustar coluna ou nomenclatura que o teu fluxo no EPLAN exigir — a exportação tem que cair direto nessas colunas, sem retrabalho manual
+- Ajustar coluna ou nomenclatura que o teu fluxo no CAD exigir — a exportação tem que cair direto nessas colunas, sem retrabalho manual
 
-## Templates do EPLAN
+## Templates do CAD
 
 Ficam de fora deste script: folha, carimbo, capa, memorial e simbologia precisam ser montados dentro
-do EPLAN, na máquina onde ele está instalado. Os PNGs da marca para usar no carimbo estão em
+do CAD, na máquina onde ele está instalado. Os PNGs da marca para usar no carimbo estão em
 `marca/png/` — o do carimbo é o `borin-carimbo.png`.

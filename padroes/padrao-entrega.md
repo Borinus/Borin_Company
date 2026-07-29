@@ -20,7 +20,7 @@ PAINEL PNEUMÁTICO     →  régua de bornes · lista de materiais · interconex
 ```
 
 Isso escala sozinho: se o projeto tiver quatro painéis e dois campos, a estrutura é a mesma,
-repetida. O índice do EPLAN já sai com as colunas **Página · Descrição · Instalação · Montagem**,
+repetida. O índice do CAD já sai com as colunas **Página · Descrição · Instalação · Montagem**,
 que é exatamente essa lógica.
 
 ---
@@ -182,7 +182,7 @@ Estrutura de pastas da entrega:
 modificado por, verificado por, aprovado por e descrição da modificação. Nunca sobrescrever revisão
 anterior.
 
-**Carimbo.** Toda folha leva o carimbo, conforme `marca/design-guide.md`. O carimbo do EPLAN traz
+**Carimbo.** Toda folha leva o carimbo, conforme `marca/design-guide.md`. O carimbo do CAD traz
 projeto, cliente, código do produto, nº do documento, diretório do arquivo, desenhista, projetista,
 aprovado por, descrição da página, localização, data e folha X de Y.
 
@@ -230,7 +230,7 @@ Deixar explícito na proposta evita a maior parte do atrito depois.
 - **Montagem, comissionamento e startup**
 - **Execução da instalação** — o Escopo B especifica e planeja, não instala
 - **Compra de material e intermediação de fornecedor**
-- **Arquivo-fonte do EPLAN** — negociado à parte, ver `comercial/precificacao.md`
+- **Arquivo-fonte do CAD** — negociado à parte, ver `comercial/precificacao.md`
 - **Acompanhamento em obra ou visita técnica**, salvo se previsto na proposta
 - **Revisões acima do número contratado**
 
@@ -253,7 +253,7 @@ que este documento registra. **Os arquivos, macros, templates de folha e banco d
 
 Antes de entregar o primeiro projeto pela Borin, é preciso construir os próprios:
 
-- Template de folha do EPLAN com o carimbo da marca
+- Template de folha do CAD com o carimbo da marca
 - Template de capa e de memorial descritivo
 - Planilhas modelo de material, identificações, arquitetura de CLP e design térmico
 - Macro ou planilha própria de lista de instalação

@@ -160,7 +160,7 @@ arquivos = {
     "borin-completo-branco.png":   logo_completo(400, PAPEL, CINZA_300, PAPEL),
     "borin-completo-comando.png":  logo_completo(400, TINTA, CINZA_600, COMANDO),
 
-    # so o nome — carimbo de folha do EPLAN
+    # so o nome — carimbo de folha
     "borin-carimbo.png":           apenas_nome(NOME, 400, TINTA),
     "borin-carimbo-branco.png":    apenas_nome(NOME, 400, PAPEL),
     "borin-carimbo-fundo.png":     apenas_nome(NOME, 400, TINTA, fundo=PAPEL),

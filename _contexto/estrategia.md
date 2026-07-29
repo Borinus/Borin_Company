@@ -20,7 +20,7 @@ Três frentes, todas abertas ao mesmo tempo:
 - **Programação de CLP como serviço** — é o plano de expansão, mas depois. Primeiro consolidar a parte elétrica.
 - **Escalar / contratar** — não está no radar. É solo por enquanto.
 - **Marketing e presença digital** — só faz sentido depois que identidade e padrão de entrega existirem.
-- **Ferramenta nova / automação complexa** — o stack é EPLAN + Excel + Claude e isso resolve. Não adicionar ferramenta sem necessidade real.
+- **Ferramenta nova / automação complexa** — o stack é CAD elétrico + Excel + Claude e isso resolve. Não adicionar ferramenta sem necessidade real.
 
 ## Contexto com prazo
 

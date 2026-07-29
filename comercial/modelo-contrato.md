@@ -101,7 +101,7 @@ para a CONTRATANTE, sem que isso configure inadimplemento de sua parte.
 **§ 1º** A entrega compreende os documentos em formato PDF e as planilhas em formato Excel, conforme
 o Padrão de Entrega anexo.
 
-**§ 2º** **O arquivo-fonte do software de projeto (EPLAN) não integra o objeto deste contrato**,
+**§ 2º** **O arquivo-fonte do software de projeto (CAD elétrico) não integra o objeto deste contrato**,
 podendo ser fornecido mediante acordo específico e remuneração adicional.
 
 **§ 3º** Efetuado o pagamento integral, a CONTRATANTE poderá utilizar, reproduzir e modificar a

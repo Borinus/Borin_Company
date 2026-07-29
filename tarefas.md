@@ -42,9 +42,9 @@
 - [x] Lista de instalação, com base de cabos, acompanhamento por horas e acessórios
 - [ ] Preencher a base de dissipação a partir dos catálogos dos fabricantes
 - [ ] Preencher a aba Impressão com impressora e modelo de etiqueta
-- [ ] Conferir se a exportação do EPLAN cai direto nessas colunas
+- [ ] Conferir se a exportação do CAD cai direto nessas colunas
 
-**EPLAN — precisa estar no PC**
+**CAD elétrico — precisa estar no PC**
 
 - [ ] Template de folha com o carimbo da Borin (usar `marca/png/borin-carimbo.png`)
 - [ ] Template de capa com a tabela *Descrição do Quadro* e a tabela de revisões
@@ -65,7 +65,7 @@
 
 ## MCPs pra instalar depois
 
-Nenhuma das ferramentas que você usa hoje (EPLAN, Excel) tem conector pronto — são locais e o Claude
+Nenhuma das ferramentas que você usa hoje (CAD elétrico, Excel) tem conector pronto — são locais e o Claude
 já lê e escreve os arquivos direto.
 
 - [ ] Playwright — renderiza HTML em PNG/PDF. Útil pra gerar proposta e apresentação com a identidade: `npx playwright install chromium`

@@ -8,7 +8,7 @@ Dentro de cada projeto, sugestão de organização:
 ```
 [nome-do-projeto]/
   escopo.md          o que foi combinado entregar neste projeto
-  eplan/             arquivos e exports do EPLAN
+  cad/             arquivos e exports do CAD
   listas/            material, tags, I/Os (Excel)
   entrega/           o pacote final que vai pro cliente (PDF, ZIP)
   revisoes.md        histórico de revisão e o que mudou em cada uma

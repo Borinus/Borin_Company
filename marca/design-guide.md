@@ -71,7 +71,7 @@ Esta é a regra que evita repetir o nome inteiro numa folha de projeto:
 | Onde | Como aparece |
 |---|---|
 | Capa do projeto, proposta, apresentação, assinatura de email | Logo completo: `BORIN` + fio + nó + *projetos elétricos industriais* |
-| **Carimbo de folha do EPLAN** | **Só `BORIN`** — sem fio, sem nó, sem descritor |
+| **Carimbo de folha do CAD** | **Só `BORIN`** — sem fio, sem nó, sem descritor |
 | Espaço muito curto: favicon, rodapé de slide, etiqueta | Monograma `BRN` |
 | Texto corrido, contrato, nota fiscal | Nome por extenso: Borin Projetos Elétricos |
 
@@ -89,15 +89,15 @@ Elétricos" em 51 folhas não reforça a marca — polui a folha.
 | `marca/logo-comando.svg` | Só em peça digital colorida — nó em vermelho |
 | `marca/monograma-brn.svg` | Uso reduzido |
 
-**PNG** — para colocar dentro do EPLAN, Word e apresentação (`marca/png/`):
+**PNG** — para colocar dentro do CAD, Word e apresentação (`marca/png/`):
 
 | Arquivo | Uso |
 |---|---|
 | `borin-completo.png` | Capa de projeto e proposta — fundo transparente |
 | `borin-completo-branco.png` | Sobre fundo escuro |
 | `borin-completo-comando.png` | Peça digital colorida, nó em vermelho |
-| `borin-carimbo.png` | **Carimbo de folha do EPLAN** — só o nome, transparente, alta resolução |
-| `borin-carimbo-600px.png` | Mesma coisa reduzida, se o EPLAN engasgar com arquivo grande |
+| `borin-carimbo.png` | **Carimbo de folha do CAD** — só o nome, transparente, alta resolução |
+| `borin-carimbo-600px.png` | Mesma coisa reduzida, se o CAD elétrico engasgar com arquivo grande |
 | `borin-carimbo-fundo.png` | Com fundo branco sólido, se a transparência não se comportar |
 | `brn-monograma.png` · `-branco.png` | Espaço curto e favicon |
 
@@ -117,7 +117,7 @@ python marca/gerar-logos.py
 ## O carimbo
 
 **É o elemento mais característico da marca.** Toda peça leva um, no rodapé, ocupando a largura total.
-Vem direto do carimbo de folha do EPLAN — quem recebe reconhece na hora de onde veio.
+Vem direto do carimbo de folha — quem recebe reconhece na hora de onde veio.
 
 ```
 ┌───────┬──────────────────┬───────────────┬────────┬────────────┐
@@ -144,7 +144,7 @@ Vem direto do carimbo de folha do EPLAN — quem recebe reconhece na hora de ond
 |---|---|
 | Proposta comercial | Documento · Cliente · Revisão · Data |
 | Capa de projeto | Projeto · Cliente · Revisão · Data · Folhas |
-| Folha A3 (dentro do EPLAN) | Projeto · Folha · Revisão |
+| Folha A3 (dentro do CAD) | Projeto · Folha · Revisão |
 | Apresentação | Documento · Data (rodapé de todo slide) |
 | Assinatura de email | Versão reduzida: monograma, nome, função, cidade |
 
@@ -203,7 +203,7 @@ cor saturada em área grande.
 
 **Inter** — neo-grotesca, licença SIL Open Font License, livre para uso comercial.
 Baixar em [rsms.me/inter](https://rsms.me/inter/) e instalar na máquina, para usar também no Word e
-no EPLAN.
+no CAD.
 
 | Uso | Fonte | Peso | Observação |
 |---|---|---|---|
@@ -260,7 +260,7 @@ alinhamento rigoroso, informação onde deve estar, zero enfeite. Se um elemento
 | Peça | Logo | Carimbo |
 |---|---|---|
 | Capa de projeto | Completo, canto superior esquerdo, fundo Cinza 900 | Projeto · Cliente · Revisão · Data · Folhas |
-| Folha A3 no EPLAN | Monograma BRN | Projeto · Folha · Revisão |
+| Folha A3 no CAD | Monograma BRN | Projeto · Folha · Revisão |
 | Proposta comercial | Completo no cabeçalho da primeira página | Documento · Cliente · Revisão · Data |
 | Apresentação | Completo no primeiro e no último slide | Documento · Data, no rodapé de todo slide |
 | Assinatura de email | Completo, 140px de largura | Versão reduzida |

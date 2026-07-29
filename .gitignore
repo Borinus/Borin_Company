@@ -53,8 +53,11 @@ contas.yaml
 # Material de projeto real usado como referencia — NUNCA vai pro git.
 # Sao arquivos de cliente/empregador: confidencialidade antes de tudo.
 04003478*/
+CONFERENCIAS/
+CONFERENCIAS*.zip
 *_REFERENCIA/
 referencia-projetos/
+*.zip
 
 # Artefato de build do site (gerado por site/publicar.py)
 site/publico/

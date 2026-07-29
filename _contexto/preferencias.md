@@ -14,7 +14,7 @@ formalidade empolada. É o rosto do negócio pra fora — precisa passar compet�
 
 ## O que evitar
 
-- Explicação básica de conceito que ele domina (elétrica, EPLAN, painel, automação)
+- Explicação básica de conceito que ele domina (elétrica, CAD elétrico, painel, automação)
 - Entusiasmo artificial e elogio à pergunta
 - Jargão de marketing e frase de efeito
 - Emoji em documento técnico ou material de cliente

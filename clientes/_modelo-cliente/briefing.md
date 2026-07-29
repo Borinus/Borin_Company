@@ -19,7 +19,7 @@
 - **O que precisa:**
 - **Tipo de equipamento / máquina / processo:**
 - **Escopo pedido:** [projeto completo / revisão / padronização / lista de material / outro]
-- **Já existe projeto anterior?** [sim/não — se sim, em que formato: EPLAN, AutoCAD, PDF, papel]
+- **Já existe projeto anterior?** [sim/não — se sim, em que formato: CAD elétrico, AutoCAD, PDF, papel]
 
 ## Dados técnicos
 
@@ -31,7 +31,7 @@
 
 ## Entrega
 
-- **Formato exigido:** [PDF, DWG, EPLAN nativo, Excel]
+- **Formato exigido:** [PDF, DWG, CAD elétrico nativo, Excel]
 - **Prazo:**
 - **Quem aprova:**
 

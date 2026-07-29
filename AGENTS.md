@@ -23,7 +23,7 @@ projeto elétrico industrial ponta a ponta (freelancer, solo). Aqui ficam os cli
 Mateus Borin presta serviço de projeto elétrico industrial por conta própria, sob a marca
 **Borin Projetos Elétricos**. Trabalha hoje como terceiro na FlowSistem (Caxias do Sul/RS, fabricante de sistemas de pintura
 industrial — dosagem e aplicação de fluidos), onde é o projetista elétrico único e implanta o padrão
-EPLAN da empresa. O negócio próprio está na fase de estruturação: identidade, padrão de entrega,
+CAD elétrico da empresa. O negócio próprio está na fase de estruturação: identidade, padrão de entrega,
 preço e fluxo comercial.
 
 **Importante para qualquer texto que saia daqui:** Mateus é **projetista**, não engenheiro
@@ -33,7 +33,7 @@ Posicionar sempre como projeto e documentação técnica.
 
 ## O que mais fazemos aqui
 
-- Projeto elétrico industrial completo, do início ao fim (EPLAN Electric Pro Panel)
+- Projeto elétrico industrial completo, do início ao fim (CAD elétrico)
 - Diagramas elétricos, listas de materiais, listas de tags e I/Os
 - Padronização de projeto: folhas, macros, potenciais, banco de artigos
 - Conferência e revisão de projeto (tags, cabos, folhas, nomenclatura)
@@ -64,7 +64,7 @@ Evitar em qualquer texto: entusiasmo artificial, jargão de marketing, emoji em 
 
 ## Ferramentas conectadas
 
-- EPLAN Electric Pro Panel (nível avançado)
+- CAD elétrico (nível avançado)
 - Excel
 - Claude Code
 - Python e Node.js (usa em automações pontuais)

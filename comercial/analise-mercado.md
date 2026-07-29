@@ -9,7 +9,7 @@ Amostra pequena (6 empresas) e limitada ao que está na web — não substitui c
 
 | Empresa | Desde | O que faz | Posicionamento | Visual |
 |---|---|---|---|---|
-| **BesserTech** | — | Projeto elétrico, painel, CLP/IHM, motion, SCADA, robô Kuka, consultoria | Integradora certificada nas marcas líderes (Schneider, Siemens, Kuka). **Usa EPLAN e diz isso no site** | Logo azul, cinza e branco, corporativo limpo |
+| **BesserTech** | — | Projeto elétrico, painel, CLP/IHM, motion, SCADA, robô Kuka, consultoria | Integradora certificada nas marcas líderes (Schneider, Siemens, Kuka). **Usa CAD elétrico e diz isso no site** | Logo azul, cinza e branco, corporativo limpo |
 | **Linx Automação** | 2003 | Máquinas inteligentes, painéis, robótica, NR-12, manutenção | Solução completa e personalizada | — (site bloqueou leitura) |
 | **LTS Automation** | 2017 | Projeto elétrico, CLP, IHM, supervisório, robô, startup de linha | "Referência em programação pela confiabilidade e facilidade de operação" | Navy/preto e branco, B2B moderno |
 | **MA Automação** | 1998 | Retrofit, manutenção, placas eletrônicas, NR-12, máquinas especiais, quadros | 25+ anos, foco em modernizar e manter o que já existe | Azul, branco, foto de máquina, CTA WhatsApp |
@@ -22,7 +22,7 @@ Amostra pequena (6 empresas) e limitada ao que está na web — não substitui c
 
 **1. Todos vendem o pacote inteiro, ninguém vende só o projeto.**
 Sem exceção: painel + programação + robô + manutenção + startup. O projeto elétrico aparece como
-*um item de uma lista de oito*, nunca como o produto principal. A BesserTech chega a citar o EPLAN
+*um item de uma lista de oito*, nunca como o produto principal. A BesserTech chega a citar o CAD elétrico
 no site, mas como ferramenta dentro do pacote de automação.
 
 **2. Todos são azuis.**
@@ -43,7 +43,7 @@ elas terceirizam, e é exatamente o que o Mateus vende.
 
 Isso responde a pergunta que estava em aberto sobre público-alvo. O cliente inicial mais provável
 não é a indústria final, é a **integradora e o fabricante de máquina da Serra** — BesserTech, Linx,
-LTS, MA e as dezenas que não aparecem no Google. Eles já usam EPLAN, já entendem o valor de projeto
+LTS, MA e as dezenas que não aparecem no Google. Eles já usam CAD elétrico, já entendem o valor de projeto
 bem feito, compram sem precisar ser educados, e a venda é técnico falando com técnico.
 
 Vantagens práticas desse recorte:
