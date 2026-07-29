@@ -78,7 +78,20 @@ Separar as duas promessas resolve o risco da condição de abertura:
 O cliente vê andamento em dias e para de cobrar; o prazo total continua realista mesmo com produção
 noturna. É melhor que prometer metade do prazo do concorrente para tudo.
 
-### 5. Ninguém vende o pacote como produto
+### 5. Preço baixo sozinho alimenta o medo do comprador
+
+Achado da rodada 4, e corrige a leitura das rodadas anteriores. Quem terceiriza documentação tem um
+medo específico: **erro de projeto não aparece na entrega, aparece na montagem ou dois anos depois**.
+
+A reclamação recorrente do setor é que fornecedor sob pressão de preço e prazo **corta justamente
+teste e documentação**, porque é o que o cliente não confere na hora. Ou seja: anunciar preço baixo,
+sem prova de processo, coloca a Borin exatamente no perfil que o comprador aprendeu a temer.
+
+**A prova tem que vir junto do preço, no mesmo parágrafo.** A recomendação que o próprio setor dá ao
+comprador é pedir ao fornecedor os procedimentos de controle de qualidade documentados — e a lista de
+doze blocos de conferência, já publicada no site, responde isso antes de a pergunta ser feita.
+
+### 6. Ninguém vende o pacote como produto
 
 Das empresas brasileiras encontradas (DSF, P3, André Gomes, VEZZA, AJN), o padrão se repete:
 site institucional, lista de serviços, "orçamento personalizado". **Nenhuma publica o que entrega,
@@ -116,11 +129,13 @@ cliente, não rival.
 - [x] Quem no Brasil vende projeto de painel de máquina como serviço, sem obra e sem ART — rodada 2
 - [ ] Faixa de preço praticada em projeto de painel por I/O ou por folha
 - [x] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo — rodada 3
-- [ ] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam
+- [x] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam — rodada 4
 - [ ] Concorrentes que já usam geração automática e como comunicam isso ao cliente
 - [x] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda — rodada 2
 - [x] Se algum player publica prazo garantido — e como se protege — rodada 3
 - [ ] Como o mercado gringo cobra revisão e mudança de escopo
+- [ ] As-built e revisão pós-montagem como serviço avulso: existe mercado?
+- [ ] Que garantia de qualidade os terceirizados oferecem por escrito
 - [ ] Fabricantes de painel do Sul: eles projetam internamente ou terceirizam?
 - [ ] Como integradoras comunicam prazo de projeto na proposta
 
@@ -255,3 +270,63 @@ Borin lá fora.
 [DMC](https://www.dmcinfo.com/services/manufacturing-automation-and-intelligence/control-panel-design/) ·
 [Cad Crowd](https://www.cadcrowd.com/hire/control-panel-design) ·
 [CAD Drafter — custos](https://caddrafter.us/how-much-do-cad-drafting-services-cost/)
+
+---
+
+## Rodada 4 — 29/07/2026
+
+**Lacuna atacada:** o que o comprador reclama e o que valoriza ao terceirizar.
+
+### As três reclamações que se repetem
+
+Levantadas em publicações do setor de painéis e automação:
+
+| Reclamação | O que está por trás |
+|---|---|
+| **Painel fora de spec, mal cabeado ou mal identificado** | Documentação ruim vira montagem ruim. E painel mal identificado torna a empresa legalmente exposta em caso de acidente |
+| **Fornecedor pula etapa quando a pressão é preço e prazo** | Sob pressão, o que se corta primeiro é teste e documentação — porque é o que o cliente não vê na entrega |
+| **Qualidade tratada no fim, não construída no processo** | Quando o time interno está sobrecarregado, a conferência vira inspeção final, não método |
+
+E a consequência declarada: retrabalho de inspeção e correção, mais **erosão de confiança em todo o
+resto que aquele fornecedor entrega**.
+
+**Isso é ouro para a proposta.** A recomendação que o próprio setor dá ao comprador é:
+*pergunte ao fornecedor quais são os procedimentos de controle de qualidade, e exija a documentação
+que comprova o processo.*
+
+A Borin já responde essa pergunta antes de ela ser feita — a lista de doze blocos de conferência está
+publicada no site. Vale transformar em pergunta retórica na proposta: *quantos dos seus fornecedores
+conseguem mostrar a lista de conferência que rodam antes de entregar?*
+
+### O medo real de quem terceiriza documentação
+
+O padrão observado: terceirizar é atraente por custo e prazo, e assustador por **qualidade que só
+aparece depois**. Erro de projeto não estoura na entrega; estoura na montagem, ou pior, dois anos
+depois numa manutenção.
+
+Isso muda o eixo do argumento de venda. Preço baixo, sozinho, **alimenta** o medo em vez de vencer —
+soa como o fornecedor que vai cortar teste e documentação. O preço baixo só funciona acompanhado da
+prova do processo.
+
+### As-built e documentação desatualizada: uma dor adjacente, e um serviço
+
+O mercado brasileiro de as-built elétrico é grande e reclama de uma coisa só: **planta desatualizada
+trava manutenção e ampliação**. Sem documentação fiel, ninguém sabe de onde vem a alimentação de uma
+máquina, qual disjuntor corta o setor, ou por onde passa o circuito.
+
+Empresas que vendem isso como serviço próprio: [Plus Técnica](https://www.plustecnica.com.br/servicos/projetos-eletricos/projeto-eletrico-as-built),
+[ENGEPAR](https://www.engepar.eng.br/as-built-projeto-eletrico), [PEMAC](https://www.pemaceng.com.br/as-built-projeto-eletrico),
+[Eminence Grise](https://www.eminencegrise.com.br/as-built-projeto), [OMS Engenharia](https://omsengenharia.com.br/noticias/projeto-as-built/).
+Todas com foco predial e de instalação, **nenhuma em painel de máquina**.
+
+**Oportunidade de serviço avulso:** documentar painel existente que não tem projeto, ou está com
+projeto defasado. Vantagens: é venda de entrada barata para um cliente novo, não exige que ele tenha
+projeto novo em andamento, e coloca a Borin dentro da fábrica — de onde saem os projetos seguintes.
+
+Vale virar um terceiro item de tabela em `precificacao.md`, ao lado dos Escopos A e B.
+
+**Fontes:** [Enercon — What Engineers Want](https://www.enerconpower.com/post/what-engineers-want-the-frustrations-and-fixes-for-control-panel-outsourcing) ·
+[PP Control & Automation — Quality or damage control](https://www.ppcanda.com/quality-or-damage-control/) ·
+[Production Machining](https://productionmachining.com/blog/post/outsourcing-optimizes-control-panel-construction) ·
+[Quality Control in Outsourcing](https://medium.com/@herrik.p/quality-control-in-outsourcing-where-standards-slip-unnoticed-241e63f56442) ·
+[Vista Linda — As Built em instalações elétricas](https://www.vistalindatopografia.com.br/blog/categorias/artigos/as-built-em-instalacoes-eletricas-guia-completo)
