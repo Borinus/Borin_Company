@@ -1,78 +1,95 @@
-# Registros de DNS — borinprojetos.com.br
+# DNS — borinprojetos.com.br
 
-Checklist da zona DNS. Preencha os valores conforme cada serviço for mostrando, e marque quando
-estiver propagado. Onde editar: **registro.br → painel do domínio → Editar zona DNS**.
+Domínio registrado em 28/07/2026, no CPF do Mateus. **Vence em 28/07/2027** — renovar ou estender
+antes disso, senão o nome cai e leva junto o site e o email.
 
-Se você transferir os nameservers para a Cloudflare, a edição passa a ser no painel dela — e aí os
-registros do site entram sozinhos, sobrando só os de email para adicionar na mão.
-
----
-
-## Email — Zoho Mail
-
-### 1. Verificação de posse
-
-| Tipo | Nome | Valor | Feito |
-|---|---|---|---|
-| TXT | `@` | *(o Zoho mostra na tela de verificação)* | [ ] |
-
-### 2. Recebimento — registros MX
-
-Prioridade menor = tentado primeiro. O Zoho mostra os hosts exatos na configuração.
-
-| Tipo | Nome | Prioridade | Valor | Feito |
-|---|---|---|---|---|
-| MX | `@` | 10 | | [ ] |
-| MX | `@` | 20 | | [ ] |
-| MX | `@` | 50 | | [ ] |
-
-### 3. Antisspam — SPF, DKIM e DMARC
-
-**Não pule este bloco.** Sem ele, tua proposta cai no spam do cliente, o que é pior que não ter email
-próprio. Só se descobre quando alguém diz que "não recebeu".
-
-| Tipo | Nome | Valor | Feito |
-|---|---|---|---|
-| TXT (SPF) | `@` | `v=spf1 include:zoho.com ~all` | [ ] |
-| TXT (DKIM) | `zoho._domainkey` | *(chave que o Zoho gera)* | [ ] |
-| TXT (DMARC) | `_dmarc` | `v=DMARC1; p=none; rua=mailto:mateus@borinprojetos.com.br` | [ ] |
-
-Comece o DMARC em `p=none`, que só monitora. Depois de algumas semanas sem problema, dá pra endurecer
-para `p=quarantine`.
-
-### 4. Contas a criar
-
-- [ ] `mateus@borinprojetos.com.br` — a tua, para conversa com cliente
-- [ ] `contato@borinprojetos.com.br` — a do site, caixa geral
-
-Não crie mais que isso. Empresa de uma pessoa com seis endereços não engana ninguém.
+DNS administrado na **Cloudflare**, com os nameservers apontados a partir do registro.br.
 
 ---
 
-## Site — Cloudflare Pages
+## Etapa 1 — Nameservers
 
-| Tipo | Nome | Valor | Feito |
-|---|---|---|---|
-| CNAME | `@` | *(a Cloudflare mostra ao adicionar o domínio)* | [ ] |
-| CNAME | `www` | *(idem)* | [ ] |
+Passar a administração do DNS do registro.br para a Cloudflare. É o que destrava o Email Routing e
+simplifica a publicação do site.
 
-- [ ] Domínio adicionado em Workers & Pages → `borin` → Custom domains
-- [ ] SSL ativo (a Cloudflare emite sozinha, leva alguns minutos)
-- [ ] `borinprojetos.com.br` abre o site
-- [ ] `www.borinprojetos.com.br` abre o site
+- [ ] Conta criada em [dash.cloudflare.com](https://dash.cloudflare.com)
+- [ ] Domínio adicionado na Cloudflare, plano **Free**
+- [ ] Anotar os dois nameservers que ela fornecer:
+
+```
+ns1: ________________________.ns.cloudflare.com
+ns2: ________________________.ns.cloudflare.com
+```
+
+- [ ] No registro.br: painel do domínio → **Alterar servidores DNS** → substituir `a.auto.dns.br` e `b.auto.dns.br` pelos dois da Cloudflare
+- [ ] Aguardar a Cloudflare confirmar (de minutos a algumas horas; ela manda email quando ativa)
+
+> Esta é a única etapa que, se errada, tira o domínio do ar por algumas horas. Confira as duas
+> linhas antes de salvar.
+
+---
+
+## Etapa 2 — Email (Cloudflare Email Routing, gratuito)
+
+Recebe e encaminha. Não envia — ver `site/LEIA-ME.md` para o porquê e para o gatilho de migração.
+
+- [ ] Cloudflare → domínio → **Email** → **Email Routing** → ativar
+- [ ] Aceitar os registros MX e SPF que ela adiciona sozinha
+- [ ] Endereço de destino: teu Gmail pessoal, confirmado pelo link que chega nele
+- [ ] Criar `contato@borinprojetos.com.br` → encaminha pro Gmail
+- [ ] Criar `mateus@borinprojetos.com.br` → encaminha pro Gmail
+- [ ] Testar: mandar uma mensagem de outro endereço para `contato@` e ver se chega
+
+**Não criar catch-all.** Endereço curinga vira ímã de spam.
+
+---
+
+## Etapa 3 — Site (Cloudflare Pages)
+
+```bash
+python site/publicar.py
+npx wrangler pages deploy site/publico --project-name borin
+```
+
+- [ ] Deploy feito
+- [ ] Workers & Pages → `borin` → **Custom domains** → adicionar `borinprojetos.com.br` e `www.borinprojetos.com.br`
+- [ ] Com o DNS já na Cloudflare, os registros entram sozinhos
+- [ ] SSL ativo (ela emite sozinha, leva alguns minutos)
+- [ ] Os dois endereços abrem o site
+
+---
+
+## Etapa 4 — Quando migrar para o Zoho
+
+Gatilho: **primeiro cliente real**. Aí o email precisa enviar com o domínio próprio.
+
+- [ ] Assinar o Mail Lite: `https://mail.zoho.com/signup?type=org&plan=newMail5gb`
+- [ ] Desativar o Email Routing da Cloudflare (os MX vão mudar de dono)
+- [ ] Trocar os MX pelos do Zoho, na Cloudflare
+- [ ] Adicionar SPF, DKIM e DMARC:
+
+| Tipo | Nome | Valor |
+|---|---|---|
+| TXT (SPF) | `@` | `v=spf1 include:zoho.com ~all` |
+| TXT (DKIM) | `zoho._domainkey` | *(chave gerada pelo Zoho)* |
+| TXT (DMARC) | `_dmarc` | `v=DMARC1; p=none; rua=mailto:mateus@borinprojetos.com.br` |
+
+Começar o DMARC em `p=none`, que só monitora. Depois de algumas semanas sem problema, endurecer para
+`p=quarantine`.
+
+**Não pule o SPF e o DKIM.** Sem eles a proposta cai no spam do cliente, e você só descobre quando
+alguém diz que não recebeu.
 
 ---
 
 ## Conferir se funcionou
 
-Depois da propagação — de minutos a algumas horas:
-
 ```bash
+nslookup -type=ns borinprojetos.com.br
 nslookup -type=mx borinprojetos.com.br
 nslookup -type=txt borinprojetos.com.br
 ```
 
-Teste de verdade do email: mande uma mensagem de `mateus@borinprojetos.com.br` para um Gmail seu.
-Abra a mensagem recebida, vá em **Mostrar original** e confirme que aparece `SPF: PASS`,
-`DKIM: PASS` e `DMARC: PASS`. Se algum falhar, o registro correspondente está errado ou ainda não
-propagou.
+Depois de migrar para o Zoho, o teste de verdade: mandar uma mensagem de
+`mateus@borinprojetos.com.br` para um Gmail seu, abrir **Mostrar original** e confirmar
+`SPF: PASS`, `DKIM: PASS` e `DMARC: PASS`.

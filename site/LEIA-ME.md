@@ -40,23 +40,31 @@ Estava livre na última verificação (28/07/2026). Domínio livre não fica res
 
 ---
 
-## Passo 2 — Email profissional
+## Passo 2 — Email
 
-### Por que não o Cloudflare
+### A decisão (29/07/2026)
 
-O Email Routing da Cloudflare é gratuito e cria endereços no teu domínio, mas **só recebe e
-encaminha** — envio é outro produto, e está em beta. Dá pra contornar configurando "enviar como" no
-Gmail via SMTP dele, só que aí o Gmail assina com o domínio dele e o cliente vê *"via gmail.com"* na
-proposta, além dos limites de envio do Gmail.
+**Agora: Cloudflare Email Routing, gratuito. Quando entrar o primeiro cliente: Zoho Mail Lite, pago.**
 
-Use a Cloudflare para **site e DNS**, onde ela é imbatível, e o Zoho para email. Os dois convivem: os
-registros MX do Zoho ficam na mesma zona DNS.
+O Zoho tinha um plano gratuito com domínio próprio, mas em julho de 2026 **a porta de entrada dele
+sumiu** — o plano é citado no FAQ, e não há mais botão de inscrição na página de preços, na do
+Workplace nem na principal. Só sobraram Mail Lite, Mail Premium e o teste de 15 dias.
 
-### Zoho Mail
+O Email Routing da Cloudflare é gratuito e **só recebe e encaminha**: cria `contato@` no domínio e
+joga o que chega no Gmail. Serve pra receber contato do site sem custo nenhum.
 
-O plano gratuito do **Zoho Mail** aceita até 5 usuários com domínio próprio, envia e recebe, e assina
-com DKIM no teu domínio. É o caminho mais barato para começar, e migrar para o Google Workspace
-depois é simples.
+**A limitação que importa:** ao *responder*, o cliente vê o teu Gmail, ou o aviso *"via gmail.com"* se
+você configurar o "enviar como". Para primeiro contato, tudo bem. Para negociar proposta, não.
+
+Por isso o gatilho está definido: **no primeiro cliente real, assinar o Zoho Mail Lite** — cerca de
+US$ 1 por usuário/mês no anual, com IMAP e envio assinado com DKIM no próprio domínio.
+Link direto que funciona: `https://mail.zoho.com/signup?type=org&plan=newMail5gb`
+
+### Pré-requisito
+
+O Email Routing exige o domínio **hospedado na Cloudflare** — ou seja, apontar os nameservers do
+registro.br para ela. Isso é conveniente: o site também fica lá, e DNS, site e email passam a ser
+administrados num painel só.
 
 1. Criar conta em [zoho.com/mail](https://www.zoho.com/pt-br/mail/) e escolher o plano gratuito
 2. Adicionar o domínio `borinprojetos.com.br`
