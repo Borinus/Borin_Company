@@ -56,6 +56,9 @@ contas.yaml
 *_REFERENCIA/
 referencia-projetos/
 
+# Artefato de build do site (gerado por site/publicar.py)
+site/publico/
+
 # Sistema
 .DS_Store
 node_modules/
