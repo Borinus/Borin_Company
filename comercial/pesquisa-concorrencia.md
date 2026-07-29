@@ -51,7 +51,21 @@ O valor-hora é a referência mais útil aqui. Mesmo descontando que ele é de e
 serviço da Borin é projetista, **a hora não deveria ser precificada muito abaixo de R$ 100** — abaixo
 disso o negócio não paga a licença, o imposto e o tempo comercial.
 
-### 3. Ninguém vende o pacote como produto
+### 3. Existe um vão de mercado entre o freelance e o engenheiro
+
+| Faixa | Quem ocupa | O que entrega |
+|---|---|---|
+| ~R$ 37/hora | Freelance de plataforma | Desenho do que mandarem. Perfil AutoCAD/Revit, predial |
+| **vazio** | **—** | **projeto de painel de máquina como produto** |
+| R$ 150–300/hora | Engenheiro eletricista com ART | Projeto com responsabilidade técnica, foco predial e industrial de obra |
+
+No meio não há oferta estruturada. Quem precisa de projeto de painel hoje compra do fabricante do
+painel, embutido — e recebe documentação de subproduto.
+
+**É esse vão que a Borin ocupa.** E é por isso que a comparação de preço não deve ser com o
+freelance: o que se vende não é desenho por hora, é pacote fechado e conferido.
+
+### 4. Ninguém vende o pacote como produto
 
 Das empresas brasileiras encontradas (DSF, P3, André Gomes, VEZZA, AJN), o padrão se repete:
 site institucional, lista de serviços, "orçamento personalizado". **Nenhuma publica o que entrega,
@@ -86,13 +100,15 @@ cliente, não rival.
 
 ### Lacunas a investigar nas próximas rodadas
 
-- [ ] Quem no Brasil vende projeto de painel de máquina como serviço, sem obra e sem ART
+- [x] Quem no Brasil vende projeto de painel de máquina como serviço, sem obra e sem ART — rodada 2
 - [ ] Faixa de preço praticada em projeto de painel por I/O ou por folha
 - [ ] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo
 - [ ] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam
 - [ ] Concorrentes que já usam geração automática e como comunicam isso ao cliente
-- [ ] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda
+- [x] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda — rodada 2
 - [ ] Se algum player publica prazo garantido — e como se protege
+- [ ] Fabricantes de painel do Sul: eles projetam internamente ou terceirizam?
+- [ ] Como integradoras comunicam prazo de projeto na proposta
 
 **Fontes da rodada:** [Cronoshare](https://www.cronoshare.com.br/quanto-custa/projeto-eletrico) ·
 [CD Consultoria](https://blog.cdconsultoria.net/instalacoes-hidraulicas-e-eletricas/quanto-custa-um-projeto-eletrico-industrial) ·
@@ -102,3 +118,60 @@ cliente, não rival.
 [AutoPanel Design](https://www.autopaneldesign.com/) ·
 [Chemionix](https://www.chemionix.com/electrical-panel-design-services.html) ·
 [BackOfficePro](https://www.backofficepro.com/engineering/electrical-design-services.php)
+
+---
+
+## Rodada 2 — 29/07/2026
+
+**Lacunas atacadas:** quem vende projeto de painel de máquina sem obra · o que se pratica em
+plataforma de freelance.
+
+### Achado principal: o projeto vem embutido na fabricação
+
+Procurando quem vende **projeto de painel de máquina como serviço isolado** no Brasil, o resultado é
+sistematicamente o mesmo — aparecem **fabricantes de painel**, não projetistas:
+
+| Empresa | Onde | O que vende |
+|---|---|---|
+| [LogTek](https://www.logtek.com.br/quadro-comando-eletrico) | desde 2011 | Montagem de painel com equipe de engenheiros e projetistas própria |
+| [JHP Automação](https://www.jhpautomacao.com.br/fabricapaineiseletricos) | — | Fabrica painel de baixa tensão e faz o projeto conforme a necessidade |
+| [Inspectro](https://www.inspectro.com.br/montagem-painel-comando-eletrico) | 10+ anos | Montagem de painel |
+| [Monpaineis](https://www.monpaineis.com.br/painel-de-comando-de-maquinas.php) | — | Fabricação, com NR-10 e normas ABNT |
+| [Comando Painéis](https://comandopaineis.com.br/) | Santa Catarina | Painéis certificados, uma das maiores do estado |
+
+**Todas vendem o painel montado e dão o projeto de brinde dentro do preço.** Nenhuma vende o
+projeto separado — e nenhuma publica prazo de projeto.
+
+**Por que isso é bom para a Borin.** O projeto embutido na fabricação tem dois problemas para quem
+compra, e os dois são argumento de venda:
+
+1. **Amarra o cliente ao fabricante.** Quem tem só o painel montado e nenhum projeto decente não consegue pedir cotação para outro fabricante no ano seguinte. Projeto independente é liberdade de compra
+2. **O projeto é subproduto, não entrega.** Feito rápido, para a fábrica interna, com a qualidade mínima para montar. Documentação para *manter* o equipamento por dez anos é outra coisa
+
+Isso vira uma frase de proposta: *o projeto independente é seu, não do fabricante do painel.*
+
+### Freelance: o piso do mercado é baixo, e isso é uma armadilha
+
+| Referência | Valor |
+|---|---|
+| Projetista elétrico CLT, média | ~R$ 36.000/ano · ~R$ 18,46/hora |
+| Regra usual de conversão para autônomo | dobro da hora CLT · ~R$ 37,50/hora |
+
+Nas plataformas de freelance o perfil que aparece é AutoCAD, BIM e Revit — instalação predial, não
+painel de máquina. **Praticamente não há oferta de projeto de painel industrial nesse canal.**
+
+**Leitura:** o piso de R$ 37/hora é o preço de quem desenha o que mandam. Não é o mercado da Borin, e
+ancorar nele seria erro — mas é o número que um comprador desinformado vai jogar na mesa. A resposta
+é escopo, não desconto: o freelance de R$ 37 entrega desenho; a Borin entrega pacote conferido,
+identificação pronta para imprimir e plano de instalação.
+
+E confirma o vão do mercado: entre o freelance de R$ 37/hora e o engenheiro de R$ 150–300/hora **não
+existe oferta estruturada de projeto de painel de máquina**. É exatamente onde a Borin se encaixa.
+
+**Fontes:** [LogTek](https://www.logtek.com.br/quadro-comando-eletrico) ·
+[JHP Automação](https://www.jhpautomacao.com.br/fabricapaineiseletricos) ·
+[Inspectro](https://www.inspectro.com.br/montagem-painel-comando-eletrico) ·
+[Monpaineis](https://www.monpaineis.com.br/painel-de-comando-de-maquinas.php) ·
+[Comando Painéis](https://comandopaineis.com.br/) ·
+[Freelancer.com.br — projeto elétrico](https://freelancer.com.br/freelancers/s/projeto-el%C3%A9trico) ·
+[Referência de hora de projetista](https://www.auditorioibirapuera.com.br/quanto-ganha-um-projetista-por-hora/)
