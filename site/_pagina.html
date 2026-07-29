@@ -24,15 +24,14 @@
   --sans: 'Inter', 'Segoe UI', system-ui, Arial, sans-serif;
   --mono: 'JetBrains Mono', Consolas, ui-monospace, monospace;
 
-  --fs-hero:  clamp(2.1rem, 6vw, 4rem);
-  --fs-h2:    clamp(1.4rem, 3vw, 2rem);
-  --fs-h3:    1.0625rem;
-  --fs-body:  1.0625rem;
+  --fs-hero:  clamp(1.9rem, 5vw, 3.25rem);
+  --fs-h2:    clamp(1.2rem, 2.2vw, 1.55rem);
+  --fs-body:  1rem;
   --fs-small: 0.875rem;
   --fs-micro: 0.6875rem;
 
-  --gutter: clamp(1.25rem, 5vw, 4rem);
-  --stack:  clamp(3.5rem, 9vw, 7rem);
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --stack:  clamp(2.5rem, 4.5vw, 3.5rem);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -58,12 +57,12 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--fs-body);
-  line-height: 1.55;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 .pagina {
-  max-width: 72rem;
+  max-width: 74rem;
   margin: 0 auto;
   padding: 0 var(--gutter) var(--stack);
   display: flex;
@@ -71,57 +70,10 @@ body {
   gap: var(--stack);
 }
 
-/* ---------- condição de abertura ---------- */
-
-.condicao {
-  border-top: 1px solid var(--ink);
-  padding-top: 1.25rem;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  max-width: 46rem;
-}
-
-.condicao__marcador {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.condicao__marcador .no {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--acento);
-  flex: none;
-}
-
-.condicao p { margin: 0; }
-
-.condicao__titulo {
-  font-size: clamp(1.0625rem, 2vw, 1.25rem);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-  max-width: 40ch;
-}
-
-.condicao__texto {
-  font-size: var(--fs-small);
-  color: var(--ink-soft);
-  max-width: 62ch;
-  line-height: 1.6;
-}
-
 .rotulo {
   font-family: var(--mono);
   font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
@@ -131,13 +83,13 @@ body {
 .topo {
   display: flex;
   flex-direction: column;
-  gap: clamp(2.5rem, 6vw, 4.5rem);
-  padding-top: clamp(2rem, 5vw, 4rem);
+  gap: 2rem;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.marca svg { width: min(15rem, 55%); height: auto; display: block; color: var(--ink); }
+.marca svg { width: min(13rem, 48%); height: auto; display: block; color: var(--ink); }
 
-.hero { display: flex; flex-direction: column; gap: 1.5rem; }
+.hero { display: flex; flex-direction: column; gap: 1rem; }
 
 .hero h1 {
   font-size: var(--fs-hero);
@@ -145,18 +97,13 @@ body {
   letter-spacing: -0.03em;
   line-height: 1.02;
   text-wrap: balance;
-  max-width: 18ch;
+  max-width: 17ch;
   margin: 0;
 }
 
-.hero__texto {
-  max-width: 56ch;
-  color: var(--ink-soft);
-  margin: 0;
-  font-size: clamp(1rem, 1.6vw, 1.1875rem);
-}
+.hero__texto { max-width: 54ch; color: var(--ink-soft); margin: 0; }
 
-.hero__acoes { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.hero__acoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
 .botao {
   display: inline-block;
@@ -164,202 +111,172 @@ body {
   color: var(--ground);
   font-size: var(--fs-small);
   font-weight: 600;
-  padding: 0.85rem 1.6rem;
+  padding: 0.75rem 1.4rem;
   border: 1px solid var(--ink);
-  border-radius: 0;
   text-decoration: none;
 }
 .botao:hover { background: transparent; color: var(--ink); }
-
 .botao--vazado { background: transparent; color: var(--ink); }
 .botao--vazado:hover { background: var(--ink); color: var(--ground); }
 
+/* ---------- condição ---------- */
+
+.condicao {
+  border-top: 2px solid var(--ink);
+  padding-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 52rem;
+}
+
+.condicao__marcador { display: flex; align-items: center; gap: 0.5rem; }
+.condicao__marcador .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
+.condicao p { margin: 0; }
+.condicao__titulo { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; max-width: 44ch; }
+.condicao__texto { font-size: var(--fs-small); color: var(--ink-soft); max-width: 66ch; }
+
 /* ---------- seções ---------- */
 
-.secao { display: flex; flex-direction: column; gap: 2rem; }
+.secao { display: flex; flex-direction: column; gap: 1.1rem; }
 
-.secao__cabeca {
-  display: grid;
-  grid-template-columns: 3.5rem 1fr;
-  align-items: baseline;
-  gap: 0 1rem;
-  border-top: 1px solid var(--ink);
-  padding-top: 1rem;
-}
-
-.secao__num {
-  font-family: var(--mono);
-  font-size: var(--fs-small);
-  color: var(--ink-soft);
-  font-variant-numeric: tabular-nums;
-}
+.secao__cabeca { border-top: 1px solid var(--ink); padding-top: 0.7rem; }
 
 .secao__cabeca h2 {
   font-size: var(--fs-h2);
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0;
-  text-wrap: balance;
 }
 
 .secao__cabeca p {
-  grid-column: 2;
-  max-width: 62ch;
+  max-width: 68ch;
   color: var(--ink-soft);
-  margin: 0.6rem 0 0;
+  font-size: var(--fs-small);
+  margin: 0.3rem 0 0;
 }
 
-.texto { max-width: 64ch; display: flex; flex-direction: column; gap: 1.1rem; }
-.texto p { margin: 0; }
-.texto strong { font-weight: 600; color: var(--ink); }
+/* ---------- fluxo ---------- */
 
-/* ---------- manifesto de entrega ---------- */
-
-.manifesto {
+.fluxo {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
 }
 
-.pacote {
+.etapa-fluxo {
   background: var(--ground);
-  padding: 1.75rem 1.5rem;
+  padding: 1.1rem 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.7rem;
 }
 
-.pacote__topo { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
-.pacote__topo h3 { font-size: var(--fs-h3); font-weight: 600; margin: 0; }
+.etapa-fluxo__topo { display: flex; align-items: center; gap: 0.5rem; }
+.etapa-fluxo__topo .no { width: 0.5rem; height: 0.5rem; background: var(--ink); flex: none; }
+.etapa-fluxo--voce .no { background: var(--acento); }
+.etapa-fluxo__topo span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; }
 
-.itens { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-
-.itens li {
-  display: grid;
-  grid-template-columns: 1.5rem 1fr;
-  gap: 0.5rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--rule);
+.etapa-fluxo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.etapa-fluxo li {
   font-size: var(--fs-small);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--rule);
 }
-.itens li:last-child { border-bottom: 0; }
+.etapa-fluxo li:last-child { border-bottom: 0; }
+.etapa-fluxo__nota { font-size: var(--fs-micro); color: var(--ink-soft); margin: 0; font-family: var(--mono); line-height: 1.6; }
 
-.itens .n {
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  color: var(--ink-soft);
-  font-variant-numeric: tabular-nums;
-  padding-top: 0.2rem;
-}
+@media (max-width: 52rem) { .fluxo { grid-template-columns: 1fr; } }
 
-.itens .b { display: block; font-size: var(--fs-micro); color: var(--ink-soft); font-family: var(--mono); margin-top: 0.15rem; }
+/* ---------- pacote ---------- */
 
-.marca-b {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
+.pacote {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
   border: 1px solid var(--rule);
-  padding: 0.05rem 0.35rem;
+}
+
+.coluna { background: var(--ground); padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
+.coluna h3 { font-size: 0.9375rem; font-weight: 600; margin: 0; }
+.coluna ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.coluna li { font-size: var(--fs-small); padding: 0.35rem 0; border-bottom: 1px solid var(--rule); }
+.coluna li:last-child { border-bottom: 0; }
+.coluna li b { display: block; font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); font-weight: 400; }
+
+.tag-b {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  border: 1px solid var(--rule);
+  padding: 0.02rem 0.3rem;
   color: var(--ink-soft);
-  margin-left: 0.4rem;
+  margin-left: 0.3rem;
   white-space: nowrap;
 }
 
-/* ---------- destaque ---------- */
+/* ---------- conferência ---------- */
 
-.destaque {
-  background: var(--invert-bg);
-  color: var(--invert-ink);
-  padding: clamp(1.75rem, 4vw, 3rem);
+.checagem {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
 }
+.checagem div {
+  background: var(--ground);
+  padding: 0.65rem 0.9rem;
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 0.5rem;
+}
+.checagem span { font-family: var(--mono); color: var(--ink-soft); font-size: var(--fs-micro); padding-top: 0.15rem; }
 
-.destaque h3 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); font-weight: 700; margin: 0 0 0.9rem; letter-spacing: -0.02em; }
-.destaque p { margin: 0 0 0.9rem; opacity: 0.78; font-size: var(--fs-small); line-height: 1.65; }
-.destaque p:last-child { margin-bottom: 0; }
-.destaque .rotulo { color: currentColor; opacity: 0.55; }
+/* ---------- tabelas ---------- */
 
-.mini-tabela { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: var(--fs-micro); }
-.mini-tabela th, .mini-tabela td { text-align: left; padding: 0.45rem 0.6rem 0.45rem 0; border-bottom: 1px solid currentColor; }
-.mini-tabela th { opacity: 0.55; font-weight: 400; letter-spacing: 0.08em; }
-.mini-tabela td { font-variant-numeric: tabular-nums; }
-.mini-tabela tr:last-child td, .mini-tabela tr:last-child th { border-bottom: 0; }
 .tabela-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
+th { text-align: left; font-weight: 600; padding: 0.5rem 1rem 0.5rem 0; border-bottom: 1px solid var(--ink); white-space: nowrap; }
+td { padding: 0.55rem 1rem 0.55rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td:last-child, th:last-child { padding-right: 0; }
+.mono { font-family: var(--mono); }
+.destaque-td { font-weight: 600; }
 
 /* ---------- escopos ---------- */
 
 .escopos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
 }
-
-.escopo {
-  background: var(--ground);
-  padding: 1.75rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.escopo__letra {
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.14em;
-  color: var(--ink-soft);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.no-acento { width: 0.5rem; height: 0.5rem; background: var(--acento); display: inline-block; }
-
-.escopo h3 { font-size: 1.25rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+.escopo { background: var(--ground); padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.escopo__letra { display: flex; align-items: center; gap: 0.5rem; }
+.escopo__letra .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
+.escopo h3 { font-size: 1.0625rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
 .escopo p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
-.escopo ul { margin: 0; padding-left: 1.1rem; font-size: var(--fs-small); display: flex; flex-direction: column; gap: 0.35rem; }
-
-/* ---------- processo ---------- */
-
-.processo { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
-
-.etapa {
-  display: grid;
-  grid-template-columns: 3.5rem 1fr auto;
-  gap: 1rem;
-  align-items: baseline;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-
-.etapa__n { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.etapa__t { font-weight: 600; font-size: var(--fs-small); }
-.etapa__t span { display: block; font-weight: 400; color: var(--ink-soft); margin-top: 0.2rem; }
-.etapa__meta { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); text-align: right; white-space: nowrap; }
 
 /* ---------- contato ---------- */
 
 .contato {
   border: 1px solid var(--ink);
-  padding: clamp(1.75rem, 4vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
   align-items: start;
 }
-
-.contato h2 { font-size: var(--fs-h2); font-weight: 700; margin: 0 0 0.75rem; letter-spacing: -0.02em; text-wrap: balance; }
-.contato p { margin: 0; color: var(--ink-soft); font-size: var(--fs-small); max-width: 46ch; }
-
-.dados { display: flex; flex-direction: column; gap: 1rem; }
-.dado { display: flex; flex-direction: column; gap: 0.2rem; }
-.dado a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: var(--fs-small); width: fit-content; }
+.contato h2 { font-size: var(--fs-h2); font-weight: 700; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+.contato p { margin: 0; color: var(--ink-soft); font-size: var(--fs-small); max-width: 44ch; }
+.dados { display: flex; flex-direction: column; gap: 0.85rem; }
+.dado { display: flex; flex-direction: column; gap: 0.15rem; }
+.dado a, .dado span.v { color: var(--ink); text-decoration: none; font-family: var(--mono); font-size: var(--fs-small); width: fit-content; }
+.dado a { border-bottom: 1px solid var(--rule); }
 .dado a:hover { border-bottom-color: var(--ink); }
 
 /* ---------- carimbo ---------- */
@@ -367,27 +284,19 @@ body {
 .carimbo {
   border: 1px solid var(--ink);
   display: grid;
-  grid-template-columns: 5.5rem 1.4fr 1fr 0.7fr 1fr;
+  grid-template-columns: 5rem 1.4fr 1fr 0.6fr 1fr;
   font-family: var(--mono);
   font-size: var(--fs-micro);
   min-width: 32rem;
 }
-.carimbo > div {
-  padding: 0.55rem 0.7rem;
-  border-right: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
-}
+.carimbo > div { padding: 0.5rem 0.65rem; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 .carimbo > div:last-child { border-right: 0; }
-.carimbo .campo { color: var(--ink-soft); letter-spacing: 0.1em; }
+.carimbo .campo { color: var(--ink-soft); letter-spacing: 0.08em; }
 .carimbo .valor { color: var(--ink); overflow-wrap: anywhere; }
 .carimbo__marca { align-items: flex-start; justify-content: center; color: var(--ink); }
-.carimbo__marca svg { width: 3.4rem; height: auto; }
+.carimbo__marca svg { width: 3rem; height: auto; }
 
 a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
-
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
@@ -408,126 +317,120 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
     <div class="hero">
       <span class="rotulo">Projeto elétrico industrial · Caxias do Sul · RS</span>
       <h1>Projeto elétrico completo, conferido folha por folha.</h1>
-      <p class="hero__texto">O pacote inteiro pronto pra montagem, em EPLAN Electric&nbsp;P8: diagrama, régua de bornes, layout, listas e identificações. Para fabricante de máquina e integrador.</p>
+      <p class="hero__texto">O pacote inteiro pronto pra montagem, em EPLAN Electric&nbsp;P8. Para fabricante de máquina e integrador.</p>
 
       <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> Condição de abertura · primeiros projetos</span>
+        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Condição de abertura · primeiros projetos</span></span>
         <p class="condicao__titulo">Traga o orçamento que você já tem. Eu faço por metade do valor e na metade do prazo.</p>
-        <p class="condicao__texto">Comparo documento por documento o que está incluso no seu orçamento e no meu pacote. Para escopo equivalente de projeto e documentação, cubro cinquenta por cento do valor e do prazo. É condição de abertura, para formar as primeiras referências — não é o preço de tabela.</p>
+        <p class="condicao__texto">Para escopo equivalente de projeto e documentação. É condição de abertura, para formar as primeiras referências — não é o preço de tabela.</p>
       </div>
 
       <div class="hero__acoes">
         <a class="botao" href="#contato">Mandar meu orçamento</a>
-        <a class="botao botao--vazado" href="#entrega">Ver o que chega</a>
+        <a class="botao botao--vazado" href="#pacote">Ver o pacote</a>
       </div>
     </div>
   </header>
 
-  <!-- 01 -->
+  <!-- FLUXO -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">01</span>
-      <h2>Quando a fila enche, o projeto é o gargalo</h2>
-      <p>Entram três máquinas ao mesmo tempo e o problema não é montar painel — é ter quem desenhe o projeto e feche a documentação sem atrasar a montagem.</p>
+      <h2>Como funciona, do começo ao fim</h2>
     </div>
-    <div class="texto">
-      <p>É aí que eu entro. <strong>Projeto e documentação técnica</strong> como serviço, sem que você precise contratar, treinar e segurar um projetista na folha o ano inteiro.</p>
-      <p>Trabalho direto no teu padrão quando você já tem um, ou no meu quando não tem. Nos dois casos o que chega é um pacote fechado: PDF paginado e indexado, planilhas manipuláveis, tudo com revisão declarada e nomenclatura consistente.</p>
-      <p>Não monto painel, não programo CLP e não disputo a tua obra. Faço a parte que trava a tua fila.</p>
+
+    <div class="fluxo">
+      <div class="etapa-fluxo etapa-fluxo--voce">
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Você envia</span></div>
+        <ul>
+          <li>Layout ou desenho da máquina</li>
+          <li>Tensão de alimentação e de comando</li>
+          <li>Hardware definido: CLP, inversor, marcas</li>
+          <li>Lista de I/Os, se já existir</li>
+          <li>Normas exigidas pelo cliente final</li>
+          <li>Projeto anterior, se houver</li>
+        </ul>
+        <p class="etapa-fluxo__nota">Não tem tudo isso? Manda o que tem. O que faltar, eu especifico.</p>
+      </div>
+
+      <div class="etapa-fluxo">
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Eu faço</span></div>
+        <ul>
+          <li>Diagrama completo em EPLAN P8</li>
+          <li>Dimensionamento e proteções</li>
+          <li>Régua de bornes e layout do painel</li>
+          <li>Design térmico do quadro</li>
+          <li>Listas, identificações e I/Os</li>
+          <li>Conferência de 12 blocos</li>
+        </ul>
+        <p class="etapa-fluxo__nota">Prazo fechado na proposta. Mudança de escopo é avisada na hora, por escrito.</p>
+      </div>
+
+      <div class="etapa-fluxo">
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Você recebe</span></div>
+        <ul>
+          <li>PDF paginado e indexado</li>
+          <li>Planilhas editáveis em Excel</li>
+          <li>Identificações prontas pra imprimir</li>
+          <li>Revisão declarada em todo arquivo</li>
+          <li>Duas rodadas de revisão inclusas</li>
+        </ul>
+        <p class="etapa-fluxo__nota">Entrega por link. Aceite por escrito ou automático em 10 dias.</p>
+      </div>
     </div>
   </section>
 
-  <!-- 02 -->
-  <section class="secao" id="entrega">
+  <!-- PACOTE -->
+  <section class="secao" id="pacote">
     <div class="secao__cabeca">
-      <span class="secao__num">02</span>
-      <h2>O que chega</h2>
-      <p>Sem surpresa e sem "depois a gente vê". Este é o pacote, documento por documento — e é ele que vai anexo na proposta e no contrato.</p>
+      <h2>O que chega, documento por documento</h2>
+      <p>Este é o pacote completo. Ele vai anexo na proposta e no contrato — nada fica para "depois a gente vê".</p>
     </div>
 
-    <div class="manifesto">
-      <div class="pacote">
-        <div class="pacote__topo">
-          <h3>Pacote PDF</h3>
-          <span class="rotulo">paginado · indexado</span>
-        </div>
-        <ul class="itens">
-          <li><span class="n">01</span><span>Capa com a descrição do quadro<span class="b">tensões · corrente · potência dissipada · revisões</span></span></li>
-          <li><span class="n">02</span><span>Memorial descritivo<span class="b">6 blocos · normas · estrutura · condutores</span></span></li>
-          <li><span class="n">03</span><span>Visão geral de símbolos</span></li>
-          <li><span class="n">04</span><span>Índice por instalação e montagem</span></li>
-          <li><span class="n">05</span><span>Potência</span></li>
-          <li><span class="n">06</span><span>Arquitetura e visão geral do CLP</span></li>
-          <li><span class="n">07</span><span>Comando — entradas e saídas, digitais e analógicas</span></li>
-          <li><span class="n">08</span><span>Acionamentos</span></li>
-          <li><span class="n">09</span><span>Layout do painel</span></li>
-          <li><span class="n">10</span><span>Régua de bornes<span class="b">um diagrama de conexão por régua</span></span></li>
-          <li><span class="n">11</span><span>Lista de peças totalizadas</span></li>
-          <li><span class="n">12</span><span>Diagrama de interconexão de campo<span class="marca-b">Escopo B</span></span></li>
-          <li><span class="n">13</span><span>Layout 2D da instalação<span class="b">periféricos · passagem de cabos</span><span class="marca-b">Escopo B</span></span></li>
+    <div class="pacote">
+      <div class="coluna">
+        <h3>Pacote PDF</h3>
+        <ul>
+          <li>Capa com a descrição do quadro<b>tensões · corrente · potência dissipada</b></li>
+          <li>Memorial descritivo<b>normas · estrutura · condutores</b></li>
+          <li>Visão geral de símbolos</li>
+          <li>Índice por instalação</li>
+          <li>Potência</li>
+          <li>Arquitetura e visão geral do CLP</li>
+          <li>Comando: entradas e saídas</li>
+          <li>Acionamentos</li>
+          <li>Layout do painel</li>
+          <li>Régua de bornes<b>um diagrama por régua</b></li>
+          <li>Lista de peças totalizadas</li>
+          <li>Interconexão de campo<span class="tag-b">B</span></li>
+          <li>Layout 2D da instalação<span class="tag-b">B</span><b>periféricos · passagem de cabos</b></li>
         </ul>
       </div>
 
-      <div class="pacote">
-        <div class="pacote__topo">
-          <h3>Planilhas</h3>
-          <span class="rotulo">editáveis · prontas pra usar</span>
-        </div>
-        <ul class="itens">
-          <li><span class="n">01</span><span>Lista de materiais<span class="b">código · descrição · fabricante · quantidade</span></span></li>
-          <li><span class="n">02</span><span>Arquitetura de CLP<span class="b">endereço · tag · tipo · função · reserva declarada</span></span></li>
-          <li><span class="n">03</span><span>Design térmico<span class="b">dissipação por item e veredito de ventilação</span></span></li>
-          <li><span class="n">04</span><span>Identificações do painel<span class="b">fios · bornes · dispositivos · relés</span></span></li>
-          <li><span class="n">05</span><span>Identificações de campo<span class="b">fios e cabos</span><span class="marca-b">Escopo B</span></span></li>
-          <li><span class="n">06</span><span>Base de cabos e interligação<span class="marca-b">Escopo B</span></span></li>
-          <li><span class="n">07</span><span>Lista de instalação<span class="b">material · acessórios · horas estimadas</span><span class="marca-b">Escopo B</span></span></li>
+      <div class="coluna">
+        <h3>Planilhas Excel</h3>
+        <ul>
+          <li>Lista de materiais<b>código · descrição · fabricante · qtd</b></li>
+          <li>Arquitetura de CLP<b>endereço · tag · tipo · reserva declarada</b></li>
+          <li>Design térmico<b>dissipação e veredito de ventilação</b></li>
+          <li>Identificações do painel<b>fios · bornes · dispositivos · relés</b></li>
+          <li>Identificações de campo<span class="tag-b">B</span><b>fios e cabos</b></li>
+          <li>Base de cabos e interligação<span class="tag-b">B</span></li>
+          <li>Lista de instalação<span class="tag-b">B</span><b>material · acessórios · horas estimadas</b></li>
         </ul>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">Cada planilha de identificação vem com a instrução de impressão — impressora e modelo de etiqueta. Seu pessoal imprime sem precisar me ligar.</p>
       </div>
-    </div>
-  </section>
 
-  <!-- 03 -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <span class="secao__num">03</span>
-      <h2>Conferido antes de sair</h2>
-      <p>Todo pacote passa por uma conferência de doze blocos antes da emissão. Não é revisão por cima: é lista fechada, item por item.</p>
-    </div>
-
-    <div class="texto">
-      <p>Tag duplicada, folha faltando no índice, endereço de CLP que existe no diagrama e não existe na planilha, borne sem destino, dissipação que não fecha com o tamanho da caixa — <strong>é isso que atrasa montagem</strong>, e é isso que a conferência pega antes de você receber.</p>
-      <p>O projeto segue IEC&nbsp;81346 para tags, IEC&nbsp;61082 para os documentos, NFPA&nbsp;79 e IEC&nbsp;60204-1 para fiação, cores e identificação, além de NR-10 e NR-12 no que se aplica.</p>
-    </div>
-  </section>
-
-  <!-- 04 -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <span class="secao__num">04</span>
-      <h2>Lista de material é o mínimo. Você recebe o plano.</h2>
-    </div>
-
-    <div class="destaque">
-      <div>
-        <h3>A instalação chega planejada, não só especificada</h3>
-        <p>No Escopo B, a lista de instalação não é só o que comprar. É uma linha por tarefa, com material, código, comprimento, <strong>horas estimadas</strong> e percentual de conclusão.</p>
-        <p>Com isso o teu PCP dimensiona equipe e prazo antes de a obra começar, e acompanha o avanço enquanto ela roda — no mesmo arquivo.</p>
-        <p>Acessórios entram sozinhos: por ocorrência de cabo, proporcional ao metro, ou por item. E a quantidade de compra já sai arredondada pra embalagem real — terminal de cem em cem, luva de dez em dez.</p>
-      </div>
-      <div>
-        <span class="rotulo">Acompanhamento de instalação</span>
-        <div class="tabela-wrap" style="margin-top: 0.9rem;">
-          <table class="mini-tabela">
-            <thead>
-              <tr><th>Tarefa</th><th>Cabo</th><th>m</th><th>Horas</th><th>%</th></tr>
-            </thead>
+      <div class="coluna">
+        <h3>O diferencial</h3>
+        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">Cada planilha de identificação já vem com impressora e modelo de etiqueta definidos. Seu pessoal imprime sem me ligar.</p>
+        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">No Escopo B, a lista de instalação traz <strong style="color: var(--ink);">horas estimadas por tarefa</strong> e percentual de conclusão. Seu PCP dimensiona equipe e prazo antes da obra começar.</p>
+        <div class="tabela-wrap">
+          <table>
+            <thead><tr><th>Tarefa</th><th>Cabo</th><th>Horas</th></tr></thead>
             <tbody>
-              <tr><td>Fixação do painel</td><td>—</td><td>—</td><td>8,0</td><td>100</td></tr>
-              <tr><td>Fixação das eletrocalhas</td><td>—</td><td>—</td><td>24,0</td><td>0</td></tr>
-              <tr><td>Alimentação do painel</td><td>W0</td><td>10</td><td>2,0</td><td>0</td></tr>
-              <tr><td>Sensor de nível</td><td>W1</td><td>1</td><td>2,0</td><td>0</td></tr>
-              <tr><td>Sinais remotos</td><td>W2</td><td>10</td><td>2,0</td><td>0</td></tr>
+              <tr><td>Fixação do painel</td><td class="mono">—</td><td class="mono">8,0</td></tr>
+              <tr><td>Eletrocalhas</td><td class="mono">—</td><td class="mono">24,0</td></tr>
+              <tr><td>Alimentação</td><td class="mono">W0</td><td class="mono">2,0</td></tr>
+              <tr><td>Sensor de nível</td><td class="mono">W1</td><td class="mono">2,0</td></tr>
             </tbody>
           </table>
         </div>
@@ -535,87 +438,121 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
     </div>
   </section>
 
-  <!-- 05 -->
+  <!-- CONFERÊNCIA -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">05</span>
+      <h2>O que é conferido antes de sair</h2>
+      <p>Lista fechada, rodada em toda entrega e em toda revisão. É o que atrasa montagem quando passa batido.</p>
+    </div>
+
+    <div class="checagem">
+      <div><span>01</span>Tags sem duplicação</div>
+      <div><span>02</span>Cabos com bitola e destino</div>
+      <div><span>03</span>Folhas e índice sem furo</div>
+      <div><span>04</span>Bornes com destino coerente</div>
+      <div><span>05</span>I/Os do CLP sem conflito</div>
+      <div><span>06</span>Proteção de toda carga</div>
+      <div><span>07</span>Consumo dentro da fonte</div>
+      <div><span>08</span>Dissipação x tamanho do quadro</div>
+      <div><span>09</span>Layout x lista de materiais</div>
+      <div><span>10</span>Interconexão coerente nos dois lados</div>
+      <div><span>11</span>Identificações completas</div>
+      <div><span>12</span>Arquivos, nomes e revisão</div>
+    </div>
+
+    <p class="rotulo">Normas: IEC 81346 · IEC 61082 · NFPA 79 · IEC 60204-1 · NR-10 · NR-12</p>
+  </section>
+
+  <!-- ESCOPOS -->
+  <section class="secao">
+    <div class="secao__cabeca">
       <h2>Dois escopos</h2>
-      <p>Nomeados por letra, para não sobrar dúvida do que está dentro e do que está fora.</p>
     </div>
 
     <div class="escopos">
       <div class="escopo">
-        <span class="escopo__letra">Escopo A</span>
+        <span class="rotulo">Escopo A</span>
         <h3>Projeto de painel</h3>
-        <p>O painel elétrico completo, do diagrama à lista de material.</p>
-        <ul>
-          <li>Pacote PDF com diagrama, régua de bornes e layout</li>
-          <li>Lista de materiais</li>
-          <li>Arquitetura de CLP</li>
-          <li>Design térmico</li>
-          <li>Quatro planilhas de identificação do painel</li>
-        </ul>
-        <p style="margin-top:auto;">Para quem monta e instala por conta.</p>
+        <p>O painel completo: diagrama, régua de bornes, layout, listas, identificações, arquitetura de CLP e design térmico.</p>
+        <p><strong>Para quem</strong> monta e instala por conta.</p>
       </div>
-
       <div class="escopo">
-        <span class="escopo__letra"><span class="no-acento" aria-hidden="true"></span> Escopo B</span>
+        <span class="escopo__letra"><span class="no" aria-hidden="true"></span> <span class="rotulo">Escopo B</span></span>
         <h3>Projeto de painel e instalação</h3>
-        <p>Tudo do Escopo A, mais a instalação em campo especificada e planejada.</p>
-        <ul>
-          <li>Interconexão de campo no diagrama</li>
-          <li>Layout 2D com periféricos e passagem de cabos</li>
-          <li>Base de cabos com vias, bitola e comprimento</li>
-          <li>Lista de instalação com horas estimadas</li>
-          <li>Identificações de campo</li>
-        </ul>
-        <p style="margin-top:auto;">Para quem também vai instalar, ou contratar quem instale.</p>
+        <p>Tudo do A, mais interconexão de campo, layout 2D, base de cabos, identificações de campo e a lista de instalação com horas.</p>
+        <p><strong>Para quem</strong> também vai instalar, ou contratar quem instale.</p>
       </div>
     </div>
   </section>
 
-  <!-- 06 -->
+  <!-- ORÇAMENTO -->
   <section class="secao">
     <div class="secao__cabeca">
-      <span class="secao__num">06</span>
-      <h2>Como funciona</h2>
-      <p>Prazo declarado, revisão contratada e pagamento definido antes de começar.</p>
+      <h2>Como sai o orçamento</h2>
+      <p>Preço fechado por projeto, não por hora. Você sabe quanto vai gastar antes de começar, e eu ganho por ser eficiente em vez de perder.</p>
     </div>
 
-    <div class="processo">
-      <div class="etapa">
-        <span class="etapa__n">01</span>
-        <span class="etapa__t">Levantamento<span>Tensões, hardware, quantidade de I/Os, documentos que você já tem e quem aprova.</span></span>
-        <span class="etapa__meta">sem custo</span>
-      </div>
-      <div class="etapa">
-        <span class="etapa__n">02</span>
-        <span class="etapa__t">Proposta<span>Escopo nomeado, prazo, valor e o padrão de entrega anexo.</span></span>
-        <span class="etapa__meta">3 dias úteis</span>
-      </div>
-      <div class="etapa">
-        <span class="etapa__n">03</span>
-        <span class="etapa__t">Contrato e início<span>O projeto entra na fila quando o sinal confirma.</span></span>
-        <span class="etapa__meta">40% sinal</span>
-      </div>
-      <div class="etapa">
-        <span class="etapa__n">04</span>
-        <span class="etapa__t">Execução e conferência<span>Mudança de escopo é avisada na hora, por escrito, com impacto em prazo e valor.</span></span>
-        <span class="etapa__meta">12 blocos</span>
-      </div>
-      <div class="etapa">
-        <span class="etapa__n">05</span>
-        <span class="etapa__t">Entrega e revisões<span>Pacote completo, com duas rodadas de revisão inclusas.</span></span>
-        <span class="etapa__meta">60% na entrega</span>
-      </div>
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr><th>Etapa</th><th>O que acontece</th><th>Prazo</th><th>Pagamento</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="destaque-td">Levantamento</td>
+            <td>Você manda o que tem. Eu faço as perguntas que faltam e fecho o escopo.</td>
+            <td class="mono">24 h para responder</td>
+            <td class="mono">sem custo</td>
+          </tr>
+          <tr>
+            <td class="destaque-td">Proposta</td>
+            <td>Escopo nomeado A ou B, valor fechado, prazo e o pacote de entrega anexo.</td>
+            <td class="mono">3 dias úteis</td>
+            <td class="mono">sem custo</td>
+          </tr>
+          <tr>
+            <td class="destaque-td">Contrato</td>
+            <td>Assinatura digital. O projeto entra na fila quando o sinal confirma.</td>
+            <td class="mono">no aceite</td>
+            <td class="mono destaque-td">40%</td>
+          </tr>
+          <tr>
+            <td class="destaque-td">Execução</td>
+            <td>Desenvolvimento e conferência dos 12 blocos.</td>
+            <td class="mono">prazo da proposta</td>
+            <td class="mono">—</td>
+          </tr>
+          <tr>
+            <td class="destaque-td">Entrega</td>
+            <td>Pacote completo, com duas rodadas de revisão inclusas.</td>
+            <td class="mono">na data fechada</td>
+            <td class="mono destaque-td">60% em 15 dias</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>O que define o valor</th><th>Efeito no preço</th></tr></thead>
+        <tbody>
+          <tr><td>Escopo A ou B</td><td>O B acrescenta a instalação inteira</td></tr>
+          <tr><td>Quantidade de I/Os</td><td>Principal medida de tamanho do projeto</td></tr>
+          <tr><td>Hardware já definido ou não</td><td>Especificar do zero soma horas</td></tr>
+          <tr><td>Prazo abaixo do padrão</td><td>Urgência tem acréscimo declarado</td></tr>
+          <tr><td>Arquivo-fonte do EPLAN</td><td>Não incluso. Cotado à parte</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="rotulo">Não incluso em nenhum escopo: ART · programação de CLP · montagem · comissionamento · compra de material</p>
   </section>
 
-  <!-- contato -->
+  <!-- CONTATO -->
   <section class="contato" id="contato">
     <div>
       <h2>Manda o que você precisa projetar</h2>
-      <p>Me diga o tipo de máquina ou processo, se precisa só do painel ou também da instalação, e o prazo que você tem em mente. Respondo em até 24 horas, e a proposta sai em 3 dias úteis depois do levantamento.</p>
+      <p>Tipo de máquina ou processo, se precisa só do painel ou também da instalação, e o prazo que você tem em mente. Se já tiver orçamento de outra empresa, manda junto.</p>
     </div>
     <div class="dados">
       <div class="dado">
@@ -628,7 +565,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
       </div>
       <div class="dado">
         <span class="rotulo">Onde</span>
-        <span style="font-family: var(--mono); font-size: var(--fs-small);">Caxias do Sul · RS<br>Atendimento remoto para todo o Brasil</span>
+        <span class="v">Caxias do Sul · RS<br>Atendimento remoto no Brasil</span>
       </div>
     </div>
   </section>
@@ -644,7 +581,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
       </div>
       <div><span class="campo">EMPRESA</span><span class="valor">Borin Projetos Elétricos</span></div>
       <div><span class="campo">RESPONSÁVEL</span><span class="valor">Mateus Borin · projetista</span></div>
-      <div><span class="campo">REV</span><span class="valor">01</span></div>
+      <div><span class="campo">REV</span><span class="valor">02</span></div>
       <div><span class="campo">LOCAL</span><span class="valor">Caxias do Sul · RS</span></div>
     </div>
   </footer>
