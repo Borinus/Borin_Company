@@ -88,6 +88,31 @@ terceiro.
 
 ---
 
+## Condição de abertura (ativa desde 29/07/2026)
+
+Está no topo do site: **traga o orçamento que você já tem, e eu faço por metade do valor e na metade
+do prazo**, para escopo equivalente de projeto e documentação.
+
+**Por que ela é assim e não só "50% de desconto":** desconto sem motivo declarado lê como o trabalho
+valer menos, e vira preço de tabela — quem paga metade indica dizendo "ele faz pela metade".
+Declarar que é condição de abertura, para formar as primeiras referências, dá o motivo e preserva o
+preço cheio depois.
+
+### As três travas que precisam ser respeitadas
+
+1. **Escopo equivalente.** Orçamento de integradora costuma incluir montagem e programação. Metade
+   daquilo pode ficar abaixo do teu custo. Só vale contra a parte de projeto e documentação — e é
+   por isso que a comparação é documento por documento
+2. **Prazo que você consegue cumprir.** O prazo do concorrente é, em boa parte, fila. Você não tem
+   fila, então metade do prazo dele costuma ser possível. Mas confira antes de aceitar: você
+   trabalha à noite e nos fins de semana. Atrasar o primeiro projeto destrói a referência que a
+   condição existe para construir
+3. **Ela tem que acabar.** Defina o gatilho de encerramento agora — três projetos fechados, ou uma
+   data — e tire a faixa do site quando chegar lá. Condição de abertura que não acaba é tabela de
+   preço
+
+- [ ] Definir o gatilho de encerramento: ____ projetos ou até ___/___/______
+
 ## Regras de bolso
 
 **Nunca dê desconto sem tirar escopo.** Cortar 15% do preço mantendo tudo ensina o cliente que o

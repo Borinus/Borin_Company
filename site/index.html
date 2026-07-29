@@ -100,6 +100,71 @@ body {
   gap: var(--stack);
 }
 
+/* ---------- faixa de condição ---------- */
+
+.faixa {
+  background: var(--invert-bg);
+  color: var(--invert-ink);
+  padding: 1.5rem var(--gutter);
+}
+
+.faixa__interno {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.25rem 2rem;
+  align-items: center;
+}
+
+.faixa__marcador {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.6rem;
+}
+
+.faixa__marcador .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; opacity: 1; }
+
+.faixa p { margin: 0; }
+
+.faixa__titulo {
+  font-size: clamp(1.05rem, 2.2vw, 1.375rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  max-width: 34ch;
+}
+
+.faixa__texto {
+  font-size: var(--fs-small);
+  opacity: 0.72;
+  max-width: 62ch;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.faixa__acao {
+  border: 1px solid currentColor;
+  color: inherit;
+  text-decoration: none;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  padding: 0.7rem 1.3rem;
+  white-space: nowrap;
+}
+.faixa__acao:hover { background: var(--invert-ink); color: var(--invert-bg); }
+
+@media (max-width: 46rem) {
+  .faixa__interno { grid-template-columns: 1fr; }
+  .faixa__acao { justify-self: start; }
+}
+
 .rotulo {
   font-family: var(--mono);
   font-size: var(--fs-micro);
@@ -372,6 +437,17 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
+
+<div class="faixa">
+  <div class="faixa__interno">
+    <div>
+      <span class="faixa__marcador"><span class="no" aria-hidden="true"></span> Condição de abertura · primeiros projetos</span>
+      <p class="faixa__titulo">Traga o orçamento que você já tem. Eu faço por metade do valor e na metade do prazo.</p>
+      <p class="faixa__texto">Comparo documento por documento o que está incluso no orçamento que você tem e no meu pacote e, para escopo equivalente de projeto e documentação, cubro cinquenta por cento do valor e do prazo. É condição de abertura, para os primeiros projetos — é assim que eu formo as primeiras referências, e não é o preço de tabela.</p>
+    </div>
+    <a class="faixa__acao" href="#contato">Mandar meu orçamento</a>
+  </div>
+</div>
 
 <div class="pagina">
 
