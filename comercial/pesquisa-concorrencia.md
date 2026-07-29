@@ -65,7 +65,20 @@ painel, embutido — e recebe documentação de subproduto.
 **É esse vão que a Borin ocupa.** E é por isso que a comparação de preço não deve ser com o
 freelance: o que se vende não é desenho por hora, é pacote fechado e conferido.
 
-### 4. Ninguém vende o pacote como produto
+### 4. Prazo se promete em duas camadas, não em uma
+
+Achado da rodada 3, e o mais imediatamente aplicável de toda a pesquisa. Provedor internacional
+garante **primeiro rascunho em 48 horas** e entrega o pacote completo em 2 a 6 semanas.
+
+Separar as duas promessas resolve o risco da condição de abertura:
+
+- **Primeira emissão parcial, prazo curto e garantido** — capa, memorial, potência e arquitetura de CLP
+- **Pacote completo, na data fechada da proposta**
+
+O cliente vê andamento em dias e para de cobrar; o prazo total continua realista mesmo com produção
+noturna. É melhor que prometer metade do prazo do concorrente para tudo.
+
+### 5. Ninguém vende o pacote como produto
 
 Das empresas brasileiras encontradas (DSF, P3, André Gomes, VEZZA, AJN), o padrão se repete:
 site institucional, lista de serviços, "orçamento personalizado". **Nenhuma publica o que entrega,
@@ -102,11 +115,12 @@ cliente, não rival.
 
 - [x] Quem no Brasil vende projeto de painel de máquina como serviço, sem obra e sem ART — rodada 2
 - [ ] Faixa de preço praticada em projeto de painel por I/O ou por folha
-- [ ] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo
+- [x] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo — rodada 3
 - [ ] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam
 - [ ] Concorrentes que já usam geração automática e como comunicam isso ao cliente
 - [x] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda — rodada 2
-- [ ] Se algum player publica prazo garantido — e como se protege
+- [x] Se algum player publica prazo garantido — e como se protege — rodada 3
+- [ ] Como o mercado gringo cobra revisão e mudança de escopo
 - [ ] Fabricantes de painel do Sul: eles projetam internamente ou terceirizam?
 - [ ] Como integradoras comunicam prazo de projeto na proposta
 
@@ -175,3 +189,69 @@ existe oferta estruturada de projeto de painel de máquina**. É exatamente onde
 [Comando Painéis](https://comandopaineis.com.br/) ·
 [Freelancer.com.br — projeto elétrico](https://freelancer.com.br/freelancers/s/projeto-el%C3%A9trico) ·
 [Referência de hora de projetista](https://www.auditorioibirapuera.com.br/quanto-ganha-um-projetista-por-hora/)
+
+---
+
+## Rodada 3 — 29/07/2026
+
+**Lacunas atacadas:** como o mercado maduro empacota e comunica prazo · quem publica prazo garantido.
+
+### Dois modelos coexistem lá fora, e são mercados diferentes
+
+| Modelo | Quem | Como vende | Preço |
+|---|---|---|---|
+| **Offshore de desenho** | [Outsource2India](https://www.outsource2india.com/engineering/electrical/electrical-schematic-drawing-services.asp), [Flatworld](https://www.flatworldsolutions.com/electrical-engineering/electrical-2d-drafting-services.php), [IndiaCADworks](https://www.indiacadworks.com/electrical/schematic-drawings.php), [CHCADD](https://www.chcaddoutsourcing.com/services/electrical-cad-drafting-drawing-services.html), [GSourceData](https://www.gsourcedata.com/mepf-design-services/electrical-drawing/) | Volume, hora barata, promessa de rapidez | **a partir de US$ 9/hora** |
+| **Engenharia de painel** | [PanelTEK](https://www.paneltekllc.com/electrical-engineering-services/plc-control-panel-documentation/), [DMC](https://www.dmcinfo.com/services/manufacturing-automation-and-intelligence/control-panel-design/), [Gibson](https://www.gibsonengineering.com/support/gibson-panel-shop-page), [iAutomation](https://iautomation.com/panel-building-assembly/), [The Industrial Controls Co](https://www.theindustrialcontrolsco.com/engineering/control-panel-design/) | Documentação completa de painel, do primeiro rascunho ao as-built | Preço fechado **ou** hora, conforme o escopo |
+
+O primeiro grupo compete por preço de hora e some. O segundo é o espelho do que a Borin quer ser —
+e nenhum deles publica valor.
+
+### Prazo: existe quem garanta, e o mecanismo é inteligente
+
+O achado mais aproveitável da rodada. Um provedor anuncia **primeiro rascunho em 48 horas**, com o
+projeto completo levando de **2 a 6 semanas** conforme escopo.
+
+O truque é separar as duas promessas. **Garantir o rascunho é barato e vende muito**, porque o
+cliente ansioso quer sinal de vida, não o pacote fechado. Garantir o pacote inteiro num prazo curto é
+o que quebra a perna de quem promete.
+
+**Aplicável direto na Borin, e resolve o risco da condição de abertura:** em vez de prometer metade
+do prazo do concorrente para tudo, prometer **primeira emissão parcial em prazo curto e garantido** —
+capa, memorial, potência e arquitetura de CLP — e o pacote completo na data fechada. O cliente vê
+andamento em dias, e o prazo total continua realista mesmo sendo produzido à noite.
+
+### A lista de entregáveis do mercado é mais curta que a da Borin
+
+O que esses provedores listam como documentação de painel: **captura do esquema, layout do painel,
+numeração de fios, régua de bornes e BOM**. Alguns acrescentam documentação de manufatura e registro
+fotográfico da montagem.
+
+Comparando com o pacote da Borin: falta neles **design térmico, arquitetura de CLP como planilha,
+identificações prontas para impressão e plano de instalação com horas**. O manifesto de entrega do
+site já é mais completo do que o padrão de mercado internacional — vale usar isso na proposta em vez
+de tratar como óbvio.
+
+### Qualidade é vendida como processo, não como adjetivo
+
+Todos falam em "verificação rigorosa contra normas internacionais". É genérico e ninguém mostra o
+método. **Publicar a lista de doze blocos de conferência, como o site já faz, é mais concreto do que
+o que o mercado internacional comunica.**
+
+### Onde há freelance de painel
+
+A [Cad Crowd](https://www.cadcrowd.com/hire/control-panel-design) mantém um diretório de projetistas
+de painel de controle — canal que não existe no Brasil com essa especificidade. Vale acompanhar como
+referência de como o serviço é descrito e precificado quando é vendido por pessoa física.
+
+Também apareceu a [EPLAN Center](https://eplancenter.com/eplan-engineering-services/), que vende
+serviços de engenharia sobre a plataforma. É o concorrente conceitualmente mais próximo do modelo da
+Borin lá fora.
+
+**Fontes:** [Outsource2India](https://www.outsource2india.com/engineering/electrical/electrical-schematic-drawing-services.asp) ·
+[Flatworld Solutions](https://www.flatworldsolutions.com/electrical-engineering/electrical-2d-drafting-services.php) ·
+[IndiaCADworks](https://www.indiacadworks.com/electrical/schematic-drawings.php) ·
+[CAD/CAM Services](https://www.cadcam.org/engineering/electrical-drawings) ·
+[PanelTEK](https://www.paneltekllc.com/electrical-engineering-services/plc-control-panel-documentation/) ·
+[DMC](https://www.dmcinfo.com/services/manufacturing-automation-and-intelligence/control-panel-design/) ·
+[Cad Crowd](https://www.cadcrowd.com/hire/control-panel-design) ·
+[CAD Drafter — custos](https://caddrafter.us/how-much-do-cad-drafting-services-cost/)
