@@ -42,8 +42,21 @@ Estava livre na última verificação (28/07/2026). Domínio livre não fica res
 
 ## Passo 2 — Email profissional
 
-O plano gratuito do **Zoho Mail** aceita até 5 usuários com domínio próprio. É o caminho mais barato
-para começar, e migrar para o Google Workspace depois é simples.
+### Por que não o Cloudflare
+
+O Email Routing da Cloudflare é gratuito e cria endereços no teu domínio, mas **só recebe e
+encaminha** — envio é outro produto, e está em beta. Dá pra contornar configurando "enviar como" no
+Gmail via SMTP dele, só que aí o Gmail assina com o domínio dele e o cliente vê *"via gmail.com"* na
+proposta, além dos limites de envio do Gmail.
+
+Use a Cloudflare para **site e DNS**, onde ela é imbatível, e o Zoho para email. Os dois convivem: os
+registros MX do Zoho ficam na mesma zona DNS.
+
+### Zoho Mail
+
+O plano gratuito do **Zoho Mail** aceita até 5 usuários com domínio próprio, envia e recebe, e assina
+com DKIM no teu domínio. É o caminho mais barato para começar, e migrar para o Google Workspace
+depois é simples.
 
 1. Criar conta em [zoho.com/mail](https://www.zoho.com/pt-br/mail/) e escolher o plano gratuito
 2. Adicionar o domínio `borinprojetos.com.br`
