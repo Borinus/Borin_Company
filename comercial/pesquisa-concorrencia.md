@@ -34,6 +34,16 @@ Quando a ferramenta virar commodity, sobra o preço baixo e nenhuma margem. O pr
 **entrada**, não como posicionamento permanente — o que já está registrado como condição de abertura
 em `precificacao.md`.
 
+**Atualização da rodada 5 — o produto equivalente já é vendido em português.** O **EPLAN eBuild**
+gera projeto completo a partir de um assistente de configuração, com material de divulgação em
+português brasileiro dizendo que "transforma horas em minutos". É o mesmo ciclo da ferramenta da
+Borin, de prateleira.
+
+Duas consequências práticas:
+
+1. **Nunca anunciar a automação no site.** Dizer "gero rápido porque automatizo" convida à resposta óbvia: *então eu compro a mesma ferramenta*. Vender prazo, conferência e entrega não tem contra-resposta
+2. **A janela é curta.** Nenhum integrador brasileiro comunica geração automática hoje. Isso dá provavelmente dois ou três anos de vantagem real de prazo — e é o tempo disponível para construir a biblioteca própria e a base de Perfis de Padrão, que é o que sobra quando a ferramenta virar commodity
+
 ### 2. Referências de preço no Brasil
 
 Números públicos, de fontes de mercado, para projeto elétrico predial e industrial. **Não são
@@ -130,7 +140,7 @@ cliente, não rival.
 - [ ] Faixa de preço praticada em projeto de painel por I/O ou por folha
 - [x] Como as ofertas gringas de *electrical design outsourcing* estruturam pacote e prazo — rodada 3
 - [x] Casos de fabricante de máquina que terceiriza projeto: o que reclamam, o que valorizam — rodada 4
-- [ ] Concorrentes que já usam geração automática e como comunicam isso ao cliente
+- [x] Concorrentes que já usam geração automática e como comunicam isso ao cliente — rodada 5
 - [x] Marketplaces e plataformas de freelance: quanto se pratica e qual o perfil de demanda — rodada 2
 - [x] Se algum player publica prazo garantido — e como se protege — rodada 3
 - [ ] Como o mercado gringo cobra revisão e mudança de escopo
@@ -330,3 +340,61 @@ Vale virar um terceiro item de tabela em `precificacao.md`, ao lado dos Escopos 
 [Production Machining](https://productionmachining.com/blog/post/outsourcing-optimizes-control-panel-construction) ·
 [Quality Control in Outsourcing](https://medium.com/@herrik.p/quality-control-in-outsourcing-where-standards-slip-unnoticed-241e63f56442) ·
 [Vista Linda — As Built em instalações elétricas](https://www.vistalindatopografia.com.br/blog/categorias/artigos/as-built-em-instalacoes-eletricas-guia-completo)
+
+---
+
+## Rodada 5 — 29/07/2026
+
+**Lacuna atacada:** quem já usa geração automática e como comunica isso ao cliente.
+
+### O produto que faz exatamente o que a ferramenta da Borin faz — e é vendido no Brasil
+
+**EPLAN eBuild.** Solução em nuvem de geração automática de projeto: em vez de desenhar esquema por
+esquema, o usuário **configura o que precisa num assistente** e o eBuild gera o projeto completo. O
+título do material de divulgação em português é literal: *"transforma horas em minutos"*.
+
+É a descrição do ciclo ficha → geração da Borin, vendida como produto de prateleira, em português,
+para o mercado brasileiro.
+
+**Consequência direta para a estratégia.** Confirma e endurece a conclusão 1: o método não é fosso.
+Qualquer integradora da Serra que assine o eBuild passa a gerar projeto em minutos também. O que ela
+**não** vai ter é a biblioteca de macros do domínio e o Perfil de Padrão de cada cliente.
+
+Reforça também a decisão de não anunciar a automação no site. Anunciar "gero rápido porque automatizo"
+convida à resposta óbvia: *então eu compro a mesma ferramenta*. Anunciar entrega, conferência e prazo
+não tem essa contra-resposta.
+
+### Ninguém no Brasil comunica isso ao cliente final
+
+Procurando integrador ou fabricante de painel brasileiro que use geração automática como argumento de
+venda, o resultado é vazio. As empresas que aparecem — [Ecos Engenharia](https://www.ecos.eng.br/painel-eletrico-automacao),
+[Alpha Sistemas Elétricos](https://www.alphasistemaseletricos.com.br/quadros-eletricos-automacao),
+[VR Energia](https://www.vrenergia.com.br/painel-automacao-gerador),
+[DBTec](https://dbtec.com.br/post/painel-eletrico-e-automacao/) — falam de painel inteligente,
+SCADA e integração de dados. Nenhuma menciona automação **do próprio processo de projetar**.
+
+**Leitura:** a tecnologia existe e é vendida aqui, mas o mercado local ainda não a adotou nem a
+comunica. Há uma janela — de dois ou três anos, provavelmente — em que quem gera rápido tem vantagem
+real de prazo sem que o cliente saiba que isso é comprável.
+
+**Como usar sem entregar o ouro:** vender o *efeito* (prazo curto, revisão rápida, consistência entre
+projetos) e nunca o *mecanismo*. Quem compra prazo não pergunta como.
+
+### O mercado maduro vende o efeito, não a ferramenta
+
+O padrão de comunicação lá fora, em fabricantes de máquina e configuradores industriais, confirma
+isso. O que se anuncia:
+
+- Documentos essenciais gerados **sem passar pela engenharia** — desenho técnico, BOM, instruções de montagem
+- Vendedor não espera mais por desenho e viabilidade para fechar orçamento
+- Módulos reutilizáveis padronizados para CLP, inversor, relé, disjuntor, borne, IHM, fonte
+- Coordenação entre engenharia e oficina usando a mesma informação de projeto
+
+Tudo escrito em termos de **ganho para o cliente**, nunca em termos de software. É o modelo de
+redação a copiar.
+
+**Fontes:** [EPLAN eBuild — geração automática](https://www.eplan.com/br-pt/blog/software/geracao-automatica-de-projetos-eletricos-ebuild) ·
+[E-Abel — Control Panel Builders: Automation Growth](https://www.eabel.com/control-panel-builders-scalable-growth-via-automation/) ·
+[KBMax — CPQ / configure to order](https://kbmax.com/cpq-solutions/modular-building-configuration/) ·
+[Zuken — modular design strategies](https://www.zuken.com/us/blog/modular-design-strategies-explained-platform-based-vs-150-design/) ·
+[Rittal — machine and panel builders](https://www.rittal.com/us-en_US/Solutions/Industry-Solutions/Machine-Builders-Panel-Builders-Systems-Integrators)
