@@ -45,15 +45,23 @@ curriculo/
 # (symlink no Mac/Linux, cópia no Windows). Nunca vai pro git.
 .agents/
 
+# Junction pros subagentes do CONFERENCIAS (material confidencial, mora lá). Nunca vai pro git.
+.claude/agents/
+
 # Arquivos gerados pelo uso/registro das skills (conteúdo pessoal, nunca no kit)
 automacoes-dm.md
 prioridades.md
 contas.yaml
 
+# Area de staging pra material trazido de fora (site antigo, pastas de referencia).
+# Fica fora do git ate a gente separar o que e reaproveitavel do que e material de terceiro.
+_importar/
+
 # Material de projeto real usado como referencia — NUNCA vai pro git.
 # Sao arquivos de cliente/empregador: confidencialidade antes de tudo.
 04003478*/
 CONFERENCIAS/
+CONFERENCIAS*/
 CONFERENCIAS*.zip
 *_REFERENCIA/
 referencia-projetos/
@@ -65,3 +73,15 @@ site/publico/
 # Sistema
 .DS_Store
 node_modules/
+
+# artefatos de build e de teste do site
+site/publico.novo/
+site/publico.velho/
+site/ultimo-teste*.png
+site/_teste_tmp/
+
+__pycache__/
+*.pyc
+# documentos gerados: tem dado de cliente e sao refeitos por comando
+comercial/propostas/
+comercial/contratos/

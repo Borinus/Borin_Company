@@ -10,43 +10,46 @@
 Antes de prospectar o primeiro cliente, isso precisa existir. É o que separa "conhecido que faz
 projeto" de "fornecedor".
 
-### 1. Domínio
+### 1. Domínio — pronto
 
-`borinprojetos.com.br` — R$ 40/ano direto no [registro.br](https://registro.br), mesmo preço na
-renovação. **É o primeiro passo e trava tudo que vem depois**: sem domínio não existe email da
-empresa.
+`borinprojetos.com.br`, registrado em 29/07/2026, R$ 40/ano. **Vence em 28/07/2027.** DNS na
+Cloudflare. Detalhes e comandos de conferência em `site/dns.md`.
 
-### 2. Email profissional
+### 2. Email profissional — funcionando, com limite
 
-Enviar proposta de Gmail pessoal derruba o preço antes de o cliente ler o valor.
+`contato@borinprojetos.com.br` e `mateus@borinprojetos.com.br` estão ativos desde 29/07/2026, via
+**Cloudflare Email Routing** (gratuito), encaminhando pro Gmail.
 
-| Opção | Custo | Observação |
-|---|---|---|
-| **Zoho Mail** | Plano gratuito aceita até 5 usuários | O caminho mais barato pra começar. Confira o armazenamento do plano gratuito na hora de assinar |
-| **Google Workspace Business Starter** | R$ 32,72 por usuário/mês no anual | Preço promocional dos primeiros 12 meses; depois vai pro cheio. Vale se você já vive no ecossistema Google |
+**O que isso faz e o que não faz:** recebe e encaminha, mas **não envia**. Ao responder, o cliente vê
+o Gmail pessoal como remetente. Para primeiro contato serve; para negociar proposta, não.
 
-Recomendação: **Zoho no começo**. Migrar pro Google depois é simples e você não paga mensalidade
-antes de faturar.
+> O plano gratuito do Zoho com domínio próprio **deixou de existir** em julho de 2026 — a página de
+> inscrição saiu do ar. Sobrou Mail Lite (~US$ 1/usuário/mês no anual), Premium e teste de 15 dias.
+> Por isso a escolha foi Cloudflare agora.
 
-Endereços: `mateus@borinprojetos.com.br` para você, e `contato@borinprojetos.com.br` como caixa
-geral. Não crie mais que isso — empresa de uma pessoa com seis emails engana ninguém.
+**Gatilho de migração: primeiro cliente real → assinar o Zoho Mail Lite.** Aí o email envia assinado
+com DKIM do próprio domínio. Passo a passo com os valores de SPF, DKIM e DMARC na Etapa 4 do
+`site/dns.md`.
+
+Não criar mais endereços que esses dois — empresa de uma pessoa com seis emails engana ninguém.
 
 **Assinatura de email:** conforme `marca/design-guide.md`. Logo, nome, função, cidade. Sem frase de
 efeito, sem "enviado do meu iPhone", sem imagem pesada.
 
-### 3. Assinatura de documento
+### 3. Site — no ar
+
+`https://borinprojetos.com.br` e `www.`, publicado em 29/07/2026 no Cloudflare Pages, com SSL.
+
+### 4. Assinatura de documento
 
 Proposta e contrato assinados digitalmente. O [Assinador Gov.br](https://assinador.iti.br) é gratuito
 e tem validade jurídica — dispensa contratar plataforma de assinatura no começo.
 
-### 4. Formalização
+### 5. Formalização — pendente, e é o que trava agora
 
-Conversar com um contador antes de emitir a primeira nota. Pontos a resolver com ele:
-
-- MEI, ME ou autônomo com RPA — qual enquadramento cabe no faturamento previsto e na atividade
-- Qual CNAE cobre projeto e documentação técnica, e se a atividade é aceita no MEI
-- Qual o teto de faturamento vigente do enquadramento escolhido
-- Como emitir nota de serviço no município
+**Ver `comercial/formalizacao.md`.** Lá está a decisão de enquadramento (ME no Simples, não MEI), a
+questão do CNAE — que é crítica, porque o código de "serviços de engenharia" exige registro no CREA
+que você não pode ter — o Fator R do Simples, a emissão de NFS-e em Caxias e a ordem de execução.
 
 Não chute nada disso. Enquadramento errado dá dor de cabeça retroativa.
 
