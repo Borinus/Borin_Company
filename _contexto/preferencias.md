@@ -32,3 +32,10 @@ formalidade empolada. É o rosto do negócio pra fora — precisa passar compet�
 
 - Direção visual da marca: minimalista, monocromático
 - Quando houver decisão técnica com mais de um caminho, dar a recomendação e o porquê, não uma lista de opções neutra
+- **Nunca citar o nome da ferramenta de CAD em material de cliente** (site, proposta, email, contrato,
+  abordagem). O Mateus não usa EPLAN no negócio próprio e não quer a palavra escrita — nem sugerida
+  como melhoria. Vender o entregável e o padrão, nunca o software. Instrução dada em 30/07/2026.
+
+- Resposta objetiva: resultado primeiro, sem recapitular. Terminar sempre com **uma frase**
+  dizendo o que o Mateus tem que fazer — ou que não tem nada pra ele fazer. Detalhe longo
+  vai pra arquivo do repositório, não pra conversa. (01/08/2026)
