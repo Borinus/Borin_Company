@@ -45,81 +45,89 @@ Quadro Resumo, Ficha Técnica, Padrão de Entrega, Proposta.
 inclusos ART, programação de CLP, IHM e supervisório, montagem, comissionamento, execução da
 instalação, compra de material, visita técnica e arquivo-fonte.
 
-**3.** A verificação e a aprovação técnica final, antes de fabricar, montar, instalar ou energizar,
+**3.** BORIN responde pela documentação que elabora. Ela sai correta, coerente com a Ficha Técnica e
+com o Padrão de Entrega, e em condições de ser usada na fabricação e na montagem. Se aparecer erro,
+divergência ou omissão na documentação — durante a execução e ao longo da garantia da cláusula 15,
+inclusive na montagem e na partida do equipamento — BORIN corrige sem custo e quantas vezes for
+necessário, na forma da cláusula 8. O
+compromisso dele é a documentação funcionar, não apenas ser entregue.
+
+**4.** A verificação e a aprovação técnica final, antes de fabricar, montar, instalar ou energizar,
 cabem ao CLIENTE, por seu corpo técnico ou por profissional legalmente habilitado que ele designar.
 Os campos de verificação, aprovação e responsabilidade técnica são entregues em branco; no campo de
 elaboração consta apenas o nome de BORIN, sem título profissional e sem registro em conselho. BORIN
-não é responsável técnico pelo equipamento nem pela instalação e não responde pela decisão técnica
-final; responde pela correção do que elabora.
+não assume a responsabilidade técnica pelo equipamento ou pela instalação e não responde por decisão
+tomada pelo CLIENTE ou por terceiro, nem por execução, material ou montagem que divirjam da
+documentação entregue.
 
-**4.** Quando a ART for exigida, o CLIENTE contrata e paga o profissional habilitado diretamente,
+**5.** Quando a ART for exigida, o CLIENTE contrata e paga o profissional habilitado diretamente,
 fora deste preço; ajuste exigido por critério técnico desse profissional é alteração de escopo. O
 CLIENTE não apresenta BORIN a terceiros como responsável técnico ou autor do projeto, nem o inclui
 em ART.
 
-**5.** A Ficha Técnica é a base técnica do contrato e prevalece sobre acerto verbal, mensagem avulsa
+**6.** A Ficha Técnica é a base técnica do contrato e prevalece sobre acerto verbal, mensagem avulsa
 e versão anterior. O CLIENTE a confirma por email, responde por informação incorreta ou omitida e
 indica quem decide e aprova. BORIN não tem o dever de conferir esses dados em campo, mas comunica
 por escrito a inconsistência que identificar.
 
-**6.** O prazo corre do que ocorrer por último entre o pagamento da parcela inicial e o recebimento
+**7.** O prazo corre do que ocorrer por último entre o pagamento da parcela inicial e o recebimento
 da Ficha Técnica completa. Fica suspenso enquanto o CLIENTE não fornecer informação solicitada, não
 se manifestar sobre uma emissão ou aditivo, ou estiver em atraso de pagamento; retomado o fluxo,
 corre pelos dias que restavam. Atraso imputável a BORIN gera multa de 0,5% do preço por dia útil,
 limitada a 5% do total.
 
-**7.** Divergência entre a documentação entregue e o escopo contratado ou as premissas da Ficha
+**8.** Divergência entre a documentação entregue e o escopo contratado ou as premissas da Ficha
 Técnica é erro de BORIN: ele corrige sem custo, sem limite de acionamentos e sem consumir rodada.
 
-**8.** Qualquer outro ajuste pedido pelo CLIENTE dentro do escopo é revisão: duas rodadas inclusas,
+**9.** Qualquer outro ajuste pedido pelo CLIENTE dentro do escopo é revisão: duas rodadas inclusas,
 contadas da primeira emissão. Da terceira em diante, R$ 250,00 por hora técnica, com estimativa
 aprovada por email antes.
 
-**9.** Conta como uma única rodada tudo o que o CLIENTE encaminhar em até 5 dias úteis do seu
+**10.** Conta como uma única rodada tudo o que o CLIENTE encaminhar em até 5 dias úteis do seu
 primeiro pedido sobre uma emissão, venha de quem vier. A janela encerra antes se ele declarar por
 email que a lista está completa.
 
-**10.** Alteração de escopo é o pedido que altera dado da Ficha Técnica — dado omitido equivale a
+**11.** Alteração de escopo é o pedido que altera dado da Ficha Técnica — dado omitido equivale a
 campo alterado — ou que exige documento fora do Padrão de Entrega. BORIN responde com preço, prazo e
 o campo alterado, e executa após aprovação por email. Sem alteração de dado, é revisão.
 
-**11.** A entrega é aceita por email; por conduta, como pedido de compra pela lista de materiais ou
+**12.** A entrega é aceita por email; por conduta, como pedido de compra pela lista de materiais ou
 início da montagem; ou por decurso, se passarem 10 dias úteis sem retorno e mais 5 após aviso de
 BORIN. O aceite encerra as rodadas e vence a parcela final.
 
-**12.** Adicionais fora do estimado: página R$ 235,00 e item fora do banco R$ 250,00. Antes de
+**13.** Adicionais fora do estimado: página R$ 235,00 e item fora do banco R$ 250,00. Antes de
 desenhar, BORIN apura e comunica a contagem definitiva; absorve até 15% acima do estimado, e o que
 passar dos 15% sai em aditivo, executado após aprovação por email. Para menos, o preço fechado é
 mantido.
 
-**13.** Pagamento: 40% na assinatura, condição para iniciar, e 60% na aprovação, com vencimento em
+**14.** Pagamento: 40% na assinatura, condição para iniciar, e 60% na aprovação, com vencimento em
 15 dias. As parcelas são antecipação de preço, não sinal nem arras, afastados os arts. 417 a 420 do
 Código Civil. O atraso gera multa de 2% e juros de 1% ao mês e, passados 15 dias, BORIN suspende a
 execução e retém os documentos não pagos, sem que isso configure inadimplemento de sua parte.
 
-**14.** BORIN garante a documentação por 12 meses do aceite e corrige sem custo a divergência em
+**15.** BORIN garante a documentação por 12 meses do aceite e corrige sem custo a divergência em
 relação ao escopo e à Ficha Técnica. A garantia não cobre mudança de necessidade do CLIENTE,
 alteração feita por terceiro nem consequência de informação incorreta que ele tenha prestado.
 
-**15.** A responsabilidade de BORIN, somadas todas as reclamações, limita-se ao valor deste
+**16.** A responsabilidade de BORIN, somadas todas as reclamações, limita-se ao valor deste
 contrato, salvo dolo. Nenhuma das partes responde por lucros cessantes ou dano indireto.
 
-**16.** Pago o preço, o CLIENTE usa e modifica a documentação neste projeto. O arquivo-fonte não
+**17.** Pago o preço, o CLIENTE usa e modifica a documentação neste projeto. O arquivo-fonte não
 integra a entrega; BORIN o arquiva por 5 anos e pode fornecê-lo por preço adicional. BORIN segue
 livre para reusar seus próprios padrões e seu banco de artigos.
 
-**17.** As partes mantêm sigilo por 2 anos após o encerramento. BORIN não identifica o CLIENTE em
+**18.** As partes mantêm sigilo por 2 anos após o encerramento. BORIN não identifica o CLIENTE em
 portfólio sem autorização escrita.
 
-**18.** Qualquer das partes encerra o contrato com aviso escrito de 15 dias. Iniciada a execução, é
+**19.** Qualquer das partes encerra o contrato com aviso escrito de 15 dias. Iniciada a execução, é
 devido o valor proporcional às páginas emitidas, compensada a parcela inicial, e o CLIENTE recebe o
 que estiver pronto.
 
-**19.** Alteração deste contrato, aditivo e aceite só valem por email, nos endereços da assinatura.
+**20.** Alteração deste contrato, aditivo e aceite só valem por email, nos endereços da assinatura.
 Acerto verbal não muda preço, prazo nem escopo. Este contrato não cria vínculo empregatício,
 societário nem de exclusividade, e nenhuma das partes o cede sem concordância escrita da outra.
 
-**20.** As partes reconhecem a validade da assinatura eletrônica, em qualquer padrão que permita
+**21.** As partes reconhecem a validade da assinatura eletrônica, em qualquer padrão que permita
 verificar autoria e integridade, neste contrato e nos aditivos. Fica eleito o foro da Comarca de
 Caxias do Sul/RS.
 
