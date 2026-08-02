@@ -44,3 +44,26 @@ Nos dois casos, dispara o email com `ctx.waitUntil(...)` para o formulário resp
 ## 4. A armadilha do DMARC p=reject
 
 Teu domínio está em `p=reject`, o que significa que email com DKIM desalinhado é **rejeitado na borda do destinatário** — não cai no spam, não volta aviso, simplesmente não existe para o cliente, e você fica achando que ele te ignorou. Por isso: nunca dispare em produção antes de ver o domínio "Verified" no painel do provedor e de abrir um email de teste real (manda para um Gmail e para um Outlook) e conferir no cabeçalho `dkim=pass`, `spf=pass` e `dmarc=pass` com `header.from=borinprojetos.com.br` — e publique os registros na Cloudflare com o proxy **desligado** (nuvem cinza), porque registro proxiado quebra a verificação.
+
+---
+
+## Estado em 01/08/2026 — ligado e verificado
+
+Transporte: **Resend**, região `sa-east-1` (São Paulo). Chave como secret do Worker.
+
+| Registro | Estado |
+|---|---|
+| `resend._domainkey` TXT (DKIM) | verified |
+| `send` TXT (SPF, amazonses) | verified |
+| `send` MX (retorno) | verified |
+| MX na raiz (recebimento) | **pending, de propósito** |
+
+O domínio aparece como `partially_verified` na Resend e **está certo assim**. O único
+registro faltando é um MX de *recebimento* na raiz — publicá-lo derrubaria o email que chega
+em `contato@borinprojetos.com.br`, porque a raiz aponta pro Cloudflare Email Routing, que
+entrega no Gmail. Envio verificado, recebimento intocado. O `ligar-email.py` pula esse
+registro de propósito.
+
+**Prova de entrega:** dois emails reais enviados para o mail-tester, ambos **10/10**, com
+"você está autenticado adequadamente" — um disparado direto pela API, outro pelo funil
+completo do site (formulário → conta criada → senha entregue ao cliente).

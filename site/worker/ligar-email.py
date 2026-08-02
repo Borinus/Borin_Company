@@ -115,6 +115,14 @@ def publicar(reg, aplicar):
     tipo = (reg.get("type") or "").upper()
     valor = reg.get("value") or ""
 
+    # MX na RAIZ e registro de RECEBIMENTO. Publicar isso derruba o email que
+    # chega em contato@borinprojetos.com.br, porque a raiz ja aponta pro
+    # Cloudflare Email Routing, que entrega no Gmail do Mateus. O dominio fica
+    # "partially_verified" na Resend de proposito: envio verificado, recebimento
+    # nao — que e exatamente o que se quer.
+    if tipo == "MX" and nome == DOMINIO:
+        return "PULADO de proposito (MX de recebimento, ver comentario)", nome
+
     s, d = cloudflare("/dns_records?type=%s&name=%s" % (tipo, nome))
     existentes = (d.get("result") or []) if s == 200 else []
     for e in existentes:

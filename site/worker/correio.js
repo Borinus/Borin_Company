@@ -196,11 +196,13 @@ async function porResend(env, o, para) {
 
 /* O email era pro cliente e não dá pra alcançá-lo. Vai pro Mateus, com
    etiqueta, pra ele repassar na mão — e pra ele SABER que precisa repassar. */
-async function entregarAoDono(env, o, queriaIr) {
+async function entregarAoDono(env, o, queriaIr, falha) {
   const aviso =
     "ESTE EMAIL ERA PARA O CLIENTE E NAO PUDE ENTREGAR.\n" +
     "Destinatario pretendido: " + queriaIr + "\n" +
-    "Motivo: o site ainda nao tem transporte de email para terceiros.\n" +
+    "Motivo: " + (falha
+      ? "o transporte recusou — " + String(falha).slice(0, 300)
+      : "o site ainda nao tem transporte de email para terceiros") + "\n" +
     "Repasse este conteudo na mao, ou ligue o envio (ver site/worker/correio.js).\n" +
     "\n" + "-".repeat(58) + "\n\n";
 
@@ -232,12 +234,23 @@ export async function enviarPara(env, o) {
 
   const destino = meu ? env.DESTINO : para;
 
-  if (env.RESEND_API_KEY) {
-    await porResend(env, o, destino);
-  } else {
-    const bruto = montarEmail(env.REMETENTE, destino, o.assunto, o.corpo,
-      o.responder, o.html, o.anexos);
-    await porBinding(env, destino, bruto);
+  try {
+    if (env.RESEND_API_KEY) {
+      await porResend(env, o, destino);
+    } else {
+      const bruto = montarEmail(env.REMETENTE, destino, o.assunto, o.corpo,
+        o.responder, o.html, o.anexos);
+      await porBinding(env, destino, bruto);
+    }
+    return { entregue: true, para: destino };
+  } catch (e) {
+    /* O transporte recusou — domínio ainda não verificado, cota estourada,
+       serviço fora do ar. Se era pro cliente, NÃO deixa sumir: cai pro
+       Mateus com a tarja, que é o mesmo destino de quando não há transporte
+       nenhum. Sem isso, ligar a Resend antes de verificar o domínio seria
+       pior que não ter ligado. */
+    console.error("transporte recusou:", e && e.message);
+    if (meu) { throw e; }
+    return entregarAoDono(env, o, para, e && e.message);
   }
-  return { entregue: true, para: destino };
 }
