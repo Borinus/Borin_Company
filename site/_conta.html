@@ -1,0 +1,180 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meus projetos — Borin Projetos Elétricos</title>
+<meta name="description" content="Andamento dos seus projetos.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media(prefers-color-scheme%3Adark)%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+.projeto { border: 1px solid var(--rule); margin-bottom: 0.9rem; }
+.projeto__topo {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.6rem 1rem; flex-wrap: wrap;
+  padding: 0.85rem 1rem; border-bottom: 1px solid var(--rule);
+}
+.projeto__nome { font-weight: 600; font-size: var(--fs-body); }
+.projeto__cod { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro); }
+
+/* a trilha de etapas: a atual em Comando, as passadas cheias, as futuras vazias */
+.trilha { display: flex; flex-wrap: wrap; gap: 1px; background: var(--rule); }
+.trilha div {
+  background: var(--ground); flex: 1 1 6rem; padding: 0.5rem 0.6rem;
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.trilha .no { width: 0.45rem; height: 0.45rem; background: var(--rule); flex: none; }
+.trilha .passou .no { background: var(--ink); }
+.trilha .passou { color: var(--ink-soft); }
+.trilha .agora { color: var(--acento); }
+.trilha .agora .no { background: var(--acento); }
+
+.projeto__pe { padding: 0.75rem 1rem; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: center; }
+.dado-linha { display: flex; flex-direction: column; gap: 0.1rem; }
+.dado-linha b { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-micro); font-weight: 400; }
+.dado-linha span { font-size: var(--fs-small); }
+.projeto__nota { padding: 0 1rem 0.85rem; font-size: var(--fs-small); color: var(--ink-soft); }
+
+.vazio { border: 1px solid var(--rule); padding: 1.2rem; font-size: var(--fs-small); color: var(--ink-soft); }
+.oculto { display: none; }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/">← Início</a>
+
+    <div>
+      <span class="rotulo" id="rotulo">Meus projetos</span>
+      <h1 id="titulo">Carregando…</h1>
+      <p class="topo__texto" id="subtitulo"></p>
+    </div>
+  </header>
+
+  <div id="corpo"></div>
+
+  <div class="bloco" id="acoes" style="display:none">
+    <div class="bloco__cabeca"><h2>Suas fichas</h2></div>
+    <div class="acoes">
+      <a class="botao" href="/cadastro">Dados da empresa</a>
+      <a class="botao botao--vazado" href="/padrao">Padrão da minha empresa</a>
+      <a class="botao botao--vazado" href="/projeto">Ficha do projeto</a>
+    </div>
+    <div class="acoes">
+      <button type="button" class="link-acao" id="btSair">Sair</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Meus projetos</span></div>
+      <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+function esc(t) {
+  return String(t == null ? '' : t)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function dataCurtaISO(iso) {
+  try {
+    var d = new Date(iso), z = function (n) { return (n < 10 ? '0' : '') + n; };
+    return z(d.getDate()) + '/' + z(d.getMonth() + 1);
+  } catch (e) { return ''; }
+}
+
+/* A trilha mostra onde o projeto esta sem o cliente precisar perguntar.
+   E a resposta pro "e o meu projeto?" que hoje chega por WhatsApp. */
+function trilha(etapas, atual) {
+  var i = etapas.indexOf(atual);
+  return '<div class="trilha">' + etapas.map(function (e, n) {
+    var cls = n < i ? 'passou' : (n === i ? 'agora' : '');
+    return '<div class="' + cls + '"><span class="no"></span>' + esc(e) + '</div>';
+  }).join('') + '</div>';
+}
+
+function cartao(p, etapas) {
+  var h = '<div class="projeto">';
+  h += '<div class="projeto__topo">'
+     + '<span class="projeto__nome">' + esc(p.nome || 'Projeto ' + p.codigo) + '</span>'
+     + '<span class="projeto__cod">#' + esc(p.codigo) + '</span></div>';
+  h += trilha(etapas, p.status);
+
+  var pe = '';
+  if (p.prazo) {
+    pe += '<div class="dado-linha"><b>Entrega prevista</b><span>' + esc(p.prazo) + '</span></div>';
+  }
+  if (p.atualizado_em) {
+    pe += '<div class="dado-linha"><b>Atualizado</b><span>' + dataCurtaISO(p.atualizado_em) + '</span></div>';
+  }
+  if (p.link) {
+    pe += '<a class="botao" href="' + esc(p.link) + '" target="_blank" rel="noopener">Baixar a entrega</a>';
+  }
+  if (pe) { h += '<div class="projeto__pe">' + pe + '</div>'; }
+  if (p.nota) { h += '<p class="projeto__nota">' + esc(p.nota) + '</p>'; }
+
+  return h + '</div>';
+}
+
+function montar(d) {
+  var corpo = document.getElementById('corpo');
+  document.getElementById('titulo').textContent =
+    d.contato ? d.contato.split(' ')[0] + ', seus projetos' : 'Seus projetos';
+  document.getElementById('subtitulo').textContent =
+    (d.empresa ? d.empresa + ' · ' : '') + d.email;
+  document.getElementById('acoes').style.display = 'flex';
+
+  if (!d.projetos.length) {
+    corpo.innerHTML = '<div class="vazio">Nenhum projeto em andamento ainda. '
+      + 'Assim que o contrato for assinado, ele aparece aqui com o andamento.'
+      + (d.fichas.length ? ' Suas fichas preenchidas continuam salvas.' : '')
+      + '</div>';
+    return;
+  }
+  corpo.innerHTML = d.projetos.map(function (p) { return cartao(p, d.etapas); }).join('');
+}
+
+document.getElementById('btSair').addEventListener('click', function () {
+  api('sair', {}).then(function () { location.href = '/entrar'; });
+});
+
+fetch('/api/acesso/projetos', { credentials: 'same-origin' })
+  .then(function (r) { return r.json(); })
+  .then(function (d) {
+    if (!d.entrou) { location.href = '/entrar?ir=/conta'; return; }
+    montar(d);
+  })
+  .catch(function () {
+    document.getElementById('titulo').textContent = 'Não consegui carregar.';
+    document.getElementById('subtitulo').textContent = 'Verifique a conexão e recarregue a página.';
+  });
+</script>
+
+<!-- ANALYTICS -->

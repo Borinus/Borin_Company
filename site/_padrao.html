@@ -1,0 +1,257 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Padrão do cliente — Borin Projetos Elétricos</title>
+<meta name="description" content="Perfil de Padrão: preenchido uma vez, vale para todos os seus projetos.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/">← Início</a>
+
+    <div>
+      <span class="rotulo">Perfil de Padrão</span>
+      <h1>Preenchido uma vez, vale pra todos os seus projetos.</h1>
+      <p class="topo__texto">O que não muda de um projeto pro outro. Depois disso, cada projeto novo pede só o que é dele.</p>
+    </div>
+
+    <div class="perfil-barra" id="perfilBarra">
+      <span class="perfil-barra__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Já preenchido antes</span></span>
+      <p class="perfil-barra__resumo" id="perfilResumo"></p>
+      <div class="perfil-barra__acoes">
+        <button type="button" class="link-acao" onclick="apagarPadrao()">Começar do zero</button>
+      </div>
+    </div>
+  </header>
+
+  <form onsubmit="return false;">
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Empresa</h2></div>
+      <div class="grade">
+        <div class="campo"><label for="empresa">Razão social</label><input type="text" id="empresa" data-perfil></div>
+        <div class="campo"><label for="contato">Contato do projeto</label><input type="text" id="contato" data-perfil></div>
+        <div class="campo"><label for="email">Email</label><input type="email" id="email" data-perfil></div>
+        <div class="campo"><label for="aprovador">Quem aprova tecnicamente</label><input type="text" id="aprovador" data-perfil></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Tensões e instalação</h2></div>
+      <div class="grade">
+        <div class="campo"><label for="alim">Tensão entre fases</label><input type="text" id="alim" data-perfil value="380 V" list="l_tensao"></div>
+        <div class="campo"><label for="comando">Comando</label><input type="text" id="comando" data-perfil value="24 Vcc" list="l_comando"></div>
+        <div class="campo"><label for="aterramento">Esquema de aterramento</label><input type="text" id="aterramento" data-perfil value="TN" list="l_aterra"></div>
+        <div class="campo"><label for="ip">Grau de proteção</label><input type="text" id="ip" data-perfil value="IP54" list="l_ip"></div>
+        <div class="campo"><label for="ambiente">Ambiente típico</label><input type="text" id="ambiente" data-perfil value="Abrigado" list="l_ambiente"></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Automação padrão</h2></div>
+      <div class="grade">
+        <div class="campo"><label for="clp">CLP</label><input type="text" id="clp" data-perfil list="l_fab" placeholder="escolha ou digite"></div>
+        <div class="campo"><label for="ihm">IHM ou supervisório</label><input type="text" id="ihm" data-perfil list="l_fab" placeholder="escolha ou digite"></div>
+        <div class="campo"><label for="rede">Rede</label><input type="text" id="rede" data-perfil list="l_rede" placeholder="escolha ou digite"></div>
+        <div class="campo"><label for="seg">Segurança</label><input type="text" id="seg" data-perfil list="l_seg" placeholder="escolha ou digite"></div>
+        <div class="campo"><label for="reserva">Reserva de I/O exigida</label><input type="text" id="reserva" data-perfil placeholder="20% por módulo"></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Marcas por família</h2>
+        <p>Deixe em branco o que eu posso escolher.</p>
+      </div>
+      <div class="grade">
+        <div class="campo"><label for="m_borne">Borne</label><input type="text" id="m_borne" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_disjuntor">Disjuntor e proteção</label><input type="text" id="m_disjuntor" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_rele">Relé e contatora</label><input type="text" id="m_rele" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_fonte">Fonte</label><input type="text" id="m_fonte" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_clp">CLP</label><input type="text" id="m_clp" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_perif">Periféricos</label><input type="text" id="m_perif" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_cabo">Cabo e conduíte</label><input type="text" id="m_cabo" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_quadro">Quadro e estrutura</label><input type="text" id="m_quadro" data-perfil list="l_fab"></div>
+        <div class="campo"><label for="m_sensor">Sensor e instrumento</label><input type="text" id="m_sensor" data-perfil list="l_fab"></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Fiação</h2></div>
+      <div class="grade grade--larga">
+        <div class="campo">
+          <label for="cores">Cores de cabo por função</label>
+          <textarea id="cores" style="min-height: 7rem;" data-perfil>Fase R — preto
+Fase S — preto
+Fase T — preto
+Neutro — azul claro
+Terra — verde/amarelo
+Comando 24 Vcc  V+ — vermelho
+Comando 24 Vcc  V− — azul</textarea>
+        </div>
+      </div>
+      <div class="grade">
+        <div class="campo"><label for="secao">Seção padrão de comando</label><input type="text" id="secao" data-perfil placeholder="0,5 mm²"></div>
+        <div class="campo"><label for="isolacao">Isolação exigida</label>
+          <select id="isolacao" data-perfil>
+            <option>PVC</option><option>EPR</option><option>HEPR</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco" hidden>
+      <div class="bloco__cabeca"><h2>Identificação e documentos</h2></div>
+      <div class="grade grade--larga">
+        <div class="campo">
+          <label for="tag">Padrão de tag</label>
+          <textarea id="tag" style="min-height: 4rem;" data-perfil placeholder="nomenclatura de dispositivo, borne e fio. Se seguir IEC 81346, só escrever isso"></textarea>
+        </div>
+      </div>
+      <div class="grade">
+        <div class="campo"><label for="etiqueta">Impressora e modelo de etiqueta</label><input type="text" id="etiqueta" data-perfil></div>
+        <div class="campo"><label for="folha">Template de folha exigido</label><input type="text" id="folha" data-perfil placeholder="se tiver carimbo próprio, informe"></div>
+        <div class="campo"><label for="idioma">Idioma da documentação</label><input type="text" id="idioma" data-perfil></div>
+        <div class="campo"><label for="entrega">Formato de entrega</label><input type="text" id="entrega" data-perfil placeholder="além do PDF e das planilhas"></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Códigos de ERP</h2></div>
+      <div class="grade grade--larga">
+        <div class="campo">
+          <label for="erp">De/para dos seus códigos</label>
+          <textarea id="erp" data-perfil placeholder="se a lista de materiais tem que sair com o código interno de vocês, cole aqui ou mande a planilha depois"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Sempre obrigatório</h2>
+        <p>O que entra em todo projeto, mesmo sem eu perguntar.</p>
+      </div>
+      <div class="marcas">
+        <label class="opcao"><input type="checkbox" id="ob_nr12" data-perfil><span class="opcao__texto"><span class="opcao__titulo">NR-12</span></span></label>
+        <label class="opcao"><input type="checkbox" id="ob_nr10" data-perfil><span class="opcao__texto"><span class="opcao__titulo">NR-10</span></span></label>
+        <label class="opcao"><input type="checkbox" id="ob_emerg" data-perfil><span class="opcao__texto"><span class="opcao__titulo">Botão de emergência</span></span></label>
+        <label class="opcao"><input type="checkbox" id="ob_secc" data-perfil><span class="opcao__texto"><span class="opcao__titulo">Seccionadora com bloqueio</span></span></label>
+      </div>
+      <div class="grade grade--larga" style="margin-top: 0.9rem;">
+        <div class="campo">
+          <label for="outras">Outras normas ou exigências internas</label>
+          <textarea id="outras" style="min-height: 4rem;" data-perfil></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco" style="margin-bottom: 0;">
+      <div class="bloco__cabeca"><h2>Enviar</h2></div>
+      <div class="acoes">
+        <button type="button" class="botao" onclick="enviarWhats()">Enviar pelo WhatsApp</button>
+        <button type="button" class="botao botao--vazado" onclick="enviarEmail()">Enviar por email</button>
+        <button type="button" class="botao botao--vazado" onclick="baixar()">Baixar como arquivo</button>
+        <button type="button" class="botao botao--vazado" onclick="verResumo()">Ver o que vai ser enviado</button>
+      </div>
+      <p class="aviso">Fica salvo neste navegador. No próximo projeto, o formulário de projeto já vem com esses dados e você não repreenche nada.</p>
+      <pre class="resumo" id="resumo"></pre>
+    </div>
+
+  </form>
+
+<datalist id="l_tensao"><option>220 V</option><option>380 V</option><option>440 V</option><option>480 V</option></datalist>
+<datalist id="l_comando"><option>24 Vcc</option><option>24 Vca</option><option>110 Vca</option><option>220 Vca</option></datalist>
+<datalist id="l_aterra"><option>TN</option><option>TN-S</option><option>TN-C</option><option>TT</option><option>IT</option></datalist>
+<datalist id="l_ip"><option>IP54</option><option>IP55</option><option>IP65</option><option>IP66</option></datalist>
+<datalist id="l_ambiente"><option>Abrigado</option><option>Ao tempo</option><option>Úmido</option><option>Corrosivo</option><option>Área classificada</option></datalist>
+<datalist id="l_fab"><option>Siemens</option><option>Rockwell / Allen-Bradley</option><option>Schneider</option><option>WEG</option><option>Phoenix Contact</option><option>Weidmüller</option><option>Delta</option><option>Mitsubishi</option><option>Omron</option><option>Beckhoff</option><option>Você escolhe</option></datalist>
+<datalist id="l_rede"><option>Profinet</option><option>EtherNet/IP</option><option>Modbus TCP</option><option>Modbus RTU</option><option>EtherCAT</option><option>Sem rede</option></datalist>
+<datalist id="l_seg"><option>Relé de segurança</option><option>CLP de segurança</option><option>Sem segurança dedicada</option></datalist>
+
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Perfil de Padrão</span></div>
+      <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+var DOC = 'Perfil de Padrao';
+
+var SECOES = [
+  { titulo: 'Empresa', campos: [
+      ['Razao social', 'empresa'], ['Contato', 'contato'],
+      ['Email', 'email'], ['Aprovador técnico', 'aprovador']] },
+  { titulo: 'Tensões e instalação', campos: [
+      ['Tensão entre fases', 'alim'], ['Comando', 'comando'],
+      ['Aterramento', 'aterramento'], ['Grau de proteção', 'ip'],
+      ['Ambiente', 'ambiente']] },
+  { titulo: 'Automação padrão', campos: [
+      ['CLP', 'clp'], ['IHM', 'ihm'], ['Rede', 'rede'],
+      ['Segurança', 'seg'], ['Reserva de I/O', 'reserva']] },
+  { titulo: 'Marcas por família', campos: [
+      ['Borne', 'm_borne'], ['Disjuntor', 'm_disjuntor'],
+      ['Rele e contatora', 'm_rele'], ['Fonte', 'm_fonte'],
+      ['CLP', 'm_clp'], ['Periféricos', 'm_perif'], ['Cabo', 'm_cabo'],
+      ['Quadro', 'm_quadro'], ['Sensor', 'm_sensor']] },
+  { titulo: 'Fiação',
+    campos: [['Secao padrao de comando', 'secao'], ['Isolação', 'isolacao']],
+    texto: [['Cores por função', 'cores']] },
+  /* bloco oculto por enquanto — nao entra no texto
+  { titulo: 'Identificacao e documentos',
+    campos: [['Impressora e etiqueta', 'etiqueta'], ['Template de folha', 'folha'],
+             ['Idioma', 'idioma'], ['Formato de entrega', 'entrega']],
+    texto: [['Padrao de tag', 'tag']] },
+  */
+  { titulo: 'Códigos de ERP', texto: [['De/para', 'erp']] },
+  { titulo: 'Sempre obrigatório',
+    extra: function () {
+      var itens = [];
+      var mapa = { ob_nr12: 'NR-12', ob_nr10: 'NR-10', ob_emerg: 'Botão de emergência',
+                   ob_secc: 'Seccionadora com bloqueio' };
+      Object.keys(mapa).forEach(function (k) {
+        var el = document.getElementById(k);
+        if (el && el.checked) { itens.push(mapa[k]); }
+      });
+      var t = itens.length ? '- ' + itens.join('\n- ') + '\n' : '';
+      if (v('outras')) { t += 'Outras exigencias:\n' + v('outras') + '\n'; }
+      return t;
+    } }
+];
+
+ligarConta(function () { return 'padrao'; });
+
+iniciarForm({ recolher: false });
+</script>
+
+<!-- ANALYTICS -->

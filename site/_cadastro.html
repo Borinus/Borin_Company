@@ -1,0 +1,227 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dados da empresa — Borin Projetos Elétricos</title>
+<meta name="description" content="Preencha uma vez e o contrato volta pronto para assinar.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media(prefers-color-scheme%3Adark)%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+.recado { font-size: var(--fs-small); padding: 0.8rem 0.95rem; border: 1px solid var(--rule); margin: 0; }
+.recado.ruim { border-color: var(--acento); color: var(--acento); }
+.recado.bom { border-color: var(--ink); }
+.recado:empty { display: none; }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/conta">← Meus projetos</a>
+
+    <div>
+      <span class="rotulo">Dados da empresa</span>
+      <h1>Preencha uma vez. O contrato volta pronto.</h1>
+      <p class="topo__texto">São os dados que a lei exige no contrato: quem contrata, onde fica e quem assina. Depois disso, você só assina — não precisa editar campo nenhum no documento.</p>
+    </div>
+  </header>
+
+  <form onsubmit="return false;">
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>A empresa</h2></div>
+      <div class="grade">
+        <div class="campo"><label for="razao_social">Razão social</label><input type="text" id="razao_social" placeholder="como está no cartão CNPJ"></div>
+        <div class="campo"><label for="cnpj">CNPJ</label><input type="text" id="cnpj" inputmode="numeric" oninput="mascaraCnpj(this)" placeholder="00.000.000/0001-00"></div>
+        <div class="campo"><label for="ie">Inscrição estadual</label><input type="text" id="ie" placeholder="se houver"></div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Endereço da sede</h2></div>
+      <div class="grade">
+        <div class="campo"><label for="cep">CEP</label><input type="text" id="cep" inputmode="numeric" oninput="mascaraCep(this)" onblur="buscarCep()" placeholder="00000-000"></div>
+        <div class="campo"><label for="logradouro">Rua</label><input type="text" id="logradouro"></div>
+        <div class="campo"><label for="numero_end">Número</label><input type="text" id="numero_end"></div>
+        <div class="campo"><label for="complemento">Complemento</label><input type="text" id="complemento" placeholder="sala, galpão, bloco"></div>
+        <div class="campo"><label for="bairro">Bairro</label><input type="text" id="bairro"></div>
+        <div class="campo"><label for="cidade">Cidade</label><input type="text" id="cidade"></div>
+        <div class="campo"><label for="uf">UF</label><input type="text" id="uf" maxlength="2" style="text-transform:uppercase"></div>
+      </div>
+      <p class="campo__dica" id="avisoCep"></p>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Quem assina</h2>
+        <p>A pessoa com poderes para assinar pela empresa.</p>
+      </div>
+      <div class="grade">
+        <div class="campo"><label for="rep_nome">Nome completo</label><input type="text" id="rep_nome"></div>
+        <div class="campo"><label for="rep_cargo">Cargo</label><input type="text" id="rep_cargo" placeholder="sócio, diretor, gerente"></div>
+        <div class="campo"><label for="rep_cpf">CPF</label><input type="text" id="rep_cpf" inputmode="numeric" oninput="mascaraCpf(this)" placeholder="000.000.000-00"></div>
+        <div class="campo"><label for="rep_email">Email para o contrato</label><input type="email" id="rep_email"></div>
+      </div>
+    </div>
+
+    <div class="bloco" style="margin-bottom: 0;">
+      <div class="bloco__cabeca"><h2>Enviar</h2></div>
+      <div class="acoes">
+        <button type="button" class="botao" id="btSalvar">Salvar e pedir o contrato</button>
+      </div>
+      <p class="recado ruim" id="erro"></p>
+      <p class="recado bom" id="ok"></p>
+      <p class="aviso">Estes dados ficam na sua conta e são usados só para emitir o contrato e a nota fiscal.</p>
+    </div>
+
+  </form>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Dados da empresa</span></div>
+      <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+function so(el, n) {
+  return (el.value || '').replace(/\D/g, '').slice(0, n);
+}
+
+function mascaraCnpj(el) {
+  var d = so(el, 14);
+  var o = d.slice(0, 2);
+  if (d.length > 2) { o += '.' + d.slice(2, 5); }
+  if (d.length > 5) { o += '.' + d.slice(5, 8); }
+  if (d.length > 8) { o += '/' + d.slice(8, 12); }
+  if (d.length > 12) { o += '-' + d.slice(12); }
+  el.value = o;
+}
+
+function mascaraCpf(el) {
+  var d = so(el, 11);
+  var o = d.slice(0, 3);
+  if (d.length > 3) { o += '.' + d.slice(3, 6); }
+  if (d.length > 6) { o += '.' + d.slice(6, 9); }
+  if (d.length > 9) { o += '-' + d.slice(9); }
+  el.value = o;
+}
+
+function mascaraCep(el) {
+  var d = so(el, 8);
+  el.value = d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
+}
+
+/* O ViaCEP preenche rua, bairro, cidade e UF sozinho. Quatro campos a menos
+   pra digitar, e endereço de contrato errado por digitação é problema. */
+function buscarCep() {
+  var d = (v('cep') || '').replace(/\D/g, '');
+  var aviso = document.getElementById('avisoCep');
+  if (d.length !== 8) { aviso.textContent = ''; return; }
+  aviso.textContent = 'buscando o endereço…';
+  fetch('https://viacep.com.br/ws/' + d + '/json/')
+    .then(function (r) { return r.json(); })
+    .then(function (e) {
+      if (e.erro) { aviso.textContent = 'CEP não encontrado — preencha à mão.'; return; }
+      if (e.logradouro) { document.getElementById('logradouro').value = e.logradouro; }
+      if (e.bairro) { document.getElementById('bairro').value = e.bairro; }
+      if (e.localidade) { document.getElementById('cidade').value = e.localidade; }
+      if (e.uf) { document.getElementById('uf').value = e.uf; }
+      aviso.textContent = 'endereço preenchido pelo CEP — confira o número';
+      document.getElementById('numero_end').focus();
+    })
+    .catch(function () { aviso.textContent = 'não consegui buscar o CEP — preencha à mão.'; });
+}
+
+var OBRIGATORIOS = [
+  ['razao_social', 'a razão social'],
+  ['cnpj', 'o CNPJ'],
+  ['logradouro', 'a rua'],
+  ['numero_end', 'o número'],
+  ['cidade', 'a cidade'],
+  ['uf', 'o estado'],
+  ['rep_nome', 'o nome de quem assina'],
+  ['rep_cargo', 'o cargo de quem assina'],
+  ['rep_cpf', 'o CPF de quem assina']
+];
+
+function recado(id, txt) {
+  document.getElementById(id).textContent = txt || '';
+}
+
+document.getElementById('btSalvar').addEventListener('click', function () {
+  var bt = this;
+  recado('erro', ''); recado('ok', '');
+
+  for (var i = 0; i < OBRIGATORIOS.length; i++) {
+    if (!v(OBRIGATORIOS[i][0])) {
+      recado('erro', 'Falta ' + OBRIGATORIOS[i][1] + '. Sem isso o contrato não fecha.');
+      var el = document.getElementById(OBRIGATORIOS[i][0]);
+      el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+  if ((v('cnpj') || '').replace(/\D/g, '').length !== 14) {
+    recado('erro', 'O CNPJ precisa de 14 dígitos.'); return;
+  }
+  if ((v('rep_cpf') || '').replace(/\D/g, '').length !== 11) {
+    recado('erro', 'O CPF precisa de 11 dígitos.'); return;
+  }
+
+  var dados = {};
+  ['razao_social', 'cnpj', 'ie', 'cep', 'logradouro', 'numero_end', 'complemento',
+   'bairro', 'cidade', 'uf', 'rep_nome', 'rep_cargo', 'rep_cpf', 'rep_email']
+    .forEach(function (id) { dados[id] = v(id); });
+
+  bt.disabled = true; bt.textContent = 'Enviando…';
+  api('ficha', { tipo: 'cadastro', dados: dados, avisar: true }).then(function (r) {
+    bt.disabled = false; bt.textContent = 'Salvar e pedir o contrato';
+    if (!r.ok) {
+      recado('erro', r.erro || 'não consegui salvar');
+      return;
+    }
+    recado('ok', 'Recebido. Eu reenvio o contrato já preenchido — você só assina. '
+                 + 'Chega no seu email em até 24 horas.');
+    bt.textContent = 'Salvo';
+    bt.disabled = true;
+  });
+});
+
+/* se já preencheu antes, volta preenchido */
+carregarDaConta('cadastro').then(function (r) {
+  if (!r.entrou) { location.href = '/entrar?ir=/cadastro'; return; }
+  if (r.ficha) {
+    Object.keys(r.ficha).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && r.ficha[id]) { el.value = r.ficha[id]; }
+    });
+    recado('ok', 'Seus dados já estavam salvos. Se mudou alguma coisa, corrija e envie de novo.');
+  }
+});
+</script>
+
+<!-- ANALYTICS -->

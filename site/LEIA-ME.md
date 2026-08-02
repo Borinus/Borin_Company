@@ -1,114 +1,132 @@
 # Site
 
-Landing page da Borin. Autocontida: não busca fonte, script nem imagem de lugar nenhum — a Inter vai
-embutida em base64, com subset de 70 KB para os quatro pesos. Abre por `file://`, sobe em qualquer
-hospedagem e funciona offline.
+**No ar em [borinprojetos.com.br](https://borinprojetos.com.br).** Cloudflare Pages, domínio na
+Cloudflare, email pelo Email Routing.
 
-## Como mexer
-
-O arquivo que você edita é o `_pagina.html`. O `index.html` é **gerado** — não edite ele direto,
-porque a próxima montagem sobrescreve.
-
-```
-python site/gerar-fontes.py    # 1. subset da Inter -> fontes.css  (só precisa rodar de novo se mudar a fonte)
-python site/montar.py          # 2. injeta as fontes -> index.html
-```
-
-## Antes de publicar — o que falta preencher
-
-- [ ] **WhatsApp**: trocar `+55 (54) 0 0000-0000` e o link `wa.me/55SEUNUMERO` pelo teu número real
-- [ ] **Email**: `contato@borinprojetos.com.br` só funciona depois do passo de email abaixo
-- [ ] Reler os textos e ajustar o que não soar como você
-
-**O que não tem no site, de propósito:** depoimento de cliente, logo de empresa atendida, número de
-projetos entregues. Nada disso existe ainda sob a marca Borin, e inventar é o tipo de coisa que
-destrói confiança justamente com o comprador técnico, que confere. O site vende o que é verdade
-hoje: o pacote de entrega, o rigor da conferência e o plano de instalação. Quando tiver cliente e
-autorização para citar, a gente acrescenta.
+Páginas autocontidas: não buscam fonte, script nem imagem de lugar nenhum — a Inter vai embutida em
+base64, com subset para os quatro pesos. Abrem por `file://` e funcionam offline.
 
 ---
 
-## Passo 1 — Domínio
+## As páginas
 
-Sem isso não existe nem site nem email da empresa.
+| Rota | Template que você edita | Indexada | O que é |
+|---|---|---|---|
+| `/` | `_pagina.html` | sim | A página de venda |
+| `/orcamento` | `_orcamento.html` | sim | 11 campos, pré-contrato |
+| `/enviado` | `_enviado.html` | não | Confirmação pós-envio |
+| `/padrao` | `_padrao.html` | não | Padrão do cliente, uma vez por cliente |
+| `/projeto` | **gerado** — veja abaixo | não | Ficha técnica, uma por projeto |
+| erro 404 | `_404.html` | não | Sem ela o Pages devolve a home com HTTP 200 |
 
-1. Acesse [registro.br](https://registro.br) e crie a conta com teu CPF
-2. Registre **`borinprojetos.com.br`** — R$ 40/ano, mesmo preço na renovação
-3. Pode pagar 3 ou 5 anos de uma vez e esquecer o assunto
+**Edite sempre o arquivo com underscore.** Os `.html` sem underscore são gerados e a próxima
+montagem sobrescreve.
 
-Estava livre na última verificação (28/07/2026). Domínio livre não fica reservado.
-
----
-
-## Passo 2 — Email
-
-### A decisão (29/07/2026)
-
-**Agora: Cloudflare Email Routing, gratuito. Quando entrar o primeiro cliente: Zoho Mail Lite, pago.**
-
-O Zoho tinha um plano gratuito com domínio próprio, mas em julho de 2026 **a porta de entrada dele
-sumiu** — o plano é citado no FAQ, e não há mais botão de inscrição na página de preços, na do
-Workplace nem na principal. Só sobraram Mail Lite, Mail Premium e o teste de 15 dias.
-
-O Email Routing da Cloudflare é gratuito e **só recebe e encaminha**: cria `contato@` no domínio e
-joga o que chega no Gmail. Serve pra receber contato do site sem custo nenhum.
-
-**A limitação que importa:** ao *responder*, o cliente vê o teu Gmail, ou o aviso *"via gmail.com"* se
-você configurar o "enviar como". Para primeiro contato, tudo bem. Para negociar proposta, não.
-
-Por isso o gatilho está definido: **no primeiro cliente real, assinar o Zoho Mail Lite** — cerca de
-US$ 1 por usuário/mês no anual, com IMAP e envio assinado com DKIM no próprio domínio.
-Link direto que funciona: `https://mail.zoho.com/signup?type=org&plan=newMail5gb`
-
-### Pré-requisito
-
-O Email Routing exige o domínio **hospedado na Cloudflare** — ou seja, apontar os nameservers do
-registro.br para ela. Isso é conveniente: o site também fica lá, e DNS, site e email passam a ser
-administrados num painel só.
-
-1. Criar conta em [zoho.com/mail](https://www.zoho.com/pt-br/mail/) e escolher o plano gratuito
-2. Adicionar o domínio `borinprojetos.com.br`
-3. O Zoho vai pedir para **verificar a posse do domínio** com um registro TXT — copie o valor que
-   ele mostrar
-4. No registro.br, abrir o painel do domínio → **Editar zona DNS** → adicionar o TXT
-5. Voltar no Zoho e confirmar a verificação
-6. Ainda na zona DNS do registro.br, adicionar os **registros MX** que o Zoho indicar. São eles que
-   fazem o email chegar
-7. Adicionar também os registros **SPF e DKIM** que o Zoho fornece — sem eles teu email cai na caixa
-   de spam do cliente, que é pior que não ter email
-8. Criar as contas: `mateus@borinprojetos.com.br` e `contato@borinprojetos.com.br`
-
-A propagação de DNS leva de alguns minutos a algumas horas.
-
-**Assinatura de email:** conforme `marca/design-guide.md` — logo, nome, função, cidade. Use o
-`marca/png/borin-completo.png` em 140px de largura. Sem frase de efeito e sem imagem pesada.
+`/padrao` e `/projeto` são pós-contrato: ficam fora do `robots.txt` e não têm link no site.
 
 ---
 
-## Passo 3 — Publicar o site
-
-**Cloudflare Pages** é a recomendação: gratuito, SSL incluso, domínio próprio sem custo, e aguenta
-tráfego muito acima do que um site institucional precisa.
+## Como montar e publicar
 
 ```bash
-npx wrangler pages deploy site --project-name borin
+python site/publicar.py            # monta e prepara, sem subir
+python site/publicar.py --deploy   # monta, confere e sobe
 ```
 
-Na primeira vez ele pede login pelo navegador. Depois, no painel da Cloudflare:
+**Build e deploy são o mesmo comando de propósito.** Quando eram separados, um build que falhava era
+seguido de um deploy que subia pasta vazia — e o wrangler dizia "sucesso". Agora o site é montado
+numa pasta nova e só troca com a `publico/` no fim; se qualquer coisa falhar, o que está no ar
+continua valendo.
 
-1. **Workers & Pages** → o projeto `borin` → **Custom domains**
-2. Adicionar `borinprojetos.com.br` e `www.borinprojetos.com.br`
-3. A Cloudflare mostra os registros de DNS a criar no registro.br — ou, se você transferir os
-   nameservers do domínio para a Cloudflare, ela cuida disso sozinha
+O script aborta com `NAO PUBLIQUE` se faltar página ou se alguma sair pequena demais.
 
-Alternativas equivalentes: Vercel (`vercel --prod`) ou Netlify. GitHub Pages não serve aqui, porque
-o repositório é privado e a publicação exigiria plano pago.
+> **Se der `nao consegui trocar a pasta`:** tem processo com a `site/publico/` aberta, normalmente um
+> `python -m http.server` de teste. Feche e rode de novo.
+
+Scripts auxiliares, que rodam sozinhos quando precisa:
+
+| Comando | Quando rodar |
+|---|---|
+| `python site/gerar-fontes.py` | só se trocar a fonte |
+| `python site/gerar-og.py` | se mudar a marca ou os prazos do cartão de link |
+| `python site/gerar-ficha.py` | não precisa — o `publicar.py` já chama |
+
+Página nova: crie o `_nome.html` com o marcador `/* FONTES */` no `<style>` e acrescente o par em
+`PAGINAS`, no `montar.py` **e** no `publicar.py`.
 
 ---
 
-## Depois que estiver no ar
+## A ficha do projeto é gerada
 
-- [ ] Testar o formulário de contato — hoje o site usa `mailto:` e link de WhatsApp, sem formulário. Se quiser formulário de verdade, precisa de um backend simples (um Worker da Cloudflare resolve)
-- [ ] Cadastrar o site no Google Search Console
-- [ ] Colocar o endereço na assinatura de email e na proposta
-- [ ] Perfil no LinkedIn apontando pro site — é onde está o comprador técnico das integradoras
+`/projeto` não se edita direto. Ela nasce de **`ficha-campos.json`**, que é o de/para entre o que o
+cliente lê e o nome técnico que o gerador consome:
+
+```json
+{ "rotulo": "5 A — painel pequeno e médio", "macro": "FONTE_24V_5A" }
+```
+
+Mudar `rotulo` é seguro. Mudar `macro` só se o nome existir na biblioteca — a origem dos nomes é
+`CONFERENCIAS/_eplan_gerador/FICHA_APP.yaml` e `docs_banco/MACROS_BIBLIOTECA.xlsx`.
+
+A mensagem que chega em você leva os dois: `Chave geral: Trifásica [CHGERAL_TRI]`.
+
+**A ficha também vira documento.** O botão *Gerar ficha para assinar* troca o formulário por um
+documento com declaração e campo de assinatura, que o cliente salva em PDF pelo navegador. É o
+**Anexo II do contrato** — é contra ela que a cláusula 5 compara todo pedido posterior.
+
+---
+
+## Os formulários
+
+Nenhum deles tem página de obrigado com formulário tradicional: o JavaScript monta um texto e envia.
+
+**`/orcamento` manda pro servidor.** Um Worker em `site/worker/` recebe o pedido em
+`borinprojetos.com.br/api/*` e envia por email usando o binding nativo do Cloudflare — sem conta de
+terceiro, sem chave de API, sem custo. Depois disso o cliente cai em `/enviado`.
+
+```bash
+cd site/worker && npx wrangler deploy
+```
+
+O assunto do email leva o código do projeto na frente (`#04003478 · Empresa — equipamento`), senão o
+Gmail agrupa tudo numa conversa só.
+
+**`/padrao` e `/projeto` NÃO mandam pro servidor**, de propósito: carregam o padrão interno e o
+desenho da máquina do cliente, e o site promete sigilo. Saem por WhatsApp ou arquivo. Ligar essas
+duas no Worker exige reescrever o bloco de sigilo da home junto.
+
+Os campos marcados com `data-perfil` ficam no `localStorage` do navegador do cliente, pra ele não
+repreencher no próximo pedido.
+
+---
+
+## Testar
+
+```bash
+python site/testar-fluxo.py     # o fluxo do orçamento, no site no ar
+python site/teste-completo.py   # o fluxo inteiro + 5 emails de relatório
+```
+
+Os dois sobem uma página de teste temporária, dirigem um navegador de verdade contra o site
+publicado, verificam cada etapa e removem a página no fim. **Rode antes de dizer que está pronto.**
+
+Duas armadilhas que já geraram diagnóstico errado:
+
+- **Cache de borda** serve versão antiga. Fure com uma query aleatória: `/pagina?c=123`
+- **Git Bash corrompe acento** em `curl --data`. Escreva o JSON num arquivo UTF-8 e use
+  `--data-binary @arquivo`
+
+---
+
+## O que falta
+
+- [ ] **Token do Cloudflare Web Analytics** no `.env` como `BORIN_ANALYTICS_TOKEN`. Sem ele o site
+      sobe igual, só não mede nada — e sem medir não dá pra decidir o que mudar
+- [ ] **Tela intermediária** depois do orçamento: usar o padrão Borin ou montar o próprio
+- [ ] **Frase de escopo negativo** no hero — *"Não monto painel, não vendo componente e não falo com
+      o seu cliente"*. O ICP é integrador; sem isso o site lê como concorrente
+- [ ] **Filtro no Gmail** pra `contato@` e `mateus@` nunca caírem no spam
+
+**O que não tem no site, de propósito:** depoimento, logo de cliente e número de projetos entregues.
+Nada disso existe ainda sob a marca Borin, e inventar destrói confiança justamente com o comprador
+técnico, que confere. O site vende o que é verdade hoje.

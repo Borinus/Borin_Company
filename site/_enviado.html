@@ -1,0 +1,199 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedido enviado — Borin Projetos Elétricos</title>
+<meta name="description" content="Confirmação do pedido de orçamento.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+.marcador { display: flex; align-items: center; gap: 0.5rem; }
+.marcador .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
+
+.etapas { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); }
+.etapas li {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  font-size: var(--fs-small);
+  border-bottom: 1px solid var(--rule);
+}
+.etapas li:last-child { border-bottom: 0; }
+.etapas b { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro); font-weight: 400; padding-top: 0.2rem; white-space: nowrap; }
+
+.resumo { display: block; max-height: 22rem; overflow: auto; }
+.vazio { display: none; }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/">← Início</a>
+
+    <div>
+      <span class="marcador"><span class="no" aria-hidden="true"></span><span class="rotulo" id="rotulo">Pedido de orçamento</span></span>
+      <h1 id="titulo">Pronto.</h1>
+      <p class="topo__texto" id="subtitulo"></p>
+    </div>
+  </header>
+
+  <div id="conteudo">
+
+    <div class="bloco" id="socorro">
+      <div class="bloco__cabeca">
+        <h2>Outro caminho</h2>
+        <p>O pedido continua aqui. Escolha um destes — qualquer um deles chega em mim.</p>
+      </div>
+      <div class="acoes">
+        <button type="button" class="botao" id="btPrincipal">Abrir o WhatsApp</button>
+        <button type="button" class="botao botao--vazado" id="btEmail">Enviar por email</button>
+        <button type="button" class="botao botao--vazado" id="btCopiar">Copiar o texto</button>
+        <button type="button" class="botao botao--vazado" id="btBaixar">Baixar como arquivo</button>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>O que acontece agora</h2></div>
+      <ul class="etapas">
+        <li><b>1 · 24 h</b><span>Respondo com valor e prazo fechados, e o pacote de entrega anexo.</span></li>
+        <li><b>2 · 3 dias</b><span>Você aceita e assina o contrato. Entrada de 40%.</span></li>
+        <li><b>3 · Reunião</b><span>Meia hora pra confirmar o que recebi e alinhar o que é específico do seu projeto.</span></li>
+        <li><b>4 · Ficha</b><span>Você preenche o padrão da sua empresa e a ficha do projeto.</span></li>
+        <li><b>5 · Começo</b><span>O projeto entra em produção quando a ficha estiver completa e aceita.</span></li>
+      </ul>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Quer adiantar?</h2>
+        <p>Você não precisa esperar o orçamento pra preencher a parte técnica. Se preencher agora, o projeto começa assim que o contrato for assinado — sem uma rodada de perguntas no meio.</p>
+      </div>
+      <div class="acoes">
+        <a class="botao" href="/padrao">Padrão da minha empresa</a>
+        <a class="botao botao--vazado" href="/projeto">Ficha do projeto</a>
+      </div>
+      <p class="aviso">O padrão você preenche uma vez só, e vale pra todos os seus projetos. A ficha é por projeto.</p>
+    </div>
+
+  </div>
+
+  <div id="vazio" class="vazio">
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Não há pedido nesta aba</h2>
+        <p>Esta página só mostra um pedido logo depois de ele ser enviado. Se você chegou aqui direto, comece pelo formulário.</p>
+      </div>
+      <div class="acoes">
+        <a class="botao" href="/orcamento">Solicitar orçamento</a>
+        <a class="botao botao--vazado" href="https://wa.me/5554996642003?text=Ol%C3%A1%20Mateus%2C%20vi%20o%20site%20e%20queria%20falar%20sobre%20um%20projeto%20el%C3%A9trico.">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Pedido enviado</span></div>
+      <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+/* Esta pagina nao monta texto: ela le o que o formulario guardou em
+   sessionStorage e reoferece os caminhos de envio. Existe por tres motivos:
+   dar uma confirmacao com prazo de resposta, salvar o pedido quando o WhatsApp
+   nao abre, e ser a unica marca de conversao contavel sem servidor. */
+(function () {
+  var carga = null;
+  try { carga = JSON.parse(sessionStorage.getItem('borin.envio') || 'null'); } catch (e) {}
+
+  if (!carga || !carga.completo) {
+    document.getElementById('conteudo').style.display = 'none';
+    document.getElementById('vazio').style.display = 'block';
+    document.getElementById('titulo').textContent = 'Nada pra enviar aqui.';
+    document.getElementById('subtitulo').textContent = '';
+    return;
+  }
+
+  var porEmail = carga.intencao === 'email';
+  var recebido = carga.intencao === 'ok';
+  var falhou = carga.intencao === 'falhou';
+
+  document.getElementById('rotulo').textContent = carga.doc || 'Pedido de orçamento';
+  document.getElementById('titulo').textContent =
+      recebido ? 'Recebido. Respondo em até 24 horas.'
+    : falhou   ? 'Não consegui enviar pela internet.'
+    : porEmail ? 'Seu pedido está no email, pronto pra enviar.'
+               : 'Seu pedido está no WhatsApp, pronto pra enviar.';
+  document.getElementById('subtitulo').textContent =
+      recebido ? 'Seu pedido chegou aqui. Não precisa fazer mais nada.'
+    : falhou   ? 'Sua conexão caiu no meio do envio. O pedido continua aqui — use um dos caminhos abaixo que ele chega do mesmo jeito.'
+    : porEmail ? 'Abri seu programa de email com o texto já montado. Falta apertar enviar.'
+               : 'Abri o WhatsApp numa aba com o texto já montado. Falta apertar enviar.';
+
+  /* quando chegou de verdade, o bloco de socorro so atrapalha */
+  if (recebido) {
+    var socorro = document.getElementById('socorro');
+    if (socorro) { socorro.style.display = 'none'; }
+  }
+
+  function urlZap() {
+    return 'https://wa.me/5554996642003?text=' + encodeURIComponent(carga.curto || carga.completo);
+  }
+  function urlMail() {
+    return 'mailto:contato@borinprojetos.com.br'
+         + '?subject=' + encodeURIComponent(carga.assunto || carga.doc || 'Pedido de orçamento')
+         + '&body=' + encodeURIComponent(carga.completo);
+  }
+
+  var principal = document.getElementById('btPrincipal');
+  var secundario = document.getElementById('btEmail');
+
+  /* "de novo" so faz sentido quando a janela chegou a abrir. No /orcamento o
+     envio e pelo servidor: se falhou, nada abriu e o rotulo seria mentira. */
+  if (porEmail) {
+    principal.textContent = 'Abrir o email de novo';
+    secundario.textContent = 'Enviar pelo WhatsApp';
+    principal.addEventListener('click', function () { abrirExterno(urlMail(), false); });
+    secundario.addEventListener('click', function () { abrirExterno(urlZap(), true); });
+  } else {
+    principal.textContent = falhou ? 'Enviar pelo WhatsApp' : 'Abrir o WhatsApp de novo';
+    secundario.textContent = 'Enviar por email';
+    principal.addEventListener('click', function () { abrirExterno(urlZap(), true); });
+    secundario.addEventListener('click', function () { abrirExterno(urlMail(), false); });
+  }
+
+  document.getElementById('btCopiar').addEventListener('click', function () {
+    copiar(carga.completo, this);
+  });
+  document.getElementById('btBaixar').addEventListener('click', function () {
+    baixarTexto(carga.completo, carga.doc || 'Pedido', carga.empresa);
+  });
+})();
+</script>
+
+<!-- ANALYTICS -->

@@ -1,4 +1,19 @@
-<title>Borin — Projetos Elétricos Industriais</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projeto elétrico industrial — Borin | Caxias do Sul, RS</title>
+<meta name="description" content="Projeto elétrico de painéis e instalações industriais: diagramas, listas, layout e identificações, conferidos antes da entrega. Orçamento em 24 h. Caxias do Sul, RS.">
+<link rel="canonical" href="https://borinprojetos.com.br/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Projeto elétrico industrial — Borin">
+<meta property="og:description" content="Projeto de painéis e instalações industriais, conferido antes da entrega. Orçamento em 24 h.">
+<meta property="og:url" content="https://borinprojetos.com.br/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://borinprojetos.com.br/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Borin Projetos Elétricos — prazos por faixa de páginas de diagrama">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
 
 <style>
 /* FONTES */
@@ -9,6 +24,7 @@
   --cinza-100:  #F4F4F4;
   --cinza-300:  #DCDCDC;
   --cinza-600:  #6B6B6B;
+  --cinza-700:  #5A5A5A;
   --cinza-900:  #171717;
   --comando:    #C1121F;
 
@@ -17,6 +33,7 @@
   --ink:        var(--tinta);
   --ink-soft:   var(--cinza-600);
   --rule:       var(--cinza-300);
+  --ink-micro:  var(--cinza-700);
   --invert-bg:  var(--cinza-900);
   --invert-ink: #FFFFFF;
   --acento:     var(--comando);
@@ -25,7 +42,8 @@
   --mono: 'JetBrains Mono', Consolas, ui-monospace, monospace;
 
   --fs-hero:  clamp(1.9rem, 5vw, 3.25rem);
-  --fs-h2:    clamp(1.2rem, 2.2vw, 1.55rem);
+  --fs-h2:    clamp(1.45rem, 3vw, 2.1rem);
+  --fs-h3:    clamp(1.0rem, 1.6vw, 1.125rem);
   --fs-body:  1rem;
   --fs-small: 0.875rem;
   --fs-micro: 0.6875rem;
@@ -37,7 +55,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --ground: #121212; --ground-alt: #1B1B1B; --ink: #F2F2F2;
-    --ink-soft: #9A9A9A; --rule: #333333;
+    --ink-soft: #9A9A9A; --ink-micro: #B0B0B0; --rule: #333333;
     --invert-bg: #F4F4F4; --invert-ink: #111111; --acento: #E5484D;
   }
 }
@@ -48,11 +66,18 @@
 }
 :root[data-theme="light"] {
   --ground: #FFFFFF; --ground-alt: #F4F4F4; --ink: #111111;
-  --ink-soft: #6B6B6B; --rule: #DCDCDC;
+  --ink-soft: #6B6B6B; --ink-micro: #5A5A5A; --rule: #DCDCDC;
   --invert-bg: #171717; --invert-ink: #FFFFFF; --acento: #C1121F;
 }
 
+/* obrigatorio junto com o doctype: sem isso o box model muda e a grade,
+   as reguas e o carimbo passam a contar padding por fora da largura */
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
+  /* sem isto o navegador aplica 8px de margem e a largura util encolhe;
+     no celular era o suficiente pra os dois botoes do hero empilharem */
+  margin: 0;
   background: var(--ground);
   color: var(--ink);
   font-family: var(--sans);
@@ -62,7 +87,9 @@ body {
 }
 
 .pagina {
-  max-width: 74rem;
+  /* com border-box o max-width passou a incluir o padding lateral; somar a
+     goteira mantem a largura de conteudo que a pagina sempre teve */
+  max-width: calc(74rem + 2 * var(--gutter));
   margin: 0 auto;
   padding: 0 var(--gutter) var(--stack);
   display: flex;
@@ -75,8 +102,18 @@ body {
   font-size: var(--fs-micro);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink-micro);
 }
+
+/* link no corpo do texto: nunca azul, sublinhado fino, acento no hover */
+.pagina p a, .pagina li a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--rule);
+}
+.pagina p a:hover, .pagina li a:hover { text-decoration-color: var(--acento); }
 
 /* ---------- topo ---------- */
 
@@ -119,21 +156,91 @@ body {
 .botao--vazado { background: transparent; color: var(--ink); }
 .botao--vazado:hover { background: var(--ink); color: var(--ground); }
 
+
+/* ---------- prazos no hero ---------- */
+
+.prazos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 0.4rem;
+}
+
+.prazo {
+  background: var(--ground);
+  padding: 0.85rem 1rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.prazo__valor {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* a comparacao com o mercado e o argumento mais forte da pagina; estava em
+   micro cinza, do tamanho de nota de rodape. Vira uma linha de dado, com
+   regua em cima e o valor legivel — comparacao, nao rodape */
+.prazo__ref {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+}
+
+.prazo__ref b {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.prazos__nota {
+  font-size: var(--fs-small);
+  color: var(--ink-soft);
+  max-width: 72ch;
+  margin: 0;
+}
+
+@media (max-width: 52rem) { .prazos { grid-template-columns: 1fr; } }
+
 /* ---------- condição ---------- */
 
+.condicoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
 .condicao {
-  border-top: 2px solid var(--ink);
-  padding-top: 0.9rem;
+  background: var(--ground);
+  padding: 1.1rem 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  max-width: 52rem;
 }
 
 .condicao__marcador { display: flex; align-items: center; gap: 0.5rem; }
 .condicao__marcador .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
 .condicao p { margin: 0; }
-.condicao__titulo { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; max-width: 44ch; }
+.condicao__titulo { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
 .condicao__texto { font-size: var(--fs-small); color: var(--ink-soft); max-width: 66ch; }
 
 /* ---------- seções ---------- */
@@ -145,7 +252,8 @@ body {
 .secao__cabeca h2 {
   font-size: var(--fs-h2);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   margin: 0;
 }
 
@@ -160,7 +268,7 @@ body {
 
 .fluxo {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
@@ -188,54 +296,8 @@ body {
 .etapa-fluxo li:last-child { border-bottom: 0; }
 .etapa-fluxo__nota { font-size: var(--fs-micro); color: var(--ink-soft); margin: 0; font-family: var(--mono); line-height: 1.6; }
 
-@media (max-width: 52rem) { .fluxo { grid-template-columns: 1fr; } }
-
-/* ---------- modos de entrada ---------- */
-
-.modos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.modo {
-  background: var(--ground);
-  padding: 1.1rem 1.15rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.modo__topo { display: flex; align-items: center; gap: 0.5rem; }
-.modo__topo .no { width: 0.5rem; height: 0.5rem; background: var(--ink); flex: none; }
-.modo--definicao .no { background: var(--acento); }
-
-.modo h3 { font-size: 1rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
-.modo p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
-.modo__manda {
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  color: var(--ink);
-  border-top: 1px solid var(--rule);
-  padding-top: 0.5rem;
-  margin-top: auto;
-  line-height: 1.6;
-}
-
-.perfil {
-  border: 1px solid var(--ink);
-  padding: 1.15rem 1.25rem 1.35rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1.25rem 2rem;
-}
-.perfil h3 { font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
-.perfil p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
-.perfil ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.perfil li { font-size: var(--fs-small); padding: 0.3rem 0; border-bottom: 1px solid var(--rule); }
-.perfil li:last-child { border-bottom: 0; }
+@media (max-width: 64rem) { .fluxo { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .fluxo { grid-template-columns: 1fr; } }
 
 /* ---------- figuras ---------- */
 
@@ -248,26 +310,181 @@ body {
 }
 
 .figura { background: var(--ground); padding: 1rem 1.15rem 1.15rem; display: flex; flex-direction: column; gap: 0.7rem; }
-.figura svg { width: 100%; height: auto; display: block; color: var(--ink); }
-.figura figcaption { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); line-height: 1.6; margin: 0; }
+.figura svg { width: 100%; max-width: 30rem; height: auto; display: block; color: var(--ink); }
+.figura figcaption { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro); line-height: 1.6; margin: 0; }
 .figura figcaption b { color: var(--ink); font-weight: 400; display: block; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
 
 /* ---------- pacote ---------- */
 
-.pacote {
+.regua {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
 }
 
-.coluna { background: var(--ground); padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
-.coluna h3 { font-size: 0.9375rem; font-weight: 600; margin: 0; }
-.coluna ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.coluna li { font-size: var(--fs-small); padding: 0.35rem 0; border-bottom: 1px solid var(--rule); }
-.coluna li:last-child { border-bottom: 0; }
-.coluna li b { display: block; font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-soft); font-weight: 400; }
+.regua__bloco {
+  background: var(--ground);
+  padding: 1rem 1.15rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.bornes { list-style: none; margin: 0; padding: 0; }
+
+.bornes > li {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: var(--fs-small);
+  padding: 0.42rem 0;
+}
+
+/* o borne: quadrado numerado, como no diagrama de regua */
+.borne {
+  flex: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  line-height: 1;
+}
+
+/* o fio que sai do borne pro destino */
+.fio {
+  flex: none;
+  width: 1.1rem;
+  height: 1px;
+  background: var(--ink);
+  margin-right: 0.6rem;
+}
+
+/* o ultimo ponto da regua fecha com o acento, como o no do logo */
+.bornes > li:last-child .borne { border-color: var(--acento); color: var(--acento); }
+.bornes > li:last-child .fio { background: var(--acento); }
+
+.bornes > li { padding: 0; }
+
+/* o item inteiro e o alvo do clique */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0.42rem 0;
+  cursor: pointer;
+}
+.item--estatico { cursor: default; }
+
+/* indentacao do que esta dentro de uma instalacao */
+.dentro .item { padding-left: 1.2rem; }
+
+/* cabecalho de instalacao: nao clicavel */
+.grupo {
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  color: var(--ink);
+  padding: 0.55rem 0 0.2rem;
+}
+
+/* afordancia: no hover o fio acende */
+.item:not(.item--estatico):hover .fio { background: var(--acento); }
+.item:not(.item--estatico):hover .borne { border-color: var(--acento); }
+
+/* selecionado: borne cheio em Comando.
+   O seletor leva o `.bornes > li` na frente porque a regra do :last-child
+   abaixo tem especificidade maior — sem isso, o ultimo item fica com texto
+   vermelho sobre fundo vermelho e o numero some. */
+.bornes > li .item.ativo .borne {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--papel);
+}
+.bornes > li .item.ativo .fio { background: var(--acento); }
+.item.ativo { font-weight: 600; }
+
+.dica-clique {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0;
+}
+.dica-clique .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
+
+/* cabecalho da coluna, com o botao de abrir.
+   nowrap de proposito: com wrap o botao descia pra uma segunda linha e o
+   cabecalho ficava com o dobro da altura das outras colunas */
+.regua__topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: nowrap;
+}
+.regua__topo > .rotulo { white-space: nowrap; }
+
+.link-expandir {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 0 0 0.1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.link-expandir:hover { color: var(--ink); border-bottom-color: var(--acento); }
+
+/* fechada: so o item selecionado aparece */
+.bornes.fechada > li { display: none; }
+.bornes.fechada > li.visivel { display: block; }
+
+/* o numero repetido na legenda amarra a figura ao item */
+.figura figcaption .borne {
+  display: inline-flex;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
+  vertical-align: -0.25rem;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--papel);
+}
+.figura figcaption b { display: flex; align-items: center; }
+
+/* a figura acende por um instante quando recebe o clique */
+.figura.piscou { animation: piscar 0.9s ease-out; }
+@keyframes piscar {
+  0%   { background: var(--ground-alt); }
+  100% { background: var(--ground); }
+}
+
+/* so a figura ativa aparece */
+.figura { display: none; }
+.figura.ativo { display: flex; }
+.figuras { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.figuras__lado { background: var(--ground); display: flex; flex-direction: column; }
 
 .tag-b {
   font-family: var(--mono);
@@ -279,15 +496,48 @@ body {
   white-space: nowrap;
 }
 
+/* a regua e as figuras sao um bloco so, divididos por um fio */
+.pacote-box { border: 1px solid var(--rule); }
+.pacote-box .regua,
+.pacote-box .figuras { border: 0; max-width: none; }
+.pacote-box .figuras { border-top: 1px solid var(--rule); }
+
+/* tabela dentro de secao ganha a mesma moldura do resto da pagina */
+.secao > .tabela-wrap {
+  border: 1px solid var(--rule);
+  padding: 0.4rem 1.15rem 0.9rem;
+}
+
+/* link discreto no fim do rodape */
+.rodape-acao { margin: 0.7rem 0 0; text-align: right; }
+.rodape-acao a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+.rodape-acao a:hover { color: var(--ink); border-bottom-color: var(--acento); }
+
 /* ---------- conferência ---------- */
 
 .checagem {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  /* fixo, e sempre divisor de 12 — com auto-fit sobrava celula vazia
+     mostrando o fundo da grade */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
 }
+@media (max-width: 64rem) { .checagem { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 44rem) { .checagem { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 30rem) { .checagem { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .checagem div {
   background: var(--ground);
   padding: 0.65rem 0.9rem;
@@ -299,7 +549,7 @@ body {
 
 /* ---------- tabelas ---------- */
 
-.tabela-wrap { overflow-x: auto; }
+.tabela-wrap { overflow-x: auto; min-width: 0; max-width: 100%; }
 
 table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
 th { text-align: left; font-weight: 600; padding: 0.5rem 1rem 0.5rem 0; border-bottom: 1px solid var(--ink); white-space: nowrap; }
@@ -333,11 +583,21 @@ td:last-child, th:last-child { padding-right: 0; }
   gap: 1.5rem;
   align-items: start;
 }
+.contato__acao { margin-top: 1.1rem; }
+
+/* trava de especificidade: .pagina p a (0,1,2) ganha de .botao (0,1,0) e
+   pintaria de cinza sublinhado qualquer botao dentro de paragrafo */
+.pagina p a.botao, .pagina li a.botao { color: var(--ground); text-decoration: none; }
+.pagina p a.botao--vazado, .pagina li a.botao--vazado { color: var(--ink); }
+.pagina p a.botao:hover, .pagina li a.botao:hover { color: var(--ink); }
+
 .contato h2 { font-size: var(--fs-h2); font-weight: 700; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
 .contato p { margin: 0; color: var(--ink-soft); font-size: var(--fs-small); max-width: 44ch; }
 .dados { display: flex; flex-direction: column; gap: 0.85rem; }
 .dado { display: flex; flex-direction: column; gap: 0.15rem; }
 .dado a, .dado span.v { color: var(--ink); text-decoration: none; font-family: var(--mono); font-size: var(--fs-small); width: fit-content; }
+/* alvo de toque: 16px de altura de texto e menos da metade do minimo de 44 */
+.dado a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 .dado a { border-bottom: 1px solid var(--rule); }
 .dado a:hover { border-bottom-color: var(--ink); }
 
@@ -358,7 +618,48 @@ td:last-child, th:last-child { padding-right: 0; }
 .carimbo__marca { align-items: flex-start; justify-content: center; color: var(--ink); }
 .carimbo__marca svg { width: 3rem; height: auto; }
 
-a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outline-offset: 3px; }
+/* a arvore do pacote e feita de <button>; sem eles aqui, quem navega por
+   teclado nao ve onde esta */
+
+/* ---------- celular: o que transbordava ---------- */
+
+@media (max-width: 34rem) {
+  /* A tabela de condicoes tinha 412px de conteudo dentro de 348 e exigia
+     arrastar de lado. Sao 4 etapas com dois numeros — vira escada. */
+  .secao > .tabela-wrap { border: 0; padding: 0; }
+  .secao table thead { position: absolute; left: -9999px; }
+  .secao table tr {
+    display: block;
+    border: 1px solid var(--rule);
+    padding: 0.7rem 0.85rem;
+    margin-bottom: -1px;
+  }
+  .secao table td { display: block; border: 0; padding: 0.1rem 0; }
+  .secao table td:first-child { font-weight: 600; margin-bottom: 0.2rem; }
+  /* o rotulo da coluna volta como prefixo, senao "24 h" sozinho nao diz nada */
+  .secao table td[data-rot]::before {
+    content: attr(data-rot) " ";
+    font-family: var(--mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-micro);
+  }
+
+  /* O carimbo tinha min-width de 32rem: 510px dentro de 350. Empilha. */
+  .carimbo { grid-template-columns: 1fr 1fr; min-width: 0; }
+  .carimbo__marca { grid-column: 1 / -1; align-items: flex-start; padding-bottom: 0.2rem; }
+  .carimbo > div { border-right: 0; border-top: 1px solid var(--rule); }
+  .carimbo > div:first-child { border-top: 0; }
+}
+
+/* Alvo de toque: 57x16 e menos de um terco do minimo de 44px. */
+.link-expandir { min-height: 2.75rem; display: inline-flex; align-items: center; }
+.item { min-height: 2.75rem; }
+
+a:focus-visible, button:focus-visible, .botao:focus-visible {
+  outline: 2px solid var(--acento); outline-offset: 3px;
+}
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
@@ -370,7 +671,7 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
         <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
           <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
           <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
-          <rect x="322" y="81" width="10" height="10" fill="var(--acento)"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
           <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
         </g>
       </svg>
@@ -378,17 +679,28 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
 
     <div class="hero">
       <span class="rotulo">Projeto elétrico industrial · Caxias do Sul · RS</span>
-      <h1>Projeto elétrico completo, conferido folha por folha.</h1>
-      <p class="hero__texto">O pacote inteiro pronto pra montagem. Para fabricante de máquina e integrador.</p>
+      <h1>Projetos de painéis elétricos e instalações.</h1>
 
-      <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Condição de abertura · primeiros projetos</span></span>
-        <p class="condicao__titulo">Traga o orçamento que você já tem. Eu faço por metade do valor e na metade do prazo.</p>
-        <p class="condicao__texto">Para escopo equivalente de projeto e documentação. É condição de abertura, para formar as primeiras referências — não é o preço de tabela.</p>
+      <div class="prazos">
+        <div class="prazo">
+          <span class="rotulo">Até 15 páginas de diagrama</span>
+          <span class="prazo__valor">5 dias úteis</span>
+          <span class="prazo__ref">Mercado <b>2 semanas</b></span>
+        </div>
+        <div class="prazo">
+          <span class="rotulo">15 a 40 páginas</span>
+          <span class="prazo__valor">8 dias úteis</span>
+          <span class="prazo__ref">Mercado <b>3 semanas</b></span>
+        </div>
+        <div class="prazo">
+          <span class="rotulo">40 a 80 páginas</span>
+          <span class="prazo__valor">12 dias úteis</span>
+          <span class="prazo__ref">Mercado <b>4 semanas</b></span>
+        </div>
       </div>
 
       <div class="hero__acoes">
-        <a class="botao" href="#contato">Enviar meu orçamento</a>
+        <a class="botao" href="/orcamento">Solicitar orçamento</a>
         <a class="botao botao--vazado" href="#pacote">Ver o pacote</a>
       </div>
     </div>
@@ -402,253 +714,490 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
 
     <div class="fluxo">
       <div class="etapa-fluxo etapa-fluxo--voce">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Você envia</span></div>
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>1 · Solicitação</span></div>
         <ul>
-          <li>O checklist do projeto preenchido</li>
-          <li>Descrição da máquina ou do processo</li>
-          <li>Layout da área, se precisar de instalação</li>
-          <li>Lista de I/Os, se já existir</li>
+          <li>Descrição do equipamento</li>
+          <li>Acionamentos e pontos de I/O</li>
+          <li>NR-12 e itens de segurança</li>
+          <li>Prazo a cumprir</li>
         </ul>
-        <p class="etapa-fluxo__nota">O que não estiver definido é fechado na etapa de levantamento, antes da proposta.</p>
       </div>
 
       <div class="etapa-fluxo">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Desenvolvo</span></div>
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>2 · Proposta</span></div>
         <ul>
-          <li>Diagrama elétrico completo</li>
-          <li>Dimensionamento e proteções</li>
-          <li>Régua de bornes e layout do painel</li>
-          <li>Design térmico do quadro</li>
-          <li>Listas, identificações e I/Os</li>
+          <li>Valor e prazo fechados, em 24 h</li>
+          <li>Escopo A ou B definido</li>
+          <li>Pacote de entrega anexo</li>
+          <li>Contrato para assinatura</li>
+        </ul>
+      </div>
+
+      <div class="etapa-fluxo etapa-fluxo--voce">
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>3 · Dados do projeto</span></div>
+        <ul>
+          <li>O padrão da sua empresa</li>
+          <li>Informações do projeto</li>
+          <li>Layout da área, no escopo B</li>
+          <li>Lista de I/O, quando houver</li>
+        </ul>
+      </div>
+
+      <div class="etapa-fluxo">
+        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>4 · Entrega</span></div>
+        <ul>
+          <li>Diagrama, listas e identificações</li>
           <li>Conferência de 12 blocos</li>
+          <li>PDF indexado e Excel editável</li>
+          <li>Correção de erro sem limite</li>
         </ul>
-        <p class="etapa-fluxo__nota">Prazo fechado na proposta. Alteração de escopo é comunicada de imediato, por escrito.</p>
-      </div>
-
-      <div class="etapa-fluxo">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>Você recebe</span></div>
-        <ul>
-          <li>PDF paginado e indexado</li>
-          <li>Planilhas editáveis em Excel</li>
-          <li>Identificações prontas pra imprimir</li>
-          <li>Revisão declarada em todo arquivo</li>
-          <li>Duas rodadas de revisão inclusas</li>
-        </ul>
-        <p class="etapa-fluxo__nota">Entrega por link. Aceite por escrito ou automático em 10 dias.</p>
       </div>
     </div>
+
   </section>
 
-  <!-- MODOS -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <h2>Três formas de começar</h2>
-      <p>Depende de quanto o seu padrão já está definido. Quanto mais definido, mais rápido e mais barato sai cada projeto.</p>
-    </div>
-
-    <div class="modos">
-      <div class="modo">
-        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Direto</span></div>
-        <h3>Seu padrão já está definido</h3>
-        <p>Você preenche o checklist do projeto e eu desenvolvo o pacote completo, sem necessidade de reunião.</p>
-        <p class="modo__manda">VOCÊ MANDA<br>checklist do projeto</p>
-      </div>
-
-      <div class="modo">
-        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Com instalação</span></div>
-        <h3>O projeto também vai a campo</h3>
-        <p>Além do checklist, preciso do layout da área com a posição dos equipamentos, para especificar percurso de cabo e periféricos.</p>
-        <p class="modo__manda">VOCÊ MANDA<br>checklist do projeto<br>layout ou planta da área</p>
-      </div>
-
-      <div class="modo modo--definicao">
-        <div class="modo__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Definição</span></div>
-        <h3>Você ainda não tem padrão fechado</h3>
-        <p>Uma ou duas reuniões para fechar as definições. O resultado é o seu Perfil de Padrão — a partir dele, todo projeto seguinte entra no modo Direto.</p>
-        <p class="modo__manda">VOCÊ MANDA<br>o que tiver<br>+ 1 a 2 reuniões</p>
-      </div>
-    </div>
-
-    <div class="perfil">
-      <div>
-        <h3>O Perfil de Padrão</h3>
-        <p>Preenchido uma vez, vale para todos os seus projetos. É o que separa o que muda a cada pedido — máquina, I/Os, prazo — do que nunca muda.</p>
-        <p style="margin-top:0.6rem;">Com ele fechado, a mesma definição não se repete a cada projeto — e nenhuma pergunta já respondida volta.</p>
-      </div>
-      <ul>
-        <li>Marcas por família: borne, disjuntor, relé, fonte, CLP, cabo</li>
-        <li>De/para dos seus códigos de ERP</li>
-        <li>Cores de cabo por função e seção padrão</li>
-        <li>O que é sempre obrigatório: NR-12, emergência, seccionadora</li>
-        <li>Tensões, aterramento e grau de proteção padrão</li>
-        <li>Padrão de tag e modelo de etiqueta</li>
-        <li>Formato e nomenclatura de entrega</li>
-      </ul>
-    </div>
-  </section>
 
   <!-- PACOTE -->
   <section class="secao" id="pacote">
     <div class="secao__cabeca">
-      <h2>O que chega, documento por documento</h2>
-      <p>Este é o pacote completo. Ele segue anexo à proposta e ao contrato, com o escopo fechado desde o início.</p>
+      <h2>Pacote de entrega</h2>
     </div>
 
-    <div class="pacote">
-      <div class="coluna">
-        <h3>Pacote PDF</h3>
-        <ul>
-          <li>Capa com a descrição do quadro<b>tensões · corrente · potência dissipada</b></li>
-          <li>Memorial descritivo<b>normas · estrutura · condutores</b></li>
-          <li>Visão geral de símbolos</li>
-          <li>Índice por instalação</li>
-          <li>Potência</li>
-          <li>Arquitetura e visão geral do CLP</li>
-          <li>Comando: entradas e saídas</li>
-          <li>Acionamentos</li>
-          <li>Layout do painel</li>
-          <li>Régua de bornes<b>um diagrama por régua</b></li>
-          <li>Lista de peças totalizadas</li>
-          <li>Interconexão de campo<span class="tag-b">B</span></li>
-          <li>Layout 2D da instalação<span class="tag-b">B</span><b>periféricos · passagem de cabos</b></li>
+    <div class="pacote-box">
+      <div class="regua">
+
+      <div class="regua__bloco">
+        <div class="regua__topo"><span class="rotulo">Árvore do PDF</span><button type="button" class="link-expandir" data-abre="pdf">ver os 9</button></div>
+        <ul class="bornes fechada" data-lista="pdf">
+          <li><button type="button" class="item" data-lado="pdf" data-fig="capa"><span class="borne">1</span><span class="fio"></span>Capa e memorial descritivo</button></li>
+          <li><button type="button" class="item" data-lado="pdf" data-fig="indice"><span class="borne">2</span><span class="fio"></span>Índice por instalação</button></li>
+          <li class="grupo">=Painel</li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="potencia"><span class="borne">3</span><span class="fio"></span>+Potência e proteções</button></li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="clp"><span class="borne">4</span><span class="fio"></span>+Arquitetura do CLP</button></li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="comando"><span class="borne">5</span><span class="fio"></span>+Multifilar de comando</button></li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="bornes"><span class="borne">6</span><span class="fio"></span>+Régua de bornes</button></li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="layout"><span class="borne">7</span><span class="fio"></span>+Layout</button></li>
+          <li class="grupo">=Campo<span class="tag-b">B</span></li>
+          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="campo"><span class="borne">8</span><span class="fio"></span>+Interconexão</button></li>
+          <li><button type="button" class="item" data-lado="pdf" data-fig="databook"><span class="borne">9</span><span class="fio"></span>Databook de manuais</button></li>
         </ul>
       </div>
 
-      <div class="coluna">
-        <h3>Planilhas Excel</h3>
-        <ul>
-          <li>Lista de materiais<b>código · descrição · fabricante · qtd</b></li>
-          <li>Arquitetura de CLP<b>endereço · tag · tipo · reserva declarada</b></li>
-          <li>Design térmico<b>dissipação e veredito de ventilação</b></li>
-          <li>Identificações do painel<b>fios · bornes · dispositivos · relés</b></li>
-          <li>Identificações de campo<span class="tag-b">B</span><b>fios e cabos</b></li>
-          <li>Base de cabos e interligação<span class="tag-b">B</span></li>
-          <li>Lista de instalação<span class="tag-b">B</span><b>material · acessórios · horas estimadas</b></li>
+      <div class="regua__bloco">
+        <div class="regua__topo"><span class="rotulo">Excel editável</span><button type="button" class="link-expandir" data-abre="xls">ver os 5</button></div>
+        <ul class="bornes fechada" data-lista="xls">
+          <li><button type="button" class="item" data-lado="xls" data-fig="xls_materiais"><span class="borne">1</span><span class="fio"></span>Lista de materiais</button></li>
+          <li><button type="button" class="item" data-lado="xls" data-fig="xls_clp"><span class="borne">2</span><span class="fio"></span>Arquitetura de CLP</button></li>
+          <li><button type="button" class="item" data-lado="xls" data-fig="xls_termico"><span class="borne">3</span><span class="fio"></span>Design térmico</button></li>
+          <li><button type="button" class="item" data-lado="xls" data-fig="xls_ident"><span class="borne">4</span><span class="fio"></span>Identificações, prontas pra imprimir</button></li>
+          <li><button type="button" class="item" data-lado="xls" data-fig="xls_instalacao"><span class="borne">5</span><span class="fio"></span>Lista de instalação, com horas<span class="tag-b">B</span></button></li>
         </ul>
       </div>
 
-      <div class="coluna">
-        <h3>O diferencial</h3>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">Cada planilha de identificação já vem com impressora e modelo de etiqueta definidos, pronta para impressão direta.</p>
-        <p style="font-size: var(--fs-small); color: var(--ink-soft); margin: 0;">No Escopo B, a lista de instalação traz <strong style="color: var(--ink);">horas estimadas por tarefa</strong> e percentual de conclusão. Seu PCP dimensiona equipe e prazo antes do início da obra.</p>
-        <div class="tabela-wrap">
-          <table>
-            <thead><tr><th>Tarefa</th><th>Cabo</th><th>Horas</th></tr></thead>
-            <tbody>
-              <tr><td>Fixação do painel</td><td class="mono">—</td><td class="mono">8,0</td></tr>
-              <tr><td>Eletrocalhas</td><td class="mono">—</td><td class="mono">24,0</td></tr>
-              <tr><td>Alimentação</td><td class="mono">W0</td><td class="mono">2,0</td></tr>
-              <tr><td>Sensor de nível</td><td class="mono">W1</td><td class="mono">2,0</td></tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-    </div>
-  </section>
 
-    <div class="figuras">
-      <figure class="figura">
-        <svg viewBox="0 0 400 250" role="img" aria-label="Ilustração de uma folha de diagrama elétrico">
-          <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="6" y="6" width="388" height="238" stroke-opacity="0.35"></rect>
-            <line x1="6" y1="22" x2="394" y2="22" stroke-opacity="0.2"></line>
-            <line x1="6" y1="222" x2="394" y2="222" stroke-opacity="0.2"></line>
-            <g stroke-opacity="0.2">
-              <line x1="103" y1="6" x2="103" y2="22"></line><line x1="200" y1="6" x2="200" y2="22"></line><line x1="297" y1="6" x2="297" y2="22"></line>
+      <div class="figuras">
+      <div class="figuras__lado">
+        <figure class="figura ativo" data-lado="pdf" data-fig="capa">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Capa e memorial">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="8" y="8" width="384" height="234" stroke-opacity="0.35"/>
+            <rect x="26" y="26" width="200" height="14" stroke-opacity="0.75"/>
+            <rect x="26" y="52" width="150" height="8" stroke-opacity="0.3"/>
+            <line x1="26" y1="82" x2="366" y2="82" stroke-opacity="0.3"/>
+            <line x1="26" y1="104" x2="366" y2="104" stroke-opacity="0.3"/>
+            <line x1="26" y1="126" x2="366" y2="126" stroke-opacity="0.3"/>
+            <line x1="26" y1="148" x2="366" y2="148" stroke-opacity="0.3"/>
+            <line x1="196" y1="82" x2="196" y2="148" stroke-opacity="0.3"/>
+            <rect x="26" y="176" width="340" height="46" stroke-opacity="0.55"/>
+            <line x1="110" y1="176" x2="110" y2="222" stroke-opacity="0.55"/>
+            <line x1="230" y1="176" x2="230" y2="222" stroke-opacity="0.55"/>
+            <line x1="300" y1="176" x2="300" y2="222" stroke-opacity="0.55"/>
+            <line x1="26" y1="199" x2="366" y2="199" stroke-opacity="0.55"/>
             </g>
-            <g stroke-opacity="0.75">
-              <line x1="20" y1="48" x2="380" y2="48"></line>
-              <line x1="20" y1="62" x2="380" y2="62"></line>
-              <line x1="20" y1="76" x2="380" y2="76"></line>
+          </svg>
+          <figcaption><b><span class="borne">1</span>Capa e memorial</b>Descrição do quadro, normas aplicadas e tabela de revisões.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="indice">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Índice por instalação">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
+            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
+            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
+            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
+            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
+            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
+            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
+            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
+            <line x1="70" y1="30" x2="70" y2="222" stroke-opacity="0.25"/>
+            <line x1="240" y1="30" x2="240" y2="222" stroke-opacity="0.25"/>
+            <line x1="310" y1="30" x2="310" y2="222" stroke-opacity="0.25"/>
+            <line x1="34" y1="66" x2="52" y2="66" stroke-opacity="0.45"/>
+            <line x1="34" y1="90" x2="52" y2="90" stroke-opacity="0.45"/>
+            <line x1="34" y1="114" x2="52" y2="114" stroke-opacity="0.45"/>
+            <line x1="34" y1="138" x2="52" y2="138" stroke-opacity="0.45"/>
+            <line x1="86" y1="66" x2="210" y2="66" stroke-opacity="0.45"/>
+            <line x1="86" y1="90" x2="190" y2="90" stroke-opacity="0.45"/>
+            <line x1="86" y1="114" x2="224" y2="114" stroke-opacity="0.45"/>
+            <line x1="86" y1="138" x2="176" y2="138" stroke-opacity="0.45"/>
             </g>
-            <g stroke-opacity="0.85">
-              <line x1="80" y1="48" x2="80" y2="96"></line>
-              <rect x="72" y="96" width="16" height="26"></rect>
-              <line x1="80" y1="122" x2="80" y2="150"></line>
-              <rect x="66" y="150" width="28" height="20"></rect>
-              <line x1="80" y1="170" x2="80" y2="204"></line>
-              <circle cx="80" cy="208" r="4"></circle>
-              <line x1="185" y1="62" x2="185" y2="110"></line>
-              <rect x="177" y="110" width="16" height="24"></rect>
-              <line x1="185" y1="134" x2="185" y2="204"></line>
-              <circle cx="185" cy="208" r="4"></circle>
-              <line x1="290" y1="76" x2="290" y2="140"></line>
-              <rect x="272" y="140" width="36" height="22"></rect>
-              <line x1="290" y1="162" x2="290" y2="204"></line>
-              <circle cx="290" cy="208" r="4"></circle>
-              <path d="M330 186 l0 12 l-6 0 l6 8 l6 -8 l-6 0"></path>
+          </svg>
+          <figcaption><b><span class="borne">2</span>Índice por instalação</b>Uma linha por folha: página, descrição, instalação e montagem.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="potencia">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Potência e proteções">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <line x1="60" y1="24" x2="60" y2="60" stroke-opacity="0.7"/>
+            <line x1="140" y1="24" x2="140" y2="60" stroke-opacity="0.7"/>
+            <line x1="220" y1="24" x2="220" y2="60" stroke-opacity="0.7"/>
+            <line x1="60" y1="60" x2="76" y2="44" stroke-opacity="0.7"/>
+            <line x1="140" y1="60" x2="156" y2="44" stroke-opacity="0.7"/>
+            <line x1="220" y1="60" x2="236" y2="44" stroke-opacity="0.7"/>
+            <line x1="60" y1="60" x2="60" y2="96" stroke-opacity="0.7"/>
+            <line x1="140" y1="60" x2="140" y2="96" stroke-opacity="0.7"/>
+            <line x1="220" y1="60" x2="220" y2="96" stroke-opacity="0.7"/>
+            <rect x="48" y="96" width="24" height="34" stroke-opacity="0.7"/>
+            <rect x="128" y="96" width="24" height="34" stroke-opacity="0.7"/>
+            <rect x="208" y="96" width="24" height="34" stroke-opacity="0.7"/>
+            <line x1="60" y1="130" x2="60" y2="164" stroke-opacity="0.7"/>
+            <line x1="140" y1="130" x2="140" y2="164" stroke-opacity="0.7"/>
+            <line x1="220" y1="130" x2="220" y2="164" stroke-opacity="0.7"/>
+            <line x1="40" y1="164" x2="240" y2="164" stroke-opacity="0.7"/>
+            <rect x="288" y="96" width="64" height="46" stroke-opacity="0.7"/>
+            <line x1="320" y1="60" x2="320" y2="96" stroke-opacity="0.7"/>
+            <line x1="320" y1="142" x2="320" y2="176" stroke-opacity="0.7"/>
+            <line x1="288" y1="176" x2="352" y2="176" stroke-opacity="0.7"/>
+            <line x1="24" y1="206" x2="376" y2="206" stroke-opacity="0.25"/>
             </g>
-          </g>
-          <g fill="currentColor" font-family="Consolas, monospace" font-size="7" fill-opacity="0.75">
-            <text x="20" y="45">L1</text><text x="20" y="59">N</text><text x="20" y="73">PE</text>
-            <text x="94" y="112">-Q1</text><text x="98" y="164">-K1</text><text x="60" y="220">X1:1</text>
-            <text x="199" y="126">-F2</text><text x="165" y="220">X1:2</text>
-            <text x="314" y="155">-A1</text><text x="270" y="220">X2:1</text>
-            <text x="338" y="196">/7.3</text>
-          </g>
-          <g fill="currentColor" font-family="Consolas, monospace" font-size="6" fill-opacity="0.35">
-            <text x="50" y="18">1</text><text x="150" y="18">2</text><text x="248" y="18">3</text><text x="345" y="18">4</text>
-            <text x="14" y="236">DIAGRAMA</text><text x="330" y="236">FL. 12/38</text>
-          </g>
-        </svg>
-        <figcaption><b>Folha de diagrama</b>Potenciais, proteções, acionamento e referência cruzada entre folhas. Cada ponto que sai do painel passa por borne identificado.</figcaption>
-      </figure>
-
-      <figure class="figura">
-        <svg viewBox="0 0 400 250" role="img" aria-label="Ilustração do layout de um painel elétrico">
-          <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="30" y="24" width="340" height="196" stroke-opacity="0.35"></rect>
-            <rect x="44" y="38" width="312" height="168" stroke-opacity="0.6"></rect>
-            <g stroke-opacity="0.25">
-              <rect x="52" y="46" width="296" height="10"></rect>
-              <rect x="52" y="188" width="296" height="10"></rect>
-              <rect x="52" y="56" width="10" height="132"></rect>
-              <rect x="338" y="56" width="10" height="132"></rect>
+          </svg>
+          <figcaption><b><span class="borne">3</span>Potência e proteções</b>Alimentação, chave geral, proteção e distribuição de 24 VCC.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="clp">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Arquitetura do CLP">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="30" y="60" width="46" height="90" stroke-opacity="0.7"/>
+            <rect x="84" y="60" width="30" height="90" stroke-opacity="0.7"/>
+            <rect x="118" y="60" width="30" height="90" stroke-opacity="0.7"/>
+            <rect x="152" y="60" width="30" height="90" stroke-opacity="0.7"/>
+            <rect x="186" y="60" width="30" height="90" stroke-opacity="0.7"/>
+            <line x1="90" y1="76" x2="108" y2="76" stroke-opacity="0.3"/>
+            <line x1="90" y1="92" x2="108" y2="92" stroke-opacity="0.3"/>
+            <line x1="124" y1="76" x2="142" y2="76" stroke-opacity="0.3"/>
+            <line x1="124" y1="92" x2="142" y2="92" stroke-opacity="0.3"/>
+            <line x1="158" y1="76" x2="176" y2="76" stroke-opacity="0.3"/>
+            <line x1="192" y1="76" x2="210" y2="76" stroke-opacity="0.3"/>
+            <line x1="53" y1="150" x2="53" y2="188" stroke-opacity="0.6"/>
+            <line x1="53" y1="188" x2="356" y2="188" stroke-opacity="0.6"/>
+            <rect x="270" y="60" width="60" height="46" stroke-opacity="0.6"/>
+            <line x1="300" y1="106" x2="300" y2="188" stroke-opacity="0.6"/>
+            <rect x="336" y="120" width="40" height="34" stroke-opacity="0.6"/>
+            <line x1="356" y1="154" x2="356" y2="188" stroke-opacity="0.6"/>
             </g>
-            <g stroke-opacity="0.75">
-              <line x1="70" y1="76" x2="330" y2="76"></line>
-              <line x1="70" y1="122" x2="330" y2="122"></line>
-              <line x1="70" y1="168" x2="330" y2="168"></line>
+          </svg>
+          <figcaption><b><span class="borne">4</span>Arquitetura do CLP</b>CPU, módulos de I/O, remotas e a rede que liga tudo.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="comando">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Multifilar de comando">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <line x1="40" y1="26" x2="40" y2="224" stroke-opacity="0.65"/>
+            <line x1="360" y1="26" x2="360" y2="224" stroke-opacity="0.65"/>
+            <line x1="40" y1="60" x2="150" y2="60" stroke-opacity="0.6"/>
+            <line x1="176" y1="60" x2="290" y2="60" stroke-opacity="0.6"/>
+            <line x1="150" y1="50" x2="150" y2="70" stroke-opacity="0.6"/>
+            <line x1="176" y1="50" x2="172" y2="70" stroke-opacity="0.6"/>
+            <circle cx="316" cy="60" r="14" stroke-opacity="0.6"/>
+            <line x1="330" y1="60" x2="360" y2="60" stroke-opacity="0.6"/>
+            <line x1="40" y1="118" x2="150" y2="118" stroke-opacity="0.6"/>
+            <line x1="176" y1="118" x2="292" y2="118" stroke-opacity="0.6"/>
+            <line x1="150" y1="108" x2="150" y2="128" stroke-opacity="0.6"/>
+            <line x1="176" y1="108" x2="172" y2="128" stroke-opacity="0.6"/>
+            <rect x="292" y="104" width="30" height="28" stroke-opacity="0.6"/>
+            <line x1="322" y1="118" x2="360" y2="118" stroke-opacity="0.6"/>
+            <line x1="40" y1="176" x2="150" y2="176" stroke-opacity="0.6"/>
+            <line x1="176" y1="176" x2="290" y2="176" stroke-opacity="0.6"/>
+            <line x1="150" y1="166" x2="150" y2="186" stroke-opacity="0.6"/>
+            <line x1="176" y1="166" x2="172" y2="186" stroke-opacity="0.6"/>
+            <circle cx="316" cy="176" r="14" stroke-opacity="0.6"/>
+            <line x1="330" y1="176" x2="360" y2="176" stroke-opacity="0.6"/>
             </g>
-            <g stroke-opacity="0.9">
-              <rect x="72" y="60" width="34" height="16"></rect>
-              <rect x="112" y="56" width="46" height="20"></rect>
-              <rect x="164" y="60" width="26" height="16"></rect>
-              <rect x="196" y="60" width="26" height="16"></rect>
-              <rect x="72" y="100" width="60" height="22"></rect>
-              <rect x="140" y="104" width="86" height="18"></rect>
-              <rect x="234" y="104" width="18" height="18"></rect>
-              <rect x="256" y="104" width="18" height="18"></rect>
-              <rect x="278" y="104" width="18" height="18"></rect>
-              <rect x="300" y="104" width="18" height="18"></rect>
-              <rect x="72" y="152" width="248" height="16"></rect>
-              <g stroke-opacity="0.4">
-                <line x1="94" y1="152" x2="94" y2="168"></line><line x1="116" y1="152" x2="116" y2="168"></line>
-                <line x1="138" y1="152" x2="138" y2="168"></line><line x1="160" y1="152" x2="160" y2="168"></line>
-                <line x1="182" y1="152" x2="182" y2="168"></line><line x1="204" y1="152" x2="204" y2="168"></line>
-                <line x1="226" y1="152" x2="226" y2="168"></line><line x1="248" y1="152" x2="248" y2="168"></line>
-                <line x1="270" y1="152" x2="270" y2="168"></line><line x1="292" y1="152" x2="292" y2="168"></line>
-              </g>
+          </svg>
+          <figcaption><b><span class="borne">5</span>Multifilar de comando</b>Entradas, saídas e acionamentos, com referência cruzada entre folhas.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="bornes">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Régua de bornes">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <line x1="40" y1="88" x2="360" y2="88" stroke-opacity="0.65"/>
+            <line x1="40" y1="150" x2="360" y2="150" stroke-opacity="0.65"/>
+            <rect x="44" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="57" y1="56" x2="57" y2="88" stroke-opacity="0.45"/><line x1="57" y1="150" x2="57" y2="188" stroke-opacity="0.45"/>
+            <rect x="82" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="95" y1="56" x2="95" y2="88" stroke-opacity="0.45"/><line x1="95" y1="150" x2="95" y2="188" stroke-opacity="0.45"/>
+            <rect x="120" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="133" y1="56" x2="133" y2="88" stroke-opacity="0.45"/><line x1="133" y1="150" x2="133" y2="188" stroke-opacity="0.45"/>
+            <rect x="158" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="171" y1="56" x2="171" y2="88" stroke-opacity="0.45"/><line x1="171" y1="150" x2="171" y2="188" stroke-opacity="0.45"/>
+            <rect x="196" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="209" y1="56" x2="209" y2="88" stroke-opacity="0.45"/><line x1="209" y1="150" x2="209" y2="188" stroke-opacity="0.45"/>
+            <rect x="234" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="247" y1="56" x2="247" y2="88" stroke-opacity="0.45"/><line x1="247" y1="150" x2="247" y2="188" stroke-opacity="0.45"/>
+            <rect x="272" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="285" y1="56" x2="285" y2="88" stroke-opacity="0.45"/><line x1="285" y1="150" x2="285" y2="188" stroke-opacity="0.45"/>
+            <rect x="310" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="323" y1="56" x2="323" y2="88" stroke-opacity="0.45"/><line x1="323" y1="150" x2="323" y2="188" stroke-opacity="0.45"/>
             </g>
-            <g stroke-opacity="0.4">
-              <line x1="30" y1="234" x2="370" y2="234"></line>
-              <line x1="30" y1="230" x2="30" y2="238"></line><line x1="370" y1="230" x2="370" y2="238"></line>
-              <line x1="16" y1="24" x2="16" y2="220"></line>
-              <line x1="12" y1="24" x2="20" y2="24"></line><line x1="12" y1="220" x2="20" y2="220"></line>
+          </svg>
+          <figcaption><b><span class="borne">6</span>Régua de bornes</b>Um diagrama por régua, com o destino de cada ponto.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="layout">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Layout do painel">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="30" y="24" width="340" height="202" stroke-opacity="0.6"/>
+            <line x1="30" y1="56" x2="370" y2="56" stroke-opacity="0.28"/>
+            <line x1="30" y1="112" x2="370" y2="112" stroke-opacity="0.28"/>
+            <line x1="30" y1="168" x2="370" y2="168" stroke-opacity="0.28"/>
+            <rect x="46" y="66" width="34" height="38" stroke-opacity="0.7"/>
+            <rect x="86" y="66" width="34" height="38" stroke-opacity="0.7"/>
+            <rect x="126" y="66" width="22" height="38" stroke-opacity="0.7"/>
+            <rect x="154" y="66" width="22" height="38" stroke-opacity="0.7"/>
+            <rect x="46" y="122" width="60" height="38" stroke-opacity="0.7"/>
+            <rect x="112" y="122" width="26" height="38" stroke-opacity="0.7"/>
+            <rect x="144" y="122" width="26" height="38" stroke-opacity="0.7"/>
+            <rect x="250" y="66" width="106" height="94" stroke-opacity="0.4"/>
+            <rect x="46" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="60" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="74" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="88" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="102" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="116" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="130" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="144" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="158" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="172" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="186" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="200" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="214" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="228" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="242" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="256" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="270" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="284" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="298" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="312" y="180" width="10" height="34" stroke-opacity="0.5"/>
+            <rect x="326" y="180" width="10" height="34" stroke-opacity="0.5"/>
             </g>
-          </g>
-          <g fill="currentColor" font-family="Consolas, monospace" font-size="7" fill-opacity="0.8">
-            <text x="76" y="72">-Q1</text><text x="122" y="70">-G1</text><text x="170" y="72">-F1</text><text x="202" y="72">-F2</text>
-            <text x="78" y="115">-A1</text><text x="146" y="117">-A2 · I/O</text>
-            <text x="236" y="117">K1</text><text x="258" y="117">K2</text><text x="280" y="117">K3</text><text x="302" y="117">K4</text>
-            <text x="76" y="164">-X1</text>
-          </g>
-          <g fill="currentColor" font-family="Consolas, monospace" font-size="6" fill-opacity="0.4">
-            <text x="182" y="246">600</text><text x="4" y="126">500</text><text x="326" y="196">LAYOUT</text>
-          </g>
-        </svg>
-        <figcaption><b>Layout do painel</b>Disposição física na placa de montagem, com trilhos, canaletas e régua de bornes. É o que o montador usa para furar e montar.</figcaption>
-      </figure>
+          </svg>
+          <figcaption><b><span class="borne">7</span>Layout do painel</b>Disposição física na placa de montagem, com trilhos e canaletas.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="campo">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Interconexão de campo">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="80" width="76" height="96" stroke-opacity="0.7"/>
+            <line x1="26" y1="104" x2="102" y2="104" stroke-opacity="0.3"/>
+            <line x1="26" y1="152" x2="102" y2="152" stroke-opacity="0.3"/>
+            <line x1="102" y1="102" x2="200" y2="102" stroke-opacity="0.6"/>
+            <line x1="200" y1="102" x2="200" y2="56" stroke-opacity="0.6"/>
+            <line x1="102" y1="128" x2="242" y2="128" stroke-opacity="0.6"/>
+            <line x1="102" y1="154" x2="200" y2="154" stroke-opacity="0.6"/>
+            <line x1="200" y1="154" x2="200" y2="198" stroke-opacity="0.6"/>
+            <rect x="176" y="30" width="48" height="26" stroke-opacity="0.7"/>
+            <circle cx="264" cy="128" r="22" stroke-opacity="0.7"/>
+            <rect x="176" y="198" width="48" height="26" stroke-opacity="0.7"/>
+            <rect x="300" y="96" width="64" height="64" stroke-opacity="0.7"/>
+            <line x1="286" y1="128" x2="300" y2="128" stroke-opacity="0.6"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">8</span>Interconexão de campo</b>Um bloco por conjunto de cabos, com origem, destino, vias e bitola.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="pdf" data-fig="databook">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Databook">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="40" y="26" width="250" height="198" stroke-opacity="0.35"/>
+            <rect x="32" y="34" width="250" height="198" stroke-opacity="0.5"/>
+            <rect x="24" y="42" width="250" height="198" stroke-opacity="0.7"/>
+            <line x1="24" y1="70" x2="274" y2="70" stroke-opacity="0.6"/>
+            <line x1="40" y1="58" x2="140" y2="58" stroke-opacity="0.5"/>
+            <line x1="40" y1="94" x2="240" y2="94" stroke-opacity="0.25"/>
+            <line x1="40" y1="116" x2="212" y2="116" stroke-opacity="0.25"/>
+            <line x1="40" y1="138" x2="240" y2="138" stroke-opacity="0.25"/>
+            <line x1="40" y1="160" x2="196" y2="160" stroke-opacity="0.25"/>
+            <line x1="40" y1="182" x2="228" y2="182" stroke-opacity="0.25"/>
+            <line x1="40" y1="204" x2="180" y2="204" stroke-opacity="0.25"/>
+            <rect x="274" y="60" width="52" height="26" stroke-opacity="0.7"/>
+            <rect x="274" y="98" width="52" height="26" stroke-opacity="0.7"/>
+            <rect x="274" y="136" width="52" height="26" stroke-opacity="0.7"/>
+            <rect x="274" y="174" width="52" height="26" stroke-opacity="0.7"/>
+            <line x1="286" y1="73" x2="314" y2="73" stroke-opacity="0.3"/>
+            <line x1="286" y1="111" x2="314" y2="111" stroke-opacity="0.3"/>
+            <line x1="286" y1="149" x2="314" y2="149" stroke-opacity="0.3"/>
+            <line x1="286" y1="187" x2="314" y2="187" stroke-opacity="0.3"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">9</span>Databook</b>Manual e datasheet de cada equipamento do projeto, indexado por tag.</figcaption>
+        </figure>
+      </div>
+      <div class="figuras__lado">
+        <figure class="figura ativo" data-lado="xls" data-fig="xls_materiais">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Lista de materiais">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
+            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
+            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
+            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
+            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
+            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
+            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
+            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
+            <line x1="96" y1="30" x2="96" y2="222" stroke-opacity="0.25"/>
+            <line x1="250" y1="30" x2="250" y2="222" stroke-opacity="0.25"/>
+            <line x1="310" y1="30" x2="310" y2="222" stroke-opacity="0.25"/>
+            <line x1="36" y1="70" x2="82" y2="70" stroke-opacity="0.28"/>
+            <line x1="36" y1="94" x2="82" y2="94" stroke-opacity="0.28"/>
+            <line x1="36" y1="118" x2="82" y2="118" stroke-opacity="0.28"/>
+            <line x1="36" y1="142" x2="82" y2="142" stroke-opacity="0.28"/>
+            <line x1="36" y1="166" x2="82" y2="166" stroke-opacity="0.28"/>
+            <line x1="110" y1="70" x2="230" y2="70" stroke-opacity="0.28"/>
+            <line x1="110" y1="94" x2="206" y2="94" stroke-opacity="0.28"/>
+            <line x1="110" y1="118" x2="240" y2="118" stroke-opacity="0.28"/>
+            <line x1="110" y1="142" x2="196" y2="142" stroke-opacity="0.28"/>
+            <line x1="110" y1="166" x2="222" y2="166" stroke-opacity="0.28"/>
+            <line x1="322" y1="70" x2="340" y2="70" stroke-opacity="0.28"/>
+            <line x1="322" y1="94" x2="340" y2="94" stroke-opacity="0.28"/>
+            <line x1="322" y1="118" x2="340" y2="118" stroke-opacity="0.28"/>
+            <line x1="322" y1="142" x2="340" y2="142" stroke-opacity="0.28"/>
+            <line x1="322" y1="166" x2="340" y2="166" stroke-opacity="0.28"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">1</span>Lista de materiais</b>Código, descrição, fabricante e quantidade, por instalação.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="xls" data-fig="xls_clp">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Arquitetura de CLP">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
+            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
+            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
+            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
+            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
+            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
+            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
+            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
+            <line x1="90" y1="30" x2="90" y2="222" stroke-opacity="0.25"/>
+            <line x1="170" y1="30" x2="170" y2="222" stroke-opacity="0.25"/>
+            <line x1="268" y1="30" x2="268" y2="222" stroke-opacity="0.25"/>
+            <line x1="36" y1="70" x2="76" y2="70" stroke-opacity="0.28"/>
+            <line x1="36" y1="94" x2="76" y2="94" stroke-opacity="0.28"/>
+            <line x1="36" y1="118" x2="76" y2="118" stroke-opacity="0.28"/>
+            <line x1="36" y1="142" x2="76" y2="142" stroke-opacity="0.28"/>
+            <line x1="36" y1="166" x2="76" y2="166" stroke-opacity="0.28"/>
+            <line x1="102" y1="70" x2="146" y2="70" stroke-opacity="0.28"/>
+            <line x1="102" y1="94" x2="146" y2="94" stroke-opacity="0.28"/>
+            <line x1="102" y1="118" x2="146" y2="118" stroke-opacity="0.28"/>
+            <line x1="102" y1="142" x2="146" y2="142" stroke-opacity="0.28"/>
+            <line x1="102" y1="166" x2="146" y2="166" stroke-opacity="0.28"/>
+            <line x1="182" y1="70" x2="236" y2="70" stroke-opacity="0.28"/>
+            <line x1="182" y1="94" x2="220" y2="94" stroke-opacity="0.28"/>
+            <line x1="182" y1="118" x2="236" y2="118" stroke-opacity="0.28"/>
+            <line x1="182" y1="142" x2="212" y2="142" stroke-opacity="0.28"/>
+            <line x1="182" y1="166" x2="236" y2="166" stroke-opacity="0.28"/>
+            <rect x="280" y="180" width="58" height="18" stroke-opacity="0.55"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">2</span>Arquitetura de CLP</b>Endereço, tag, tipo e a reserva declarada, ponto a ponto.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="xls" data-fig="xls_termico">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Design térmico">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="30" width="200" height="192" stroke-opacity="0.5"/>
+            <line x1="26" y1="52" x2="226" y2="52" stroke-opacity="0.65"/>
+            <line x1="150" y1="30" x2="150" y2="222" stroke-opacity="0.25"/>
+            <line x1="26" y1="76" x2="226" y2="76" stroke-opacity="0.18"/>
+            <line x1="26" y1="100" x2="226" y2="100" stroke-opacity="0.18"/>
+            <line x1="26" y1="124" x2="226" y2="124" stroke-opacity="0.18"/>
+            <line x1="26" y1="148" x2="226" y2="148" stroke-opacity="0.18"/>
+            <line x1="26" y1="172" x2="226" y2="172" stroke-opacity="0.18"/>
+            <line x1="36" y1="66" x2="120" y2="66" stroke-opacity="0.28"/>
+            <line x1="36" y1="90" x2="112" y2="90" stroke-opacity="0.28"/>
+            <line x1="36" y1="114" x2="124" y2="114" stroke-opacity="0.28"/>
+            <line x1="36" y1="138" x2="108" y2="138" stroke-opacity="0.28"/>
+            <line x1="162" y1="66" x2="196" y2="66" stroke-opacity="0.28"/>
+            <line x1="162" y1="90" x2="196" y2="90" stroke-opacity="0.28"/>
+            <line x1="162" y1="114" x2="196" y2="114" stroke-opacity="0.28"/>
+            <rect x="250" y="30" width="124" height="112" stroke-opacity="0.6"/>
+            <line x1="264" y1="58" x2="360" y2="58" stroke-opacity="0.3"/>
+            <line x1="264" y1="82" x2="330" y2="82" stroke-opacity="0.3"/>
+            <line x1="264" y1="106" x2="344" y2="106" stroke-opacity="0.3"/>
+            <rect x="250" y="160" width="124" height="62" stroke-opacity="0.6"/>
+            <circle cx="282" cy="191" r="18" stroke-opacity="0.6"/>
+            <line x1="270" y1="181" x2="294" y2="201" stroke-opacity="0.6"/>
+            <line x1="294" y1="181" x2="270" y2="201" stroke-opacity="0.6"/>
+            <line x1="312" y1="184" x2="360" y2="184" stroke-opacity="0.4"/>
+            <line x1="312" y1="198" x2="344" y2="198" stroke-opacity="0.4"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">3</span>Design térmico</b>Dissipação por item e o veredito de ventilação ou climatização.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="xls" data-fig="xls_ident">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Identificações">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="30" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="49" x2="90" y2="49" stroke-opacity="0.28"/>
+            <rect x="112" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="49" x2="172" y2="49" stroke-opacity="0.28"/>
+            <rect x="194" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="49" x2="254" y2="49" stroke-opacity="0.28"/>
+            <rect x="276" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="49" x2="336" y2="49" stroke-opacity="0.28"/>
+            <rect x="30" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="93" x2="90" y2="93" stroke-opacity="0.28"/>
+            <rect x="112" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="93" x2="172" y2="93" stroke-opacity="0.28"/>
+            <rect x="194" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="93" x2="254" y2="93" stroke-opacity="0.28"/>
+            <rect x="276" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="93" x2="336" y2="93" stroke-opacity="0.28"/>
+            <rect x="30" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="137" x2="90" y2="137" stroke-opacity="0.28"/>
+            <rect x="112" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="137" x2="172" y2="137" stroke-opacity="0.28"/>
+            <rect x="194" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="137" x2="254" y2="137" stroke-opacity="0.28"/>
+            <rect x="276" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="137" x2="336" y2="137" stroke-opacity="0.28"/>
+            <rect x="30" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="181" x2="90" y2="181" stroke-opacity="0.28"/>
+            <rect x="112" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="181" x2="172" y2="181" stroke-opacity="0.28"/>
+            <rect x="194" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="181" x2="254" y2="181" stroke-opacity="0.28"/>
+            <rect x="276" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="181" x2="336" y2="181" stroke-opacity="0.28"/>
+            <line x1="26" y1="212" x2="374" y2="212" stroke-opacity="0.4"/>
+            <rect x="26" y="206" width="12" height="12" stroke-opacity="0.4"/>
+            <rect x="356" y="206" width="12" height="12" stroke-opacity="0.4"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">4</span>Identificações</b>Fios, bornes, dispositivos e relés, prontos pra impressora de etiqueta.</figcaption>
+        </figure>
+        <figure class="figura" data-lado="xls" data-fig="xls_instalacao">
+          <svg viewBox="0 0 400 250" role="img" aria-label="Lista de instalação">
+            <g stroke="currentColor" fill="none" stroke-width="1">
+            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
+            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
+            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
+            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
+            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
+            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
+            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
+            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
+            <line x1="120" y1="30" x2="120" y2="222" stroke-opacity="0.25"/>
+            <line x1="200" y1="30" x2="200" y2="222" stroke-opacity="0.25"/>
+            <line x1="262" y1="30" x2="262" y2="222" stroke-opacity="0.25"/>
+            <line x1="320" y1="30" x2="320" y2="222" stroke-opacity="0.25"/>
+            <line x1="36" y1="70" x2="108" y2="70" stroke-opacity="0.28"/>
+            <line x1="36" y1="94" x2="108" y2="94" stroke-opacity="0.28"/>
+            <line x1="36" y1="118" x2="108" y2="118" stroke-opacity="0.28"/>
+            <line x1="36" y1="142" x2="108" y2="142" stroke-opacity="0.28"/>
+            <line x1="36" y1="166" x2="108" y2="166" stroke-opacity="0.28"/>
+            <line x1="36" y1="190" x2="108" y2="190" stroke-opacity="0.28"/>
+            <line x1="132" y1="70" x2="172" y2="70" stroke-opacity="0.28"/>
+            <line x1="132" y1="94" x2="172" y2="94" stroke-opacity="0.28"/>
+            <line x1="132" y1="118" x2="172" y2="118" stroke-opacity="0.28"/>
+            <line x1="132" y1="142" x2="172" y2="142" stroke-opacity="0.28"/>
+            <line x1="132" y1="166" x2="172" y2="166" stroke-opacity="0.28"/>
+            <line x1="132" y1="190" x2="172" y2="190" stroke-opacity="0.28"/>
+            <line x1="274" y1="70" x2="300" y2="70" stroke-opacity="0.28"/>
+            <line x1="274" y1="94" x2="300" y2="94" stroke-opacity="0.28"/>
+            <line x1="274" y1="118" x2="300" y2="118" stroke-opacity="0.28"/>
+            <line x1="274" y1="142" x2="300" y2="142" stroke-opacity="0.28"/>
+            <line x1="274" y1="166" x2="300" y2="166" stroke-opacity="0.28"/>
+            <line x1="274" y1="190" x2="300" y2="190" stroke-opacity="0.28"/>
+            <rect x="330" y="66" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="66" width="30" height="8" stroke-opacity="0.75"/>
+            <rect x="330" y="90" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="90" width="22" height="8" stroke-opacity="0.75"/>
+            <rect x="330" y="114" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="114" width="36" height="8" stroke-opacity="0.75"/>
+            <rect x="330" y="138" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="138" width="12" height="8" stroke-opacity="0.75"/>
+            <rect x="330" y="162" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="162" width="8" height="8" stroke-opacity="0.75"/>
+            <rect x="330" y="186" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="186" width="26" height="8" stroke-opacity="0.75"/>
+            </g>
+          </svg>
+          <figcaption><b><span class="borne">5</span>Lista de instalação</b>Uma linha por tarefa, com horas estimadas e percentual concluído.</figcaption>
+        </figure>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -656,7 +1205,6 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
   <section class="secao">
     <div class="secao__cabeca">
       <h2>O que é conferido antes de sair</h2>
-      <p>Lista fechada, aplicada em toda entrega e em toda revisão. São os itens que, quando passam despercebidos, atrasam a montagem.</p>
     </div>
 
     <div class="checagem">
@@ -680,12 +1228,12 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
   <!-- ESCOPOS -->
   <section class="secao">
     <div class="secao__cabeca">
-      <h2>Dois escopos</h2>
+      <h2>Escopos de projeto</h2>
     </div>
 
     <div class="escopos">
       <div class="escopo">
-        <span class="rotulo">Escopo A</span>
+        <span class="escopo__letra"><span class="no" aria-hidden="true"></span> <span class="rotulo">Escopo A</span></span>
         <h3>Projeto de painel</h3>
         <p>O painel completo: diagrama, régua de bornes, layout, listas, identificações, arquitetura de CLP e design térmico.</p>
         <p><strong>Para quem</strong> monta e instala por conta.</p>
@@ -697,13 +1245,36 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
         <p><strong>Para quem</strong> também vai instalar, ou contratar quem instale.</p>
       </div>
     </div>
+
   </section>
 
   <!-- ORÇAMENTO -->
   <section class="secao">
     <div class="secao__cabeca">
-      <h2>Como sai o orçamento</h2>
-      <p>Preço fechado por projeto, não por hora. Você sabe quanto vai gastar antes de começar, e eu ganho por ser eficiente em vez de perder.</p>
+      <h2>Condições comerciais</h2>
+    </div>
+
+    <div class="condicoes">
+      <div class="condicao">
+        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Preço</span></span>
+        <p class="condicao__titulo">Preço fechado, antes de começar.</p>
+        <p class="condicao__texto">O valor sai das páginas de diagrama e do escopo. Não muda no meio do projeto.</p>
+      </div>
+      <div class="condicao">
+        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Condição de início</span></span>
+        <p class="condicao__titulo">Desconto de 50% no primeiro projeto.</p>
+        <p class="condicao__texto">Vale uma vez por cliente. Você não me conhece, e eu preciso do primeiro projeto pra mostrar o padrão.</p>
+      </div>
+      <div class="condicao">
+        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Revisões</span></span>
+        <p class="condicao__titulo">Erro meu eu corrijo sempre.</p>
+        <p class="condicao__texto">Sem limite e sem cobrança, comparando contra a ficha que você assinou. Alteração que você pedir depois: duas rodadas inclusas.</p>
+      </div>
+      <div class="condicao">
+        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Sigilo</span></span>
+        <p class="condicao__titulo">Nada seu é publicado sem a sua autorização.</p>
+        <p class="condicao__texto">Desenho, padrão e informação comercial ficam em sigilo por dois anos depois da entrega, em cláusula de contrato. O que você salva na sua conta fica só na sua conta.</p>
+      </div>
     </div>
 
     <div class="tabela-wrap">
@@ -713,60 +1284,41 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
         </thead>
         <tbody>
           <tr>
-            <td class="destaque-td">Levantamento</td>
-            <td>Você manda o que tem. Eu faço as perguntas que faltam e fecho o escopo.</td>
-            <td class="mono">24 h para responder</td>
-            <td class="mono">sem custo</td>
+            <td class="destaque-td">1 · Orçamento</td>
+            <td data-rot="O que acontece">Você descreve o projeto. Respondo com valor e prazo fechados.</td>
+            <td data-rot="Prazo" class="mono">em 24 h</td>
+            <td data-rot="Pagamento" class="mono">sem custo</td>
           </tr>
           <tr>
-            <td class="destaque-td">Proposta</td>
-            <td>Escopo nomeado A ou B, valor fechado, prazo e o pacote de entrega anexo.</td>
-            <td class="mono">3 dias úteis</td>
-            <td class="mono">sem custo</td>
+            <td class="destaque-td">2 · Aceite</td>
+            <td data-rot="O que acontece">Você aceita a proposta e assina o contrato digitalmente.</td>
+            <td data-rot="Prazo" class="mono">até 3 dias</td>
+            <td data-rot="Pagamento" class="mono destaque-td">40%</td>
           </tr>
           <tr>
-            <td class="destaque-td">Contrato</td>
-            <td>Assinatura digital. O projeto entra na fila quando o sinal confirma.</td>
-            <td class="mono">no aceite</td>
-            <td class="mono destaque-td">40%</td>
+            <td class="destaque-td">3 · Execução</td>
+            <td data-rot="O que acontece">Desenvolvimento e conferência dos 12 blocos. O prazo conta do pagamento.</td>
+            <td data-rot="Prazo" class="mono">prazo da proposta</td>
+            <td data-rot="Pagamento" class="mono">—</td>
           </tr>
           <tr>
-            <td class="destaque-td">Execução</td>
-            <td>Desenvolvimento e conferência dos 12 blocos.</td>
-            <td class="mono">prazo da proposta</td>
-            <td class="mono">—</td>
-          </tr>
-          <tr>
-            <td class="destaque-td">Entrega</td>
-            <td>Pacote completo, com duas rodadas de revisão inclusas.</td>
-            <td class="mono">na data fechada</td>
-            <td class="mono destaque-td">60% em 15 dias</td>
+            <td class="destaque-td">4 · Entrega</td>
+            <td data-rot="O que acontece">Pacote completo, com revisões inclusas.</td>
+            <td data-rot="Prazo" class="mono">na data fechada</td>
+            <td data-rot="Pagamento" class="mono destaque-td">60% na aprovação</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="tabela-wrap">
-      <table>
-        <thead><tr><th>O que define o valor</th><th>Efeito no preço</th></tr></thead>
-        <tbody>
-          <tr><td>Escopo A ou B</td><td>O B acrescenta a instalação inteira</td></tr>
-          <tr><td>Quantidade de I/Os</td><td>Principal medida de tamanho do projeto</td></tr>
-          <tr><td>Hardware já definido ou não</td><td>Especificar do zero soma horas</td></tr>
-          <tr><td>Prazo abaixo do padrão</td><td>Urgência tem acréscimo declarado</td></tr>
-          <tr><td>Arquivo editável de origem</td><td>Não incluso. Cotado à parte</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="rotulo">Não incluso em nenhum escopo: ART · programação de CLP · montagem · comissionamento · compra de material</p>
   </section>
 
   <!-- CONTATO -->
   <section class="contato" id="contato">
     <div>
       <h2>Descreva o que você precisa projetar</h2>
-      <p>Tipo de máquina ou processo, se precisa apenas do painel ou também da instalação, e o prazo previsto. Se já tiver orçamento de outra empresa, envie junto.</p>
+      <p>Onze campos. Respondo com valor e prazo fechados em até 24 h.</p>
+      <div class="contato__acao"><a class="botao" href="/orcamento">Solicitar orçamento</a></div>
     </div>
     <div class="dados">
       <div class="dado">
@@ -795,9 +1347,127 @@ a:focus-visible, .botao:focus-visible { outline: 2px solid var(--acento); outlin
       </div>
       <div><span class="campo">EMPRESA</span><span class="valor">Borin Projetos Elétricos</span></div>
       <div><span class="campo">RESPONSÁVEL</span><span class="valor">Mateus Borin · projetista</span></div>
-      <div><span class="campo">REV</span><span class="valor">02</span></div>
+      <div><span class="campo">CNPJ</span><span class="valor">65.749.097/0001-85</span></div>
       <div><span class="campo">LOCAL</span><span class="valor">Caxias do Sul · RS</span></div>
     </div>
+    <p class="rodape-acao"><a href="/entrar">Entrar na minha conta</a> · <a href="/orcamento">Pedir orçamento</a></p>
   </footer>
 
 </div>
+
+<script>
+(function () {
+  ['pdf', 'xls'].forEach(function (lado) {
+    var lista = document.querySelector('.bornes[data-lista="' + lado + '"]');
+    var bt = document.querySelector('.link-expandir[data-abre="' + lado + '"]');
+    var itens = document.querySelectorAll('.item[data-lado="' + lado + '"]');
+    var figs = document.querySelectorAll('.figura[data-lado="' + lado + '"]');
+    if (!lista || !itens.length) { return; }
+
+    var rotuloAberto = 'recolher';
+    var rotuloFechado = bt ? bt.textContent : 'ver todos';
+
+    function fechar(sim) {
+      lista.classList.toggle('fechada', sim);
+      if (bt) { bt.textContent = sim ? rotuloFechado : rotuloAberto; }
+    }
+
+    /* quando fechada, mostra so a linha do item selecionado */
+    function marcarVisivel(chave) {
+      lista.querySelectorAll('li').forEach(function (li) {
+        var b = li.querySelector('.item');
+        li.classList.toggle('visivel', !!b && b.dataset.fig === chave);
+      });
+    }
+
+    function mostrar(chave, irAte) {
+      itens.forEach(function (b) { b.classList.toggle('ativo', b.dataset.fig === chave); });
+      var alvo = null;
+      figs.forEach(function (f) {
+        var eh = f.dataset.fig === chave;
+        f.classList.toggle('ativo', eh);
+        if (eh) { alvo = f; }
+      });
+      marcarVisivel(chave);
+      if (irAte && alvo) {
+        /* nao fechar a lista aqui: quem abriu com "ver os 9" perdia as nove
+           linhas no primeiro clique, e ainda levava um scroll junto */
+        alvo.classList.remove('piscou');
+        void alvo.offsetWidth;
+        alvo.classList.add('piscou');
+        /* 'nearest' nao rola quando a figura ja esta na tela */
+        alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    itens.forEach(function (b) {
+      b.addEventListener('click', function () { mostrar(b.dataset.fig, true); });
+    });
+
+    if (bt) {
+      bt.addEventListener('click', function () { fechar(!lista.classList.contains('fechada')); });
+    }
+
+    mostrar(itens[0].dataset.fig, false);
+  });
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://borinprojetos.com.br/#negocio",
+  "name": "Borin Projetos Elétricos",
+  "url": "https://borinprojetos.com.br/",
+  "description": "Projeto elétrico de painéis e instalações industriais: diagramas, listas de material, régua de bornes, layout, identificações, arquitetura de CLP e design térmico, conferidos antes da entrega.",
+  "email": "contato@borinprojetos.com.br",
+  "telephone": "+55-54-99664-2003",
+  "taxID": "65.749.097/0001-85",
+  "priceRange": "$$",
+  "founder": {
+    "@type": "Person",
+    "name": "Mateus Borin",
+    "jobTitle": "Projetista elétrico"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Caxias do Sul",
+    "addressRegion": "RS",
+    "addressCountry": "BR"
+  },
+  "areaServed": { "@type": "Country", "name": "Brasil" },
+  "knowsAbout": [
+    "Projeto elétrico industrial",
+    "Diagrama elétrico de painel de comando",
+    "Documentação técnica de máquina",
+    "Régua de bornes e interconexão de campo",
+    "Arquitetura de CLP e lista de I/O",
+    "IEC 81346", "IEC 61082", "IEC 60204-1", "NFPA 79", "NR-10", "NR-12"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Escopos de projeto",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Escopo A — Projeto de painel",
+          "description": "Diagrama, régua de bornes, layout, listas, identificações, arquitetura de CLP e design térmico."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Escopo B — Projeto de painel e instalação",
+          "description": "Tudo do escopo A, mais interconexão de campo, layout 2D, base de cabos, identificações de campo e lista de instalação com horas."
+        }
+      }
+    ]
+  }
+}
+</script>
+
+<!-- ANALYTICS -->

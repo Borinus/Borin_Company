@@ -1,0 +1,166 @@
+{
+  "_leia": "De/para da ficha de projeto. 'rotulo' e o que o cliente le no site; 'macro' e o nome tecnico que vai pro gerador. Trocar rotulo aqui nao quebra nada; trocar macro sim — tem que existir na biblioteca. Origem dos nomes: CONFERENCIAS/_eplan_gerador/FICHA_APP.yaml e docs_banco/MACROS_BIBLIOTECA.xlsx",
+
+  "secoes": [
+    {
+      "id": "projeto",
+      "titulo": "O projeto",
+      "campos": [
+        { "id": "descricao", "rotulo": "Nome do projeto", "tipo": "texto", "dica": "estufa de pintura da linha 2" },
+        { "id": "numero", "rotulo": "Código", "tipo": "texto", "dica": "o número que vocês usam" },
+        { "id": "cliente", "rotulo": "Cliente final", "tipo": "texto", "dica": "para quem a máquina vai, se não for para vocês" },
+        { "id": "obra", "rotulo": "Obra ou local", "tipo": "texto" }
+      ]
+    },
+    {
+      "id": "alimentacao",
+      "titulo": "Alimentação",
+      "nota": "Como o painel é alimentado. Se não souber, deixe no que já vem marcado.",
+      "campos": [
+        { "id": "tipo", "rotulo": "Rede de entrada", "tipo": "opcao", "opcoes": [
+          { "rotulo": "Monofásica 220 V", "macro": "MONO" },
+          { "rotulo": "Trifásica 380 V", "macro": "TRI" }
+        ]},
+        { "id": "chave_geral", "rotulo": "Chave geral", "tipo": "lista", "opcoes": [
+          { "rotulo": "Monofásica até 25 A", "macro": "CHGERAL_MONO_25A" },
+          { "rotulo": "Monofásica até 32 A", "macro": "CHGERAL_MONO_32A" },
+          { "rotulo": "Trifásica", "macro": "CHGERAL_TRI" }
+        ]},
+        { "id": "fio_borne", "rotulo": "Bitola da entrada", "tipo": "lista", "opcoes": [
+          { "rotulo": "2,5 mm²", "macro": "FIO_BORNE_CHGERAL_2_5" },
+          { "rotulo": "4 mm²", "macro": "FIO_BORNE_CHGERAL_4" },
+          { "rotulo": "6 mm²", "macro": "FIO_BORNE_CHGERAL_6" }
+        ]},
+        { "id": "entrada", "rotulo": "Entrada e caixa de campo", "tipo": "lista", "opcoes": [
+          { "rotulo": "Monofásica 220 V, cabo 6 mm²", "macro": "ENTRADA_MONO_220V_6MM" },
+          { "rotulo": "Trifásica 380 V, cabo 16 mm²", "macro": "ENTRADA_TRI_380V_16MM" }
+        ]},
+        { "id": "fonte", "rotulo": "Fonte de 24 V", "tipo": "lista", "opcoes": [
+          { "rotulo": "5 A — painel pequeno e médio", "macro": "FONTE_24V_5A" },
+          { "rotulo": "10 A — muitos acionamentos", "macro": "FONTE_24V_10A" }
+        ]},
+        { "id": "tomada", "rotulo": "Tomada de serviço", "tipo": "lista", "opcoes": [
+          { "rotulo": "220 V, 10 A", "macro": "TOMADA_220V_10A" },
+          { "rotulo": "Sem tomada", "macro": "" }
+        ]}
+      ]
+    },
+    {
+      "id": "seguranca",
+      "titulo": "Segurança",
+      "nota": "Só preencha se a máquina tem NR-12. Cada dispositivo entra como uma linha embaixo.",
+      "campos": [
+        { "id": "plataforma", "rotulo": "Plataforma de segurança", "tipo": "lista", "opcoes": [
+          { "rotulo": "ReeR", "macro": "ReeR" },
+          { "rotulo": "Sem CLP de segurança — só relé", "macro": "" }
+        ]},
+        { "id": "clp", "rotulo": "CLP de segurança", "tipo": "lista", "opcoes": [
+          { "rotulo": "Mosaic M1 com comunicação", "macro": "M1SC_COM" }
+        ]},
+        { "id": "expansao", "rotulo": "Módulo de expansão", "tipo": "lista", "opcoes": [
+          { "rotulo": "Sem expansão", "macro": "" },
+          { "rotulo": "8 entradas e 4 saídas", "macro": "MI8O4" }
+        ]},
+        { "id": "qtd_expansao", "rotulo": "Quantas expansões", "tipo": "numero" },
+        { "id": "contatora_saidas", "rotulo": "Contatora de segurança", "tipo": "lista", "opcoes": [
+          { "rotulo": "RH2140 1BB40", "macro": "SEG_RH2140_1BB40" },
+          { "rotulo": "Sem contatora dedicada", "macro": "" }
+        ]}
+      ],
+      "repetivel": {
+        "id": "dispositivos",
+        "titulo": "Dispositivos de segurança",
+        "rotulo_linha": "Dispositivo",
+        "com_funcao": true,
+        "opcoes": [
+          { "rotulo": "Emergência e reset", "macro": "EME_RST" },
+          { "rotulo": "Emergência e reset no painel", "macro": "EME_RST_PAINEL" },
+          { "rotulo": "Emergência, reset e solicitação de acesso", "macro": "EME_RST_SOLI" },
+          { "rotulo": "Trava de porta Keyence", "macro": "TRAVA_GS71PC" },
+          { "rotulo": "Placa de segurança do robô Yaskawa DX200", "macro": "DX200_SAFETY_BOARD" },
+          { "rotulo": "Equipamento de pintura", "macro": "EQUIPAMENTO_PINTURA" }
+        ]
+      }
+    },
+    {
+      "id": "automacao",
+      "titulo": "Automação",
+      "campos": [
+        { "id": "remota_usar", "rotulo": "Tem remota de I/O", "tipo": "opcao", "opcoes": [
+          { "rotulo": "Sim", "macro": "sim" },
+          { "rotulo": "Não", "macro": "nao" }
+        ]},
+        { "id": "remota_emp", "rotulo": "Modelo da remota", "tipo": "lista", "opcoes": [
+          { "rotulo": "IR ETN40P", "macro": "IR_ETN40P" }
+        ]},
+        { "id": "ihm_modelo", "rotulo": "IHM", "tipo": "lista", "opcoes": [
+          { "rotulo": "Weintek CMT2078X", "macro": "CMT2078X" },
+          { "rotulo": "Sem IHM", "macro": "" }
+        ]},
+        { "id": "ihm_lan", "rotulo": "Porta de rede da IHM", "tipo": "lista", "opcoes": [
+          { "rotulo": "LAN 1", "macro": "LAN1" },
+          { "rotulo": "LAN 2", "macro": "LAN2" }
+        ]},
+        { "id": "rede_switch", "rotulo": "Switch de rede", "tipo": "lista", "opcoes": [
+          { "rotulo": "8 portas", "macro": "IE_SW_BLB_08_8TX" },
+          { "rotulo": "Sem switch", "macro": "" }
+        ]},
+        { "id": "rede_qtd_switch", "rotulo": "Quantos switches", "tipo": "numero" },
+        { "id": "rede_pontos", "rotulo": "Pontos de rede em campo", "tipo": "numero" },
+        { "id": "rede_cabo", "rotulo": "Cabo de rede", "tipo": "lista", "opcoes": [
+          { "rotulo": "Adaptador M12 com cabo", "macro": "IE_M12_ADAP_S_CABO" }
+        ]}
+      ]
+    },
+    {
+      "id": "io_processo",
+      "titulo": "Pontos de I/O",
+      "nota": "Quantos pontos o processo tem. Estimativa serve — o que muda o projeto é a ordem de grandeza.",
+      "campos": [
+        { "id": "entradas_digitais", "rotulo": "Entradas digitais", "tipo": "numero" },
+        { "id": "saidas_digitais", "rotulo": "Saídas digitais", "tipo": "numero" },
+        { "id": "entradas_analogicas", "rotulo": "Entradas analógicas", "tipo": "numero" },
+        { "id": "saidas_analogicas", "rotulo": "Saídas analógicas", "tipo": "numero" },
+        { "id": "valvulas", "rotulo": "Válvulas", "tipo": "numero" },
+        { "id": "reserva_entradas", "rotulo": "Reservar entradas sobressalentes", "tipo": "marca" },
+        { "id": "reserva_saidas", "rotulo": "Reservar saídas sobressalentes", "tipo": "marca" }
+      ]
+    }
+  ],
+
+  "campo": {
+    "titulo": "Entradas e saídas de campo",
+    "nota": "Escolha a categoria, depois o item. Se a quantidade for maior que 1, dá pra descrever a função de cada um.",
+    "categorias": [
+      { "rotulo": "Sensores", "itens": [
+        { "rotulo": "Sensor capacitivo CS10, 2 fios", "macro": "cs10_2x" },
+        { "rotulo": "Sensor capacitivo CS10, 1 fio", "macro": "cs10_1x" },
+        { "rotulo": "Sensor de nível SDBT, 2 fios", "macro": "sdbt_2x" },
+        { "rotulo": "Sensor de nível SDBT, 1 fio", "macro": "sdbt_1x" },
+        { "rotulo": "Sensor Baumer", "macro": "baumer" },
+        { "rotulo": "Fluxostato", "macro": "fluxostato" }
+      ]},
+      { "rotulo": "Pressão", "itens": [
+        { "rotulo": "Transmissor 0 a 25 bar", "macro": "pressao_0_25bar" },
+        { "rotulo": "Transmissor 0 a 6 bar", "macro": "pressao_0_6bar" },
+        { "rotulo": "Transmissor 0 a 1 bar", "macro": "pressao_1bar" }
+      ]},
+      { "rotulo": "Temperatura", "itens": [
+        { "rotulo": "Sensor de temperatura 1", "macro": "sensor_temp_1" },
+        { "rotulo": "Sensor de temperatura 2", "macro": "sensor_temp_2" }
+      ]},
+      { "rotulo": "Comando de painel", "itens": [
+        { "rotulo": "Chave seletora no painel", "macro": "seletora_painel" },
+        { "rotulo": "Botão azul", "macro": "botao_azul" }
+      ]},
+      { "rotulo": "Sinalização", "itens": [
+        { "rotulo": "LED vermelho", "macro": "led_vermelho" },
+        { "rotulo": "LED verde", "macro": "led_verde" },
+        { "rotulo": "Buzzer", "macro": "buzzer" }
+      ]},
+      { "rotulo": "Acionamentos", "itens": [
+        { "rotulo": "Válvula", "macro": "valvulas" }
+      ]}
+    ]
+  }
+}
