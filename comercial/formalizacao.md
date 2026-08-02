@@ -36,13 +36,48 @@ documentação técnica*. São atividades diferentes.
 **Decisão do Mateus: fica como está.** Um amigo dele opera MEI com esse mesmo CNAE, mesmo perfil
 de cliente pequeno, e as notas passam. Abre ME mais adiante, depois de uns 5 projetos.
 
-O precedente do amigo é o que sustenta isso: mesmo enquadramento (MEI), mesmo CNAE, mesmo porte de
-cliente. Vale enquanto o cliente for pequeno — quem confere descrição de nota contra objeto de
-contrato é departamento fiscal de empresa grande, não cliente de porte pequeno.
+### O que a pesquisa em fonte oficial acrescentou (01/08/2026)
 
-**O que revisar quando entrar cliente grande:** o contrato diz "elaboração de documentação técnica
-de sistema elétrico" e a nota, por esse CNAE, sai como instalação. Os dois documentos descrevem
-serviços diferentes. Não trava a emissão, aparece no fechamento do cliente.
+Detalhe completo em `comercial/enquadramento.md`. O que muda a leitura da decisão acima:
+
+- **O CNAE 3321-0/00 continua válido no MEI.** Não foi removido. Consta da Tabela A do Anexo XI da
+  Resolução CGSN 140/2018, versão consolidada de 16/10/2025. Essa parte da premissa está certa.
+- **Mas não existe CNAE de projeto disponível no MEI.** Buscando as ~471 ocupações do Anexo XI
+  inteiro, nenhuma contém "projetista", "desenhista" ou "engenh". Os CNAEs 7119-7/03 e 7112-0/00
+  não estão lá. Ou seja: **"incluir o CNAE certo" não é uma opção** — a correção seria sair do MEI.
+- **O que conta é a ocupação, não a descrição do CNAE.** Manual do Desenquadramento do SIMEI
+  (Receita, abril/2025, item 4.3): *"considere sempre a descrição do campo 'ocupação', nunca a
+  descrição da subclasse CNAE"*. A ocupação registrada é INSTALADOR DE MÁQUINAS E EQUIPAMENTOS
+  INDUSTRIAIS INDEPENDENTE.
+- **O risco não é a multa.** A multa por não comunicar desenquadramento é R$ 50 (LC 123/2006,
+  art. 36-A). O que pesa é o item 8 do mesmo Manual: se o fisco entender que a ocupação de
+  instalador nunca foi exercida, o desenquadramento é de ofício e **retroage a 18/03/2026**, com
+  todo o faturamento recalculado como ME — e só se desfaz por processo administrativo.
+
+**Teste de cinco minutos, antes de qualquer conversa com contador:** abrir o Emissor Nacional
+(`nfse.gov.br/EmissorNacional`) com o CNPJ e ver quais códigos de serviço aparecem. Se só vier
+código de instalação, a pergunta se responde sozinha, de graça, sem depender de opinião.
+
+**Três coisas para perguntar ao amigo** — elas decidem se o precedente dele transfere:
+ele é MEI ou já é ME; ele instala alguma coisa de fato ou só projeta; e se já emitiu nota para
+cliente que retém ISS.
+
+### O ponto jurídico que afeta o contrato
+
+A Lei 5.194/1966, art. 15, declara **nulos de pleno direito** os contratos referentes a qualquer
+ramo da engenharia, "inclusive a elaboração de projeto", firmados com quem não é legalmente
+habilitado — e o art. 6º alcança pessoa jurídica, não só física. Num projeto de R$ 15 mil com
+cliente que decide não pagar, o próprio contrato pode virar defesa dele.
+
+Isso reforça o que `modelo-contrato.md` já faz: descrever o entregável (documentação técnica,
+diagramas, listas, conferência), sem se apresentar como responsável técnico e sem a palavra
+"Engenharia" em lugar nenhum. Vale revisar com advogado com esse artigo na mão.
+
+**Porta que existe e não estava no radar:** "legalmente habilitado" não é sinônimo de engenheiro
+com CREA. A Lei 5.524/1968 e o Decreto 90.922/1985 (art. 4º, V e §2º) reconhecem ao **técnico
+industrial** a responsabilidade por projeto compatível com a formação — o §2º cita expressamente
+projetar instalações elétricas até 800 kVA. O registro é no CFT/CRT desde a Lei 13.639/2018.
+Depende de diploma técnico. **Vale uma ligação para o CRT-RS.**
 
 **Detalhe que aparece em todo documento:** a razão social do MEI é o número do CNPJ mais o nome —
 `65.749.097 MATEUS BORIN`. É isso que vai na nota fiscal e na qualificação das partes do contrato.
@@ -58,9 +93,19 @@ O problema não é hoje — é o teto.
 
 | | |
 |---|---|
-| Teto do MEI | ~R$ 81 mil/ano (confirmar valor vigente) → **~R$ 6.750/mês** |
+| Teto do MEI, ano cheio | **R$ 81.000/ano** → R$ 6.750/mês. Confirmado na LC 123/2006, art. 18-A §1º |
+| **Teu teto em 2026** | **R$ 67.500** — proporcional, veja abaixo |
 | Faturamento necessário para a meta | **R$ 8.940/mês** → R$ 107.280/ano |
-| Excedente projetado | ~**32% acima do teto** |
+| Excedente projetado | ~**32% acima do teto cheio** |
+
+> **O teto de 2026 não é R$ 81 mil.** O CNPJ abriu em 18/03/2026, e no ano de início a lei
+> manda multiplicar R$ 6.750 pelos meses até dezembro — 10 meses, contando março inteiro
+> (LC 123/2006, art. 18-A, §2º). Dá **R$ 67.500**. Passar disso em até 20% (ou seja, até
+> R$ 81.000) gera DAS complementar e desenquadramento em 01/01/2027. Passar de R$ 81.000
+> desenquadra **retroativo a 18/03/2026**, com tudo recalculado como ME.
+>
+> E não conte com aumento: os R$ 110 mil / R$ 140 mil que aparecem na página do gov.br são
+> o PLP 186/2026, ainda em tramitação em 01/08/2026. Não virou lei.
 
 Pela tabela de `precificacao.md`, **um Escopo A grande (R$ 8.200) ou um B grande (R$ 11.700) já
 estoura o mês.** Não é cenário distante: é o primeiro projeto grande.
@@ -82,28 +127,35 @@ Ou seja: *"abro o Simples quando passar"* funciona se a migração acontecer **a
 linha. Se cruzar primeiro e abrir depois, o retroativo já foi gerado — e pela projeção de
 R$ 8.940/mês o excedente seria de ~32%, dentro do segundo patamar.
 
-**Regra prática: quando o faturamento acumulado do ano chegar em ~R$ 65 mil, começar a abrir o
-Simples.** Aí sobram uns dois projetos de folga para o processo correr sem pressa. Esperar chegar em
-R$ 81 mil é apertado; passar de R$ 81 mil é caro.
+**Regra prática: quando o faturamento acumulado do ano chegar em ~R$ 55 mil, começar a abrir o
+Simples.** Aí sobra um projeto grande de folga para o processo correr sem pressa. Em 2026 a linha
+de corte é R$ 67.500, não R$ 81 mil — esperar chegar nela é apertado, passar dela é caro.
 
 ### Por que o gatilho é valor acumulado, e não número de projetos
 
 O plano de "abrir ME depois de uns 5 projetos" fecha — 5 projetos não chegam ao teto em nenhuma
 combinação da tabela de `precificacao.md`:
 
-| 5 projetos | Acumulado | Do teto |
-|---|---|---|
-| 5 × Escopo A pequeno (R$ 3.500) | R$ 17.500 | 22% |
-| 5 × típico (R$ 6.700) | R$ 33.500 | 41% |
-| 5 × Escopo B grande (R$ 11.700) | R$ 58.500 | 72% |
+O plano de "abrir ME depois de uns 5 projetos" fecha — mas com **menos folga do que parecia**,
+porque o teto de 2026 é R$ 67.500 e não R$ 81 mil:
 
-O 6º e o 7º é que decidem: **sete Escopo B grandes dão R$ 81.900 e cruzam a linha.** Contar projeto
-não serve de controle porque o mesmo "5 projetos" pode ser R$ 17 mil ou R$ 58 mil. Contar dinheiro
-serve. Cinco projetos é o sinal para começar a olhar; R$ 65 mil acumulados é o gatilho para agir.
+| 5 projetos | Acumulado | Do teto de 2026 (R$ 67.500) |
+|---|---|---|
+| 5 × Escopo A pequeno (R$ 3.500) | R$ 17.500 | 26% |
+| 5 × típico (R$ 6.700) | R$ 33.500 | 50% |
+| 5 × Escopo B grande (R$ 11.700) | R$ 58.500 | **87%** |
+
+**Seis Escopo B grandes já dão R$ 70.200 e passam do limite de 2026.** Contar projeto não serve de
+controle, porque o mesmo "5 projetos" pode ser R$ 17 mil ou R$ 58 mil. Contar dinheiro serve.
+
+**Gatilho corrigido: R$ 55 mil acumulados** — não R$ 65 mil. Os R$ 65 mil foram calculados contra o
+teto errado; contra R$ 67.500 eles deixam só dois mil e quinhentos de folga, o que não dá tempo de
+abrir empresa. R$ 55 mil deixa um projeto grande inteiro de margem.
 
 - [ ] Anotar o faturamento acumulado do ano a cada nota emitida — controle simples, uma linha por nota
-- [ ] Gatilho: acumulado ≥ R$ 65 mil → procurar contador e iniciar a abertura do Simples
-- [ ] Confirmar com o contador os valores vigentes do teto e da regra de excedente
+- [ ] Gatilho: acumulado ≥ R$ 55 mil → procurar contador e iniciar a abertura do Simples
+- [x] Teto e regra de excedente confirmados em fonte oficial — ver `enquadramento.md`
+- [ ] Abrir o Emissor Nacional e ver quais códigos de serviço aparecem para o CNPJ (5 minutos)
 
 ---
 
@@ -219,7 +271,7 @@ Não baixe o preço por causa disso: a folga é temporária e vira custo no dese
 4. [ ] **Conta bancária PJ**, separada da pessoal. Sem exceção
 5. [ ] Acesso ao sistema de NFS-e de Caxias e primeira nota de teste
 6. [ ] Controle do faturamento acumulado do ano — uma linha por nota emitida
-7. [ ] Ao bater ~R$ 65 mil acumulados: iniciar a abertura do Simples
+7. [ ] Ao bater ~R$ 55 mil acumulados: iniciar a abertura do Simples
 8. [ ] Definir a regra de quem fatura (seu MEI x Simples do sócio) antes do primeiro projeto
 9. [ ] Revisar `comercial/modelo-contrato.md` com advogado antes do primeiro contrato
 
