@@ -181,7 +181,6 @@ def main():
     p["total_extenso"] = ct.extenso(p["total"])
     p["total_brl"] = calc.brl(p["total"])
     p["itens"] = getattr(ns, "itens_manuais", 0)
-    p["composicao"] = orc.composicao(p, ns)
 
     if p["total"] != d.get("total"):
         raise SystemExit(

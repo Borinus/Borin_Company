@@ -212,7 +212,11 @@ def texto(p):
 
 
 def composicao(p, o):
-    """A linha de composicao do Quadro Resumo do contrato: mesma conta da
+    """NAO VAI MAIS PRO CONTRATO. Entregava a formula ao cliente e convidava
+    ele a negociar pagina por pagina; saiu do Quadro Resumo em 02/08/2026.
+    Fica aqui porque a conta ainda serve pra eu conferir de onde saiu o preco.
+
+    A linha de composicao do Quadro Resumo do contrato: mesma conta da
     proposta, escrita numa linha."""
     partes = ["%d páginas × R$ 235" % p["paginas"]]
     if o.itens_manuais:
@@ -374,7 +378,6 @@ def main():
         ct = _iu.module_from_spec(_c); _c.loader.exec_module(ct)
         p["total_extenso"] = ct.extenso(p["total"])
         p["itens"] = o.itens_manuais
-        p["composicao"] = composicao(p, o)
         # O cadastro entra SOZINHO. Se o cliente ja preencheu, o contrato sai
         # pronto pra assinar; se nao preencheu, sai em branco e o email
         # convida ele a preencher. Isto era uma flag que precisava ser

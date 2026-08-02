@@ -202,7 +202,6 @@ def gerar(p, saida=None):
         "**Páginas de diagrama estimadas**": str(p["paginas"]),
         "**Itens fora do banco de artigos previstos**": str(p.get("itens", 0)),
         "**Preço total**": "**%s** (%s)" % (calc_brl(p["total"]), p["total_extenso"]),
-        "**Composição**": p["composicao"],
         "**Prazo de entrega**": ("%s, contados do que ocorrer por último entre o pagamento "
                                  "da parcela inicial e o recebimento da Ficha Técnica completa"
                                  % p["prazo"]),
@@ -382,7 +381,6 @@ if __name__ == "__main__":
     p = orc.montar(ns)
     p["total_extenso"] = extenso(p["total"])
     p["itens"] = ns.itens_manuais
-    p["composicao"] = orc.composicao(p, ns)
     caminho, faltam = gerar(p)
     print("\n  PDF:", caminho)
     if faltam:

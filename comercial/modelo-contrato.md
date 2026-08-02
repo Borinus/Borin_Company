@@ -34,7 +34,6 @@ condição de paridade.
 | **Páginas de diagrama estimadas** | [N] |
 | **Itens fora do banco de artigos previstos** | [N] |
 | **Preço total** | **R$ [valor]** ([por extenso]) |
-| **Composição** | [N] páginas × R$ 235 · [N] itens × R$ 250 · setup de padrão do cliente R$ [1.000 / 0] · [urgência +30% / arquivo-fonte +50% / condição de abertura −50%] |
 | **Prazo de entrega** | [N] dias úteis |
 | **Anexos** | I — Proposta · II — Ficha Técnica · III — Padrão de Entrega |
 
