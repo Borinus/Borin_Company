@@ -35,6 +35,7 @@ PAGINAS = [
     ("_enviado.html", "enviado.html"),
     ("_padrao.html", "padrao.html"),
     ("_projeto.html", "projeto.html"),
+    ("_privacidade.html", "privacidade.html"),
     ("_404.html", "404.html"),
 ]
 

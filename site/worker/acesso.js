@@ -137,7 +137,7 @@ function gerarSenha() {
 }
 
 async function criar(request, env, dados) {
-  if (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN) {
+  if (!ehAdmin(request, env) && (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN)) {
     return json({ erro: "nao autorizado" }, 401);
   }
   const email = normalizarEmail(dados.email);
@@ -337,8 +337,18 @@ async function listarProjetos(request, env) {
 /* Le a conta e as fichas de um cliente. So o Mateus chama, com o segredo:
    e o que permite o contrato ser gerado ja preenchido a partir do cadastro
    que o cliente fez, em vez de ele editar campo por campo no PDF. */
+/* O segredo vem no cabecalho Authorization, nunca na URL: query string entra
+   em log da Cloudflare, no historico do navegador e no Referer que vaza pra
+   qualquer recurso que a pagina carregue. Cabecalho nao entra em nenhum. */
+function ehAdmin(request, env) {
+  if (!env.SEGREDO_ADMIN) return false;
+  const cab = request.headers.get("Authorization") || "";
+  const dado = cab.startsWith("Bearer ") ? cab.slice(7) : "";
+  return dado.length === env.SEGREDO_ADMIN.length && igual(dado, env.SEGREDO_ADMIN);
+}
+
 async function lerCliente(request, env, url) {
-  if (!env.SEGREDO_ADMIN || url.searchParams.get("segredo") !== env.SEGREDO_ADMIN) {
+  if (!ehAdmin(request, env)) {
     return json({ erro: "nao autorizado" }, 401);
   }
   const email = normalizarEmail(url.searchParams.get("email"));
@@ -484,7 +494,7 @@ export async function contaDoLead(env, email, empresa, contato) {
    banco de producao, e conta falsa misturada com cliente de verdade e pior
    que nao ter testado. So admin, e exige o email escrito por extenso. */
 async function apagarConta(request, env, dados) {
-  if (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN) {
+  if (!ehAdmin(request, env) && (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN)) {
     return json({ erro: "nao autorizado" }, 401);
   }
   const email = normalizarEmail(dados.email);

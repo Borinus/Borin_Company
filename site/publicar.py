@@ -28,6 +28,7 @@ PAGINAS = [
     "projeto.html",
     # sem isto o Pages devolve a home com HTTP 200 em qualquer
     # endereco errado, o que vira soft 404 no Google
+    "privacidade.html",
     "404.html",
 ]
 
@@ -43,6 +44,7 @@ SITEMAP = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://borinprojetos.com.br/</loc><priority>1.0</priority></url>
   <url><loc>https://borinprojetos.com.br/orcamento</loc><priority>0.8</priority></url>
+  <url><loc>https://borinprojetos.com.br/privacidade</loc><priority>0.3</priority></url>
 </urlset>
 """
 

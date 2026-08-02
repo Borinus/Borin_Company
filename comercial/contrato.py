@@ -321,9 +321,12 @@ def buscar_cadastro(email):
                 seg = v.strip().strip("'\"")
     if not seg:
         raise SystemExit("Falta BORIN_SEGREDO_ADMIN no .env")
+    # o segredo vai no cabecalho, nunca na URL: query string entra em log da
+    # Cloudflare, no historico e no Referer
     u = ("https://borinprojetos.com.br/api/acesso/cliente?email="
-         + urllib.parse.quote(email) + "&segredo=" + urllib.parse.quote(seg))
-    r = subprocess.run(["curl", "-s", u], capture_output=True, text=True,
+         + urllib.parse.quote(email))
+    r = subprocess.run(["curl", "-s", "-H", "Authorization: Bearer " + seg, u],
+                       capture_output=True, text=True,
                        encoding="utf-8", errors="replace")
     d = json.loads(r.stdout or "{}")
     if not d.get("ok"):
