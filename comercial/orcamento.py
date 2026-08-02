@@ -317,7 +317,9 @@ def main():
     a.add_argument("--para-mim", action="store_true", help="manda so pro Mateus, identico ao do cliente")
     a.add_argument("--sem-contrato", action="store_true", help="nao anexa o contrato")
     a.add_argument("--com-cadastro", action="store_true",
-                   help="puxa os dados que o cliente preencheu e fecha o contrato")
+                   help="exige o cadastro: falha se o cliente ainda nao preencheu")
+    a.add_argument("--sem-cadastro", action="store_true",
+                   help="ignora o cadastro e manda o contrato em branco")
     o = a.parse_args()
 
     if o.de == "exemplo":
@@ -373,14 +375,26 @@ def main():
         p["total_extenso"] = ct.extenso(p["total"])
         p["itens"] = o.itens_manuais
         p["composicao"] = composicao(p, o)
-        if o.com_cadastro:
-            conta, cad = ct.buscar_cadastro(p["email"])
-            if not cad:
-                raise SystemExit("Esse cliente ainda nao preencheu /cadastro.")
+        # O cadastro entra SOZINHO. Se o cliente ja preencheu, o contrato sai
+        # pronto pra assinar; se nao preencheu, sai em branco e o email
+        # convida ele a preencher. Isto era uma flag que precisava ser
+        # lembrada, e no primeiro uso real eu esqueci: o cliente tinha
+        # preenchido tudo e recebeu o contrato vazio.
+        cad = None
+        if not o.sem_cadastro:
+            try:
+                conta, cad = ct.buscar_cadastro(p["email"], calado=True)
+            except SystemExit:
+                cad = None
+        if cad:
             p["cadastro"] = cad
             p["empresa"] = cad.get("razao_social") or p["empresa"]
             p["contato"] = cad.get("rep_nome") or p["contato"]
             print("  cadastro: %s, CNPJ %s" % (p["empresa"], cad.get("cnpj", "?")))
+        elif o.com_cadastro:
+            raise SystemExit("Esse cliente ainda nao preencheu /cadastro.")
+        else:
+            print("  cadastro: o cliente ainda nao preencheu — contrato em branco")
         pdf, faltam = ct.gerar(p)
         print("  contrato: %s" % pdf)
         if faltam:

@@ -315,7 +315,7 @@ def gerar(p, saida=None):
     return nome + ".pdf", sorted(set(faltam))
 
 
-def buscar_cadastro(email):
+def buscar_cadastro(email, calado=False):
     """Puxa o cadastro que o cliente preencheu na conta dele."""
     import json, subprocess, urllib.parse
     seg = ""
@@ -334,8 +334,16 @@ def buscar_cadastro(email):
     r = subprocess.run(["curl", "-s", "-H", "Authorization: Bearer " + seg, u],
                        capture_output=True, text=True,
                        encoding="utf-8", errors="replace")
-    d = json.loads(r.stdout or "{}")
+    try:
+        d = json.loads(r.stdout or "{}")
+    except ValueError:
+        d = {}
     if not d.get("ok"):
+        # calado = quem chamou so quer saber SE existe, e segue sem se o
+        # cliente ainda nao tem conta. Sem isso, mandar proposta pra cliente
+        # novo morria no meio.
+        if calado:
+            return None, None
         raise SystemExit("Nao achei o cliente: " + str(d.get("erro")))
     return d["conta"], (d.get("fichas") or {}).get("cadastro")
 
