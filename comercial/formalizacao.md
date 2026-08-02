@@ -27,7 +27,7 @@
 > Dados conferidos direto no cadastro da Receita em 01/08/2026 (via BrasilAPI), não de memória.
 > O endereço acima é o que vai na qualificação do CONTRATADO no contrato — está no `.env`
 > como `BORIN_ENDERECO` e entra sozinho no PDF gerado por `comercial/contrato.py`.
->
+
 ### Decisão sobre o CNAE (01/08/2026)
 
 O CNAE registrado é de *instalação* de máquinas; o que se vende é *elaboração de projeto e
@@ -119,9 +119,10 @@ aproximar. Parceria com o sócio segue **verbal, sem papel**, por decisão dele.
 
 A regra de desenquadramento tem dois patamares — confirmar com o contador, mas a lógica é esta:
 
-- **Excedeu até 20% do teto** (até ~R$ 97 mil) → sai do MEI em 1º de janeiro do ano seguinte
-- **Excedeu mais de 20%** → sai **retroativamente ao mês em que estourou**, recolhendo como ME desde
-  lá, com os tributos recalculados
+- **Excedeu até 20%** — no teu caso de 2026, entre R$ 67.500 e R$ 81.000 → paga DAS complementar e
+  sai do MEI em 1º de janeiro de 2027
+- **Excedeu mais de 20%** — acima de R$ 81.000 → sai **retroativo a 18/03/2026**, data de abertura do
+  CNPJ, com todo o faturamento do período recalculado como ME
 
 Ou seja: *"abro o Simples quando passar"* funciona se a migração acontecer **antes** de cruzar a
 linha. Se cruzar primeiro e abrir depois, o retroativo já foi gerado — e pela projeção de
@@ -132,9 +133,6 @@ Simples.** Aí sobra um projeto grande de folga para o processo correr sem press
 de corte é R$ 67.500, não R$ 81 mil — esperar chegar nela é apertado, passar dela é caro.
 
 ### Por que o gatilho é valor acumulado, e não número de projetos
-
-O plano de "abrir ME depois de uns 5 projetos" fecha — 5 projetos não chegam ao teto em nenhuma
-combinação da tabela de `precificacao.md`:
 
 O plano de "abrir ME depois de uns 5 projetos" fecha — mas com **menos folga do que parecia**,
 porque o teto de 2026 é R$ 67.500 e não R$ 81 mil:
