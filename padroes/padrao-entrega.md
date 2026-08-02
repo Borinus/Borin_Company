@@ -59,6 +59,9 @@ Documento único, paginado, indexado, na ordem abaixo.
 | 28–36 | **Régua de bornes** | Um diagrama de conexão por régua (X0, X1, X2…), com destino de cada ponto |
 | 37 | **Lista de peças totalizadas** | Consolidada da instalação, com código e quantidade |
 
+Além do documento único acima, o pacote leva o **Databook** — PDF separado com manual e datasheet de
+cada equipamento, indexado por tag. Ver detalhamento abaixo.
+
 **Faixa de páginas é referência, não regra.** O que é fixo é a ordem e a existência de cada bloco.
 
 ### Memorial descritivo — os seis blocos
@@ -82,6 +85,26 @@ Arquivos separados do PDF, porque o cliente trabalha em cima deles.
 | **Arquitetura de CLP** | Aba de pontos (local, tag, peça, código, quantidade, função) + aba de materiais com dissipação | Programação e compra do hardware de automação |
 | **Design térmico** | Aba de itens com dissipação por tag, aba de materiais com dissipação de bobina e contatos, aba de cálculo térmico por superfície e material da caixa | Definir ventilação ou climatização, e justificar a escolha |
 | **Identificações** | Seis arquivos — ver abaixo | Impressão das etiquetas |
+
+### Databook
+
+PDF separado, com o **manual e o datasheet de cada equipamento do projeto**, indexado por tag.
+
+| | |
+|---|---|
+| Organização | uma seção por tag, na ordem da lista de materiais |
+| Conteúdo por seção | manual do fabricante, datasheet, certificado quando houver |
+| Índice | tag · descrição · fabricante · código · página |
+
+**Por que entregar.** Quem monta e quem faz manutenção passa a não depender de procurar manual no site
+do fabricante dois anos depois, quando o modelo saiu de linha. É o documento que o cliente descobre
+que precisa na primeira parada de máquina — e aí não tem.
+
+**O custo é baixo e a percepção é alta:** os arquivos vêm dos fabricantes, o trabalho é organizar e
+indexar. Nenhum concorrente da Serra entrega isso hoje (ver `comercial/analise-mercado.md`).
+
+**Cuidado:** não redistribuir material com restrição explícita de redistribuição. Na dúvida, entrar
+com o link oficial do fabricante em vez do arquivo.
 
 ### Identificações — seis arquivos
 
@@ -183,12 +206,27 @@ modificado por, verificado por, aprovado por e descrição da modificação. Nun
 anterior.
 
 **Carimbo.** Toda folha leva o carimbo, conforme `marca/design-guide.md`. O carimbo do CAD traz
-projeto, cliente, código do produto, nº do documento, diretório do arquivo, desenhista, projetista,
-aprovado por, descrição da página, localização, data e folha X de Y.
+projeto, cliente, código do produto, nº do documento, diretório do arquivo, descrição da página,
+localização, data e folha X de Y, mais os quatro campos de responsabilidade:
+
+| Campo | Quem preenche |
+|---|---|
+| **Elaborado** | Borin — só o nome, sem título profissional e sem registro em conselho |
+| **Verificado** | **em branco** — é do cliente |
+| **Aprovado** | **em branco** — é do cliente |
+| **Responsável técnico** | **em branco** — é do cliente, ou do profissional habilitado que ele contratar |
+
+**Os três últimos saem sempre em branco, e isso não é descuido.** É o que a cláusula 2.2 do contrato
+promete, e é o que separa "elaborei o documento" de "sou o responsável técnico pela instalação".
+O documento circula até o usuário final; nome em campo de responsabilidade técnica é o que cria
+exposição. Nunca preencher, nunca deixar o cliente mudar o modelo de legenda.
 
 **Meio de envio.** Link ou pasta compartilhada, nunca anexo solto de email.
 
-**Aceite.** Confirmação escrita do cliente, ou automático após 10 dias corridos.
+**Aceite.** Confirmação escrita do cliente; por conduta, como pedido de compra pela lista
+de materiais ou início da montagem; ou por decurso, 10 dias úteis da entrega sem
+manifestação mais 5 dias úteis após novo aviso. Este documento é anexo do contrato e
+segue a cláusula 12 dele — se um dia divergirem, vale o contrato.
 
 ---
 
@@ -236,9 +274,18 @@ Deixar explícito na proposta evita a maior parte do atrito depois.
 
 ## Revisões inclusas
 
-**Duas rodadas** após a primeira emissão. Rodada é o conjunto de ajustes devolvido de uma vez.
-Pedido fora do que foi levantado no briefing não é revisão, é escopo novo, e se cobra à parte.
-Da terceira rodada em diante, cobra-se por hora.
+Duas coisas diferentes, e a distinção é o que evita discussão:
+
+**Erro meu — correção ilimitada, sem prazo e sem cobrança.** Divergência entre o projeto e a ficha
+técnica assinada, erro de cálculo, tag duplicada, borne sem destino, item errado na lista. Se está
+fora do que foi combinado, é meu, e eu corrijo quantas vezes for preciso. Não consome rodada.
+
+**Alteração de escopo — duas rodadas inclusas.** Mudou a necessidade depois da ficha assinada:
+acrescentar ponto de I/O, trocar marca de componente, mudar tensão, incluir dispositivo novo.
+Rodada é o conjunto de alterações devolvido de uma vez. Da terceira em diante, cobra-se por hora.
+
+**O critério é objetivo: compara-se contra a ficha técnica assinada.** O que está na ficha e saiu
+diferente é erro meu. O que não está na ficha é alteração. Não é opinião de ninguém.
 
 ---
 
