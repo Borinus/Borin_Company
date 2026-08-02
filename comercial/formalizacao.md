@@ -28,6 +28,21 @@
 > O endereço acima é o que vai na qualificação do CONTRATADO no contrato — está no `.env`
 > como `BORIN_ENDERECO` e entra sozinho no PDF gerado por `comercial/contrato.py`.
 
+### Registro em conselho — decidido em 02/08/2026: não vai
+
+O Mateus tem curso do SENAI, não habilitação técnica de nível médio que sirva para registro
+no CFT/CRT. **Decisão dele: não persegue registro.** Quando o cliente precisar de ART, ele
+providencia com profissional habilitado, com custo à parte e pedido com antecedência — é o
+que a cláusula 5 do contrato já diz.
+
+Consequência que fica de pé: o art. 15 da Lei 5.194/1966 continua sendo o risco de fundo do
+negócio, e agora sem a saída do registro. Isso **aumenta** o peso da primeira pergunta ao
+advogado em `revisao-contrato.md` — se o contrato for anulado, ele ainda recebe pelo serviço
+entregue e o teto de responsabilidade sobrevive? Não é motivo para parar; é motivo para essa
+pergunta ser a primeira da conversa.
+
+Reabrir só se ele fizer um curso técnico de nível médio, o que hoje não está no plano.
+
 ### Decisão sobre o CNAE (01/08/2026)
 
 O CNAE registrado é de *instalação* de máquinas; o que se vende é *elaboração de projeto e
