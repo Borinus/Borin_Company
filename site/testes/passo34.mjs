@@ -1,4 +1,4 @@
-import {conectar,aba,js,pausa,cmd,SITE} from './base.mjs'
+import {conectar,aba,js,pausa,cmd,SITE,quemEstaLogado} from './base.mjs'
 const P=(n,o,d='')=>console.log(`PASSO:${n}|${o?1:0}|${d}`)
 await conectar()
 const s=await aba(`${SITE}/entrar?t=`+Date.now())
@@ -10,7 +10,9 @@ await js(s,`(()=>{const p=(i,v)=>{const e=document.getElementById(i)
 await pausa(10000)
 const txt=await js(s,'document.body.innerText||""')
 const erro=await js(s,`(document.getElementById('erro')||{}).textContent||''`)
-P('login com a senha do email', !/não conferem|invalid/i.test(erro), await js(s,'location.pathname'))
+const eu=await quemEstaLogado(s)
+P('login com a senha do email', eu.toLowerCase()===process.env.CAIXA.toLowerCase(),
+  eu? 'sessao de '+eu : 'ninguem logado'+(erro?' | '+erro.slice(0,40):''))
 await cmd('Page.navigate',{url:`${SITE}/cadastro`},s); await pausa(10000)
 const tem=await js(s,"!!document.getElementById('razao_social')")
 P('cadastro abriu logado', tem, tem?'':'nao logou')
