@@ -13,7 +13,7 @@
 
 ---
 
-# CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE ELABORAÇÃO DE DOCUMENTAÇÃO TÉCNICA DE SISTEMA ELÉTRICO
+# CONTRATO DE DOCUMENTAÇÃO TÉCNICA DE SISTEMA ELÉTRICO
 
 **CONTRATANTE:** [Razão social], CNPJ nº [número], com sede em [endereço], neste ato representada por
 [nome], [cargo], CPF nº [número].
@@ -21,10 +21,8 @@
 **CONTRATADO:** 65.749.097 MATEUS BORIN, CNPJ nº 65.749.097/0001-85, estabelecido em [endereço],
 Caxias do Sul/RS, nome fantasia Borin Projetos Elétricos.
 
-As partes, ambas pessoas jurídicas contratando no exercício de suas atividades empresariais e em
-condição de paridade, celebram este contrato, regido pelo Quadro Resumo e pelas cláusulas abaixo.
-
----
+Neste contrato, CLIENTE é a CONTRATANTE e BORIN é o CONTRATADO. As duas contratam como empresas, em
+condição de paridade.
 
 ## Quadro Resumo
 
@@ -37,189 +35,102 @@ condição de paridade, celebram este contrato, regido pelo Quadro Resumo e pela
 | **Itens fora do banco de artigos previstos** | [N] |
 | **Preço total** | **R$ [valor]** ([por extenso]) |
 | **Composição** | [N] páginas × R$ 235 · [N] itens × R$ 250 · setup de padrão do cliente R$ [1.000 / 0] · [urgência +30% / arquivo-fonte +50% / condição de abertura −50%] |
-| **Pagamento** | 40% na assinatura · 60% na aprovação, vencimento em 15 dias |
-| **Prazo de entrega** | [N] dias úteis, do que ocorrer por último entre o pagamento inicial e o recebimento da Ficha Técnica completa |
-| **Revisões** | 2 rodadas inclusas. Correção de erro do CONTRATADO não consome rodada e não tem limite |
-| **Garantia** | 12 meses do aceite |
-| **Não incluso** | Responsabilidade técnica e ART · programação de CLP, IHM e supervisório · montagem, comissionamento e startup · execução da instalação · compra de material · visita técnica · arquivo-fonte |
-| **Anexos** | I — Proposta · II — Ficha Técnica do Projeto · III — Padrão de Entrega |
+| **Prazo de entrega** | [N] dias úteis |
+| **Anexos** | I — Proposta · II — Ficha Técnica · III — Padrão de Entrega |
 
----
+**1.** BORIN elabora a documentação do Quadro Resumo no formato do Padrão de Entrega, a partir da
+Ficha Técnica. Os anexos integram este contrato e, havendo divergência, prevalecem nesta ordem:
+Quadro Resumo, Ficha Técnica, Padrão de Entrega, Proposta.
 
-## Cláusula 1 — Objeto
+**2.** O que não está no Quadro Resumo nem no Padrão de Entrega não está contratado. Não estão
+inclusos ART, programação de CLP, IHM e supervisório, montagem, comissionamento, execução da
+instalação, compra de material, visita técnica e arquivo-fonte.
 
-**1.1.** O CONTRATADO elabora a documentação técnica descrita no Quadro Resumo, no escopo e no
-formato do Padrão de Entrega (Anexo III), a partir das informações da Ficha Técnica (Anexo II).
+**3.** A verificação e a aprovação técnica final, antes de fabricar, montar, instalar ou energizar,
+cabem ao CLIENTE, por seu corpo técnico ou por profissional legalmente habilitado que ele designar.
+Os campos de verificação, aprovação e responsabilidade técnica são entregues em branco; no campo de
+elaboração consta apenas o nome de BORIN, sem título profissional e sem registro em conselho. BORIN
+não é responsável técnico pelo equipamento nem pela instalação e não responde pela decisão técnica
+final; responde pela correção do que elabora.
 
-**1.2.** Os anexos integram este contrato. Em caso de divergência, prevalece primeiro o Quadro
-Resumo, depois a Ficha Técnica, depois o Padrão de Entrega e por último a Proposta.
+**4.** Quando a ART for exigida, o CLIENTE contrata e paga o profissional habilitado diretamente,
+fora deste preço; ajuste exigido por critério técnico desse profissional é alteração de escopo. O
+CLIENTE não apresenta BORIN a terceiros como responsável técnico ou autor do projeto, nem o inclui
+em ART.
 
-**1.3.** O que não está no Quadro Resumo nem no Padrão de Entrega não está contratado.
+**5.** A Ficha Técnica é a base técnica do contrato e prevalece sobre acerto verbal, mensagem avulsa
+e versão anterior. O CLIENTE a confirma por email, responde por informação incorreta ou omitida e
+indica quem decide e aprova. BORIN não tem o dever de conferir esses dados em campo, mas comunica
+por escrito a inconsistência que identificar.
 
-## Cláusula 2 — Responsabilidade técnica
+**6.** O prazo corre do que ocorrer por último entre o pagamento da parcela inicial e o recebimento
+da Ficha Técnica completa. Fica suspenso enquanto o CLIENTE não fornecer informação solicitada, não
+se manifestar sobre uma emissão ou aditivo, ou estiver em atraso de pagamento; retomado o fluxo,
+corre pelos dias que restavam. Atraso imputável a BORIN gera multa de 0,5% do preço por dia útil,
+limitada a 5% do total.
 
-**2.1.** O CONTRATADO **elabora** os documentos. A **verificação e a aprovação técnica final**, antes
-de qualquer fabricação, montagem, instalação ou energização, cabem à CONTRATANTE, por seu corpo
-técnico ou por profissional legalmente habilitado que ela designar.
+**7.** Divergência entre a documentação entregue e o escopo contratado ou as premissas da Ficha
+Técnica é erro de BORIN: ele corrige sem custo, sem limite de acionamentos e sem consumir rodada.
 
-**2.2.** Os documentos são entregues com os campos de verificação, aprovação e responsabilidade
-técnica **em branco**, de preenchimento exclusivo da CONTRATANTE. No campo de elaboração consta
-apenas o nome do CONTRATADO, sem título profissional e sem número de registro em conselho de classe.
+**8.** Qualquer outro ajuste pedido pelo CLIENTE dentro do escopo é revisão: duas rodadas inclusas,
+contadas da primeira emissão. Da terceira em diante, R$ 250,00 por hora técnica, com estimativa
+aprovada por email antes.
 
-**2.3.** O CONTRATADO não é responsável técnico pelo equipamento ou pela instalação, não emite
-Anotação de Responsabilidade Técnica e não responde pela decisão técnica final. Responde pela
-correção dos documentos que elabora e pela coerência deles com a Ficha Técnica e o Padrão de Entrega.
+**9.** Conta como uma única rodada tudo o que o CLIENTE encaminhar em até 5 dias úteis do seu
+primeiro pedido sobre uma emissão, venha de quem vier. A janela encerra antes se ele declarar por
+email que a lista está completa.
 
-**2.4.** Se a CONTRATANTE precisar de ART, contrata profissional habilitado diretamente e às suas
-expensas. O honorário e a anotação não transitam pelo CONTRATADO nem integram este preço. O ajuste
-exigido por critério técnico próprio desse profissional é alteração de escopo, não revisão.
+**10.** Alteração de escopo é o pedido que altera dado da Ficha Técnica — dado omitido equivale a
+campo alterado — ou que exige documento fora do Padrão de Entrega. BORIN responde com preço, prazo e
+o campo alterado, e executa após aprovação por email. Sem alteração de dado, é revisão.
 
-**2.5.** A CONTRATANTE não descreverá o CONTRATADO perante terceiros, clientes finais ou conselhos de
-fiscalização profissional como responsável técnico ou autor do projeto, nem incluirá seu nome em ART.
+**11.** A entrega é aceita por email; por conduta, como pedido de compra pela lista de materiais ou
+início da montagem; ou por decurso, se passarem 10 dias úteis sem retorno e mais 5 após aviso de
+BORIN. O aceite encerra as rodadas e vence a parcela final.
 
-## Cláusula 3 — A Ficha Técnica e as obrigações das partes
+**12.** Adicionais fora do estimado: página R$ 235,00 e item fora do banco R$ 250,00. Antes de
+desenhar, BORIN apura e comunica a contagem definitiva; absorve até 15% acima do estimado, e o que
+passar dos 15% sai em aditivo, executado após aprovação por email. Para menos, o preço fechado é
+mantido.
 
-**3.1.** A Ficha Técnica (Anexo II) é a base técnica da contratação e **prevalece sobre entendimento
-verbal, mensagem avulsa e versão anterior**. É o documento contra o qual se compara qualquer pedido
-posterior.
+**13.** Pagamento: 40% na assinatura, condição para iniciar, e 60% na aprovação, com vencimento em
+15 dias. As parcelas são antecipação de preço, não sinal nem arras, afastados os arts. 417 a 420 do
+Código Civil. O atraso gera multa de 2% e juros de 1% ao mês e, passados 15 dias, BORIN suspende a
+execução e retém os documentos não pagos, sem que isso configure inadimplemento de sua parte.
 
-**3.2.** A CONTRATANTE preenche e confirma a Ficha Técnica por escrito, declarando que as informações
-são verdadeiras e completas, e responde por informação incorreta ou omitida. Indica um interlocutor
-técnico com poderes para decidir e aprovar, e mantém os pagamentos em dia.
+**14.** BORIN garante a documentação por 12 meses do aceite e corrige sem custo a divergência em
+relação ao escopo e à Ficha Técnica. A garantia não cobre mudança de necessidade do CLIENTE,
+alteração feita por terceiro nem consequência de informação incorreta que ele tenha prestado.
 
-**3.3.** O CONTRATADO não tem o dever de verificar essas informações em campo, mas comunica por
-escrito, assim que constatar, qualquer inconsistência que identifique. Confere a documentação antes
-de emitir, responde dúvida técnica em até 1 dia útil e guarda os arquivos do projeto por 5 anos.
+**15.** A responsabilidade de BORIN, somadas todas as reclamações, limita-se ao valor deste
+contrato, salvo dolo. Nenhuma das partes responde por lucros cessantes ou dano indireto.
 
-## Cláusula 4 — Prazo
+**16.** Pago o preço, o CLIENTE usa e modifica a documentação neste projeto. O arquivo-fonte não
+integra a entrega; BORIN o arquiva por 5 anos e pode fornecê-lo por preço adicional. BORIN segue
+livre para reusar seus próprios padrões e seu banco de artigos.
 
-**4.1.** O prazo do Quadro Resumo conta do que ocorrer por último: o pagamento da parcela inicial ou
-o recebimento da Ficha Técnica completa.
+**17.** As partes mantêm sigilo por 2 anos após o encerramento. BORIN não identifica o CLIENTE em
+portfólio sem autorização escrita.
 
-**4.2.** O prazo fica **suspenso** enquanto a CONTRATANTE não fornecer informação solicitada, não se
-manifestar sobre uma emissão ou estiver em atraso de pagamento. Retomado o fluxo, o prazo volta a
-correr pelos dias que restavam.
+**18.** Qualquer das partes encerra o contrato com aviso escrito de 15 dias. Iniciada a execução, é
+devido o valor proporcional às páginas emitidas, compensada a parcela inicial, e o CLIENTE recebe o
+que estiver pronto.
 
-**4.3.** O atraso imputável ao CONTRATADO sujeita-o a multa de 0,5% do preço por dia útil, limitada
-a 5% do total.
+**19.** Alteração deste contrato, aditivo e aceite só valem por email, nos endereços da assinatura.
+Acerto verbal não muda preço, prazo nem escopo. Este contrato não cria vínculo empregatício,
+societário nem de exclusividade, e nenhuma das partes o cede sem concordância escrita da outra.
 
-## Cláusula 5 — Correção, revisão e aceite
-
-**5.1.** **Correção de erro do CONTRATADO — sem custo e sem limite.** Divergência entre a
-documentação entregue e o escopo contratado ou as premissas da Ficha Técnica é obrigação do
-CONTRATADO. Não é revisão, **não consome rodada e não tem limite de acionamentos**.
-
-**5.2.** **Revisão — duas rodadas inclusas.** Revisão é o ajuste pedido pela CONTRATANTE que não
-decorre de erro do CONTRATADO e permanece dentro do escopo e das premissas da Ficha Técnica. Estão
-inclusas duas rodadas após a primeira emissão. Esgotadas, novos ajustes são executados a R$ 250,00
-por hora técnica, mediante estimativa aprovada por escrito antes.
-
-**5.3.** **O que conta como uma rodada.** Tudo o que a CONTRATANTE encaminhar dentro de **5 dias
-úteis** contados do seu primeiro pedido sobre uma emissão conta como uma única rodada, qualquer que
-seja o número de mensagens ou de pessoas. O CONTRATADO só inicia os ajustes depois de encerrada essa
-janela, salvo se a CONTRATANTE declarar por escrito que a lista está completa.
-
-**5.4.** **Alteração de escopo — aditivo.** É o pedido que exige alterar dado registrado na Ficha
-Técnica ou entregar documento não previsto no Padrão de Entrega. Não é revisão nem se executa por
-hora: o CONTRATADO responde em até 2 dias úteis com preço e prazo, e executa após aprovação escrita.
-Ao qualificar um pedido como alteração, **indica por escrito qual campo da Ficha Técnica ele altera**;
-não identificado campo alterado nem entregável novo, o pedido é tratado como revisão.
-
-**5.5.** **Aceite.** A entrega é aceita por manifestação escrita, por conduta inequívoca (emissão de
-pedido de compra com base na lista entregue, início da montagem, impressão das identificações) ou por
-decurso: passados 10 dias úteis sem manifestação, o CONTRATADO avisa por escrito que, não havendo
-retorno em 5 dias úteis, a entrega será considerada aceita. O aceite encerra as rodadas de revisão e
-vence a parcela final, sem afastar a garantia da cláusula 7.
-
-## Cláusula 6 — Preço e pagamento
-
-**6.1.** O preço é o do Quadro Resumo, composto pelas páginas de diagrama, pelos itens que exigem
-cadastro fora do banco de artigos, pelo setup de padrão do cliente quando houver, e pelos
-modificadores aplicáveis.
-
-**6.2.** **Contagem definitiva de páginas.** Recebida a Ficha Técnica completa, o CONTRATADO apura a
-contagem definitiva e comunica por escrito **antes de iniciar o desenho**. Diferença de até 15% para
-mais é absorvida pelo CONTRATADO. Acima de 15%, o excedente que ultrapassa essa margem é orçado em
-aditivo, e a execução só começa após aprovação escrita. Para menos, o preço fechado é mantido.
-O silêncio da CONTRATANTE não aprova aumento de preço — apenas suspende o prazo.
-
-**6.3.** **Pagamento:** 40% na assinatura, condição para o início da execução, e 60% na aprovação,
-com vencimento em 15 dias. A parcela inicial é **antecipação do preço**, e não sinal ou arras,
-ficando expressamente afastados os artigos 417 a 420 do Código Civil.
-
-**6.4.** O atraso de pagamento sujeita a CONTRATANTE a multa de 2% e juros de 1% ao mês, com correção
-pelo IPCA. Atraso superior a 15 dias autoriza o CONTRATADO a **suspender a execução e reter a entrega
-de documentos ainda não pagos**, sem que isso configure inadimplemento de sua parte.
-
-## Cláusula 7 — Garantia e limite de responsabilidade
-
-**7.1.** O CONTRATADO garante a documentação por **12 meses** contados do aceite, corrigindo sem
-custo erro, omissão ou inconsistência em relação ao escopo e às premissas da Ficha Técnica.
-
-**7.2.** A garantia não cobre alteração de necessidade da CONTRATANTE, modificação feita por terceiro
-na documentação, nem consequência de informação incorreta fornecida por ela.
-
-**7.3.** A responsabilidade do CONTRATADO por perdas e danos, somadas todas as reclamações, fica
-limitada ao valor total deste contrato. Nenhuma das partes responde por lucros cessantes, perda de
-produção ou dano indireto. Este limite não se aplica em caso de dolo.
-
-## Cláusula 8 — Propriedade, uso e confidencialidade
-
-**8.1.** Pago o preço integral, a CONTRATANTE pode **usar, reproduzir e modificar** a documentação
-entregue para os fins do projeto contratado, inclusive em manutenção e ampliação futuras.
-
-**8.2.** **O arquivo-fonte do software de projeto assistido por computador não integra a entrega**,
-podendo ser fornecido mediante acordo específico e remuneração adicional.
-
-**8.3.** O CONTRATADO conserva o direito de usar em outros trabalhos as soluções técnicas, métodos,
-padrões e o banco de artigos que desenvolveu, os quais não são cedidos por este contrato.
-
-**8.4.** As partes mantêm **sigilo por 2 anos** após o encerramento sobre a informação técnica e
-comercial a que tiverem acesso. O CONTRATADO não publica desenho, padrão ou informação comercial da
-CONTRATANTE, nem a identifica em portfólio, sem autorização escrita dela.
-
-**8.5.** Os dados pessoais de contato trocados são tratados apenas para executar este contrato,
-conforme a Lei 13.709/2018, e não são compartilhados com terceiros.
-
-## Cláusula 9 — Encerramento
-
-**9.1.** Qualquer das partes pode encerrar o contrato mediante aviso escrito com 15 dias de
-antecedência.
-
-**9.2.** Encerrado após o início da execução, é devido o valor proporcional ao trabalho executado até
-a data, apurado pelas páginas emitidas, e a CONTRATANTE recebe o que estiver pronto. A parcela
-inicial é compensada nesse valor.
-
-**9.3.** Nenhuma parte responde por atraso decorrente de caso fortuito ou força maior, comunicado por
-escrito assim que ocorrer. Persistindo por mais de 30 dias, qualquer das partes pode encerrar na
-forma do item 9.2.
-
-## Cláusula 10 — Disposições gerais
-
-**10.1.** As comunicações relevantes são feitas por escrito, valendo email para os endereços
-indicados na assinatura.
-
-**10.2.** As partes reconhecem a validade da **assinatura eletrônica**, em qualquer padrão que
-permita verificar autoria e integridade, e renunciam a alegar sua invalidade.
-
-**10.3.** Este contrato não cria vínculo empregatício, societário ou de exclusividade. Alteração só
-vale por escrito. Nenhuma das partes cede este contrato sem concordância escrita da outra.
-
-**10.4.** Fica eleito o foro da Comarca de Caxias do Sul/RS.
-
-E por estarem justas e contratadas, as partes assinam eletronicamente.
+**20.** As partes reconhecem a validade da assinatura eletrônica, em qualquer padrão que permita
+verificar autoria e integridade, neste contrato e nos aditivos. Fica eleito o foro da Comarca de
+Caxias do Sul/RS.
 
 [Cidade], [dd] de [mês] de [aaaa].
 
-<br>
-
 **CONTRATADO** — Mateus Borin
-65.749.097 MATEUS BORIN · CNPJ 65.749.097/0001-85 · contato@borinprojetos.com.br
-
-<br>
+65.749.097 MATEUS BORIN — CNPJ 65.749.097/0001-85 — contato@borinprojetos.com.br
 
 **CONTRATANTE** — [Nome do representante], [cargo]
-[Razão social] · CNPJ [número] · [email]
+[Razão social] — CNPJ [número] — [email]
 
 ---
 

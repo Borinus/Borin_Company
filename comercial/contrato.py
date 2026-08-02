@@ -124,7 +124,12 @@ def chrome():
 
 def md_para_html(md):
     """Conversao suficiente para este documento: titulo, tabela, negrito, lista."""
-    fora, tabela = [], []
+    fora, tabela, paragrafo = [], [], []
+
+    def fecha_paragrafo():
+        if paragrafo:
+            fora.append("<p>%s</p>" % " ".join(paragrafo))
+            paragrafo.clear()
 
     def fecha():
         if not tabela:
@@ -139,10 +144,13 @@ def md_para_html(md):
 
     for linha in md.split("\n"):
         if linha.startswith("|"):
+            fecha_paragrafo()
             tabela.append(linha)
             continue
         fecha()
         l = linha.rstrip()
+        if l.startswith("#") or l.startswith("---"):
+            fecha_paragrafo()
         if l.startswith("### "):
             fora.append("<h3>%s</h3>" % l[4:])
         elif l.startswith("## "):
@@ -152,9 +160,14 @@ def md_para_html(md):
         elif l.startswith("---"):
             fora.append("<hr>")
         elif l.strip() == "":
+            fecha_paragrafo()
             fora.append("")
         else:
-            fora.append("<p>%s</p>" % l)
+            # junta com a linha anterior: em markdown o que separa paragrafo e
+            # linha em branco, nao quebra de linha. Sem isso o texto nao reflui
+            # e a frase parte no meio da pagina.
+            paragrafo.append(l.strip())
+    fecha_paragrafo()
     fecha()
 
     h = "\n".join(fora)
@@ -168,7 +181,15 @@ def gerar(p, saida=None):
     md = io.open(MODELO, encoding="utf-8").read()
 
     # so o contrato: fora o cabecalho de instrucao e as secoes de apoio
-    i = md.find("# CONTRATO DE PRESTAÇÃO")
+    # Acha o inicio pelo prefixo, nao pelo titulo inteiro: o titulo ja mudou
+    # uma vez ("PRESTAÇÃO DE SERVIÇOS DE ELABORAÇÃO..." virou "DOCUMENTAÇÃO
+    # TÉCNICA...") e o recorte falhou calado, gerando um PDF de uma pagina em
+    # branco. Se nao achar, para com erro em vez de emitir documento vazio.
+    import re as _re
+    _m = _re.search(r"^# CONTRATO DE .*$", md, _re.M)
+    if not _m:
+        raise SystemExit("Nao achei o titulo do contrato em " + MODELO)
+    i = _m.start()
     j = md.find("# O que este contrato resolve")
     md = md[i:j if j > i else len(md)]
 
