@@ -28,9 +28,21 @@
 > O endereço acima é o que vai na qualificação do CONTRATADO no contrato — está no `.env`
 > como `BORIN_ENDERECO` e entra sozinho no PDF gerado por `comercial/contrato.py`.
 >
-> **Pendência aberta:** o CNAE registrado é de *instalação* de máquinas. O que o Mateus vende é
-> *elaboração de projeto e documentação técnica* — trabalho de escritório, sem ir a campo. São
-> atividades diferentes. Isso precisa ser resolvido **antes da primeira nota**, não depois.
+### Decisão sobre o CNAE (01/08/2026)
+
+O CNAE registrado é de *instalação* de máquinas; o que se vende é *elaboração de projeto e
+documentação técnica*. São atividades diferentes.
+
+**Decisão do Mateus: fica como está.** Um amigo dele opera MEI com esse mesmo CNAE, mesmo perfil
+de cliente pequeno, e as notas passam. Abre ME mais adiante, depois de uns 5 projetos.
+
+O precedente do amigo é o que sustenta isso: mesmo enquadramento (MEI), mesmo CNAE, mesmo porte de
+cliente. Vale enquanto o cliente for pequeno — quem confere descrição de nota contra objeto de
+contrato é departamento fiscal de empresa grande, não cliente de porte pequeno.
+
+**O que revisar quando entrar cliente grande:** o contrato diz "elaboração de documentação técnica
+de sistema elétrico" e a nota, por esse CNAE, sai como instalação. Os dois documentos descrevem
+serviços diferentes. Não trava a emissão, aparece no fechamento do cliente.
 
 **Detalhe que aparece em todo documento:** a razão social do MEI é o número do CNPJ mais o nome —
 `65.749.097 MATEUS BORIN`. É isso que vai na nota fiscal e na qualificação das partes do contrato.
@@ -73,6 +85,21 @@ R$ 8.940/mês o excedente seria de ~32%, dentro do segundo patamar.
 **Regra prática: quando o faturamento acumulado do ano chegar em ~R$ 65 mil, começar a abrir o
 Simples.** Aí sobram uns dois projetos de folga para o processo correr sem pressa. Esperar chegar em
 R$ 81 mil é apertado; passar de R$ 81 mil é caro.
+
+### Por que o gatilho é valor acumulado, e não número de projetos
+
+O plano de "abrir ME depois de uns 5 projetos" fecha — 5 projetos não chegam ao teto em nenhuma
+combinação da tabela de `precificacao.md`:
+
+| 5 projetos | Acumulado | Do teto |
+|---|---|---|
+| 5 × Escopo A pequeno (R$ 3.500) | R$ 17.500 | 22% |
+| 5 × típico (R$ 6.700) | R$ 33.500 | 41% |
+| 5 × Escopo B grande (R$ 11.700) | R$ 58.500 | 72% |
+
+O 6º e o 7º é que decidem: **sete Escopo B grandes dão R$ 81.900 e cruzam a linha.** Contar projeto
+não serve de controle porque o mesmo "5 projetos" pode ser R$ 17 mil ou R$ 58 mil. Contar dinheiro
+serve. Cinco projetos é o sinal para começar a olhar; R$ 65 mil acumulados é o gatilho para agir.
 
 - [ ] Anotar o faturamento acumulado do ano a cada nota emitida — controle simples, uma linha por nota
 - [ ] Gatilho: acumulado ≥ R$ 65 mil → procurar contador e iniciar a abertura do Simples
@@ -186,9 +213,9 @@ Não baixe o preço por causa disso: a folga é temporária e vira custo no dese
 ## Ordem de execução
 
 1. [x] CNPJ aberto — MEI
-2. [ ] **Resolver o CNAE** — o registrado (3321-0/00, instalação) não é o que se vende
-       (projeto e documentação técnica). Bloqueia o item 5
-3. [x] Estratégia definida: MEI agora, Simples quando o faturamento pedir
+2. [x] CNAE decidido: segue no 3321-0/00 enquanto o cliente for pequeno. Revisar ao entrar
+       cliente grande, ou junto com a migração para ME
+3. [x] Estratégia definida: MEI agora, Simples depois de uns 5 projetos
 4. [ ] **Conta bancária PJ**, separada da pessoal. Sem exceção
 5. [ ] Acesso ao sistema de NFS-e de Caxias e primeira nota de teste
 6. [ ] Controle do faturamento acumulado do ano — uma linha por nota emitida
