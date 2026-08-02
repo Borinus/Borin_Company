@@ -381,14 +381,16 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
   <div class="cartao" id="cxEntrar">
     <h2>Entrar</h2>
     <p>A senha chegou junto com o seu orçamento, no mesmo email.</p>
-    <div class="grade grade--larga">
-      <div class="campo"><label for="email">Email</label><input type="email" id="email" autocomplete="username"></div>
-      <div class="campo"><label for="senha">Senha</label><input type="password" id="senha" autocomplete="current-password"></div>
-    </div>
-    <p class="recado ruim" id="erro"></p>
-    <div class="acoes">
-      <button type="button" class="botao" id="btEntrar">Entrar</button>
-    </div>
+    <form id="formEntrar">
+      <div class="grade grade--larga">
+        <div class="campo"><label for="email">Email</label><input type="email" id="email" autocomplete="username"></div>
+        <div class="campo"><label for="senha">Senha</label><input type="password" id="senha" autocomplete="current-password"></div>
+      </div>
+      <p class="recado ruim" id="erro"></p>
+      <div class="acoes">
+        <button type="submit" class="botao" id="btEntrar">Entrar</button>
+      </div>
+    </form>
     <p class="aviso">Não recebeu ou perdeu a senha? Responda o email do orçamento que eu mando outra.</p>
   </div>
 
@@ -396,15 +398,17 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
   <div class="cartao oculto" id="cxTrocar">
     <h2>Escolha uma senha sua</h2>
     <p>A que eu mandei foi gerada por mim e passou por email. Troque por uma que só você sabe.</p>
-    <div class="grade grade--larga">
-      <div class="campo"><label for="nova">Nova senha</label><input type="password" id="nova" autocomplete="new-password"></div>
-      <div class="campo"><label for="nova2">Repita</label><input type="password" id="nova2" autocomplete="new-password"></div>
-    </div>
-    <p class="recado ruim" id="erroTrocar"></p>
-    <div class="acoes">
-      <button type="button" class="botao" id="btTrocar">Salvar senha</button>
-      <button type="button" class="botao botao--vazado" id="btDepois">Deixar pra depois</button>
-    </div>
+    <form id="formTrocar">
+      <div class="grade grade--larga">
+        <div class="campo"><label for="nova">Nova senha</label><input type="password" id="nova" autocomplete="new-password"></div>
+        <div class="campo"><label for="nova2">Repita</label><input type="password" id="nova2" autocomplete="new-password"></div>
+      </div>
+      <p class="recado ruim" id="erroTrocar"></p>
+      <div class="acoes">
+        <button type="submit" class="botao" id="btTrocar">Salvar senha</button>
+        <button type="button" class="botao botao--vazado" id="btDepois">Deixar pra depois</button>
+      </div>
+    </form>
   </div>
 
   <!-- ja entrou -->
@@ -1037,6 +1041,20 @@ function destino() {
   var d = m ? decodeURIComponent(m[1]) : '';
   return /^\/[a-z-]*$/.test(d) ? d : '';
 }
+
+/* Enter entra. Sem <form> com submit, apertar Enter no campo de senha nao
+   fazia nada — e e exatamente o que a pessoa faz depois de colar a senha do
+   email. Tambem e o que faz o gerenciador de senhas do navegador oferecer
+   pra guardar. */
+document.getElementById('formEntrar').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  document.getElementById('btEntrar').click();
+});
+
+document.getElementById('formTrocar').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  document.getElementById('btTrocar').click();
+});
 
 document.getElementById('btEntrar').addEventListener('click', function () {
   var bt = this;

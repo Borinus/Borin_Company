@@ -41,7 +41,11 @@
     </div>
   </header>
 
-  <form onsubmit="return false;">
+  <!-- novalidate: a validacao nativa do navegador barra o submit ANTES do
+     nosso codigo rodar, e a bolha dela some ao rolar a pagina. Com ela
+     desligada, quem valida e o validar() daqui: uma mensagem so, no mesmo
+     lugar, com o campo focado. -->
+  <form id="formOrcamento" novalidate>
 
     <!-- isca de robo: fica fora da tela e humano nunca preenche.
          Se chegar com conteudo, o Worker descarta calado. -->
@@ -158,7 +162,7 @@
         </label>
       </div>
       <div class="acoes">
-        <button type="button" class="botao" onclick="solicitar(this)">Solicitar orçamento</button>
+        <button type="submit" class="botao" id="btSolicitar">Solicitar orçamento</button>
       </div>
       <p class="aviso falta" id="avisoFalta"></p>
       <p class="aviso">Respondo com valor e prazo em até 24 h. O pedido chega direto no meu email. Seus dados de contato ficam salvos neste navegador para o próximo pedido.</p>
@@ -234,6 +238,20 @@ var OBRIGATORIOS = [
   ['equipamento', 'a máquina, painel ou processo']
 ];
 
+/* Enter agora envia. Antes o form tinha onsubmit="return false" e o botao
+   era type=button: nao existia submissao, e quem preenche no teclado apertava
+   Enter e nao acontecia nada. */
+document.getElementById('formOrcamento').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  solicitar(document.getElementById('btSolicitar'));
+});
+
+/* Email sem "@" ou sem dominio e lead morto: nao da pra responder, e o
+   Worker nem seta o Reply-To. Melhor barrar aqui do que descobrir depois. */
+function emailValido(t) {
+  return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test((t || '').trim());
+}
+
 function validar() {
   var falta = '', rotulo = '';
   for (var i = 0; i < OBRIGATORIOS.length; i++) {
@@ -241,6 +259,15 @@ function validar() {
   }
   /* o email e sempre o canal de resposta; o WhatsApp so quando ele pede */
   if (!falta && !v('email')) { falta = 'email'; rotulo = 'o seu email'; }
+  if (!falta && !emailValido(v('email'))) {
+    falta = 'email';
+    rotulo = 'um email válido — o que você escreveu não dá pra responder';
+  }
+  if (!falta && radio('canal') === 'email+whats'
+      && v('fone').replace(/\D/g, '').length < 12) {
+    falta = 'fone';
+    rotulo = 'o WhatsApp completo, com DDD';
+  }
   if (!falta && radio('canal') === 'email+whats' && !v('fone')) {
     falta = 'fone';
     rotulo = 'o WhatsApp, já que você pediu resposta por ele';
