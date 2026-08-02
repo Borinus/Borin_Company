@@ -135,11 +135,7 @@ Caxias do Sul/RS.
 
 [Cidade], [dd] de [mês] de [aaaa].
 
-**CONTRATADO** — Mateus Borin
-65.749.097 MATEUS BORIN — CNPJ 65.749.097/0001-85 — contato@borinprojetos.com.br
 
-**CONTRATANTE** — [Nome do representante], [cargo]
-[Razão social] — CNPJ [número] — [email]
 
 ---
 

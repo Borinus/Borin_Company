@@ -51,9 +51,14 @@ hr { border: 0; border-top: 1px solid #DCDCDC; margin: 12pt 0; }
        text-transform: uppercase; color: #5A5A5A; margin-top: -3pt; }
 .topo { border-bottom: 1px solid #111; padding-bottom: 10pt; margin-bottom: 14pt; }
 .falta { background: #FDE7E9; color: #C1121F; padding: 0 2px; font-weight: 600; }
-.assina { margin-top: 26pt; page-break-inside: avoid; }
-.assina div { border-top: 1px solid #111; padding-top: 4pt; margin-top: 30pt;
-              font-size: 9pt; width: 62%; }
+.assina { margin-top: 22pt; page-break-inside: avoid; display: flex;
+          gap: 26pt; }
+.assina .linha { flex: 1; }
+.assina .papel { font-family: Consolas, monospace; font-size: 7.5pt;
+                 letter-spacing: .1em; color: #5A5A5A; }
+.assina .traco { border-bottom: 1px solid #111; height: 34pt; }
+.assina .quem { font-size: 9.5pt; font-weight: 600; padding-top: 3pt; }
+.assina .qual { font-size: 8pt; color: #5A5A5A; }
 """
 
 
@@ -310,9 +315,23 @@ def gerar(p, saida=None):
 </div>
 """ % (p["numero"], CSS)) + html + """
 <div class="assina">
-  <div>Mateus Borin — 65.749.097 MATEUS BORIN · CNPJ 65.749.097/0001-85</div>
-  <div>%s — %s</div>
-</div></html>""" % (p["contato"] or "CONTRATANTE", p["empresa"] or "")
+  <div class="linha">
+    <div class="papel">CONTRATADO</div>
+    <div class="traco"></div>
+    <div class="quem">Mateus Borin</div>
+    <div class="qual">65.749.097 MATEUS BORIN &middot; CNPJ 65.749.097/0001-85</div>
+  </div>
+  <div class="linha">
+    <div class="papel">CONTRATANTE</div>
+    <div class="traco"></div>
+    <div class="quem">%s</div>
+    <div class="qual">%s</div>
+  </div>
+</div></html>""" % (
+        (p["contato"] or "[nome de quem assina]")
+        + (", " + p["cadastro"]["rep_cargo"] if p.get("cadastro", {}).get("rep_cargo") else ""),
+        (p["empresa"] or "[Razão social]")
+        + (" &middot; CNPJ " + p["cadastro"]["cnpj"] if p.get("cadastro", {}).get("cnpj") else ""))
 
     os.makedirs(PASTA, exist_ok=True)
     nome = saida or os.path.join(
