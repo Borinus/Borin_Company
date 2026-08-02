@@ -16,6 +16,8 @@
  */
 
 import { enviarPara, podeEscreverAoCliente } from "./correio.js";
+import { garantirEmpresa, ehDono, listarEquipe, adicionarMembro, gravarMembro,
+         removerMembro, avisarNovoMembro } from "./equipe.js";
 
 const SESSAO_HORAS = 12;
 const TENTATIVAS_MAX = 8;      // por email, antes de travar
@@ -100,7 +102,13 @@ async function quemE(request, env) {
   if (!email) return null;
   const cru = await env.CLIENTES.get("cliente:" + email);
   if (!cru) return null;
-  return { email, token, conta: JSON.parse(cru) };
+  /* conta criada antes da empresa existir ganha a dela aqui, na primeira vez
+     que e usada. Migracao sem script separado e sem janela de manutencao. */
+  const conta = await garantirEmpresa(env, email, JSON.parse(cru));
+  /* `empresa` aqui e o ID, usado como prefixo das chaves. O NOME fica em
+     conta.empresa e e o que aparece na tela. Trocar os dois faria a conta do
+     cliente exibir o id no lugar do nome da empresa dele. */
+  return { email, token, conta, empresa: conta.empresa_id, dono: ehDono(conta) };
 }
 
 /* ---------- freio de forca bruta ---------- */
@@ -250,7 +258,9 @@ async function guardarFicha(request, env, dados) {
   const corpo = JSON.stringify(dados.dados || {});
   if (corpo.length > 64 * 1024) return json({ erro: "ficha grande demais" }, 413);
 
-  await env.CLIENTES.put("ficha:" + s.email + ":" + tipo,
+  if (!s.dono) return json({ erro: "só quem contratou preenche as fichas" }, 403);
+
+  await env.CLIENTES.put("ficha:" + s.empresa + ":" + tipo,
     JSON.stringify({ dados: dados.dados, em: new Date().toISOString() }));
   if (tipo === "cadastro" && dados.avisar) {
     await avisarCadastro(env, s.email, dados.dados);
@@ -262,7 +272,7 @@ async function lerFicha(request, env, url) {
   const s = await quemE(request, env);
   if (!s) return json({ erro: "sua sessão expirou. entre de novo" }, 401);
   const tipo = (url.searchParams.get("tipo") || "").replace(/[^a-zA-Z0-9:_-]/g, "").slice(0, 60);
-  const cru = await env.CLIENTES.get("ficha:" + s.email + ":" + tipo);
+  const cru = await env.CLIENTES.get("ficha:" + s.empresa + ":" + tipo);
   return json(cru ? JSON.parse(cru) : { dados: null });
 }
 
@@ -311,7 +321,7 @@ async function listarProjetos(request, env) {
   const s = await quemE(request, env);
   if (!s) return json({ erro: "sua sessão expirou. entre de novo" }, 401);
 
-  const lista = await env.CLIENTES.list({ prefix: "projeto:" + s.email + ":" });
+  const lista = await env.CLIENTES.list({ prefix: "projeto:" + s.empresa + ":" });
   const projetos = [];
   for (const k of lista.keys) {
     const cru = await env.CLIENTES.get(k.name);
@@ -320,11 +330,12 @@ async function listarProjetos(request, env) {
   projetos.sort((a, b) => (b.atualizado_em || "").localeCompare(a.atualizado_em || ""));
 
   /* as fichas ja preenchidas, pra ele saber o que falta */
-  const fichas = await env.CLIENTES.list({ prefix: "ficha:" + s.email + ":" });
+  const fichas = await env.CLIENTES.list({ prefix: "ficha:" + s.empresa + ":" });
   const preenchidas = fichas.keys.map((k) => k.name.split(":").slice(2).join(":"));
 
   return json({
     entrou: true,
+    papel: s.dono ? "dono" : "membro",
     empresa: s.conta.empresa,
     contato: s.conta.contato,
     email: s.email,
@@ -513,6 +524,43 @@ async function apagarConta(request, env, dados) {
   return json({ ok: true, email, apagados: apagados.length });
 }
 
+/* ---------------------------------------------------------------- equipe */
+
+async function verEquipe(request, env) {
+  const s = await quemE(request, env);
+  if (!s) return json({ erro: "sua sessão expirou. entre de novo" }, 401);
+  const e = await listarEquipe(env, s.conta);
+  return json({ ok: true, papel: s.dono ? "dono" : "membro", eu: s.email, ...e });
+}
+
+/**
+ * O dono libera acesso pra alguem da equipe dele. A conta nasce com senha
+ * gerada e a senha vai por email — mesmo caminho do lead, um passo a menos
+ * pra errar, e o funcionario entra do celular sem clicar em link que expira.
+ */
+async function liberarAcesso(request, env, dados) {
+  const s = await quemE(request, env);
+  if (!s) return json({ erro: "sua sessão expirou. entre de novo" }, 401);
+
+  const r = await adicionarMembro(env, s.conta, s.email, dados);
+  if (r.erro) return json({ erro: r.erro }, r.status || 400);
+
+  const hash = await derivar(r.senha, r.saltHex, env.PIMENTA);
+  await gravarMembro(env, { ...s.conta, email: s.email }, r, hash);
+
+  const entregue = await avisarNovoMembro(env, s.conta.empresa || "", r);
+  return json({ ok: true, email: r.alvo, entregue,
+                senha: entregue ? undefined : r.senha });
+}
+
+async function tirarAcesso(request, env, dados) {
+  const s = await quemE(request, env);
+  if (!s) return json({ erro: "sua sessão expirou. entre de novo" }, 401);
+  const r = await removerMembro(env, s.conta, dados.email);
+  if (r.erro) return json({ erro: r.erro }, r.status || 400);
+  return json(r);
+}
+
 export async function rotaAcesso(request, env, url) {
   const rota = url.pathname.replace(/^\/api\/acesso\/?/, "");
 
@@ -520,6 +568,7 @@ export async function rotaAcesso(request, env, url) {
     if (rota === "eu") return eu(request, env);
     if (rota === "ficha") return lerFicha(request, env, url);
     if (rota === "projetos") return listarProjetos(request, env);
+    if (rota === "equipe") return verEquipe(request, env);
     if (rota === "cliente") return lerCliente(request, env, url);
     return json({ erro: "rota desconhecida" }, 404);
   }
@@ -539,5 +588,7 @@ export async function rotaAcesso(request, env, url) {
   if (rota === "ficha") return guardarFicha(request, env, dados);
   if (rota === "projeto") return gravarProjeto(request, env, dados);
   if (rota === "apagar") return apagarConta(request, env, dados);
+  if (rota === "equipe") return liberarAcesso(request, env, dados);
+  if (rota === "equipe-remover") return tirarAcesso(request, env, dados);
   return json({ erro: "rota desconhecida" }, 404);
 }
