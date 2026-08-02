@@ -67,3 +67,14 @@ registro de propósito.
 **Prova de entrega:** dois emails reais enviados para o mail-tester, ambos **10/10**, com
 "você está autenticado adequadamente" — um disparado direto pela API, outro pelo funil
 completo do site (formulário → conta criada → senha entregue ao cliente).
+
+### Rotação da chave (01/08/2026)
+
+A chave usada durante a implantação passou pelo chat, então foi trocada. A que está no
+Worker agora chama-se **`site-envio`** e é `sending_access` escopada no domínio: envia
+(`200`), mas não lê domínio nem lista chaves (`401`). A anterior (`Onboarding`) foi
+revogada — confirmado: `401` ao tentar enviar com ela.
+
+Efeito colateral proposital: **não dá mais para ler o log de entrega pela API**. Para
+verificar entrega em teste futuro, use uma caixa descartável legível (mail.tm) como
+cliente, em vez de depender de tela de terceiro.
