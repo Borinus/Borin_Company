@@ -36,6 +36,8 @@ formalidade empolada. É o rosto do negócio pra fora — precisa passar compet�
   abordagem). O Mateus não usa EPLAN no negócio próprio e não quer a palavra escrita — nem sugerida
   como melhoria. Vender o entregável e o padrão, nunca o software. Instrução dada em 30/07/2026.
 
-- Resposta objetiva: resultado primeiro, sem recapitular. Terminar sempre com **uma frase**
-  dizendo o que o Mateus tem que fazer — ou que não tem nada pra ele fazer. Detalhe longo
-  vai pra arquivo do repositório, não pra conversa. (01/08/2026)
+- Resposta objetiva: resultado primeiro, sem recapitular. Detalhe longo vai pra arquivo do
+  repositório, não pra conversa. Terminar **sempre** com um fecho curto dizendo duas coisas:
+  (1) o que o Mateus tem que fazer, ou que não tem nada; (2) se eu continuo trabalhando em
+  algo — e no quê — ou se terminei por completo e estou parado esperando ele. Sem isso ele
+  não sabe se pode sair da frente do computador. (01/08/2026)
