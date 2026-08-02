@@ -85,3 +85,6 @@ __pycache__/
 # documentos gerados: tem dado de cliente e sao refeitos por comando
 comercial/propostas/
 comercial/contratos/
+
+# saida de build do wrangler --dry-run
+site/worker/wdry/
