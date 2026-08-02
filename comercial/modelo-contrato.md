@@ -60,10 +60,12 @@ não assume a responsabilidade técnica pelo equipamento ou pela instalação e 
 tomada pelo CLIENTE ou por terceiro, nem por execução, material ou montagem que divirjam da
 documentação entregue.
 
-**5.** Quando a ART for exigida, o CLIENTE contrata e paga o profissional habilitado diretamente,
-fora deste preço; ajuste exigido por critério técnico desse profissional é alteração de escopo. O
-CLIENTE não apresenta BORIN a terceiros como responsável técnico ou autor do projeto, nem o inclui
-em ART.
+**5.** A ART não está inclusa neste preço. Se o CLIENTE pedir com antecedência, BORIN providencia a
+anotação com profissional legalmente habilitado, mediante preço adicional aprovado por escrito antes
+— a ART é emitida por esse profissional e em nome dele. O CLIENTE também pode contratar diretamente
+o profissional que preferir. Em qualquer dos casos, ajuste exigido por critério técnico desse
+profissional é alteração de escopo, e o CLIENTE não apresenta BORIN a terceiros como responsável
+técnico ou autor do projeto nem o inclui em ART.
 
 **6.** A Ficha Técnica é a base técnica do contrato e prevalece sobre acerto verbal, mensagem avulsa
 e versão anterior. O CLIENTE a confirma por email, responde por informação incorreta ou omitida e
