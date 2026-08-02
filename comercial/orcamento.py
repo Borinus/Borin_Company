@@ -274,6 +274,9 @@ def enviar(p, corpo_html, para_mim, anexos=None):
         "equipamento": p["equipamento"],
         "doc": p.get("doc") or ("Proposta " + p["numero"]),
         "email": "" if para_mim else p["email"],
+        # o Worker so entrega no cliente com esta marca; sem ela vai pro Mateus.
+        # --para-mim continua sendo copia de conferencia, identica ao que ele veria.
+        "para_cliente": not para_mim,
         "intencao": "proposta", "html": True, "texto": corpo_html,
     }
     if anexos:

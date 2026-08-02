@@ -480,6 +480,29 @@ export async function contaDoLead(env, email, empresa, contato) {
   }
 }
 
+/* Apaga uma conta e tudo que pende dela. Existe porque teste deixa lixo no
+   banco de producao, e conta falsa misturada com cliente de verdade e pior
+   que nao ter testado. So admin, e exige o email escrito por extenso. */
+async function apagarConta(request, env, dados) {
+  if (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN) {
+    return json({ erro: "nao autorizado" }, 401);
+  }
+  const email = normalizarEmail(dados.email);
+  if (!email.includes("@")) return json({ erro: "email inválido" }, 400);
+  if (!(await env.CLIENTES.get("cliente:" + email))) {
+    return json({ erro: "sem conta" }, 404);
+  }
+
+  const apagados = ["cliente:" + email, "freio:" + email];
+  const lista = await env.CLIENTES.list({ prefix: "ficha:" + email + ":" });
+  for (const k of lista.keys) { apagados.push(k.name); }
+  const proj = await env.CLIENTES.list({ prefix: "projeto:" + email + ":" });
+  for (const k of proj.keys) { apagados.push(k.name); }
+
+  for (const chave of apagados) { await env.CLIENTES.delete(chave); }
+  return json({ ok: true, email, apagados: apagados.length });
+}
+
 export async function rotaAcesso(request, env, url) {
   const rota = url.pathname.replace(/^\/api\/acesso\/?/, "");
 
@@ -505,5 +528,6 @@ export async function rotaAcesso(request, env, url) {
   if (rota === "sair") return sair(request, env);
   if (rota === "ficha") return guardarFicha(request, env, dados);
   if (rota === "projeto") return gravarProjeto(request, env, dados);
+  if (rota === "apagar") return apagarConta(request, env, dados);
   return json({ erro: "rota desconhecida" }, 404);
 }
