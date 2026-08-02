@@ -291,6 +291,16 @@ const ETAPAS = [
   "Aprovado",
 ];
 
+/* A empresa a que um email pertence. Admin nao tem sessao, entao migra
+   aqui tambem — senao a primeira chamada de admin numa conta antiga
+   escreveria com chave de empresa que ainda nao existe. */
+async function empresaDe(env, email) {
+  const cru = await env.CLIENTES.get("cliente:" + email);
+  if (!cru) return null;
+  const conta = await garantirEmpresa(env, email, JSON.parse(cru));
+  return conta.empresa_id;
+}
+
 async function gravarProjeto(request, env, dados) {
   if (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN) {
     return json({ erro: "nao autorizado" }, 401);
@@ -299,10 +309,10 @@ async function gravarProjeto(request, env, dados) {
   const codigo = (dados.codigo || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 30);
   if (!email.includes("@") || !codigo) return json({ erro: "informe email e codigo" }, 400);
 
-  const conta = await env.CLIENTES.get("cliente:" + email);
-  if (!conta) return json({ erro: "esse email nao tem conta ainda" }, 404);
+  const empresa = await empresaDe(env, email);
+  if (!empresa) return json({ erro: "esse email nao tem conta ainda" }, 404);
 
-  const chave = "projeto:" + email + ":" + codigo;
+  const chave = "projeto:" + empresa + ":" + codigo;
   const antes = await env.CLIENTES.get(chave);
   const p = antes ? JSON.parse(antes) : { codigo, criado_em: new Date().toISOString() };
 
@@ -365,16 +375,22 @@ async function lerCliente(request, env, url) {
   const email = normalizarEmail(url.searchParams.get("email"));
   const cru = await env.CLIENTES.get("cliente:" + email);
   if (!cru) return json({ erro: "sem conta" }, 404);
-  const conta = JSON.parse(cru);
+  const conta = await garantirEmpresa(env, email, JSON.parse(cru));
   delete conta.hash; delete conta.salt;
 
   const fichas = {};
-  const lista = await env.CLIENTES.list({ prefix: "ficha:" + email + ":" });
+  const lista = await env.CLIENTES.list({ prefix: "ficha:" + conta.empresa_id + ":" });
   for (const k of lista.keys) {
     const v = await env.CLIENTES.get(k.name);
     if (v) fichas[k.name.split(":").slice(2).join(":")] = JSON.parse(v).dados;
   }
-  return json({ ok: true, conta, fichas });
+  const projetos = [];
+  const pl = await env.CLIENTES.list({ prefix: "projeto:" + conta.empresa_id + ":" });
+  for (const k of pl.keys) {
+    const v = await env.CLIENTES.get(k.name);
+    if (v) projetos.push(JSON.parse(v));
+  }
+  return json({ ok: true, conta, fichas, projetos });
 }
 
 /* Avisa o Mateus quando o cliente termina o cadastro — senao ele so descobre
@@ -514,11 +530,36 @@ async function apagarConta(request, env, dados) {
     return json({ erro: "sem conta" }, 404);
   }
 
+  const conta = JSON.parse(await env.CLIENTES.get("cliente:" + email));
   const apagados = ["cliente:" + email, "freio:" + email];
-  const lista = await env.CLIENTES.list({ prefix: "ficha:" + email + ":" });
-  for (const k of lista.keys) { apagados.push(k.name); }
-  const proj = await env.CLIENTES.list({ prefix: "projeto:" + email + ":" });
-  for (const k of proj.keys) { apagados.push(k.name); }
+
+  /* Membro some sozinho. Dono leva a empresa junto: ficha, projeto, o
+     registro da empresa, o indice de equipe e as contas de quem ele tinha
+     liberado — senao sobra gente com login valido apontando pra uma empresa
+     que nao existe mais. */
+  const dono = !conta.papel || conta.papel === "dono";
+  if (dono && conta.empresa_id) {
+    for (const prefixo of ["ficha:", "projeto:"]) {
+      const l = await env.CLIENTES.list({ prefix: prefixo + conta.empresa_id + ":" });
+      for (const k of l.keys) { apagados.push(k.name); }
+    }
+    const idx = await env.CLIENTES.get("equipe:" + conta.empresa_id);
+    for (const em of (idx ? JSON.parse(idx) : [])) {
+      apagados.push("cliente:" + em, "freio:" + em);
+    }
+    apagados.push("empresa:" + conta.empresa_id, "equipe:" + conta.empresa_id);
+  } else if (conta.empresa_id) {
+    const idx = await env.CLIENTES.get("equipe:" + conta.empresa_id);
+    const resto = (idx ? JSON.parse(idx) : []).filter((x) => x !== email);
+    await env.CLIENTES.put("equipe:" + conta.empresa_id, JSON.stringify(resto));
+  }
+
+  /* a sessao morre junto, senao quem foi apagado segue dentro */
+  const sessoes = await env.CLIENTES.list({ prefix: "sessao:" });
+  for (const k of sessoes.keys) {
+    const dono_da_sessao = await env.CLIENTES.get(k.name);
+    if (apagados.includes("cliente:" + dono_da_sessao)) { apagados.push(k.name); }
+  }
 
   for (const chave of apagados) { await env.CLIENTES.delete(chave); }
   return json({ ok: true, email, apagados: apagados.length });

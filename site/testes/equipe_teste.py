@@ -60,7 +60,7 @@ def caixa():
     return addr, t["token"]
 
 
-def senha_do_email(tok, contendo="acesso", limite=30):
+def senha_do_email(tok, contendo="acesso", limite=50):
     for _ in range(limite):
         time.sleep(6)
         s, d = req("https://api.mail.tm/messages", tok=tok)
@@ -145,7 +145,8 @@ P("funcionario ve quem tem acesso", r.get("ok") is True,
 r = curl("POST", "/api/acesso/ficha", {"tipo": "cadastro", "dados": {"razao_social": "X"}}, cookie=ckf)
 P("funcionario NAO preenche ficha", r.get("ok") is not True, r.get("erro", "")[:44])
 
-outro, _ = caixa()
+# nao precisa de caixa real: o pedido tem que ser recusado antes de qualquer envio
+outro = "terceiro.sem.acesso@exemplo-teste.com"
 r = curl("POST", "/api/acesso/equipe", {"email": outro, "nome": "Terceiro"}, cookie=ckf)
 P("funcionario NAO libera acesso", r.get("ok") is not True, r.get("erro", "")[:44])
 

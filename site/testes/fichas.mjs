@@ -16,7 +16,15 @@ await js(s, `(() => { const p = (i, v) => { const e = document.getElementById(i)
   p('email', ${JSON.stringify(CAIXA)}); p('senha', ${JSON.stringify(SENHA)});
   document.getElementById('btEntrar').click(); return 1; })()`)
 await pausa(10000)
-check('logou', (await quemEstaLogado(s)).toLowerCase() === CAIXA.toLowerCase(), CAIXA)
+/* Sem login confirmado NAO adianta seguir: /padrao e /projeto funcionam
+   anonimos por design, entao os passos seguintes passariam em falso — o
+   campo volta do armazenamento local e parece que veio da conta. */
+const eu = await quemEstaLogado(s)
+check('logou', eu.toLowerCase() === CAIXA.toLowerCase(), eu || 'ninguem logado')
+if (eu.toLowerCase() !== CAIXA.toLowerCase()) {
+  console.log('  parei aqui: sem sessao, o resto do teste nao prova nada')
+  process.exit(1)
+}
 
 for (const pag of ['padrao', 'projeto']) {
   console.log(`\n  --- /${pag} ---`)
