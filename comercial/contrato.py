@@ -101,8 +101,14 @@ def extenso(v):
             partes.append(("mil" if mil == 1 else _ate999(mil) + " mil"))
         if resto:
             partes.append(_ate999(resto))
-        t = (" e " if len(partes) == 2 and resto < 100 else ", ").join(partes) if len(partes) == 2 \
-            else partes[0]
+        # A regra do "e": entra antes do ultimo grupo quando ele e menor que
+        # cem OU multiplo de cem. "seis mil E setecentos", mas "seis mil
+        # setecentos E quarenta e dois". Como o total agora sai sempre redondo,
+        # o caso comum e o multiplo de cem, que antes saia com virgula.
+        if len(partes) == 2:
+            t = (" e " if (resto < 100 or resto % 100 == 0) else ", ").join(partes)
+        else:
+            t = partes[0]
         t += " real" if reais == 1 else " reais"
     if cent:
         t += " e %s %s" % (_ate999(cent), "centavo" if cent == 1 else "centavos")

@@ -25,6 +25,7 @@ POR_PAGINA = 235        # hora de mercado, 1h por folha de diagrama
 POR_ITEM_MANUAL = 250   # hora avulsa: peca de marca pequena, cadastro 100% manual
 SETUP_PADRAO = 1000     # padrao proprio do cliente, uma vez por cliente
 PISO = 2400             # abaixo disto o trabalho humano domina e nao encolhe
+ARREDONDA = 100         # o total sai redondo: 6.742,50 vira 6.700
 
 ACRESCIMO_URGENCIA = 0.30
 ACRESCIMO_FONTE = 0.50
@@ -56,19 +57,81 @@ def estimar_paginas(io=0, acionamentos=0, seguranca=0, escopo="A"):
     return math.ceil(p)
 
 
+def _fechar(base, itens, setup, urgencia, arquivo_fonte, abertura):
+    """O total exatamente como a coluna mostra: cada parcela arredondada em
+    centavos, na mesma ordem. E esse numero que precisa cair redondo, nao o
+    calculo continuo."""
+    subtotal = base + itens + setup
+    total = subtotal
+    if urgencia:
+        total += round(subtotal * ACRESCIMO_URGENCIA, 2)
+    if arquivo_fonte:
+        total += round(subtotal * ACRESCIMO_FONTE, 2)
+    if abertura:
+        total -= round(total * DESCONTO_ABERTURA, 2)
+    return round(total, 2)
+
+
 def calcular(paginas, itens_manuais=0, setup_padrao=False,
              urgencia=False, arquivo_fonte=False, abertura=False):
     """Monta o valor. Ordem importa: acrescimo antes do desconto, senao o
-    desconto tambem reduz o que nao deveria ser descontado."""
-    base = paginas * POR_PAGINA
+    desconto tambem reduz o que nao deveria ser descontado.
+
+    O total sai sempre num multiplo de ARREDONDA, pra baixo. A sobra e
+    descontada da linha do projeto — a unica que e estimativa. Os precos de
+    tabela (cadastro de item, setup) ficam intactos, e a coluna continua
+    fechando na conta do cliente."""
     itens = itens_manuais * POR_ITEM_MANUAL
     setup = SETUP_PADRAO if setup_padrao else 0
+    base = paginas * POR_PAGINA
+
+    # o piso e do projeto todo. Antes ele entrava no subtotal mas a linha do
+    # projeto continuava mostrando o valor velho: a coluna nao somava.
+    piso_aplicado = base + itens + setup < PISO
+    if piso_aplicado:
+        base = max(0.0, PISO - itens - setup)
+
+    fator = 1.0
+    if urgencia:
+        fator += ACRESCIMO_URGENCIA
+    if arquivo_fonte:
+        fator += ACRESCIMO_FONTE
+    if abertura:
+        fator *= (1 - DESCONTO_ABERTURA)
+
+    total = (base + itens + setup) * fator
+
+    # Arredonda o total pra baixo e devolve a sobra pra linha do projeto.
+    # Repete tres vezes porque cada linha e arredondada em centavos na hora de
+    # montar a coluna, e essa sobra de centavo desloca o total: sem repetir,
+    # um caso com acrescimo caia em 8.499,99 em vez de 8.500,00.
+    alvo = int(total / ARREDONDA) * ARREDONDA
+    if alvo >= ARREDONDA:
+        arg = (itens, setup, urgencia, arquivo_fonte, abertura)
+        # 1. aproxima: o quanto a base precisa mudar pra o total virar o alvo
+        for _ in range(3):
+            novo = base + (alvo - _fechar(base, *arg)) / fator
+            if novo <= 0:
+                break
+            base = novo
+        # 2. fecha o centavo. Cada parcela e arredondada na hora de montar a
+        #    coluna, entao o total anda em degraus e o passo linear acima erra
+        #    por um centavo em quem tem os dois acrescimos. Varre a vizinhanca
+        #    e fica com o valor de base que bate exato.
+        passo = 0.01 / fator
+        for k in range(0, 400):
+            for lado in ((0,) if k == 0 else (k, -k)):
+                tent = base + lado * passo
+                if tent > 0 and abs(_fechar(tent, *arg) - alvo) < 0.005:
+                    base = tent
+                    k = -1
+                    break
+            if k == -1:
+                break
 
     subtotal = base + itens + setup
-    if subtotal < PISO:
-        subtotal = PISO
 
-    linhas = [("Projeto — %d páginas de diagrama" % paginas, base)]
+    linhas = [("Projeto — %d páginas de diagrama" % paginas, round(base, 2))]
     if itens:
         linhas.append(("Cadastro de %d %s fora do banco"
                        % (itens_manuais, "item" if itens_manuais == 1 else "itens"), itens))
@@ -88,12 +151,28 @@ def calcular(paginas, itens_manuais=0, setup_padrao=False,
         v = -round(total * DESCONTO_ABERTURA, 2)
         linhas.append(("Condição de abertura (-50%)", v)); total += v
 
+    total = round(total, 2)
+    cheio = round(cheio, 2)
+
+    # O ultimo centavo. Com desconto de 50% sobre um valor cheio impar em
+    # centavos, o total NUNCA cai redondo por ajuste de base: 16.999,98 menos
+    # metade da 8.499,99. Entao a sobra e absorvida pela ultima linha, que e o
+    # desconto — o unico lugar onde um centavo nao muda nada que o cliente
+    # confira. A coluna continua somando exatamente o total.
+    alvo = int(total / ARREDONDA) * ARREDONDA
+    if alvo >= ARREDONDA and abs(total - alvo) > 0.0001 and linhas:
+        rotulo, valor = linhas[-1]
+        linhas[-1] = (rotulo, round(valor + (alvo - total), 2))
+        if valor >= 0:
+            cheio = round(cheio + (alvo - total), 2)
+        total = float(alvo)
+
     return {
         "paginas": paginas,
         "linhas": linhas,
         "valor_cheio": round(cheio, 2),
         "total": round(total, 2),
-        "piso_aplicado": base + itens + setup < PISO,
+        "piso_aplicado": piso_aplicado,
     }
 
 
