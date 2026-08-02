@@ -16,10 +16,21 @@
 | CNPJ | **65.749.097/0001-85** |
 | Razão social | `65.749.097 MATEUS BORIN` (formato padrão de MEI) |
 | Nome fantasia | Borin Projetos Elétricos |
-| Enquadramento | **MEI**, já aberto |
-| CNAE | *(preencher)* — já definido pelo Mateus e correto para a atividade |
+| Enquadramento | **MEI**, no Simples, porte Micro Empresa |
+| Aberto em | 18/03/2026 — situação **ATIVA** |
+| Endereço da sede | Rua Rivadávia de Azambuja Guimarães 331, Nossa Senhora da Saúde, Caxias do Sul / RS, CEP 95044-080 |
+| CNAE principal | **3321-0/00** — Instalação de máquinas e equipamentos industriais |
+| CNAE secundário | **nenhum** |
 | CREA | Não se aplica. A atividade é desenho e documentação técnica |
 | Sócio em conversa | Tem empresa própria no **Simples Nacional** |
+
+> Dados conferidos direto no cadastro da Receita em 01/08/2026 (via BrasilAPI), não de memória.
+> O endereço acima é o que vai na qualificação do CONTRATADO no contrato — está no `.env`
+> como `BORIN_ENDERECO` e entra sozinho no PDF gerado por `comercial/contrato.py`.
+>
+> **Pendência aberta:** o CNAE registrado é de *instalação* de máquinas. O que o Mateus vende é
+> *elaboração de projeto e documentação técnica* — trabalho de escritório, sem ir a campo. São
+> atividades diferentes. Isso precisa ser resolvido **antes da primeira nota**, não depois.
 
 **Detalhe que aparece em todo documento:** a razão social do MEI é o número do CNPJ mais o nome —
 `65.749.097 MATEUS BORIN`. É isso que vai na nota fiscal e na qualificação das partes do contrato.
@@ -175,7 +186,8 @@ Não baixe o preço por causa disso: a folga é temporária e vira custo no dese
 ## Ordem de execução
 
 1. [x] CNPJ aberto — MEI
-2. [x] CNAE definido
+2. [ ] **Resolver o CNAE** — o registrado (3321-0/00, instalação) não é o que se vende
+       (projeto e documentação técnica). Bloqueia o item 5
 3. [x] Estratégia definida: MEI agora, Simples quando o faturamento pedir
 4. [ ] **Conta bancária PJ**, separada da pessoal. Sem exceção
 5. [ ] Acesso ao sistema de NFS-e de Caxias e primeira nota de teste
