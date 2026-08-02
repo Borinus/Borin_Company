@@ -1,0 +1,28 @@
+name = "borin-orcamento"
+main = "index.js"
+compatibility_date = "2026-07-01"
+
+# Roda no proprio dominio, em /api/*. Como e a mesma origem do site, nao ha
+# CORS envolvido — a rota do Worker tem precedencia sobre o Pages.
+[[routes]]
+pattern = "borinprojetos.com.br/api/*"
+zone_name = "borinprojetos.com.br"
+
+# Binding nativo de email. Nao precisa de conta nem chave de terceiro.
+# destination_address TEM que estar verificado em:
+#   Cloudflare > borinprojetos.com.br > Email > Email Routing > Destination addresses
+[[send_email]]
+name = "EMAIL"
+destination_address = "mateusborin73@gmail.com"
+
+[vars]
+# de onde o email sai — precisa ser do dominio que esta na sua conta
+REMETENTE = "site@borinprojetos.com.br"
+# pra onde chega — o mesmo endereco verificado do binding acima
+DESTINO = "mateusborin73@gmail.com"
+
+# Conta do cliente. KV e nao banco: sao poucos registros, nenhuma consulta por
+# campo, e nao ha esquema pra migrar.
+[[kv_namespaces]]
+binding = "CLIENTES"
+id = "ab20d3b8f3f54eab877d316a02fe88f6"

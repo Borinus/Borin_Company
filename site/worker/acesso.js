@@ -15,6 +15,8 @@
  * campo, e KV nao tem esquema pra migrar.
  */
 
+import { enviarPara, podeEscreverAoCliente } from "./correio.js";
+
 const SESSAO_HORAS = 12;
 const TENTATIVAS_MAX = 8;      // por email, antes de travar
 const TRAVA_MINUTOS = 15;
@@ -126,6 +128,14 @@ async function contarErro(env, email) {
 /* Criar conta. So o Mateus chama, com o segredo do Worker.
    Devolve a senha em claro UMA vez — e para ele colar na resposta do
    orcamento. Depois disso so existe o hash. */
+/* sem I, l, O, 0 e 1: essa senha vai ser lida em voz alta e digitada
+   por uma pessoa, provavelmente do celular */
+function gerarSenha() {
+  const letras = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+  const bytes = crypto.getRandomValues(new Uint8Array(12));
+  return [...bytes].map((b) => letras[b % letras.length]).join("");
+}
+
 async function criar(request, env, dados) {
   if (!env.SEGREDO_ADMIN || dados.segredo !== env.SEGREDO_ADMIN) {
     return json({ erro: "nao autorizado" }, 401);
@@ -138,10 +148,7 @@ async function criar(request, env, dados) {
     return json({ erro: "ja existe. use trocar:true para gerar outra senha" }, 409);
   }
 
-  /* sem I, l, O, 0 e 1: essa senha vai ser lida e digitada por uma pessoa */
-  const letras = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
-  const bytes = crypto.getRandomValues(new Uint8Array(12));
-  const senha = [...bytes].map((b) => letras[b % letras.length]).join("");
+  const senha = gerarSenha();
 
   const salt = aleatorio(16);
   const conta = {
@@ -351,45 +358,125 @@ async function lerCliente(request, env, url) {
 
 /* Avisa o Mateus quando o cliente termina o cadastro — senao ele so descobre
    se ficar checando. E o gatilho pra reenviar o contrato preenchido. */
-const NL = String.fromCharCode(10);
-const CRLF = String.fromCharCode(13, 10);
-
-function b64texto(t) {
-  const b = new TextEncoder().encode(t);
-  let bin = "";
-  b.forEach((x) => { bin += String.fromCharCode(x); });
-  return btoa(bin);
-}
-
 /* Avisa o Mateus quando o cliente termina o cadastro — senao ele so descobre
    se ficar checando. E o gatilho pra reenviar o contrato preenchido. */
 async function avisarCadastro(env, email, dados) {
-  if (!env.EMAIL) return;
   const linhas = Object.entries(dados || {})
     .filter(([, v]) => v)
     .map(([k, v]) => "  " + k + ": " + String(v).slice(0, 120))
-    .join(NL);
-  const corpo = "O cliente " + email + " completou o cadastro da empresa." + NL + NL
-    + linhas + NL + NL + "Para reenviar o contrato preenchido:" + NL
-    + "  python comercial/reenviar-contrato.py --cliente " + email + " --enviar" + NL;
+    .join("\n");
+  const corpo = "O cliente " + email + " completou o cadastro da empresa.\n\n"
+    + linhas + "\n\nPara reenviar o contrato preenchido:\n"
+    + "  python comercial/reenviar-contrato.py --cliente " + email + " --enviar\n";
   try {
-    const { EmailMessage } = await import("cloudflare:email");
-    const bruto = [
-      "From: Borin Projetos <" + env.REMETENTE + ">",
-      "To: <" + env.DESTINO + ">",
-      "Subject: =?UTF-8?B?" + b64texto("Cadastro completo: "
-        + (dados.razao_social || email)) + "?=",
-      "Message-ID: <" + crypto.randomUUID() + "@borinprojetos.com.br>",
-      "Date: " + new Date().toUTCString(),
-      "MIME-Version: 1.0",
-      'Content-Type: text/plain; charset="utf-8"',
-      "Content-Transfer-Encoding: base64",
-      "",
-      b64texto(corpo).replace(/(.{76})/g, "$1" + CRLF),
-    ].join(CRLF);
-    await env.EMAIL.send(new EmailMessage(env.REMETENTE, env.DESTINO, bruto));
+    await enviarPara(env, {
+      para: env.DESTINO,
+      assunto: "Cadastro completo: " + (dados.razao_social || email),
+      corpo: corpo,
+    });
   } catch (e) {
     console.error("aviso de cadastro falhou:", e && e.message);
+  }
+}
+
+/* O email que abre a porta pro cliente. E o primeiro texto que ele recebe de
+   nos, entao nao pode parecer aviso de sistema: diz o que aconteceu, da a
+   senha e explica pra que serve. */
+function boasVindas(contato, email, senha) {
+  const nome = (contato || "").split(" ")[0];
+  return [
+    '<div style="margin:0;padding:24px 16px;background:#F4F4F4;',
+    "font-family:'Segoe UI',Arial,Helvetica,sans-serif\">",
+    '<div style="max-width:640px;margin:0 auto;background:#fff;border:1px solid #111111">',
+    '<div style="padding:26px 28px 20px;border-bottom:1px solid #111111">',
+    '<div style="font-size:30px;font-weight:700;letter-spacing:4px;color:#111111">BORIN</div>',
+    '<div style="height:3px;background:#111111;width:170px;margin:5px 0 0"></div>',
+    '<div style="display:inline-block;width:8px;height:8px;background:#C1121F;',
+    'margin:0 0 0 174px;position:relative;top:-9px"></div>',
+    '<div style="font-family:Consolas,monospace;font-size:10px;letter-spacing:.12em;',
+    'text-transform:uppercase;color:#6B6B6B;margin-top:-4px">projetos elétricos industriais</div>',
+    "</div>",
+    '<div style="padding:22px 28px 0">',
+    '<h1 style="font-size:22px;font-weight:700;margin:0 0 10px;letter-spacing:-.02em;color:#111111">',
+    (nome ? nome + ", recebi seu pedido" : "Recebi seu pedido"),
+    "</h1>",
+    '<p style="font-size:14px;line-height:1.6;color:#111111;margin:0 0 16px">',
+    "Respondo com valor e prazo fechados em até 24 horas. Enquanto isso, criei um acesso ",
+    "para você acompanhar o projeto e preencher a parte técnica sem precisar repetir dado.",
+    "</p></div>",
+    '<div style="padding:0 28px">',
+    '<table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;',
+    'border:1px solid #DCDCDC">',
+    '<tr><td style="padding:10px 12px;border-bottom:1px solid #DCDCDC;width:34%;',
+    "font-family:Consolas,monospace;font-size:10px;letter-spacing:.08em;",
+    'text-transform:uppercase;color:#6B6B6B">Endereço</td>',
+    '<td style="padding:10px 12px;border-bottom:1px solid #DCDCDC;font-size:14px;',
+    'color:#111111">borinprojetos.com.br/entrar</td></tr>',
+    '<tr><td style="padding:10px 12px;border-bottom:1px solid #DCDCDC;',
+    "font-family:Consolas,monospace;font-size:10px;letter-spacing:.08em;",
+    'text-transform:uppercase;color:#6B6B6B">Email</td>',
+    '<td style="padding:10px 12px;border-bottom:1px solid #DCDCDC;font-size:14px;',
+    'color:#111111">', email, "</td></tr>",
+    '<tr><td style="padding:10px 12px;font-family:Consolas,monospace;font-size:10px;',
+    'letter-spacing:.08em;text-transform:uppercase;color:#6B6B6B">Senha</td>',
+    '<td style="padding:10px 12px;font-family:Consolas,monospace;font-size:18px;',
+    'font-weight:700;letter-spacing:1px;color:#111111">', senha, "</td></tr>",
+    "</table></div>",
+    '<div style="padding:20px 28px 24px">',
+    '<p style="font-size:13px;line-height:1.6;color:#111111;margin:0 0 12px">',
+    "Na primeira entrada o site pede para você trocar essa senha por uma sua. ",
+    "Ela foi gerada agora e ninguém mais tem cópia.",
+    "</p>",
+    '<p style="font-size:13px;line-height:1.6;color:#6B6B6B;margin:0">',
+    "Não precisa entrar agora. Se preferir esperar minha resposta, este email fica guardado ",
+    "e o acesso continua valendo.",
+    "</p></div>",
+    '<div style="padding:14px 28px;border-top:1px solid #DCDCDC;',
+    'font-family:Consolas,monospace;font-size:10px;color:#6B6B6B">',
+    "Borin Projetos Elétricos &middot; CNPJ 65.749.097/0001-85 &middot; Caxias do Sul / RS<br>",
+    "contato@borinprojetos.com.br &middot; borinprojetos.com.br",
+    "</div></div></div>",
+  ].join("");
+}
+
+/**
+ * Abre a conta do lead que acabou de pedir orcamento e manda a senha pra ele.
+ *
+ * Silencioso de proposito: se a conta ja existe, nao gera senha nova nem
+ * reenvia nada — o cliente que pede dois orcamentos nao pode receber duas
+ * senhas diferentes e ficar sem saber qual vale.
+ */
+export async function contaDoLead(env, email, empresa, contato) {
+  const chave = normalizarEmail(email);
+  if (!chave.includes("@")) return { estado: "email_invalido" };
+
+  const existente = await env.CLIENTES.get("cliente:" + chave);
+  if (existente) return { estado: "ja_tinha" };
+
+  const senha = gerarSenha();
+  const salt = aleatorio(16);
+  await env.CLIENTES.put("cliente:" + chave, JSON.stringify({
+    email: chave,
+    empresa: (empresa || "").slice(0, 120),
+    contato: (contato || "").slice(0, 120),
+    salt,
+    hash: await derivar(senha, salt, env.PIMENTA),
+    criado_em: new Date().toISOString(),
+    senha_provisoria: true,
+    origem: "pedido de orcamento pelo site",
+  }));
+
+  try {
+    const r = await enviarPara(env, {
+      para: chave,
+      assunto: "Seu acesso — Borin Projetos Elétricos",
+      corpo: boasVindas(contato, chave, senha),
+      html: true,
+    });
+    return { estado: r.entregue ? "criada" : "criada_sem_entregar" };
+  } catch (e) {
+    console.error("conta criada mas email falhou:", e && e.message);
+    return { estado: "criada_sem_email" };
   }
 }
 
