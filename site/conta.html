@@ -840,33 +840,44 @@ var API = '';
 function notificar(intencao) {
   if (!API || typeof fetch !== 'function') { return Promise.resolve(false); }
 
+  /* CAMPOS, nunca o texto pronto. O servidor e quem monta a mensagem.
+     Ate 02/08/2026 esta funcao mandava `texto: montar(true)` — o corpo do
+     email inteiro escrito no navegador. Quem soubesse disso mandava o que
+     quisesse pra caixa do Mateus, e junto com `para_cliente` conseguia fazer
+     o site escrever pra terceiros em nome do dominio dele. O navegador nao
+     decide mais nada: ele coleta e envia. */
   var pedido = fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      doc: DOC,
-      intencao: intencao,
       empresa: v('empresa'),
       contato: v('contato'),
       email: v('email'),
       fone: v('fone'),
       website: v('website'),
-      /* vao pro assunto: sem isso o Gmail junta todos os pedidos numa
-         conversa so e nao da pra separar por projeto */
-      codigo: v('codigo') || v('projeto_numero'),
       equipamento: v('equipamento') || v('projeto_descricao'),
-      texto: montar(true)
+      codigo: v('codigo') || v('projeto_numero'),
+      escopo: radio('escopo'),
+      nr12: radio('nr12'),
+      canal: radio('canal'),
+      ios: v('ios'),
+      acionamentos: v('acionamentos'),
+      seg_qtd: v('seg_qtd'),
+      prazo: v('prazo'),
+      observacao: v('observacao')
     })
   }).then(function (r) {
-    return r.ok ? r.json().catch(function () { return { ok: true }; }) : { ok: false };
-  }).then(function (d) {
-    return !!(d && d.ok);
-  }).catch(function () { return false; });
+    return r.json()
+      .then(function (d) { return { ok: r.ok && d && d.ok === true, erro: d && d.erro }; })
+      .catch(function () { return { ok: r.ok }; });
+  }).catch(function () { return { ok: false }; });
 
   /* rede lenta nao pode prender o cliente numa tela de "enviando" pra sempre;
      estourou o tempo, trata como falha e a pagina seguinte oferece os outros
      caminhos */
-  var estouro = new Promise(function (r) { setTimeout(function () { r(false); }, 12000); });
+  var estouro = new Promise(function (r) {
+    setTimeout(function () { r({ ok: false }); }, 12000);
+  });
   return Promise.race([pedido, estouro]);
 }
 
@@ -880,9 +891,27 @@ function solicitar(botao) {
   botao.disabled = true;
   botao.textContent = 'Enviando…';
 
-  notificar('site').then(function (ok) {
-    guardarEnvio(ok ? 'ok' : 'falhou');
-    if (!ok) {
+  notificar('site').then(function (r) {
+    /* O servidor RECUSOU e disse por que: fica na pagina e mostra o motivo.
+       Mandar pra tela de "recebido" nesse caso e mentir — o cliente vai
+       embora achando que pediu, e o pedido nao existe em lugar nenhum.
+       Isso passou despercebido enquanto o servidor aceitava qualquer coisa;
+       agora que ele valida de verdade, virou o caminho mais provavel de
+       perder um lead. */
+    if (!r.ok && r.erro) {
+      var aviso = document.getElementById('avisoFalta');
+      if (aviso) {
+        aviso.textContent = r.erro.charAt(0).toUpperCase() + r.erro.slice(1) + '.';
+        aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      botao.disabled = false;
+      botao.textContent = rotulo;
+      return;
+    }
+    /* Sem resposta do servidor — rede caiu, tempo estourou. Ai vale ir pra
+       confirmacao, que oferece o WhatsApp como segundo caminho. */
+    guardarEnvio(r.ok ? 'ok' : 'falhou');
+    if (!r.ok) {
       botao.disabled = false;
       botao.textContent = rotulo;
     }

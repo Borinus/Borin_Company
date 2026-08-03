@@ -167,6 +167,9 @@ async function criar(request, env, dados) {
     hash: await derivar(senha, salt, env.PIMENTA),
     criado_em: new Date().toISOString(),
     senha_provisoria: true,
+    /* criada pelo Mateus: ele mesmo entrega a senha, entao ja nasce ativa e
+       nao expira */
+    estado: "ativa",
   };
   if (existente) {
     const velho = JSON.parse(existente);
@@ -222,7 +225,16 @@ async function trocarSenha(request, env, dados) {
   if (!igual(atual, eu.conta.hash)) return json({ erro: "senha atual não confere" }, 401);
 
   const salt = aleatorio(16);
-  const conta = { ...eu.conta, salt, hash: await derivar(nova, salt, env.PIMENTA), senha_provisoria: false };
+  /* Aqui a conta deixa de ser pendente: quem trocou a senha leu o email, e
+     isso e a prova de que o endereco e dele. Some tambem o prazo de validade —
+     conta pendente expira em 30 dias, conta ativa nao expira. */
+  const conta = {
+    ...eu.conta, salt,
+    hash: await derivar(nova, salt, env.PIMENTA),
+    senha_provisoria: false,
+    estado: "ativa",
+    ativada_em: new Date().toISOString(),
+  };
   await env.CLIENTES.put("cliente:" + eu.email, JSON.stringify(conta));
   return json({ ok: true });
 }
@@ -487,21 +499,28 @@ export async function contaDoLead(env, email, empresa, contato) {
   const chave = normalizarEmail(email);
   if (!chave.includes("@")) return { estado: "email_invalido" };
 
-  const existente = await env.CLIENTES.get("cliente:" + chave);
-  if (existente) return { estado: "ja_tinha" };
+  const cru = await env.CLIENTES.get("cliente:" + chave);
+  const antes = cru ? JSON.parse(cru) : null;
+
+  /* Conta ATIVA e de gente que ja provou ser dona do email: nao mexe. Conta
+     PENDENTE nunca foi usada por ninguem, entao um pedido novo refaz a senha e
+     manda de novo — senao um estranho que digitou o email de um prospecto teu
+     bloquearia o acesso dele pra sempre. */
+  if (antes && antes.estado === "ativa") return { estado: "ja_tinha" };
 
   const senha = gerarSenha();
   const salt = aleatorio(16);
   await env.CLIENTES.put("cliente:" + chave, JSON.stringify({
     email: chave,
-    empresa: (empresa || "").slice(0, 120),
-    contato: (contato || "").slice(0, 120),
+    empresa: (empresa || "").slice(0, 120) || (antes && antes.empresa) || "",
+    contato: (contato || "").slice(0, 120) || (antes && antes.contato) || "",
     salt,
     hash: await derivar(senha, salt, env.PIMENTA),
-    criado_em: new Date().toISOString(),
+    criado_em: (antes && antes.criado_em) || new Date().toISOString(),
     senha_provisoria: true,
+    estado: "pendente",
     origem: "pedido de orcamento pelo site",
-  }));
+  }), { expirationTtl: 30 * 86400 });
 
   try {
     const r = await enviarPara(env, {
@@ -510,7 +529,8 @@ export async function contaDoLead(env, email, empresa, contato) {
       corpo: boasVindas(contato, chave, senha),
       html: true,
     });
-    return { estado: r.entregue ? "criada" : "criada_sem_entregar" };
+    return { estado: r.entregue ? (antes ? "reenviada" : "criada")
+                                : "criada_sem_entregar" };
   } catch (e) {
     console.error("conta criada mas email falhou:", e && e.message);
     return { estado: "criada_sem_email" };

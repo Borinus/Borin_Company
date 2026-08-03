@@ -161,6 +161,9 @@ export async function gravarMembro(env, conta, r, hash) {
     hash,
     criado_em: new Date().toISOString(),
     senha_provisoria: true,
+    /* quem responde por esse endereco e o dono da empresa, que digitou ele:
+       nasce ativa e nao expira */
+    estado: "ativa",
     origem: "liberado por " + (conta.email || "dono da conta"),
   }));
   await guardarIndice(env, conta.empresa_id, r.emails);

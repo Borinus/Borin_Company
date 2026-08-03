@@ -26,3 +26,10 @@ DESTINO = "mateusborin73@gmail.com"
 [[kv_namespaces]]
 binding = "CLIENTES"
 id = "ab20d3b8f3f54eab877d316a02fe88f6"
+
+# Os arquivos do projeto. R2 e nao KV: KV tem limite de 25 MB por valor e nao
+# e feito pra binario. Nunca publico — o download passa pelo Worker, que
+# confere a sessao e a empresa antes de devolver o byte.
+[[r2_buckets]]
+binding = "ARQUIVOS"
+bucket_name = "borin-projetos"

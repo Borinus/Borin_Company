@@ -29,7 +29,10 @@ import tempfile
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AQUI = os.path.join(RAIZ, "comercial")
 PASTA = os.path.join(AQUI, "propostas")
-API = "https://borinprojetos.com.br/api/orcamento"
+# /api/enviar e o caminho de admin: e o unico que aceita HTML, anexo e
+# escolher destinatario, e exige o segredo no cabecalho. O /api/orcamento
+# ficou so pro formulario do site, sem nenhum desses poderes.
+API = "https://borinprojetos.com.br/api/enviar"
 
 # Paleta e fontes do email. Ficam no modulo porque o reenviar-contrato.py monta
 # outro email que chega na mesma caixa — se divergir, parecem duas empresas.
@@ -272,11 +275,18 @@ def montar(o):
 def enviar(p, corpo_html, para_mim, anexos=None):
     # nada de marca de copia: o objetivo do --para-mim e ver exatamente o
     # que o cliente vai abrir, inclusive o assunto
+    doc = p.get("doc") or ("Proposta " + p["numero"])
+    # o assunto agora vai pronto: o /api/enviar nao remonta nada, so entrega
+    assunto = "#%s \u00b7 %s \u2014 %s \u00b7 %s" % (
+        p["codigo"] or p["numero"], p["empresa"] or "cliente",
+        p["equipamento"], doc) if p["codigo"] else "%s \u2014 %s \u00b7 %s" % (
+        p["empresa"] or "cliente", p["equipamento"], doc)
     d = {
+        "assunto": assunto,
         "empresa": p["empresa"] or "cliente",
         "contato": p["contato"], "codigo": p["codigo"],
         "equipamento": p["equipamento"],
-        "doc": p.get("doc") or ("Proposta " + p["numero"]),
+        "doc": doc,
         "email": "" if para_mim else p["email"],
         # o Worker so entrega no cliente com esta marca; sem ela vai pro Mateus.
         # --para-mim continua sendo copia de conferencia, identica ao que ele veria.
@@ -288,7 +298,17 @@ def enviar(p, corpo_html, para_mim, anexos=None):
     f = os.path.join(tempfile.gettempdir(), "borin-proposta.json")
     io.open(f, "w", encoding="utf-8").write(json.dumps(d, ensure_ascii=False))
     try:
+        seg = ""
+        _env = os.path.join(RAIZ, ".env")
+        if os.path.exists(_env):
+            for _l in io.open(_env, encoding="utf-8"):
+                _k, _, _v = _l.partition("=")
+                if _k.strip() == "BORIN_SEGREDO_ADMIN":
+                    seg = _v.strip().strip("'\"")
+        if not seg:
+            raise SystemExit("Falta BORIN_SEGREDO_ADMIN no .env")
         r = subprocess.run(["curl", "-s", "-X", "POST", API,
+                            "-H", "Authorization: Bearer " + seg,
                             "-H", "Content-Type: application/json", "--data-binary", "@" + f],
                            capture_output=True, text=True, encoding="utf-8", errors="replace")
     finally:
