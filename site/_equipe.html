@@ -1,0 +1,352 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quem tem acesso — Borin Projetos Elétricos</title>
+<meta name="description" content="Quem da sua equipe pode abrir os projetos.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media(prefers-color-scheme%3Adark)%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+.pessoa {
+  border: 1px solid var(--rule);
+  padding: 0.85rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.6rem 1rem; flex-wrap: wrap;
+  margin-bottom: -1px;
+}
+.pessoa__quem { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.pessoa__nome { font-weight: 600; font-size: var(--fs-body); }
+.pessoa__email {
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro);
+  overflow-wrap: anywhere;
+}
+.pessoa__lado { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+
+/* o papel e o unico dado que muda o que a pessoa PODE fazer: fica visivel */
+.selo {
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--rule); padding: 0.2rem 0.45rem; white-space: nowrap;
+}
+.selo--dono { border-color: var(--ink); }
+.selo--espera { color: var(--acento); border-color: var(--acento); }
+/* o papel decide o que a pessoa VE; fica ao lado do nome, nao escondido */
+.selo--papel { border-color: var(--ink-soft); color: var(--ink-soft); }
+.troca { font-family: var(--mono); font-size: var(--fs-micro); padding: 0.35rem 0.4rem;
+  min-height: 40px; width: auto; }
+
+/* 44px de alvo: o "remover" fica ao lado do nome e um errado tira o acesso
+   de alguem no meio do turno. Nao pode ser um link de 13px no celular. */
+.tirar {
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  background: none; border: 1px solid var(--rule); color: var(--ink-soft);
+  padding: 0.55rem 0.7rem; min-height: 44px; cursor: pointer;
+}
+.tirar:hover, .tirar:focus-visible { color: var(--acento); border-color: var(--acento); }
+.tirar[disabled] { opacity: 0.45; cursor: default; }
+
+/* "Pronto, a senha foi" saía na cor de erro, porque o único estado do .aviso
+   era o vermelho de campo faltando. Confirmação de sucesso em vermelho faz o
+   dono achar que deu errado e liberar a mesma pessoa de novo. */
+.aviso.feito { color: var(--ink-soft); font-size: var(--fs-small); }
+.aviso.feito::before { content: "✓ "; color: var(--ink); font-weight: 700; }
+/* sem isto o visto do ::before aparece sozinho quando a mensagem e limpa */
+.aviso.feito:empty { display: none; }
+
+.vazio { border: 1px solid var(--rule); padding: 1.2rem; font-size: var(--fs-small); color: var(--ink-soft); }
+.so-dono { font-size: var(--fs-small); color: var(--ink-soft); }
+.oculto { display: none; }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/conta">← Meus projetos</a>
+
+    <div>
+      <span class="rotulo" id="rotulo">Acesso</span>
+      <h1 id="titulo">Carregando…</h1>
+      <p class="topo__texto" id="subtitulo"></p>
+    </div>
+  </header>
+
+  <div class="bloco">
+    <div class="bloco__cabeca">
+      <h2>Quem tem acesso</h2>
+      <p id="explica"></p>
+    </div>
+    <div id="lista"></div>
+  </div>
+
+  <div class="bloco oculto" id="blocoLiberar">
+    <div class="bloco__cabeca">
+      <h2>Liberar acesso</h2>
+      <p><b>Campo</b> vê só os projetos e os arquivos — diagrama, lista de
+         identificações, databook. Não vê orçamento, proposta nem valor.
+         <b>Compras</b> vê tudo isso e mais os orçamentos e propostas, e pode
+         preencher as fichas. Nenhum dos dois libera acesso pra outra pessoa —
+         isso é só seu.</p>
+      <p>A senha vai no email dela, e ela entra por
+         <a href="/entrar">borinprojetos.com.br/entrar</a>.</p>
+    </div>
+
+    <form id="formLiberar" novalidate>
+      <div class="grade">
+        <div class="campo">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" autocomplete="name" placeholder="quem é a pessoa">
+        </div>
+        <div class="campo">
+          <label for="papel">O que essa pessoa pode ver</label>
+          <select id="papel">
+            <option value="campo" selected>Campo — só os projetos e arquivos</option>
+            <option value="compras">Compras — também vê orçamentos, propostas e valores</option>
+          </select>
+          <span class="campo__dica">campo não vê preço nem contrato</span>
+        </div>
+        <div class="campo">
+          <label for="email">Email</label>
+          <input type="email" id="email" autocomplete="email" inputmode="email"
+                 placeholder="o email de trabalho dela">
+          <span class="campo__dica">é nesse endereço que a senha chega</span>
+        </div>
+      </div>
+      <p class="aviso falta" id="avisoFalta"></p>
+      <div class="acoes">
+        <button type="submit" class="botao" id="btLiberar">Liberar acesso</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="bloco">
+    <div class="acoes">
+      <a class="botao botao--vazado" href="/conta">Voltar aos projetos</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Quem tem acesso</span></div>
+      <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+      <div><span class="c-campo">DADOS</span><span class="c-valor"><a href="/privacidade">privacidade</a></span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+/* Esta tela NAO decide nada. Quem pode liberar e remover e o Worker: o
+   ehDono() no servidor recusa com 403 mesmo que alguem apague o `oculto`
+   daqui pelo console. Esconder o formulario do membro e cortesia, nao
+   seguranca — a regra mora no backend. */
+
+function esc(t) {
+  return String(t == null ? '' : t)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+var EU = '', SOU_DONO = false;
+
+/* Dois estados, e a cor precisa dizer qual e: `falta` em vermelho quando algo
+   deu errado, `feito` em cinza com o visto quando deu certo. */
+function falta(t) {
+  var e = document.getElementById('avisoFalta');
+  e.textContent = t || '';
+  e.classList.add('falta');
+  e.classList.remove('feito');
+}
+
+function feito(t) {
+  var e = document.getElementById('avisoFalta');
+  e.textContent = t || '';
+  e.classList.remove('falta');
+  e.classList.add('feito');
+}
+
+function linha(p, dono) {
+  var ehDono = p.email === dono || p.papel === 'dono';
+
+  /* Dois selos porque respondem coisas diferentes: um diz O QUE a pessoa vê,
+     outro diz se ela já usou o acesso. Juntar os dois escondia um dos dois. */
+  var papel = '<span class="selo selo--papel">'
+    + esc(p.papel_nome || (ehDono ? 'Contratante' : 'Campo')) + '</span>';
+
+  var estado = ehDono ? ''
+    : (p.entrou_alguma_vez
+        ? '<span class="selo">Entrou</span>'
+        : '<span class="selo selo--espera">Ainda não entrou</span>');
+
+  /* trocar o papel sem remover e liberar de novo: remover apaga a conta da
+     pessoa, e ela perderia a senha que já tinha escolhido */
+  var troca = (SOU_DONO && !ehDono)
+    ? '<select class="troca" data-papel="' + esc(p.email) + '">'
+      + '<option value="campo"' + (p.papel === 'campo' ? ' selected' : '') + '>Campo</option>'
+      + '<option value="compras"' + (p.papel === 'compras' ? ' selected' : '') + '>Compras</option>'
+      + '</select>'
+    : '';
+
+  /* o dono nao pode se remover: a empresa ficaria sem ninguem pra liberar
+     acesso, e nao existe tela pra desfazer isso */
+  var botao = (SOU_DONO && !ehDono)
+    ? '<button type="button" class="tirar" data-email="' + esc(p.email) + '">Remover</button>'
+    : '';
+
+  return '<div class="pessoa">'
+    + '<span class="pessoa__quem">'
+    +   '<span class="pessoa__nome">' + esc(p.contato || p.email.split('@')[0]) + '</span>'
+    +   '<span class="pessoa__email">' + esc(p.email) + '</span>'
+    + '</span>'
+    + '<span class="pessoa__lado">' + papel + estado + troca + botao + '</span>'
+    + '</div>';
+}
+
+function montar(d) {
+  EU = d.eu || '';
+  SOU_DONO = d.papel === 'dono';
+
+  document.getElementById('titulo').textContent = 'Quem tem acesso';
+  document.getElementById('subtitulo').textContent =
+    (d.empresa ? d.empresa + ' · ' : '') + (d.membros.length + (d.dono ? 1 : 0)) + ' pessoa'
+    + ((d.membros.length + (d.dono ? 1 : 0)) === 1 ? '' : 's');
+
+  document.getElementById('explica').textContent = SOU_DONO
+    ? 'Todo mundo aqui abre os projetos da empresa e baixa os arquivos. Só você libera e remove acesso.'
+    : 'Quem contratou é quem libera e remove acesso. Você vê a lista, mas não altera.';
+
+  var pessoas = [];
+  if (d.dono) {
+    var jaTem = d.membros.filter(function (m) { return m.email === d.dono; })[0];
+    pessoas.push(jaTem || { email: d.dono, contato: '', papel: 'dono', entrou_alguma_vez: true });
+  }
+  d.membros.forEach(function (m) {
+    if (m.email !== d.dono) { pessoas.push(m); }
+  });
+
+  document.getElementById('lista').innerHTML = pessoas.length
+    ? pessoas.map(function (p) { return linha(p, d.dono); }).join('')
+    : '<div class="vazio">Ninguém liberado ainda.</div>';
+
+  if (SOU_DONO) { document.getElementById('blocoLiberar').classList.remove('oculto'); }
+}
+
+function carregar() {
+  return fetch('/api/acesso/equipe', { credentials: 'same-origin' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.erro) { location.href = '/entrar?ir=/equipe'; return; }
+      montar(d);
+    })
+    .catch(function () {
+      document.getElementById('titulo').textContent = 'Não consegui carregar.';
+      document.getElementById('subtitulo').textContent =
+        'Verifique a conexão e recarregue a página.';
+    });
+}
+
+/* Remover corta o acesso de alguem na hora. Confirmar antes, com o email
+   escrito, porque a lista pode ter dois nomes parecidos. */
+document.getElementById('lista').addEventListener('click', function (ev) {
+  var b = ev.target.closest && ev.target.closest('.tirar');
+  if (!b) { return; }
+  var alvo = b.getAttribute('data-email');
+  if (!confirm('Tirar o acesso de ' + alvo + '?\n\nA pessoa deixa de abrir os projetos '
+               + 'da empresa na hora. Dá pra liberar de novo depois.')) { return; }
+
+  b.disabled = true;
+  b.textContent = 'Removendo…';
+  api('equipe-remover', { email: alvo }).then(function (r) {
+    if (r.erro) {
+      b.disabled = false;
+      b.textContent = 'Remover';
+      falta(r.erro);
+      return;
+    }
+    falta('');
+    carregar();
+  });
+});
+
+/* Troca de papel: aplica na hora, sem botao de salvar. Um seletor com
+   "salvar" ao lado vira duas chances de esquecer. */
+document.getElementById('lista').addEventListener('change', function (ev) {
+  var s = ev.target;
+  if (!s || !s.getAttribute || !s.getAttribute('data-papel')) { return; }
+  var alvo = s.getAttribute('data-papel');
+  s.disabled = true;
+  api('equipe-papel', { email: alvo, papel: s.value }).then(function (r) {
+    s.disabled = false;
+    if (r.erro) { falta(r.erro); return; }
+    feito(alvo + ' agora é ' + (s.value === 'compras' ? 'Compras' : 'Campo') + '.');
+    carregar();
+  });
+});
+
+document.getElementById('formLiberar').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var email = (document.getElementById('email').value || '').trim();
+  var nome = (document.getElementById('nome').value || '').trim();
+
+  /* Checagem daqui e so pra nao gastar uma ida ao servidor. A que vale e a
+     de la: email invalido, pessoa repetida, limite de 25 e conta que ja
+     pertence a outra empresa sao todos decididos no Worker. */
+  if (!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(email)) {
+    falta('Falta um email válido — é pra lá que a senha vai.');
+    document.getElementById('email').focus();
+    return;
+  }
+
+  var b = document.getElementById('btLiberar');
+  b.disabled = true;
+  b.textContent = 'Liberando…';
+  falta('');
+
+  var papel = (document.getElementById('papel') || {}).value || 'campo';
+  api('equipe', { email: email, nome: nome, papel: papel }).then(function (r) {
+    b.disabled = false;
+    b.textContent = 'Liberar acesso';
+    if (r.erro) { falta(r.erro); return; }
+
+    document.getElementById('email').value = '';
+    document.getElementById('nome').value = '';
+
+    /* Se o email nao saiu, a senha volta aqui: sem isso a pessoa fica com
+       conta criada e sem como entrar, e ninguem descobre. Aí é vermelho
+       mesmo — tem coisa pra ele fazer. */
+    if (r.entregue) {
+      feito('Pronto. A senha foi para ' + r.email + '.');
+    } else {
+      falta('Conta criada, mas o email não saiu. Passe a senha para ' + r.email
+            + ' por outro caminho: ' + (r.senha || '—'));
+    }
+    carregar();
+  });
+});
+
+carregar();
+</script>
+
+<!-- ANALYTICS -->

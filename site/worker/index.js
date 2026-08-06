@@ -24,6 +24,8 @@
  */
 
 import { rotaAcesso, contaDoLead } from "./acesso.js";
+import { guardarPedido } from "./equipe.js";
+import { avisarNoZap, rotaZap } from "./zap.js";
 import { enviarPara, limpo } from "./correio.js";
 import { lerPedido, montarTexto, montarAssunto, podePedir, ehAdmin } from "./pedido.js";
 
@@ -67,7 +69,13 @@ async function pedidoDoSite(request, env) {
 
   const ip = request.headers.get("cf-connecting-ip") || "";
   if (!(await podePedir(env, ip, p.email))) {
-    return ok({ erro: "muitos pedidos seguidos. me chame no WhatsApp que eu respondo agora" }, 429);
+    /* Mandava "me chame no WhatsApp" sem dar o WhatsApp: beco sem saída numa
+       tela onde a pessoa já está tentando falar comigo. Agora vai o link, e o
+       front transforma em botão. */
+    return ok({
+      erro: "muitos pedidos seguidos deste mesmo lugar. me chame no WhatsApp que eu respondo agora",
+      whatsapp: "https://wa.me/5554996642003",
+    }, 429);
   }
 
   let entrega;
@@ -94,10 +102,41 @@ async function pedidoDoSite(request, env) {
     console.error("nao criei a conta do lead:", e && e.message);
   }
 
+  /* WhatsApp, se estiver configurado e se o cliente tiver PEDIDO por WhatsApp.
+     Mandar pra quem escolheu "só email" é mensagem não solicitada — na Meta
+     isso vira denúncia, e denúncia derruba a qualidade do número até ele
+     parar de entregar. O canal que ele marcou no formulário é o consentimento.
+
+     Vem ANTES de guardar o pedido pra o resultado entrar no registro: sem isso
+     o Mateus abriria o painel sem saber se aquele cliente foi avisado no
+     celular ou só por email. */
+  let zap = null;
+  if (p.canal === "email+whats" && p.fone) {
+    try {
+      zap = await avisarNoZap(env, {
+        fone: p.fone, contato: p.contato, equipamento: p.equipamento,
+      });
+    } catch (e) {
+      console.error("zap falhou:", e && e.message);
+    }
+  }
+
+  /* Registra o pedido DEPOIS da conta, porque a chave depende de a conta já
+     existir. Falhar aqui não pode derrubar o pedido: o email já saiu e o
+     cliente já foi atendido — perder o histórico é ruim, perder o lead é pior. */
+  try {
+    await guardarPedido(env, p.email, { ...p, zap: zap ? zap.enviado === true : null });
+  } catch (e) {
+    console.error("nao registrei o pedido:", e && e.message);
+  }
+
   return ok({
     ok: true,
     entregue: entrega ? entrega.entregue : false,
     conta: conta ? conta.estado : null,
+    /* null = não pediu por WhatsApp; false = pediu e o canal está desligado ou
+       recusou. Sem isto não haveria como saber, de fora, se o WhatsApp saiu. */
+    zap: zap ? zap.enviado === true : null,
   });
 }
 
@@ -141,6 +180,17 @@ export default {
     /* conta do cliente: entrar, trocar senha, guardar ficha, equipe */
     if (url.pathname.startsWith("/api/acesso")) {
       return rotaAcesso(request, env, url);
+    }
+
+    /* webhook do WhatsApp. Fica ANTES da trava de POST porque a Meta valida o
+       cadastro com um GET — barrar esse GET no 405 faria o webhook nunca ser
+       ativado, sem erro nenhum aparecendo em lugar algum. */
+    /* Barra no fim conta como o mesmo endereco. Antes so "/api/zap" exato
+       passava: "/api/zap/" caia na trava de POST e voltava 405. Num campo de
+       webhook, 405 aparece como "nao consegui validar a URL" — e a barra a mais
+       e o erro de digitacao mais comum que existe ao colar um endereco. */
+    if (url.pathname === "/api/zap" || url.pathname === "/api/zap/") {
+      return rotaZap(request, env, url);
     }
 
     if (request.method === "OPTIONS") {

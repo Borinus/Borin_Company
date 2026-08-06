@@ -88,3 +88,15 @@ comercial/contratos/
 
 # saida de build do wrangler --dry-run
 site/worker/wdry/
+
+# cache do wrangler (cria sozinho a cada comando, nunca e fonte)
+.wrangler/
+site/worker/.wrangler/
+
+# saida do /graphify — regeneravel
+graphify-out/
+
+# fotos e prints jogados em dados/ pra analise
+dados/*.jpeg
+dados/*.jpg
+dados/*.png

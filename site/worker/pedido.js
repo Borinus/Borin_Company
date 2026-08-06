@@ -27,12 +27,18 @@ import { enviarPara, limpo } from "./correio.js";
 
 const LIMITE_CAMPO = 400;
 const LIMITE_TEXTO = 4000;
-/* O limite por IP e anti-enxurrada, nao anti-abuso: escritorio de integradora
-   sai todo por um IP so, e derrubar um lead de verdade custa mais que aceitar
-   um pedido a mais de um chato. Quem segura abuso e o limite por EMAIL, que
-   fica apertado. */
-const POR_HORA = 12;         // pedidos por IP
-const POR_DIA_EMAIL = 3;     // pedidos por endereço de email
+/* O limite é anti-enxurrada, não anti-abuso. Estava apertado demais e barrou
+   gente de verdade: 3 pedidos por dia por email derruba um integrador que
+   manda quatro máquinas na mesma tarde, e 12 por hora por IP derruba o
+   escritório inteiro que sai por um IP só. Um lead perdido custa mais que dez
+   emails a mais na caixa.
+
+   Quem já tem CONTA não passa por freio nenhum: provou que é dono do email
+   quando entrou, e um cliente pedindo o quinto orçamento é o melhor tipo de
+   cliente que existe — não é ele que a trava existe pra parar. */
+const POR_HORA = 40;          // pedidos por IP, para quem ainda não tem conta
+const POR_DIA_EMAIL = 12;     // pedidos por endereço de email sem conta
+const POR_DIA_CLIENTE = 40;   // teto de segurança para quem já tem conta
 
 /* ------------------------------------------------------------ validação */
 
@@ -145,10 +151,19 @@ export function montarAssunto(p) {
 export async function podePedir(env, ip, email) {
   try {
     const agora = Date.now();
-    const chaves = [
-      { k: "freio-ip:" + ip, max: POR_HORA, ttl: 3600 },
-      { k: "freio-mail:" + email, max: POR_DIA_EMAIL, ttl: 86400 },
-    ];
+
+    /* Cliente conhecido: só o teto de segurança, e o IP não entra na conta.
+       Sem isto, o cliente que pede o quarto orçamento leva "muitos pedidos
+       seguidos" na cara — foi exatamente o que aconteceu no teste real. */
+    const cru = await env.CLIENTES.get("cliente:" + email);
+    const conhecido = !!cru;
+
+    const chaves = conhecido
+      ? [{ k: "freio-mail:" + email, max: POR_DIA_CLIENTE, ttl: 86400 }]
+      : [
+          { k: "freio-ip:" + ip, max: POR_HORA, ttl: 3600 },
+          { k: "freio-mail:" + email, max: POR_DIA_EMAIL, ttl: 86400 },
+        ];
     for (const c of chaves) {
       if (!c.k.split(":")[1]) continue;
       const cru = await env.CLIENTES.get(c.k);

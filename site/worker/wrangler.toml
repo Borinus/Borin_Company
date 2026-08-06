@@ -8,6 +8,14 @@ compatibility_date = "2026-07-01"
 pattern = "borinprojetos.com.br/api/*"
 zone_name = "borinprojetos.com.br"
 
+# O www tambem, desde 05/08/2026. Sem isto, www.borinprojetos.com.br/api/zap
+# caia no site estatico e devolvia a pagina 404 em HTML — com status 404 e 111 KB
+# de corpo. Quem cola o endereco com www num campo de webhook nao ve "rota
+# errada": ve "nao consegui validar", e vai procurar defeito na autenticacao.
+[[routes]]
+pattern = "www.borinprojetos.com.br/api/*"
+zone_name = "borinprojetos.com.br"
+
 # Binding nativo de email. Nao precisa de conta nem chave de terceiro.
 # destination_address TEM que estar verificado em:
 #   Cloudflare > borinprojetos.com.br > Email > Email Routing > Destination addresses
@@ -20,6 +28,11 @@ destination_address = "mateusborin73@gmail.com"
 REMETENTE = "site@borinprojetos.com.br"
 # pra onde chega — o mesmo endereco verificado do binding acima
 DESTINO = "mateusborin73@gmail.com"
+
+# Modelo de WhatsApp do aviso de pedido. O de botoes foi aprovado em 05/08/2026:
+# "Acompanhar o pedido" abre /conta e "Falar com o Mateus" liga pro numero DE
+# VERDADE — resolve o cliente responder no numero automatico (que nao recebe).
+ZAP_TEMPLATE = "pedido_recebido_botoes"
 
 # Conta do cliente. KV e nao banco: sao poucos registros, nenhuma consulta por
 # campo, e nao ha esquema pra migrar.

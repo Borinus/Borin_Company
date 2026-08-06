@@ -57,3 +57,33 @@ IEC 60204-1 (cores).
 **Formação:** cursa Bacharelado em Engenharia Civil na FSG (Caxias do Sul/RS).
 
 **Serviço futuro:** programação de CLP, quando dominar a parte de programação.
+
+**Ativo próprio — sistema de automação EPLAN:** desenvolveu por conta própria um sistema que gera
+projeto elétrico a partir de uma ficha preenchida e confere o resultado contra o padrão da empresa
+(macros, colagem, numeração, relatórios, PDF e listas; conferência de tags, cabos, bornes, BOM e
+corrente). É ferramenta dele: usa no dia a dia na FlowSistem, onde presta serviço, e leva pra onde
+for. Fica em `CONFERENCIAS/` no workspace.
+
+**Ganho medido: cerca de 8x mais rápido na execução** que o processo manual usado por integradoras,
+escritórios e fabricantes grandes — e mais assertivo, porque o gerador confere o próprio resultado.
+Isso é a vantagem competitiva central do negócio, não um detalhe técnico. Consequências que valem
+pra qualquer conversa comercial:
+
+- **Preço nunca se calcula pela hora dele.** Precificação é por valor de mercado (o que o projeto
+  custa feito à mão). O 8x é margem, prazo e capacidade — nunca desconto. Detalhe em
+  `comercial/precificacao.md`
+- **Nunca abrir hora na proposta.** Preço fechado por escopo, sempre. Se o cliente souber que o
+  projeto levou 9h, a conversa vira sobre a hora e ele perde
+- A trava do negócio deixou de ser capacidade e passou a ser demanda — o gargalo é quantos clientes
+  chegam, não quanto ele consegue produzir
+- É base de um segundo serviço vendável: padronização e automação de CAD elétrico pra quem já tem
+  EPLAN (concorrente direto identificado: EPLAN eBuild)
+
+**Licença:** o sistema automatiza o EPLAN, não substitui — precisa do EPLAN rodando do outro lado
+(`garantir_eplan.py`, jobs em C# contra a Eplan.EplApi). O que ele dispensa é o módulo pago de
+automação (eBuild/Cogineer), e isso é argumento comercial legítimo. **Decisão de 29/07/2026:
+começar sem custo de licença própria.** Revisar quando entrar outra pessoa no trabalho — aí a
+licença vira necessária e toda a precificação sobe.
+
+Cuidado ao citar: o código é dele, os dados dentro da pasta são da FlowSistem — nunca mostrar
+projeto real como portfólio sem autorização.

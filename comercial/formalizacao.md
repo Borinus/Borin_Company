@@ -249,11 +249,36 @@ A pergunta 3 é a única que importa. As outras três só existem para chegar ne
 
 ## Nota fiscal de serviço
 
-Serviço é tributado pelo município. Caxias do Sul emite **NFS-e** por sistema próprio da prefeitura.
+Serviço é tributado pelo município, **mas enquanto você for MEI a nota não sai pelo sistema da
+prefeitura.** Corrigido em 05/08/2026: este documento dizia que Caxias emite por sistema próprio, o
+que vale para ME e EPP, não para MEI.
 
-- [ ] Confirmar acesso ao sistema de NFS-e e a alíquota de ISS da atividade
-- [ ] Confirmar se o ISS é retido pelo cliente ou pago por você — muda o que entra na conta
-- [ ] Emitir a primeira nota **junto com o contador**, para aprender o caminho
+Desde **03/04/2023**, MEI prestador de serviço emite exclusivamente pelo **Portal Nacional da NFS-e**
+(`gov.br/nfse`). O sistema municipal (GIF) só aceita competências anteriores a essa data. A regra é
+a Resolução CGSN 169/2022, alterada pela 171/2022 — e quem anuncia é a própria prefeitura:
+<https://caxias.rs.gov.br/noticias/2023/03/meis-nao-poderao-mais-emitir-nota-fiscal-de-servico-pelo-sistema-do-municipio>
+(lido em 05/08/2026).
+
+Isso muda duas coisas de prática:
+
+- **Não procure acesso ao sistema da prefeitura.** Ele não vai te servir hoje, e ir atrás dele é
+  perder uma tarde. O caminho é `nfse.gov.br/EmissorNacional`, com a conta gov.br do teu CPF
+- **Quando abrir o ME**, a nota passa a sair pelo sistema municipal. O caminho muda junto com o
+  enquadramento — não é o mesmo login para sempre
+
+### O teste de cinco minutos, agora com o endereço certo
+
+O item mais barato desta página inteira. Entrar em <https://www.nfse.gov.br/EmissorNacional> com a
+conta gov.br, ir em emitir NFS-e e **olhar a lista de códigos de serviço que aparece para o teu
+CNPJ**. Se só vier código de instalação, a dúvida do CNAE se responde sozinha, de graça, antes de
+qualquer conversa com contador.
+
+Passo a passo oficial em <https://www.gov.br/nfse/pt-br/mei/links-com-passo-a-passo> — o e-book de
+cadastro e emissão é o único material que vale ler.
+
+- [ ] Fazer o teste de cinco minutos no Emissor Nacional e anotar os códigos de serviço oferecidos
+- [ ] Confirmar a alíquota de ISS da atividade e se o cliente retém ou você recolhe — muda o líquido
+- [ ] Emitir a primeira nota de teste antes do primeiro cliente, não junto com ele
 
 O fluxo comercial já define: **nota emitida junto com a entrega, nunca depois.**
 
@@ -282,7 +307,8 @@ Não baixe o preço por causa disso: a folga é temporária e vira custo no dese
        cliente grande, ou junto com a migração para ME
 3. [x] Estratégia definida: MEI agora, Simples depois de uns 5 projetos
 4. [ ] **Conta bancária PJ**, separada da pessoal. Sem exceção
-5. [ ] Acesso ao sistema de NFS-e de Caxias e primeira nota de teste
+5. [ ] Primeira nota de teste no **Emissor Nacional** (`nfse.gov.br/EmissorNacional`) — não no
+       sistema da prefeitura, que não atende MEI desde 03/04/2023
 6. [ ] Controle do faturamento acumulado do ano — uma linha por nota emitida
 7. [ ] Ao bater ~R$ 55 mil acumulados: iniciar a abertura do Simples
 8. [ ] Definir a regra de quem fatura (seu MEI x Simples do sócio) antes do primeiro projeto

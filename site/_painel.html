@@ -1,0 +1,318 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel — Borin Projetos Elétricos</title>
+<meta name="description" content="Painel interno.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media(prefers-color-scheme%3Adark)%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+/* Os números do negócio, em linha. Não é enfeite: é o que responde "como
+   estou" antes de qualquer lista. */
+.numeros {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+}
+.numero { background: var(--ground); padding: 0.85rem 1rem; }
+.numero b { display: block; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+.numero span {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-micro);
+}
+
+/* O bloco que importa. Borda de acento porque é a única coisa da tela que
+   pede ação — o resto é consulta. */
+.cobra { border: 1px solid var(--acento); }
+.cobra__linha {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1rem; flex-wrap: wrap;
+  padding: 0.8rem 1rem; border-bottom: 1px solid var(--rule);
+}
+.cobra__linha:last-child { border-bottom: 0; }
+.cobra__oque { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.cobra__quem { font-weight: 600; font-size: var(--fs-body); }
+.cobra__det {
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro);
+  overflow-wrap: anywhere;
+}
+.cobra__dias {
+  font-family: var(--mono); font-size: var(--fs-small); font-weight: 700;
+  color: var(--acento); white-space: nowrap;
+}
+.cobra__acao { font-size: var(--fs-small); color: var(--ink-soft); }
+
+.limpo {
+  border: 1px solid var(--rule); padding: 1.2rem;
+  font-size: var(--fs-small); color: var(--ink-soft);
+}
+
+/* Tabelas de consulta. Rolam na horizontal dentro delas mesmas: no celular,
+   forçar a página inteira a rolar de lado quebra a leitura de tudo. */
+.rolagem { overflow-x: auto; border: 1px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; min-width: 34rem; }
+th, td {
+  text-align: left; padding: 0.6rem 0.85rem; font-size: var(--fs-small);
+  border-bottom: 1px solid var(--rule); white-space: nowrap;
+}
+th {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-micro); font-weight: 400;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td.larga { white-space: normal; min-width: 12rem; }
+td.num { text-align: right; font-family: var(--mono); }
+
+.oculto { display: none; }
+#entrada { max-width: 24rem; }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <div>
+      <span class="rotulo" id="rotulo">Interno</span>
+      <h1 id="titulo">Painel</h1>
+      <p class="topo__texto" id="subtitulo">Só você vê esta tela.</p>
+    </div>
+  </header>
+
+  <!-- pede o segredo; ele fica na aba e morre quando ela fecha -->
+  <div class="bloco" id="entrada">
+    <div class="campo">
+      <label for="segredo">Segredo de admin</label>
+      <input type="password" id="segredo" autocomplete="off">
+      <span class="campo__dica">fica só nesta aba, some quando você fechar</span>
+    </div>
+    <p class="aviso falta" id="erro"></p>
+    <div class="acoes">
+      <button type="button" class="botao" id="btEntrar">Abrir</button>
+    </div>
+  </div>
+
+  <div id="tudo" class="oculto">
+
+    <div class="bloco">
+      <div class="numeros" id="numeros"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Precisa de você</h2>
+        <p id="notaCobra"></p>
+      </div>
+      <div id="cobrancas"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Orçamentos pedidos</h2></div>
+      <div class="rolagem"><table id="tPedidos"></table></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco__cabeca"><h2>Propostas enviadas</h2></div>
+      <div class="rolagem"><table id="tPropostas"></table></div>
+    </div>
+
+    <div class="bloco" style="margin-bottom: 0;">
+      <div class="bloco__cabeca"><h2>Projetos</h2></div>
+      <div class="rolagem"><table id="tProjetos"></table></div>
+      <div class="acoes">
+        <button type="button" class="link-acao" id="btAtualizar">Atualizar</button>
+        <button type="button" class="link-acao" id="btSair">Esquecer o segredo</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Painel interno</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* BASE-JS */
+
+/* O segredo fica em sessionStorage e vai SEMPRE no cabeçalho Authorization.
+   Nunca na URL: endereço entra no log da Cloudflare, no histórico do navegador
+   e no cabeçalho Referer de qualquer coisa que a página carregue. */
+var CHAVE = 'painel-segredo';
+
+function esc(t) {
+  return String(t == null ? '' : t)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function brl(n) {
+  n = Number(n) || 0;
+  return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function dataCurta(iso) {
+  try {
+    var d = new Date(iso), z = function (n) { return (n < 10 ? '0' : '') + n; };
+    return z(d.getDate()) + '/' + z(d.getMonth() + 1);
+  } catch (e) { return ''; }
+}
+
+function segredo() {
+  try { return sessionStorage.getItem(CHAVE) || ''; } catch (e) { return ''; }
+}
+
+function buscar() {
+  return fetch('/api/acesso/painel', {
+    headers: { Authorization: 'Bearer ' + segredo() },
+  }).then(function (r) {
+    if (r.status === 401) { return { erro: 'segredo não confere' }; }
+    return r.json();
+  }).catch(function () { return { erro: 'sem conexão com o servidor' }; });
+}
+
+function tabela(el, colunas, linhas, vazio) {
+  if (!linhas.length) {
+    el.innerHTML = '<tbody><tr><td colspan="' + colunas.length + '" '
+      + 'style="color:var(--ink-soft)">' + esc(vazio) + '</td></tr></tbody>';
+    return;
+  }
+  el.innerHTML = '<thead><tr>'
+    + colunas.map(function (c) { return '<th>' + esc(c[0]) + '</th>'; }).join('')
+    + '</tr></thead><tbody>'
+    + linhas.map(function (l) {
+        return '<tr>' + colunas.map(function (c) {
+          var v = c[1](l);
+          return '<td class="' + (c[2] || '') + '">' + v + '</td>';
+        }).join('') + '</tr>';
+      }).join('')
+    + '</tbody>';
+}
+
+function montar(d) {
+  var r = d.resumo || {};
+
+  document.getElementById('numeros').innerHTML = [
+    ['<b>' + r.empresas_com_pedido + '</b><span>Empresas que pediram</span>'],
+    ['<b>' + r.propostas + '</b><span>Propostas enviadas</span>'],
+    ['<b>' + r.projetos + '</b><span>Projetos</span>'],
+    ['<b>' + brl(r.valor_em_proposta) + '</b><span>Em proposta aberta</span>'],
+  ].map(function (x) { return '<div class="numero">' + x[0] + '</div>'; }).join('');
+
+  var c = d.cobrancas || [];
+  document.getElementById('notaCobra').textContent = c.length
+    ? 'Ordenado por quem espera há mais tempo.'
+    : 'Nada atrasado. Pedido sem resposta aparece aqui depois de 1 dia, '
+      + 'proposta sem retorno depois de 3, projeto sem atualização depois de 7.';
+
+  document.getElementById('cobrancas').innerHTML = c.length
+    ? '<div class="cobra">' + c.map(function (x) {
+        return '<div class="cobra__linha">'
+          + '<span class="cobra__oque">'
+          +   '<span class="cobra__quem">' + esc(x.empresa || x.cliente) + '</span>'
+          +   '<span class="cobra__det">' + esc(x.tipo) + ' · ' + esc(x.sobre)
+          +     ' · ' + esc(x.cliente) + '</span>'
+          +   '<span class="cobra__acao">' + esc(x.acao) + '</span>'
+          + '</span>'
+          + '<span class="cobra__dias">' + x.dias + ' dia' + (x.dias === 1 ? '' : 's') + '</span>'
+          + '</div>';
+      }).join('') + '</div>'
+    : '<div class="limpo">Nada esperando por você.</div>';
+
+  tabela(document.getElementById('tPedidos'),
+    [['Quando', function (p) { return esc(dataCurta(p.em)); }],
+     ['Empresa', function (p) { return esc(p.empresa_nome || p.empresa || ''); }, 'larga'],
+     ['O que', function (p) { return esc(p.equipamento || ''); }, 'larga'],
+     ['Email', function (p) { return esc(p.cliente || ''); }, 'larga'],
+     /* Se o cliente foi avisado no celular ou só por email. Muda como cobrar:
+        quem recebeu WhatsApp e não respondeu já viu; quem só tem email pode
+        nem ter aberto. */
+     ['Avisado', function (p) {
+        if (p.zap === true) { return 'email + zap'; }
+        if (p.zap === false) { return '<span style="color:var(--acento)">zap falhou</span>'; }
+        return 'só email';
+      }]],
+    d.pedidos || [], 'Nenhum orçamento pedido ainda.');
+
+  tabela(document.getElementById('tPropostas'),
+    [['Número', function (p) { return esc(p.numero || ''); }],
+     ['Quando', function (p) { return esc(dataCurta(p.em)); }],
+     ['Empresa', function (p) { return esc(p.empresa_nome || ''); }, 'larga'],
+     ['O que', function (p) { return esc(p.equipamento || ''); }, 'larga'],
+     ['Valor', function (p) { return esc(brl(p.total)); }, 'num']],
+    d.propostas || [], 'Nenhuma proposta enviada ainda.');
+
+  tabela(document.getElementById('tProjetos'),
+    [['Código', function (p) { return esc(p.codigo || ''); }],
+     ['Empresa', function (p) { return esc(p.empresa_nome || ''); }, 'larga'],
+     ['Nome', function (p) { return esc(p.nome || ''); }, 'larga'],
+     ['Etapa', function (p) { return esc(p.status || ''); }, 'larga'],
+     ['Atualizado', function (p) { return esc(dataCurta(p.atualizado_em)); }]],
+    d.projetos || [], 'Nenhum projeto registrado ainda.');
+
+  document.getElementById('entrada').classList.add('oculto');
+  document.getElementById('tudo').classList.remove('oculto');
+  document.getElementById('subtitulo').textContent =
+    'Atualizado agora · ' + r.clientes + ' conta(s) no banco';
+}
+
+function abrir() {
+  var e = document.getElementById('erro');
+  e.textContent = '';
+  return buscar().then(function (d) {
+    if (!d || d.erro) {
+      e.textContent = (d && d.erro) || 'não consegui abrir';
+      document.getElementById('entrada').classList.remove('oculto');
+      document.getElementById('tudo').classList.add('oculto');
+      return false;
+    }
+    montar(d);
+    return true;
+  });
+}
+
+document.getElementById('btEntrar').addEventListener('click', function () {
+  var v = document.getElementById('segredo').value.trim();
+  if (!v) { document.getElementById('erro').textContent = 'digite o segredo'; return; }
+  try { sessionStorage.setItem(CHAVE, v); } catch (err) {}
+  document.getElementById('segredo').value = '';
+  abrir();
+});
+
+/* Enter no campo abre, sem obrigar a mirar no botão */
+document.getElementById('segredo').addEventListener('keydown', function (ev) {
+  if (ev.key === 'Enter') { ev.preventDefault(); document.getElementById('btEntrar').click(); }
+});
+
+document.getElementById('btAtualizar').addEventListener('click', abrir);
+
+document.getElementById('btSair').addEventListener('click', function () {
+  try { sessionStorage.removeItem(CHAVE); } catch (e) {}
+  location.reload();
+});
+
+/* já tem segredo guardado nesta aba: abre direto */
+if (segredo()) { abrir(); }
+</script>
+
+<!-- ANALYTICS -->

@@ -234,6 +234,175 @@ def composicao(p, o):
     return " · ".join(partes)
 
 
+# ---------------------------------------------------------- primeira vez -----
+#
+# A condição de abertura e o setup do padrão valem UMA VEZ por cliente. Estavam
+# presos a `--abertura` e `--setup-padrao` digitados na mão, e o resultado foi o
+# esperado: a primeira proposta de verdade saiu sem os dois, com uma linha só e
+# sem o desconto — não por decisão, por esquecimento.
+#
+# Agora entram sozinhos. Novo é quem nunca recebeu proposta ENVIADA antes, e
+# quem controla isso é `clientes-atendidos.json`, escrito a cada envio.
+#
+# ISTO AQUI ERA UMA BOMBA, desarmada em 05/08/2026. No lugar da regra havia uma
+# constante `TODOS_NOVOS = True`, com um comentário em maiúsculas mandando
+# trocar pra False quando o primeiro cliente de verdade entrasse. Enquanto
+# estivesse ligada, TODO cliente levava a condição de abertura — inclusive o
+# segundo projeto do mesmo cliente, que já viu o padrão e não precisa de
+# desconto nenhum. Num Escopo B são R$ 6.700 por proposta.
+#
+# O problema não era o valor da constante: era ela existir. Regra de negócio que
+# depende de alguém lembrar de trocar uma linha é a mesma armadilha da regra #3
+# do AGENTS.md, e já custou caro aqui antes ("o desconto que dependia de eu
+# lembrar de uma opção").
+#
+# A necessidade real era outra: ver a proposta COMPLETA ao conferir formato.
+# Isso virou `--forcar-novo`, que é por execução e não pode vazar pra produção.
+# `--de exemplo` liga sozinho, porque exemplo é justamente pra ver o formato.
+
+ATENDIDOS = os.path.join(AQUI, "clientes-atendidos.json")
+
+
+def _atendidos():
+    """Quem já recebeu proposta. Arquivo vazio e arquivo ILEGÍVEL não são a
+    mesma coisa, e o `except Exception: return {}` de antes tratava os dois
+    igual.
+
+    A diferença importa em dinheiro: sem registro, todo cliente vira novo e leva
+    a condição de abertura. Se o arquivo existir e não abrir — JSON quebrado,
+    disco, permissão —, isso tem que aparecer na tela antes de a proposta sair,
+    e não virar um desconto silencioso de R$ 6.700.
+    """
+    if not os.path.exists(ATENDIDOS):
+        return {}                      # primeira vez: normal, sem alarde
+    try:
+        with io.open(ATENDIDOS, encoding="utf-8") as f:
+            d = json.load(f)
+        if not isinstance(d, dict):
+            raise ValueError("o arquivo não é um objeto JSON")
+        return d
+    except Exception as e:
+        print("  !! NAO CONSEGUI LER %s (%s)." % (os.path.basename(ATENDIDOS), e))
+        print("     Sem esse arquivo TODO cliente conta como novo e leva o")
+        print("     desconto de abertura. Confira antes de enviar.")
+        return {}
+
+
+# Havia aqui um `ehClienteNovo(email)`. Foi removido em 05/08/2026 depois que a
+# prova de falha do teste mostrou o problema: nada mais chamava essa função, e
+# quebrá-la de propósito não deixava um único teste de comportamento vermelho.
+# Uma função com esse nome parece SER a regra; quem fosse mexer no desconto
+# mexeria nela e não mudaria nada. A regra mora em aplicar_primeira_vez, que
+# consulta _atendidos() direto — um lugar só.
+
+
+def marcar_atendido(email, numero):
+    """Chamado só quando a proposta REALMENTE sai. Gerar sem enviar não pode
+    queimar a condição de abertura — senão testar um formato tira o desconto do
+    cliente."""
+    chave = (email or "").strip().lower()
+    if not chave:
+        return
+    d = _atendidos()
+    if chave in d:
+        return
+    d[chave] = {"primeira_proposta": numero,
+                "em": datetime.date.today().isoformat()}
+    with io.open(ATENDIDOS, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def registrar_na_conta(p, pdf=None):
+    """Põe a proposta na conta do cliente, com o contrato pra baixar.
+
+    A proposta existia só no email. Cliente que apagou sem querer, ou que foi
+    procurar seis semanas depois, não tinha onde olhar — e valor e prazo são
+    justamente o que se procura depois. Falhar aqui NÃO derruba nada: o email
+    já saiu e o cliente já foi atendido.
+    """
+    import re
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+
+    seg = ""
+    env = os.path.join(os.path.dirname(AQUI), ".env")
+    if os.path.exists(env):
+        for l in io.open(env, encoding="utf-8"):
+            m = re.match(r"\s*BORIN_SEGREDO_ADMIN\s*=\s*(.+?)\s*$", l)
+            if m:
+                seg = m.group(1).strip('"').strip("'")
+    if not seg:
+        return
+
+    UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36")
+    SITE = "https://borinprojetos.com.br"
+
+    def bate(url, metodo, corpo, tipo):
+        r = urllib.request.Request(url, data=corpo, method=metodo)
+        r.add_header("Authorization", "Bearer " + seg)
+        r.add_header("User-Agent", UA)
+        r.add_header("Content-Type", tipo)
+        try:
+            with urllib.request.urlopen(r, timeout=180) as x:
+                return json.loads(x.read().decode() or "{}")
+        except Exception as e:
+            return {"erro": str(e)[:80]}
+
+    d = bate(SITE + "/api/acesso/proposta", "POST", json.dumps({
+        "email": p["email"], "numero": p["numero"],
+        "equipamento": p["equipamento"], "codigo": p["codigo"],
+        "escopo": p["escopo_txt"], "paginas": p["paginas"],
+        "total": p["total"], "prazo": p["prazo"], "validade": "3 dias",
+    }, ensure_ascii=False).encode("utf-8"), "application/json; charset=utf-8")
+
+    if not d.get("ok"):
+        print("  conta:   nao registrei a proposta (%s)" % (d.get("erro") or "?"))
+        return
+
+    if pdf and os.path.exists(pdf):
+        nome = os.path.basename(pdf)
+        url = ("%s/api/acesso/arquivo?email=%s&codigo=%s&nome=%s&titulo=%s&etapa=%s"
+               % (SITE, urllib.parse.quote(p["email"]),
+                  urllib.parse.quote(p["numero"]), urllib.parse.quote(nome),
+                  urllib.parse.quote("Contrato " + p["numero"]),
+                  urllib.parse.quote("para assinar")))
+        a = bate(url, "PUT", io.open(pdf, "rb").read(), "application/pdf")
+        if not a.get("ok"):
+            print("  conta:   proposta registrada, contrato nao subiu (%s)"
+                  % (a.get("erro") or "?"))
+            return
+
+    print("  conta:   proposta e contrato disponiveis em /conta")
+
+
+def aplicar_primeira_vez(o):
+    """Liga o desconto e o setup para cliente novo, sem apagar o que foi pedido
+    na mão: quem digitou `--abertura` continua com ela.
+
+    E DIZ EM VOZ ALTA o que decidiu. Antes isto acontecia calado, e a diferença
+    entre um caminho e o outro é R$ 6.700 num Escopo B — o tipo de número que
+    não pode ser decidido por um `if` que ninguém vê.
+    """
+    if o.ja_e_cliente:
+        print("  cliente:  ANTIGO por --ja-e-cliente — sem condição de abertura")
+        return
+    if getattr(o, "forcar_novo", False):
+        o.abertura = True
+        o.setup_padrao = True
+        print("  cliente:  NOVO forçado por --forcar-novo — condição de abertura aplicada")
+        return
+    ficha = _atendidos().get((o.email or "").strip().lower())
+    if ficha:
+        print("  cliente:  ANTIGO — primeira proposta %s em %s. Sem condição de abertura"
+              % (ficha.get("primeira_proposta", "?"), ficha.get("em", "?")))
+        return
+    o.abertura = True
+    o.setup_padrao = True
+    print("  cliente:  NOVO — nunca recebeu proposta. Condição de abertura aplicada")
+
+
 def montar(o):
     paginas = o.paginas or calc.estimar_paginas(o.io, o.acionamentos, o.seguranca, o.escopo)
     r = calc.calcular(paginas, o.itens_manuais, o.setup_padrao,
@@ -268,6 +437,12 @@ def montar(o):
             ("Correção de erro meu", "sem limite"),
             ("Alteração de escopo inclusa", "2 rodadas"),
             ("Sigilo", "2 anos, em contrato"),
+            # Suporte entra na PROPOSTA, não numa conversa seis meses depois.
+            # Fica AQUI, e não no proposta.py, porque esta lista alimenta o
+            # email HTML, o .txt E o PDF — quando a linha morava só no PDF,
+            # o cliente recebia dois documentos com condições diferentes na
+            # mesma mensagem. Ver comercial/suporte.md.
+            ("Suporte após a entrega", "30 dias inclusos"),
         ],
     }
 
@@ -276,11 +451,17 @@ def enviar(p, corpo_html, para_mim, anexos=None):
     # nada de marca de copia: o objetivo do --para-mim e ver exatamente o
     # que o cliente vai abrir, inclusive o assunto
     doc = p.get("doc") or ("Proposta " + p["numero"])
-    # o assunto agora vai pronto: o /api/enviar nao remonta nada, so entrega
-    assunto = "#%s \u00b7 %s \u2014 %s \u00b7 %s" % (
-        p["codigo"] or p["numero"], p["empresa"] or "cliente",
-        p["equipamento"], doc) if p["codigo"] else "%s \u2014 %s \u00b7 %s" % (
-        p["empresa"] or "cliente", p["equipamento"], doc)
+    # O assunto vai pronto: o /api/enviar nao remonta nada, so entrega.
+    #
+    # "Proposta"/"Contrato" vem na FRENTE. Antes o assunto abria com o codigo e
+    # a empresa e fechava com o tipo do documento, 102 caracteres depois \u2014 o
+    # Gmail corta por volta de 70 no computador e de 35 no celular, entao o
+    # cliente via duas linhas identicas na caixa e nao sabia qual era o
+    # contrato. O codigo foi pro fim: ele serve pra buscar, nao pra ler.
+    assunto = "%s \u00b7 %s \u2014 %s \u00b7 #%s" % (
+        doc, p["empresa"] or "cliente", p["equipamento"],
+        p["codigo"]) if p["codigo"] else "%s \u00b7 %s \u2014 %s" % (
+        doc, p["empresa"] or "cliente", p["equipamento"])
     d = {
         "assunto": assunto,
         "empresa": p["empresa"] or "cliente",
@@ -344,9 +525,22 @@ def main():
                    help="exige o cadastro: falha se o cliente ainda nao preencheu")
     a.add_argument("--sem-cadastro", action="store_true",
                    help="ignora o cadastro e manda o contrato em branco")
+    a.add_argument("--ja-e-cliente", action="store_true",
+                   help="forca cliente ANTIGO: sem condicao de abertura e sem setup")
+    a.add_argument("--forcar-novo", action="store_true",
+                   help="forca cliente NOVO: mostra a proposta completa, com desconto "
+                        "e setup. Pra conferir formato, nao pra mandar")
     o = a.parse_args()
 
+    if o.forcar_novo and o.ja_e_cliente:
+        raise SystemExit("--forcar-novo e --ja-e-cliente dizem o contrario um do "
+                         "outro. Escolha um.")
+
     if o.de == "exemplo":
+        # exemplo existe pra ver o formato inteiro. Sem isto o email do Mateus já
+        # está em clientes-atendidos.json, e o exemplo sairia sem desconto e sem
+        # setup — que são justamente as linhas que ele quer conferir
+        o.forcar_novo = True
         # o exemplo preenche o que faltou, nao atropela o que eu escrevi
         dados = " ".join(sys.argv)
         for k, v in EXEMPLO.items():
@@ -354,6 +548,8 @@ def main():
                 setattr(o, k, v)
     if not o.email:
         raise SystemExit("Informe --email, ou use --de exemplo")
+
+    aplicar_primeira_vez(o)
 
     p = montar(o)
     h = html(p)
@@ -391,7 +587,29 @@ def main():
     print("  " + "-" * 56)
     print("  arquivo: %s.html" % base)
 
-    anexos = None
+    anexos = []
+
+    # A proposta em PDF vai SEMPRE, mesmo com --sem-contrato: ela é o documento
+    # que o contato repassa pro chefe ou pro comprador, e email encaminhado
+    # chega desmontado. O corpo em HTML continua sendo o que ele lê primeiro;
+    # o PDF é o que sobrevive ao encaminhamento e à impressão.
+    try:
+        import base64 as _b64, importlib.util as _ip
+        _p = _ip.spec_from_file_location("pr", os.path.join(AQUI, "proposta.py"))
+        pr = _ip.module_from_spec(_p); _p.loader.exec_module(pr)
+        pdf_prop = pr.gerar(p)
+        print("  proposta: %s" % pdf_prop)
+        anexos.append({
+            "nome": "Proposta %s - Borin Projetos Eletricos.pdf" % p["numero"],
+            "tipo": "application/pdf",
+            "base64": _b64.b64encode(io.open(pdf_prop, "rb").read()).decode(),
+        })
+    except Exception as e:
+        # não derruba o envio: proposta sem anexo ainda é proposta. Mas grita,
+        # porque anexo que some calado ninguém repara — a regra #3 do AGENTS.md
+        print("  proposta: NAO GEREI O PDF (%s) — o email vai sem anexo de proposta"
+              % str(e)[:70])
+
     if not o.sem_contrato:
         import base64, importlib.util as _iu
         _c = _iu.spec_from_file_location("ct", os.path.join(AQUI, "contrato.py"))
@@ -411,9 +629,15 @@ def main():
                 cad = None
         if cad:
             p["cadastro"] = cad
-            p["empresa"] = cad.get("razao_social") or p["empresa"]
+            # A razão social manda no CONTRATO, que é documento e precisa do
+            # nome legal. No assunto do email e no corpo da proposta continua
+            # valendo o nome que o cliente usou no pedido: o corpo já mostrava
+            # "Flowsistem" e o assunto saía "3321-0001", duas fontes pro mesmo
+            # nome. E razão social ruim — código, abreviação — estragava a
+            # única linha que o cliente lê antes de abrir.
+            p["razao_social"] = cad.get("razao_social") or p["empresa"]
             p["contato"] = cad.get("rep_nome") or p["contato"]
-            print("  cadastro: %s, CNPJ %s" % (p["empresa"], cad.get("cnpj", "?")))
+            print("  cadastro: %s, CNPJ %s" % (p["razao_social"], cad.get("cnpj", "?")))
         elif o.com_cadastro:
             raise SystemExit("Esse cliente ainda nao preencheu /cadastro.")
         else:
@@ -422,16 +646,27 @@ def main():
         print("  contrato: %s" % pdf)
         if faltam:
             print("  a preencher no contrato: %s" % ", ".join(faltam))
-        anexos = [{
+        anexos.append({
             "nome": "Contrato %s - Borin Projetos Eletricos.pdf" % p["numero"],
             "tipo": "application/pdf",
             "base64": base64.b64encode(io.open(pdf, "rb").read()).decode(),
-        }]
+        })
 
     if o.enviar:
         ok = enviar(p, h, o.para_mim, anexos)
         print("  email:   %s" % ("enviado para " + ("você (cópia)" if o.para_mim else p["email"])
                                  if ok else "FALHOU"))
+        # marcado só depois de sair de verdade, e nunca na cópia de conferência
+        if ok and not o.para_mim:
+            marcar_atendido(p["email"], p["numero"])
+            # O try existe porque o email JÁ SAIU aqui. Sem ele, um erro no
+            # registro derruba o comando depois do cliente já ter recebido a
+            # proposta — foi o que aconteceu na primeira versão, por um import
+            # que faltava. Registrar é bônus; entregar é o serviço.
+            try:
+                registrar_na_conta(p, pdf if not o.sem_contrato else None)
+            except Exception as e:
+                print("  conta:   nao registrei a proposta (%s)" % str(e)[:70])
     else:
         print("  (nada enviado — use --enviar, ou --enviar --para-mim pra conferir antes)")
     print()

@@ -28,7 +28,8 @@ Dois elementos sustentam isso, e são eles que dão personalidade à marca:
 Nome próprio porque o canal de venda é indicação: quem indica, indica o Mateus. Nunca acompanhar de
 "Engenharia" — o serviço é projeto e documentação técnica, e o termo é regulado pelo CREA.
 
-Domínio alvo: `borinprojetos.com.br` (livre em 26/07/2026, ainda não registrado).
+Domínio: `borinprojetos.com.br` — registrado em 29/07/2026, site no ar. CNPJ 65.749.097/0001-85,
+razão social `65.749.097 MATEUS BORIN`, nome fantasia Borin Projetos Elétricos.
 
 ---
 
@@ -48,14 +49,30 @@ projetos elétricos industriais
 | Elemento | Especificação |
 |---|---|
 | Nome | Inter Bold (700), caixa alta, `letter-spacing` +0.08em |
-| Fio | Espessura 0,08 B. Largura = descritor menos o nó e o intervalo |
+| Fio | Espessura 0,08 B. Largura = **largura do nome** menos o nó e o intervalo |
 | Intervalo fio → nó | 0,12 B |
 | Nó | Quadrado de 0,2 B, centrado na altura do fio |
-| Descritor | Inter Medium (500), caixa baixa, `letter-spacing` +0.12em |
+| Descritor | Inter Medium (500), caixa baixa, `letter-spacing` **calculado** — ≈ +0.068em |
 | Corpo do descritor | 0,22 da altura do nome |
 | Nome → fio | 0,4 B |
 | Fio → descritor | 0,4 B |
 | Alinhamento | Tudo à esquerda |
+
+### A regra que segura o desenho: os três elementos têm a mesma largura
+
+Revisado em 05/08/2026. Antes, o fio acompanhava o descritor e o descritor tinha `letter-spacing`
+fixo de +0.12em — o que deixava "projetos elétricos industriais" **159 px mais comprido que BORIN**
+num logo de 1500 px. O fio e o nó sobravam à direita do N, e a marca escorria para o lado.
+
+Agora **quem manda é a largura do nome.** O fio e o nó terminam onde o N termina, e o
+`letter-spacing` do descritor é calculado (busca binária em `gerar-logos.py`) para dar exatamente
+essa mesma largura. Com o texto de hoje, dá ≈ +0.068em. Fica calculado e não fixo para continuar
+valendo se o nome ou o descritor mudarem de texto.
+
+**Alinhamento é pela tinta, não pelo avanço da fonte.** Os dois bugs corrigidos no mesmo dia vieram
+disso: à esquerda, o "B" tem mais respiro que o "p" e o fio não tem nenhum — 26 px de escada; à
+direita, o respiro do "N" é maior que o do "s" — outros 26 px. Quem gerar arte da marca por outro
+caminho precisa saber disso, senão reintroduz os dois.
 
 **Área de proteção:** margem livre igual à altura da letra B. Nada entra nesse espaço.
 
@@ -63,6 +80,37 @@ projetos elétricos industriais
 
 O logo padrão é monocromático de propósito: assim funciona em impressão preto e branco, em carimbo,
 gravado ou fotocopiado. A versão com o nó vermelho é exceção, não regra.
+
+### A marca compacta — a folha
+
+Criada em 29/07/2026, para o tamanho em que o logo e o monograma param de funcionar.
+
+```
+┌──────────────┐
+│              │
+│   ────  ■    │
+│              │
+└──────────────┘
+```
+
+Uma folha com a linha de cota e o nó dentro. Os três elementos do logo reduzidos ao essencial: a
+moldura é a folha de desenho, a linha é o fio, o quadrado é o nó em Comando.
+
+| Elemento | Especificação (canvas 32×32) |
+|---|---|
+| Fundo | Papel sólido |
+| Moldura | 1,5 de Tinta, recuada 0,75 da borda |
+| Linha | 13 × 2 de Tinta, começando em x=6, centrada na altura |
+| Nó | 6 × 6 de Comando, em x=21 |
+
+**Arquivo:** `marca/favicon.svg`. Também embutido em data URI no `site/_pagina.html`.
+
+**Por que fundo Papel e não Tinta:** a folha branca sobrevive em aba de navegador claro e escuro, e
+lê como uma folha de desenho — o que é o conceito. Fundo preto virava um bloco, e com o nó do mesmo
+peso da linha o desenho lia como dois quadrados soltos, não como uma marca.
+
+**A proporção é o que faz funcionar:** linha longa e fina, nó pequeno. Se os dois ficarem com peso
+parecido, perde a leitura de "linha que termina num ponto".
 
 ### Como chamar a marca em cada lugar
 
@@ -72,8 +120,9 @@ Esta é a regra que evita repetir o nome inteiro numa folha de projeto:
 |---|---|
 | Capa do projeto, proposta, apresentação, assinatura de email | Logo completo: `BORIN` + fio + nó + *projetos elétricos industriais* |
 | **Carimbo de folha do CAD** | **Só `BORIN`** — sem fio, sem nó, sem descritor |
-| Espaço muito curto: favicon, rodapé de slide, etiqueta | Monograma `BRN` |
-| Texto corrido, contrato, nota fiscal | Nome por extenso: Borin Projetos Elétricos |
+| **Favicon, avatar, ícone de app** | **Marca compacta** (`marca/favicon.svg`) |
+| Rodapé de slide, etiqueta, carimbo digital | Monograma `BRN` |
+| Texto corrido, contrato, nota fiscal | Razão social: `65.749.097 MATEUS BORIN`. Nome fantasia Borin Projetos Elétricos |
 
 O nome completo aparece **uma vez por documento**, na capa ou no memorial. Repetir "Borin Projetos
 Elétricos" em 51 folhas não reforça a marca — polui a folha.
@@ -88,6 +137,7 @@ Elétricos" em 51 folhas não reforça a marca — polui a folha.
 | `marca/logo-branco.svg` | Fundo escuro |
 | `marca/logo-comando.svg` | Só em peça digital colorida — nó em vermelho |
 | `marca/monograma-brn.svg` | Uso reduzido |
+| `marca/favicon.svg` | **Marca compacta** — favicon, avatar, ícone |
 
 **PNG** — para colocar dentro do CAD, Word e apresentação (`marca/png/`):
 

@@ -73,6 +73,12 @@
 
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --stack:  clamp(2rem, 4vw, 3rem);
+
+  /* Sem isto o navegador pinta o que é DELE — campo, seletor, barra de
+     rolagem — sempre em claro, mesmo com a página inteira no escuro. No
+     celular no escuro, o campo de texto saía branco no meio da página preta e
+     ofuscava. Declarar os dois deixa o navegador acompanhar o tema. */
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -267,7 +273,17 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
   align-items: flex-start;
   cursor: pointer;
 }
-.opcao input { margin: 0.2rem 0 0; accent-color: var(--acento); flex: none; }
+/* O rádio nativo nasce com 13px. O mínimo recomendado de alvo de toque é 24px,
+   e quem preenche isso é eletricista no celular, muitas vezes de luva. A linha
+   inteira (.opcao) já é clicável por ser <label>, mas o alvo visível precisa
+   acompanhar — errar o clique num rádio de escopo troca o preço do orçamento. */
+.opcao input {
+  margin: 0.05rem 0 0;
+  accent-color: var(--acento);
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 .opcao__texto { display: flex; flex-direction: column; gap: 0.15rem; }
 .opcao__titulo { font-size: var(--fs-small); font-weight: 600; }
 .opcao__nota { font-size: var(--fs-micro); color: var(--ink-soft); }
@@ -323,6 +339,24 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
 }
 .resumo.ativo { display: block; }
 
+/* ---------- link solto ----------
+   Sem regra nenhuma, todo link caía no azul padrão do navegador — a única cor
+   fora da marca em toda a página, e ela aparecia justamente no rodapé, embaixo
+   de DADOS. Botão, voltar, link-acao e arquivo já têm estilo próprio e ficam
+   de fora. */
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):hover,
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):focus-visible {
+  color: var(--acento);
+  text-decoration-color: var(--acento);
+}
+
 /* ---------- carimbo ---------- */
 
 .carimbo {
@@ -350,6 +384,46 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
   outline: 2px solid var(--acento); outline-offset: 3px;
 }
 
+
+/* Cores de cabo: era uma caixa de texto onde o cliente tinha que digitar
+   "Fase R — preto" linha por linha, acertando o travessão e o nome da cor.
+   Quem preenche isso é eletricista no meio do dia, muitas vezes no celular.
+   Agora é uma linha por função, com a cor escolhida numa lista e a amostra
+   do lado — dá pra conferir tudo de relance, que é como esse dado é usado. */
+.cores { border: 1px solid var(--rule); }
+.cor-linha {
+  display: flex; align-items: center; gap: 0.6rem 0.9rem; flex-wrap: wrap;
+  padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule);
+}
+.cor-linha:last-child { border-bottom: 0; }
+.cor-linha__nome { flex: 1 1 11rem; font-size: var(--fs-small); font-weight: 600; }
+.cor-linha__nome small {
+  display: block; font-weight: 400; font-family: var(--mono);
+  font-size: var(--fs-micro); color: var(--ink-micro); letter-spacing: 0.04em;
+}
+.cor-linha__escolha { display: flex; align-items: center; gap: 0.55rem; flex: 1 1 12rem; }
+.cor-linha select { flex: 1 1 auto; }
+
+/* a amostra é o que faz a conferência ser instantânea; o quadriculado por
+   baixo deixa o branco visível sem precisar de borda especial */
+.amostra {
+  width: 2rem; height: 2rem; flex: none; border: 1px solid var(--rule);
+  background-image:
+    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%),
+    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%);
+  background-size: 0.6rem 0.6rem;
+  background-position: 0 0, 0.3rem 0.3rem;
+}
+.amostra i { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 26rem) {
+  .cor-linha__nome { flex-basis: 100%; }
+}
+
+/* o que o cliente vê depois de salvar, sem precisar recarregar nada */
+.aviso.feito { color: var(--ink-soft); font-size: var(--fs-small); }
+.aviso.feito::before { content: "✓ "; color: var(--ink); font-weight: 700; }
+.aviso.feito:empty { display: none; }
 </style>
 
 <div class="pagina">
@@ -437,18 +511,16 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
 
     <div class="bloco">
       <div class="bloco__cabeca"><h2>Fiação</h2></div>
-      <div class="grade grade--larga">
-        <div class="campo">
-          <label for="cores">Cores de cabo por função</label>
-          <textarea id="cores" style="min-height: 7rem;" data-perfil>Fase R — preto
-Fase S — preto
-Fase T — preto
-Neutro — azul claro
-Terra — verde/amarelo
-Comando 24 Vcc  V+ — vermelho
-Comando 24 Vcc  V− — azul</textarea>
-        </div>
+      <div class="campo">
+        <label id="rotuloCores">Cores de cabo por função</label>
+        <span class="campo__dica">o que estiver diferente aqui, é só trocar</span>
+        <div class="cores" id="tabelaCores" role="group" aria-labelledby="rotuloCores"></div>
       </div>
+
+      <!-- A tabela acima escreve aqui. O resto do sistema (resumo, WhatsApp,
+           email, arquivo e a ficha salva na conta) continua lendo um campo de
+           texto só, exatamente como antes — nada a jusante precisou mudar. -->
+      <textarea id="cores" data-perfil hidden></textarea>
       <div class="grade">
         <div class="campo"><label for="secao">Seção padrão de comando</label><input type="text" id="secao" data-perfil placeholder="0,5 mm²"></div>
         <div class="campo"><label for="isolacao">Isolação exigida</label>
@@ -504,15 +576,27 @@ Comando 24 Vcc  V− — azul</textarea>
       </div>
     </div>
 
+    <div class="bloco">
+      <div class="bloco__cabeca">
+        <h2>Salvar predefinições</h2>
+        <p>Guarda tudo isto como o padrão da sua empresa. Vale pros próximos
+           orçamentos e pros projetos que ainda não tinham padrão definido —
+           você não repreenche nada.</p>
+      </div>
+      <div class="acoes">
+        <button type="button" class="botao" id="btPredef">Salvar predefinições</button>
+      </div>
+      <p class="aviso" id="avisoPredef"></p>
+    </div>
+
     <div class="bloco" style="margin-bottom: 0;">
       <div class="bloco__cabeca"><h2>Enviar</h2></div>
       <div class="acoes">
-        <button type="button" class="botao" onclick="enviarWhats()">Enviar pelo WhatsApp</button>
+        <button type="button" class="botao botao--vazado" onclick="enviarWhats()">Enviar pelo WhatsApp</button>
         <button type="button" class="botao botao--vazado" onclick="enviarEmail()">Enviar por email</button>
         <button type="button" class="botao botao--vazado" onclick="baixar()">Baixar como arquivo</button>
         <button type="button" class="botao botao--vazado" onclick="verResumo()">Ver o que vai ser enviado</button>
       </div>
-      <p class="aviso">Fica salvo neste navegador. No próximo projeto, o formulário de projeto já vem com esses dados e você não repreenche nada.</p>
       <pre class="resumo" id="resumo"></pre>
     </div>
 
@@ -663,6 +747,7 @@ function aplicarPadrao(p) {
     var r = document.querySelector('input[name="' + nome + '"][value="' + p.campos[k] + '"]');
     if (r) { r.checked = true; }
   });
+  avisarQueAplicou();
   return n;
 }
 
@@ -863,7 +948,22 @@ function aplicarFormulario(d) {
 
   if (typeof alternarEscopo === 'function') { alternarEscopo(); }
   if (typeof alternarNr12 === 'function') { alternarNr12(); }
+  avisarQueAplicou();
   return n;
+}
+
+/* Campo montado por JS (a tabela de cores) nao tem como saber que os valores
+   chegaram: aplicar escreve direto no .value e o navegador nao dispara evento
+   nenhum pra atribuicao. Sem este aviso, a tabela ficaria mostrando o padrao
+   de fabrica com a ficha do cliente ja carregada por baixo. */
+function avisarQueAplicou() {
+  try {
+    document.dispatchEvent(new CustomEvent('formulario-aplicado'));
+  } catch (e) {
+    var ev = document.createEvent('Event');
+    ev.initEvent('formulario-aplicado', true, true);
+    document.dispatchEvent(ev);
+  }
 }
 
 /* ---------- ligar a pagina na conta ---------- */
@@ -976,7 +1076,10 @@ function notificar(intencao) {
     })
   }).then(function (r) {
     return r.json()
-      .then(function (d) { return { ok: r.ok && d && d.ok === true, erro: d && d.erro }; })
+      .then(function (d) {
+        return { ok: r.ok && d && d.ok === true, erro: d && d.erro,
+                 whatsapp: d && d.whatsapp };
+      })
       .catch(function () { return { ok: r.ok }; });
   }).catch(function () { return { ok: false }; });
 
@@ -1010,6 +1113,24 @@ function solicitar(botao) {
       var aviso = document.getElementById('avisoFalta');
       if (aviso) {
         aviso.textContent = r.erro.charAt(0).toUpperCase() + r.erro.slice(1) + '.';
+        /* Quando o servidor manda um caminho alternativo (o WhatsApp, no caso
+           do freio), ele vira botao clicavel. Dizer "me chame no WhatsApp" sem
+           dar o WhatsApp e deixar a pessoa num beco — e ela ja esta na tela
+           justamente pra falar comigo. */
+        if (r.whatsapp) {
+          var a = document.createElement('a');
+          a.href = r.whatsapp;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'botao';
+          a.textContent = 'Falar no WhatsApp agora';
+          a.style.marginTop = '0.7rem';
+          a.style.display = 'inline-flex';
+          var velho = document.getElementById('atalhoWhats');
+          if (velho) { velho.remove(); }
+          a.id = 'atalhoWhats';
+          aviso.parentNode.insertBefore(a, aviso.nextSibling);
+        }
         aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       botao.disabled = false;
@@ -1194,9 +1315,164 @@ var SECOES = [
     } }
 ];
 
+/* ---------------------------------------------------- cores de cabo ------ */
+
+/* As funções que aparecem em praticamente todo painel. Quem tem uma função a
+   mais escreve em "Outras normas ou exigências internas" — abrir a tabela pra
+   linha livre transformaria de novo num campo de texto, que é o problema que
+   isto veio resolver. */
+var CORES_LINHAS = [
+  ['Fase R (L1)',        '',                          'preto'],
+  ['Fase S (L2)',        '',                          'preto'],
+  ['Fase T (L3)',        '',                          'preto'],
+  ['Neutro',             '',                          'azul claro'],
+  ['Terra (PE)',         'proteção',                  'verde/amarelo'],
+  ['Comando CA',         '',                          'vermelho'],
+  ['Comando CC  V+',     'positivo',                  'vermelho'],
+  ['Comando CC  V−',     'negativo / comum',          'azul'],
+  ['Tensão externa',     'não desliga na seccionadora', 'laranja']
+];
+
+/* nome que vai no texto  ->  cor de tela. O `css` é só a amostra; o que sai
+   pro projeto é sempre o nome escrito, porque é assim que o eletricista pede
+   o cabo no balcão. */
+var PALETA = [
+  ['preto',         '#111111'],
+  ['marrom',        '#6B3E1E'],
+  ['cinza',         '#9A9A9A'],
+  ['azul claro',    '#7FB3E0'],
+  ['azul',          '#1F4FA8'],
+  ['verde/amarelo', 'linear-gradient(135deg,#1E8A3C 0 50%,#F2C500 50% 100%)'],
+  ['verde',         '#1E8A3C'],
+  ['vermelho',      '#C1121F'],
+  ['laranja',       '#E8720C'],
+  ['amarelo',       '#F2C500'],
+  ['branco',        '#FFFFFF'],
+  ['violeta',       '#7A3E9D'],
+  ['rosa',          '#E48FB0'],
+  ['turquesa',      '#1FA9A0']
+];
+
+function corCss(nome) {
+  for (var i = 0; i < PALETA.length; i++) {
+    if (PALETA[i][0] === nome) { return PALETA[i][1]; }
+  }
+  return '';
+}
+
+function pintar(el, nome) {
+  var c = corCss(nome);
+  el.style.background = c || 'transparent';
+}
+
+/* Lê o texto que já existe (de uma ficha salva, do padrão do navegador ou do
+   arquivo baixado antes desta tela existir) e devolve função -> cor. */
+function lerCoresDoTexto(txt) {
+  var mapa = {};
+  String(txt || '').split('\n').forEach(function (l) {
+    var m = l.split(/\s+[—–-]\s+/);
+    if (m.length < 2) { return; }
+    mapa[m[0].trim().toLowerCase()] = m.slice(1).join(' - ').trim();
+  });
+  return mapa;
+}
+
+/* O contrário: a tabela vira o texto que o resto do sistema já sabe ler. */
+function escreverCores() {
+  var linhas = [];
+  document.querySelectorAll('#tabelaCores select').forEach(function (s) {
+    linhas.push(s.getAttribute('data-nome') + ' — ' + s.value);
+  });
+  var alvo = document.getElementById('cores');
+  alvo.value = linhas.join('\n');
+  /* dispara o salvamento automático, que escuta input no documento */
+  alvo.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function montarCores() {
+  var caixa = document.getElementById('tabelaCores');
+  if (!caixa) { return; }
+
+  var salvo = lerCoresDoTexto(document.getElementById('cores').value);
+
+  caixa.innerHTML = CORES_LINHAS.map(function (l, i) {
+    var nome = l[0], nota = l[1];
+    var atual = salvo[nome.toLowerCase()] || l[2];
+
+    /* cor que veio de um preenchimento antigo e não está na paleta não pode
+       sumir da tela: entra como opção própria, senão o select cairia calado
+       na primeira da lista e trocaria o padrão do cliente sem avisar. */
+    var opcoes = PALETA.map(function (c) { return c[0]; });
+    if (opcoes.indexOf(atual) === -1) { opcoes.unshift(atual); }
+
+    return '<div class="cor-linha">'
+      + '<span class="cor-linha__nome">' + nome
+      +   (nota ? '<small>' + nota + '</small>' : '') + '</span>'
+      + '<span class="cor-linha__escolha">'
+      +   '<span class="amostra"><i id="am' + i + '"></i></span>'
+      +   '<select data-nome="' + nome + '" aria-label="Cor de ' + nome + '">'
+      +     opcoes.map(function (c) {
+              return '<option' + (c === atual ? ' selected' : '') + '>' + c + '</option>';
+            }).join('')
+      +   '</select>'
+      + '</span></div>';
+  }).join('');
+
+  caixa.querySelectorAll('select').forEach(function (s, i) {
+    pintar(document.getElementById('am' + i), s.value);
+    s.addEventListener('change', function () {
+      pintar(document.getElementById('am' + i), s.value);
+      escreverCores();
+    });
+  });
+
+  escreverCores();
+}
+
+/* ------------------------------------------------ salvar predefinições ---- */
+
+function avisoPredef(txt, ok) {
+  var e = document.getElementById('avisoPredef');
+  e.textContent = txt;
+  e.classList.toggle('feito', !!ok);
+  e.classList.toggle('falta', !ok);
+}
+
+document.getElementById('btPredef').addEventListener('click', function () {
+  var b = this;
+  b.disabled = true;
+  b.textContent = 'Salvando…';
+
+  /* Duas gravações, de propósito. O navegador é o que faz o formulário de
+     projeto já vir preenchido no mesmo aparelho. A conta é o que faz valer
+     em qualquer aparelho e pros projetos que ainda não tinham padrão. */
+  try { salvarPadrao(); } catch (e) {}
+
+  guardarNaConta('padrao', lerFormulario()).then(function (r) {
+    b.disabled = false;
+    b.textContent = 'Salvar predefinições';
+
+    if (r && r.erro) {
+      /* sem conta o padrão ainda vale neste navegador — dizer isso, e não
+         só "erro", senão ele acha que perdeu o que preencheu */
+      avisoPredef('Salvo neste navegador. Pra valer em qualquer aparelho e nos '
+                  + 'projetos que já existem, entre na sua conta.', false);
+      return;
+    }
+    avisoPredef('Predefinições salvas. Valem pros próximos orçamentos e pros '
+                + 'projetos que ainda não tinham padrão definido.', true);
+  });
+});
+
+/* ------------------------------------------------------------------------- */
+
 ligarConta(function () { return 'padrao'; });
 
 iniciarForm({ recolher: false });
+
+montarCores();
+/* a ficha da conta chega depois, por rede: remonta quando ela cair */
+document.addEventListener('formulario-aplicado', montarCores);
 </script>
 
 

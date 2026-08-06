@@ -31,6 +31,12 @@
 
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --stack:  clamp(2rem, 4vw, 3rem);
+
+  /* Sem isto o navegador pinta o que é DELE — campo, seletor, barra de
+     rolagem — sempre em claro, mesmo com a página inteira no escuro. No
+     celular no escuro, o campo de texto saía branco no meio da página preta e
+     ofuscava. Declarar os dois deixa o navegador acompanhar o tema. */
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -225,7 +231,17 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
   align-items: flex-start;
   cursor: pointer;
 }
-.opcao input { margin: 0.2rem 0 0; accent-color: var(--acento); flex: none; }
+/* O rádio nativo nasce com 13px. O mínimo recomendado de alvo de toque é 24px,
+   e quem preenche isso é eletricista no celular, muitas vezes de luva. A linha
+   inteira (.opcao) já é clicável por ser <label>, mas o alvo visível precisa
+   acompanhar — errar o clique num rádio de escopo troca o preço do orçamento. */
+.opcao input {
+  margin: 0.05rem 0 0;
+  accent-color: var(--acento);
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 .opcao__texto { display: flex; flex-direction: column; gap: 0.15rem; }
 .opcao__titulo { font-size: var(--fs-small); font-weight: 600; }
 .opcao__nota { font-size: var(--fs-micro); color: var(--ink-soft); }
@@ -280,6 +296,24 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
   display: none;
 }
 .resumo.ativo { display: block; }
+
+/* ---------- link solto ----------
+   Sem regra nenhuma, todo link caía no azul padrão do navegador — a única cor
+   fora da marca em toda a página, e ela aparecia justamente no rodapé, embaixo
+   de DADOS. Botão, voltar, link-acao e arquivo já têm estilo próprio e ficam
+   de fora. */
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):hover,
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):focus-visible {
+  color: var(--acento);
+  text-decoration-color: var(--acento);
+}
 
 /* ---------- carimbo ---------- */
 

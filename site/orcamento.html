@@ -72,6 +72,12 @@
 
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --stack:  clamp(2rem, 4vw, 3rem);
+
+  /* Sem isto o navegador pinta o que é DELE — campo, seletor, barra de
+     rolagem — sempre em claro, mesmo com a página inteira no escuro. No
+     celular no escuro, o campo de texto saía branco no meio da página preta e
+     ofuscava. Declarar os dois deixa o navegador acompanhar o tema. */
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -266,7 +272,17 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
   align-items: flex-start;
   cursor: pointer;
 }
-.opcao input { margin: 0.2rem 0 0; accent-color: var(--acento); flex: none; }
+/* O rádio nativo nasce com 13px. O mínimo recomendado de alvo de toque é 24px,
+   e quem preenche isso é eletricista no celular, muitas vezes de luva. A linha
+   inteira (.opcao) já é clicável por ser <label>, mas o alvo visível precisa
+   acompanhar — errar o clique num rádio de escopo troca o preço do orçamento. */
+.opcao input {
+  margin: 0.05rem 0 0;
+  accent-color: var(--acento);
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 .opcao__texto { display: flex; flex-direction: column; gap: 0.15rem; }
 .opcao__titulo { font-size: var(--fs-small); font-weight: 600; }
 .opcao__nota { font-size: var(--fs-micro); color: var(--ink-soft); }
@@ -321,6 +337,24 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acento); ou
   display: none;
 }
 .resumo.ativo { display: block; }
+
+/* ---------- link solto ----------
+   Sem regra nenhuma, todo link caía no azul padrão do navegador — a única cor
+   fora da marca em toda a página, e ela aparecia justamente no rodapé, embaixo
+   de DADOS. Botão, voltar, link-acao e arquivo já têm estilo próprio e ficam
+   de fora. */
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):hover,
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.arq):not(.entrar-topo):not(.tirar):focus-visible {
+  color: var(--acento);
+  text-decoration-color: var(--acento);
+}
 
 /* ---------- carimbo ---------- */
 
@@ -648,6 +682,7 @@ function aplicarPadrao(p) {
     var r = document.querySelector('input[name="' + nome + '"][value="' + p.campos[k] + '"]');
     if (r) { r.checked = true; }
   });
+  avisarQueAplicou();
   return n;
 }
 
@@ -848,7 +883,22 @@ function aplicarFormulario(d) {
 
   if (typeof alternarEscopo === 'function') { alternarEscopo(); }
   if (typeof alternarNr12 === 'function') { alternarNr12(); }
+  avisarQueAplicou();
   return n;
+}
+
+/* Campo montado por JS (a tabela de cores) nao tem como saber que os valores
+   chegaram: aplicar escreve direto no .value e o navegador nao dispara evento
+   nenhum pra atribuicao. Sem este aviso, a tabela ficaria mostrando o padrao
+   de fabrica com a ficha do cliente ja carregada por baixo. */
+function avisarQueAplicou() {
+  try {
+    document.dispatchEvent(new CustomEvent('formulario-aplicado'));
+  } catch (e) {
+    var ev = document.createEvent('Event');
+    ev.initEvent('formulario-aplicado', true, true);
+    document.dispatchEvent(ev);
+  }
 }
 
 /* ---------- ligar a pagina na conta ---------- */
@@ -961,7 +1011,10 @@ function notificar(intencao) {
     })
   }).then(function (r) {
     return r.json()
-      .then(function (d) { return { ok: r.ok && d && d.ok === true, erro: d && d.erro }; })
+      .then(function (d) {
+        return { ok: r.ok && d && d.ok === true, erro: d && d.erro,
+                 whatsapp: d && d.whatsapp };
+      })
       .catch(function () { return { ok: r.ok }; });
   }).catch(function () { return { ok: false }; });
 
@@ -995,6 +1048,24 @@ function solicitar(botao) {
       var aviso = document.getElementById('avisoFalta');
       if (aviso) {
         aviso.textContent = r.erro.charAt(0).toUpperCase() + r.erro.slice(1) + '.';
+        /* Quando o servidor manda um caminho alternativo (o WhatsApp, no caso
+           do freio), ele vira botao clicavel. Dizer "me chame no WhatsApp" sem
+           dar o WhatsApp e deixar a pessoa num beco — e ela ja esta na tela
+           justamente pra falar comigo. */
+        if (r.whatsapp) {
+          var a = document.createElement('a');
+          a.href = r.whatsapp;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'botao';
+          a.textContent = 'Falar no WhatsApp agora';
+          a.style.marginTop = '0.7rem';
+          a.style.display = 'inline-flex';
+          var velho = document.getElementById('atalhoWhats');
+          if (velho) { velho.remove(); }
+          a.id = 'atalhoWhats';
+          aviso.parentNode.insertBefore(a, aviso.nextSibling);
+        }
         aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       botao.disabled = false;

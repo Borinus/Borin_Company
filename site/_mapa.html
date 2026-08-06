@@ -1,0 +1,282 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa do site — Borin Projetos Elétricos</title>
+<meta name="description" content="Mapa interno das páginas.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media(prefers-color-scheme%3Adark)%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
+
+<style>
+/* FONTES */
+/* BASE-FORM */
+
+.rota { border: 1px solid var(--rule); margin-bottom: -1px; }
+.rota__topo {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1rem; flex-wrap: wrap; padding: 0.8rem 1rem;
+}
+.rota__link {
+  font-family: var(--mono); font-size: var(--fs-body); font-weight: 700;
+  text-decoration: none; color: var(--ink);
+}
+.rota__link:hover { color: var(--acento); }
+.rota__quem {
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em;
+  text-transform: uppercase; border: 1px solid var(--rule);
+  padding: 0.2rem 0.45rem; white-space: nowrap; color: var(--ink-micro);
+}
+.rota__quem.aberta { border-color: var(--ink); color: var(--ink); }
+.rota__quem.login { border-color: var(--acento); color: var(--acento); }
+.rota__oque { padding: 0 1rem 0.5rem; font-size: var(--fs-small); color: var(--ink-soft); }
+.rota__ver { padding: 0 1rem 0.85rem; margin: 0; }
+.rota__ver li { font-size: var(--fs-small); margin: 0.25rem 0 0; }
+
+.grupo { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-micro); margin: 0 0 0.5rem; }
+
+.rolagem { overflow-x: auto; border: 1px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; min-width: 32rem; }
+th, td { text-align: left; padding: 0.55rem 0.8rem; font-size: var(--fs-small);
+  border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-micro); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+td.larga { white-space: normal; min-width: 14rem; }
+td code { font-family: var(--mono); font-size: var(--fs-micro); }
+</style>
+
+<div class="pagina">
+
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+        </g>
+      </svg>
+    </div>
+
+    <a class="voltar" href="/">← Início</a>
+
+    <div>
+      <span class="rotulo">Interno</span>
+      <h1>Mapa do site</h1>
+      <p class="topo__texto">Toda página que existe, o que conferir em cada uma, e quem
+        consegue abrir. Esta página não é ligada em lugar nenhum e está fora do Google.</p>
+    </div>
+  </header>
+
+  <div class="bloco">
+    <p class="grupo">Aberto — qualquer um abre</p>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/" target="_blank" rel="noopener">/</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">A home. É onde o cliente cai e decide se pede orçamento.</p>
+      <ul class="rota__ver">
+        <li>O botão <b>Minha conta</b> aparece no topo, sem rolar</li>
+        <li>Logado, ele vira <b>Meus projetos</b> e vai pra /conta</li>
+        <li>No celular nada rola de lado</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/orcamento" target="_blank" rel="noopener">/orcamento</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">O formulário de pedido. É a única porta de entrada de cliente novo.</p>
+      <ul class="rota__ver">
+        <li>Email inválido não deixa enviar e explica o motivo</li>
+        <li>Enviando, vai pra /enviado — e a senha chega no email em segundos</li>
+        <li>Se o servidor recusar, ele <b>fica na página</b> e mostra por quê</li>
+        <li>Estourando o limite, aparece o botão <b>Falar no WhatsApp agora</b></li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/enviado" target="_blank" rel="noopener">/enviado</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">Confirmação depois de enviar. É a marca de conversão contável.</p>
+      <ul class="rota__ver">
+        <li>Abrindo direto, sem ter enviado nada, não quebra</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/entrar" target="_blank" rel="noopener">/entrar</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">Login do cliente, e a troca da senha provisória.</p>
+      <ul class="rota__ver">
+        <li>Enter no campo de senha entra, sem precisar clicar</li>
+        <li>Senha em minúscula entra igual (<code>borin482913</code>)</li>
+        <li>Senha de um pedido anterior explica o motivo e <b>não</b> trava a conta</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/privacidade" target="_blank" rel="noopener">/privacidade</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">A política de dados. É o endereço que a Meta pede no app.</p>
+      <ul class="rota__ver">
+        <li>O link no rodapé é preto com sublinhado, nunca azul</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/pagina-que-nao-existe" target="_blank" rel="noopener">/404</a>
+        <span class="rota__quem aberta">aberta</span>
+      </div>
+      <p class="rota__oque">Endereço errado. Sem ela o Google trata tudo como página válida.</p>
+      <ul class="rota__ver">
+        <li>Devolve 404 de verdade, não a home com http 200</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloco">
+    <p class="grupo">Precisa de login do cliente</p>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/conta" target="_blank" rel="noopener">/conta</a>
+        <span class="rota__quem login">login</span>
+      </div>
+      <p class="rota__oque">A conta do cliente. Proposta, orçamentos pedidos, projeto e arquivos.</p>
+      <ul class="rota__ver">
+        <li>O nome vem do cadastro, não do formulário rápido</li>
+        <li><b>Suas propostas</b> traz valor, prazo e o contrato pra baixar</li>
+        <li><b>Orçamentos que você pediu</b> lista tudo que saiu do site</li>
+        <li>Cada projeto mostra a trilha de etapas e os arquivos dele</li>
+        <li>Clicar num arquivo abre no navegador, não baixa cego</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/equipe" target="_blank" rel="noopener">/equipe</a>
+        <span class="rota__quem login">login</span>
+      </div>
+      <p class="rota__oque">Quem tem acesso. O cliente libera o pessoal do campo.</p>
+      <ul class="rota__ver">
+        <li>Contratante aparece com selo e <b>não</b> pode se remover</li>
+        <li>Quem foi liberado e não entrou fica em vermelho</li>
+        <li>Funcionário vê a lista, mas não o formulário nem o remover</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/cadastro" target="_blank" rel="noopener">/cadastro</a>
+        <span class="rota__quem login">login</span>
+      </div>
+      <p class="rota__oque">Dados da empresa. É o que preenche o contrato sozinho.</p>
+      <ul class="rota__ver">
+        <li>Salvo aqui, o contrato sai sem nenhum <code>[campo]</code> em branco</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/padrao" target="_blank" rel="noopener">/padrao</a>
+        <span class="rota__quem login">login</span>
+      </div>
+      <p class="rota__oque">O padrão da empresa. Preenchido uma vez, vale pra todos os projetos.</p>
+      <ul class="rota__ver">
+        <li>As cores de cabo são <b>tabela com amostra</b>, não caixa de texto</li>
+        <li>Trocar uma cor e recarregar: ela volta da conta</li>
+        <li><b>Salvar predefinições</b> confirma em cinza com visto, nunca em vermelho</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/projeto" target="_blank" rel="noopener">/projeto</a>
+        <span class="rota__quem login">login</span>
+      </div>
+      <p class="rota__oque">A ficha do projeto. O que muda de um projeto pro outro.</p>
+      <ul class="rota__ver">
+        <li>Volta preenchida depois de salvar e recarregar</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bloco">
+    <p class="grupo">Só você</p>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/painel" target="_blank" rel="noopener">/painel</a>
+        <span class="rota__quem login">segredo</span>
+      </div>
+      <p class="rota__oque">O teu painel. Pedidos, propostas, projetos e o que está atrasado.</p>
+      <ul class="rota__ver">
+        <li>Pede o segredo e o guarda só na aba</li>
+        <li><b>Precisa de você</b> ordena pelo que espera há mais tempo</li>
+        <li>O segredo nunca aparece na barra de endereço</li>
+      </ul>
+    </div>
+
+    <div class="rota">
+      <div class="rota__topo">
+        <a class="rota__link" href="/mapa" target="_blank" rel="noopener">/mapa</a>
+        <span class="rota__quem login">interna</span>
+      </div>
+      <p class="rota__oque">Esta página. Fora do Google e sem link em lugar nenhum.</p>
+    </div>
+  </div>
+
+  <div class="bloco" style="margin-bottom: 0;">
+    <div class="bloco__cabeca">
+      <h2>As rotas do servidor</h2>
+      <p>Não são páginas — é o que as telas chamam por baixo. Estão aqui pra quando algo
+         não funcionar e você precisar saber onde olhar.</p>
+    </div>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Rota</th><th>Quem chama</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td><code>/api/orcamento</code></td><td>o formulário</td><td class="larga">recebe o pedido, avisa o Mateus, abre a conta do cliente</td></tr>
+          <tr><td><code>/api/enviar</code></td><td>os comandos</td><td class="larga">manda email com HTML e anexo — exige o segredo</td></tr>
+          <tr><td><code>/api/zap</code></td><td>a Meta</td><td class="larga">resposta do cliente no WhatsApp vira email</td></tr>
+          <tr><td><code>/api/acesso/entrar</code></td><td>/entrar</td><td class="larga">login e abertura de sessão</td></tr>
+          <tr><td><code>/api/acesso/trocar</code></td><td>/entrar</td><td class="larga">troca a senha provisória e ativa a conta</td></tr>
+          <tr><td><code>/api/acesso/projetos</code></td><td>/conta</td><td class="larga">projetos, propostas, orçamentos e equipe</td></tr>
+          <tr><td><code>/api/acesso/ficha</code></td><td>/cadastro /padrao /projeto</td><td class="larga">guarda e devolve o que foi preenchido</td></tr>
+          <tr><td><code>/api/acesso/equipe</code></td><td>/equipe</td><td class="larga">lista e libera acesso</td></tr>
+          <tr><td><code>/api/acesso/arquivos</code></td><td>/conta</td><td class="larga">os arquivos de um projeto</td></tr>
+          <tr><td><code>/api/acesso/arquivo</code></td><td>/conta e comandos</td><td class="larga">baixa; e sobe com o segredo</td></tr>
+          <tr><td><code>/api/acesso/painel</code></td><td>/painel</td><td class="larga">tudo junto, só com o segredo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div class="carimbo">
+      <div class="carimbo__marca">
+        <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif" fill="currentColor">
+            <text x="0" y="52" font-size="60" font-weight="700" letter-spacing="4.8">BRN</text>
+          </g>
+        </svg>
+      </div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Mapa interno</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ANALYTICS -->

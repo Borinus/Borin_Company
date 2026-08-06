@@ -37,6 +37,72 @@
 .dado-linha span { font-size: var(--fs-small); }
 .projeto__nota { padding: 0 1rem 0.85rem; font-size: var(--fs-small); color: var(--ink-soft); }
 
+/* Os arquivos do projeto. Ficam DENTRO do cartão, e não numa aba separada, por
+   um motivo prático: no celular, uma aba a mais é mais um lugar pra procurar, e
+   quem abre isso costuma estar no chão de fábrica atrás de um diagrama. */
+.arqs { border-top: 1px solid var(--rule); }
+.arq {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem 1rem; flex-wrap: wrap;
+  padding: 0.7rem 1rem; border-bottom: 1px solid var(--rule);
+  color: inherit; text-decoration: none;
+}
+.arq:last-child { border-bottom: 0; }
+.arq:hover, .arq:focus-visible { background: var(--ground-alt); }
+.arq__quem { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.arq__nome { font-size: var(--fs-small); font-weight: 600; overflow-wrap: anywhere; }
+.arq__det {
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro);
+}
+.arq__baixar {
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft);
+  border: 1px solid var(--rule); padding: 0.5rem 0.65rem;
+  min-height: 44px; display: inline-flex; align-items: center; white-space: nowrap;
+}
+.arq:hover .arq__baixar { color: var(--acento); border-color: var(--acento); }
+.arqs__vazio {
+  padding: 0.7rem 1rem; font-size: var(--fs-small); color: var(--ink-soft);
+}
+
+/* A proposta é a única coisa da conta que tem valor em dinheiro. Ela usa a
+   mesma moldura do projeto de propósito — o cliente não precisa aprender dois
+   jeitos de ler a mesma tela. */
+.proposta { border: 1px solid var(--rule); margin-bottom: 0.9rem; }
+.proposta__topo {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1.2rem; flex-wrap: wrap; padding: 0.85rem 1rem;
+}
+.proposta__quem { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.proposta__num {
+  font-family: var(--mono); font-size: var(--fs-small); font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.proposta__det {
+  font-size: var(--fs-micro); color: var(--ink-micro); overflow-wrap: anywhere;
+}
+.proposta__valor { font-size: var(--fs-h3); font-weight: 700; white-space: nowrap; }
+
+/* Orçamentos pedidos pelo site. Mais enxuto que o cartão de projeto de
+   propósito: aqui ainda não há andamento pra mostrar, só o que foi pedido e
+   quando — que é o que responde "chegou?". */
+.pedido {
+  border: 1px solid var(--rule); padding: 0.85rem 1rem; margin-bottom: -1px;
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1.2rem; flex-wrap: wrap;
+}
+.pedido__oque { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.pedido__eq { font-weight: 600; font-size: var(--fs-body); }
+.pedido__det {
+  font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro);
+  overflow-wrap: anywhere;
+}
+.pedido__estado {
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--rule); padding: 0.2rem 0.45rem; white-space: nowrap;
+}
+
 .vazio { border: 1px solid var(--rule); padding: 1.2rem; font-size: var(--fs-small); color: var(--ink-soft); }
 .oculto { display: none; }
 </style>
@@ -66,6 +132,32 @@
 
   <div id="corpo"></div>
 
+  <div class="bloco" id="blocoPropostas" style="display:none">
+    <div class="bloco__cabeca">
+      <h2>Suas propostas</h2>
+      <p>Valor, prazo e o contrato pra assinar. Ficam aqui mesmo que você apague o email.</p>
+    </div>
+    <div id="propostas"></div>
+  </div>
+
+  <div class="bloco" id="blocoPedidos" style="display:none">
+    <div class="bloco__cabeca">
+      <h2>Orçamentos que você pediu</h2>
+      <p id="notaPedidos"></p>
+    </div>
+    <div id="pedidos"></div>
+  </div>
+
+  <div class="bloco" id="blocoEquipe" style="display:none">
+    <div class="bloco__cabeca">
+      <h2>Quem tem acesso</h2>
+      <p id="notaEquipe"></p>
+    </div>
+    <div class="acoes">
+      <a class="botao botao--vazado" href="/equipe" id="linkEquipe">Liberar acesso pra alguém</a>
+    </div>
+  </div>
+
   <div class="bloco" id="acoes" style="display:none">
     <div class="bloco__cabeca"><h2>Suas fichas</h2></div>
     <div class="acoes">
@@ -73,6 +165,9 @@
       <a class="botao botao--vazado" href="/padrao">Padrão da minha empresa</a>
       <a class="botao botao--vazado" href="/projeto">Ficha do projeto</a>
     </div>
+    <!-- "Quem tem acesso" saiu daqui: virou seção própria mais acima, e o
+         mesmo botão em dois lugares faz a pessoa achar que são coisas
+         diferentes. O id fica no link da seção, que o teste usa. -->
     <div class="acoes">
       <button type="button" class="link-acao" id="btSair">Sair</button>
     </div>
@@ -141,7 +236,142 @@ function cartao(p, etapas) {
   if (pe) { h += '<div class="projeto__pe">' + pe + '</div>'; }
   if (p.nota) { h += '<p class="projeto__nota">' + esc(p.nota) + '</p>'; }
 
+  /* a lista chega por rede depois; o cartão já nasce com o lugar dela */
+  h += '<div class="arqs" data-arqs="' + esc(p.codigo) + '"></div>';
+
   return h + '</div>';
+}
+
+function tamanhoCurto(n) {
+  n = Number(n) || 0;
+  if (n >= 1048576) { return (n / 1048576).toFixed(1).replace('.', ',') + ' MB'; }
+  if (n >= 1024) { return Math.round(n / 1024) + ' KB'; }
+  return n + ' B';
+}
+
+/* Uma chamada por projeto. Falhar aqui não pode derrubar o cartão: o cliente
+   perde a lista de arquivos, não o andamento do projeto. */
+function carregarArquivos(codigo) {
+  var caixa = document.querySelector('.arqs[data-arqs="' + codigo + '"]');
+  if (!caixa) { return; }
+
+  fetch('/api/acesso/arquivos?codigo=' + encodeURIComponent(codigo),
+        { credentials: 'same-origin' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var lista = (d && d.arquivos) || [];
+      if (!lista.length) {
+        /* nada ainda: dizer isso é melhor que uma borda solta sem explicação */
+        caixa.innerHTML = '<p class="arqs__vazio">Os arquivos deste projeto '
+          + 'aparecem aqui quando eu subir a primeira entrega.</p>';
+        return;
+      }
+      caixa.innerHTML = lista.map(function (a) {
+        var det = [tamanhoCurto(a.tamanho)];
+        if (a.em) { det.push(dataCurtaISO(a.em)); }
+        if (a.etapa) { det.push(a.etapa); }
+        return '<a class="arq" target="_blank" rel="noopener" href="/api/acesso/arquivo?codigo='
+          + encodeURIComponent(codigo) + '&nome=' + encodeURIComponent(a.nome) + '">'
+          + '<span class="arq__quem">'
+          +   '<span class="arq__nome">' + esc(a.titulo || a.nome) + '</span>'
+          +   '<span class="arq__det">' + esc(det.join(' · ')) + '</span>'
+          + '</span>'
+          + '<span class="arq__baixar">Abrir</span></a>';
+      }).join('');
+    })
+    .catch(function () {
+      caixa.innerHTML = '<p class="arqs__vazio">Não consegui carregar os arquivos. '
+        + 'Recarregue a página.</p>';
+    });
+}
+
+function dataLongaISO(iso) {
+  var M = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun',
+           'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  try {
+    var d = new Date(iso);
+    return d.getDate() + ' de ' + M[d.getMonth()] + ' de ' + d.getFullYear();
+  } catch (e) { return ''; }
+}
+
+function linhaPedido(p) {
+  /* só o que o cliente reconhece como "o que eu pedi". Contagem de I/O e
+     escopo A/B ficam de fora: são dados de orçamento, não de acompanhamento. */
+  var det = [];
+  if (p.codigo) { det.push('#' + p.codigo); }
+  if (p.em) { det.push(dataLongaISO(p.em)); }
+  if (p.prazo) { det.push('prazo pedido: ' + p.prazo); }
+
+  return '<div class="pedido">'
+    + '<span class="pedido__oque">'
+    +   '<span class="pedido__eq">' + esc(p.equipamento || 'Pedido de orçamento') + '</span>'
+    +   '<span class="pedido__det">' + esc(det.join(' · ')) + '</span>'
+    + '</span>'
+    + '<span class="pedido__estado">' + esc(p.estado || 'Recebido') + '</span>'
+    + '</div>';
+}
+
+function reais(v) {
+  var n = Number(v) || 0;
+  return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+/* A proposta é a única coisa aqui que tem VALOR. Ela ganha o número em
+   destaque, porque é o que a pessoa procura quando abre — e um botão pro
+   contrato, que é a ação seguinte. */
+function linhaProposta(pr) {
+  var det = [];
+  if (pr.equipamento) { det.push(pr.equipamento); }
+  if (pr.prazo) { det.push('prazo ' + pr.prazo); }
+  if (pr.em) { det.push(dataLongaISO(pr.em)); }
+
+  return '<div class="proposta">'
+    + '<div class="proposta__topo">'
+    +   '<span class="proposta__quem">'
+    +     '<span class="proposta__num">' + esc(pr.numero) + '</span>'
+    +     '<span class="proposta__det">' + esc(det.join(' · ')) + '</span>'
+    +   '</span>'
+    +   '<span class="proposta__valor">' + esc(reais(pr.total)) + '</span>'
+    + '</div>'
+    + '<div class="arqs" data-arqs="' + esc(pr.numero) + '"></div>'
+    + '</div>';
+}
+
+function montarPropostas(props) {
+  if (!props || !props.length) { return; }
+  document.getElementById('blocoPropostas').style.display = 'flex';
+  document.getElementById('propostas').innerHTML = props.map(linhaProposta).join('');
+  props.forEach(function (pr) { carregarArquivos(pr.numero); });
+}
+
+function montarEquipe(quantos, papel) {
+  document.getElementById('blocoEquipe').style.display = 'flex';
+  var n = Number(quantos) || 1;
+  document.getElementById('notaEquipe').textContent = papel === 'dono'
+    ? (n === 1
+        ? 'Só você tem acesso hoje. Dá pra liberar pro pessoal do campo abrir '
+          + 'os projetos e baixar os arquivos no celular, com o login deles.'
+        : n + ' pessoas têm acesso aos projetos desta empresa.')
+    : n + ' pessoas têm acesso. Quem contratou é quem libera e remove.';
+
+  /* membro não libera ninguém — o servidor recusa de qualquer jeito, mas
+     mostrar o botão seria convidar pro erro */
+  var b = document.getElementById('linkEquipe');
+  if (papel !== 'dono') { b.textContent = 'Ver quem tem acesso'; }
+}
+
+function montarPedidos(pedidos) {
+  /* Lista antiga não tem pedido nenhum guardado — o registro começou depois
+     dela. Esconder o bloco inteiro é melhor que mostrar "nenhum orçamento"
+     pra quem pediu de verdade e só não foi registrado. */
+  if (!pedidos || !pedidos.length) { return; }
+
+  document.getElementById('blocoPedidos').style.display = 'flex';
+  document.getElementById('notaPedidos').textContent =
+    pedidos.length === 1
+      ? 'Chegou aqui. Eu respondo com valor e prazo por email.'
+      : 'Todos os pedidos que saíram do site com este email.';
+  document.getElementById('pedidos').innerHTML = pedidos.map(linhaPedido).join('');
 }
 
 function montar(d) {
@@ -152,14 +382,23 @@ function montar(d) {
     (d.empresa ? d.empresa + ' · ' : '') + d.email;
   document.getElementById('acoes').style.display = 'flex';
 
+  montarPropostas(d.propostas);
+  montarPedidos(d.pedidos);
+  montarEquipe(d.equipe, d.papel);
+
   if (!d.projetos.length) {
-    corpo.innerHTML = '<div class="vazio">Nenhum projeto em andamento ainda. '
-      + 'Assim que o contrato for assinado, ele aparece aqui com o andamento.'
+    corpo.innerHTML = '<div class="vazio">'
+      + ((d.pedidos && d.pedidos.length)
+          ? 'Nenhum projeto em andamento ainda. Seu pedido está abaixo; '
+            + 'assim que o contrato for assinado, o projeto aparece aqui com o andamento.'
+          : 'Nenhum projeto em andamento ainda. Assim que o contrato for assinado, '
+            + 'ele aparece aqui com o andamento.')
       + (d.fichas.length ? ' Suas fichas preenchidas continuam salvas.' : '')
       + '</div>';
     return;
   }
   corpo.innerHTML = d.projetos.map(function (p) { return cartao(p, d.etapas); }).join('');
+  d.projetos.forEach(function (p) { carregarArquivos(p.codigo); });
 }
 
 document.getElementById('btSair').addEventListener('click', function () {

@@ -114,6 +114,7 @@ function aplicarPadrao(p) {
     var r = document.querySelector('input[name="' + nome + '"][value="' + p.campos[k] + '"]');
     if (r) { r.checked = true; }
   });
+  avisarQueAplicou();
   return n;
 }
 
@@ -314,7 +315,22 @@ function aplicarFormulario(d) {
 
   if (typeof alternarEscopo === 'function') { alternarEscopo(); }
   if (typeof alternarNr12 === 'function') { alternarNr12(); }
+  avisarQueAplicou();
   return n;
+}
+
+/* Campo montado por JS (a tabela de cores) nao tem como saber que os valores
+   chegaram: aplicar escreve direto no .value e o navegador nao dispara evento
+   nenhum pra atribuicao. Sem este aviso, a tabela ficaria mostrando o padrao
+   de fabrica com a ficha do cliente ja carregada por baixo. */
+function avisarQueAplicou() {
+  try {
+    document.dispatchEvent(new CustomEvent('formulario-aplicado'));
+  } catch (e) {
+    var ev = document.createEvent('Event');
+    ev.initEvent('formulario-aplicado', true, true);
+    document.dispatchEvent(ev);
+  }
 }
 
 /* ---------- ligar a pagina na conta ---------- */
@@ -427,7 +443,10 @@ function notificar(intencao) {
     })
   }).then(function (r) {
     return r.json()
-      .then(function (d) { return { ok: r.ok && d && d.ok === true, erro: d && d.erro }; })
+      .then(function (d) {
+        return { ok: r.ok && d && d.ok === true, erro: d && d.erro,
+                 whatsapp: d && d.whatsapp };
+      })
       .catch(function () { return { ok: r.ok }; });
   }).catch(function () { return { ok: false }; });
 
@@ -461,6 +480,24 @@ function solicitar(botao) {
       var aviso = document.getElementById('avisoFalta');
       if (aviso) {
         aviso.textContent = r.erro.charAt(0).toUpperCase() + r.erro.slice(1) + '.';
+        /* Quando o servidor manda um caminho alternativo (o WhatsApp, no caso
+           do freio), ele vira botao clicavel. Dizer "me chame no WhatsApp" sem
+           dar o WhatsApp e deixar a pessoa num beco — e ela ja esta na tela
+           justamente pra falar comigo. */
+        if (r.whatsapp) {
+          var a = document.createElement('a');
+          a.href = r.whatsapp;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'botao';
+          a.textContent = 'Falar no WhatsApp agora';
+          a.style.marginTop = '0.7rem';
+          a.style.display = 'inline-flex';
+          var velho = document.getElementById('atalhoWhats');
+          if (velho) { velho.remove(); }
+          a.id = 'atalhoWhats';
+          aviso.parentNode.insertBefore(a, aviso.nextSibling);
+        }
         aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       botao.disabled = false;

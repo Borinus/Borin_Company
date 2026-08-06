@@ -50,6 +50,10 @@
 
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --stack:  clamp(2.5rem, 4.5vw, 3.5rem);
+
+  /* o navegador pinta o que é dele — barra de rolagem, seletor — em claro por
+     padrão, mesmo com a página no escuro; declarar os dois faz ele acompanhar */
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -125,6 +129,25 @@ body {
 }
 
 .marca svg { width: min(13rem, 48%); height: auto; display: block; color: var(--ink); }
+
+/* A entrada da conta existia só numa linha do rodapé. Quem já é cliente caía
+   na home e tinha que rolar a página inteira pra achar como entrar — ou
+   desistia e mandava WhatsApp, que é o que a conta existe pra evitar. */
+.topo-linha {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem 2rem; flex-wrap: wrap;
+}
+.topo-linha .marca { flex: 1 1 12rem; }
+.topo-linha .marca svg { width: min(13rem, 100%); }
+.entrar-topo {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  min-height: 2.75rem; padding: 0 0.85rem;
+  font-family: var(--mono); font-size: var(--fs-micro);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-soft); text-decoration: none;
+  border: 1px solid var(--rule); white-space: nowrap; flex: none;
+}
+.entrar-topo:hover, .entrar-topo:focus-visible { color: var(--ink); border-color: var(--ink); }
 
 .hero { display: flex; flex-direction: column; gap: 1rem; }
 
@@ -657,6 +680,20 @@ td:last-child, th:last-child { padding-right: 0; }
 .link-expandir { min-height: 2.75rem; display: inline-flex; align-items: center; }
 .item { min-height: 2.75rem; }
 
+/* Link solto herdava o azul do navegador, a única cor fora da marca na
+   página. O que já tem estilo próprio fica de fora. */
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.entrar-topo):not(.link-expandir) {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.entrar-topo):not(.link-expandir):hover {
+  color: var(--acento);
+  text-decoration-color: var(--acento);
+}
+
 a:focus-visible, button:focus-visible, .botao:focus-visible {
   outline: 2px solid var(--acento); outline-offset: 3px;
 }
@@ -666,15 +703,19 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
 <div class="pagina">
 
   <header class="topo">
-    <div class="marca">
-      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
-        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
-          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
-          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
-          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
-          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
-        </g>
-      </svg>
+    <div class="topo-linha">
+      <div class="marca">
+        <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+            <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+            <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+            <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+            <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
+          </g>
+        </svg>
+      </div>
+
+      <a class="entrar-topo" id="entrarTopo" href="/entrar">Minha conta</a>
     </div>
 
     <div class="hero">
@@ -1356,6 +1397,23 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
 </div>
 
 <script>
+/* Quem já está logado não quer "Minha conta / Entrar" — quer ir direto pros
+   projetos. Uma chamada só, e se falhar o link continua sendo o de entrar,
+   que funciona pros dois casos. */
+(function () {
+  var a = document.getElementById('entrarTopo');
+  if (!a || !window.fetch) { return; }
+  fetch('/api/acesso/eu', { credentials: 'same-origin' })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d && d.entrou) {
+        a.textContent = 'Meus projetos';
+        a.href = '/conta';
+      }
+    })
+    .catch(function () {});
+})();
+
 (function () {
   ['pdf', 'xls'].forEach(function (lado) {
     var lista = document.querySelector('.bornes[data-lista="' + lado + '"]');

@@ -168,6 +168,43 @@ def arquitetura_clp():
 
 # ------------------------------------------------------------------ 3. térmico
 
+# Base de dissipação — SÓ ENTRA AQUI O QUE VEIO DE CATÁLOGO, com documento e
+# data. Regra #2 do AGENTS.md, valendo pra número técnico e não só pra preço:
+# dissipação chutada faz o painel ferver no cliente, e o defeito só aparece no
+# primeiro dia quente de janeiro, meses depois da entrega.
+#
+# Levantado em 05/08/2026 destes documentos:
+#   MDWH — WEG, "MDW Minidisjuntores", 50163906, pág. 17, tabela "Dissipação de
+#          potência MDWH (norma NBR NM 60898)"
+#          static.weg.net/medias/downloadcenter/ha8/h08/WEG-MDW-brochure-50163906-pt.pdf
+#   CWB  — WEG, "CWB - Contatores", 50042424, pág. 7
+#          static.weg.net/medias/downloadcenter/hb6/h0a/WEG-contatores-CWB-50042424-pt.pdf
+#
+# Dois cuidados que mudam o resultado:
+#   1. O valor do disjuntor é POR POLO. Um tripolar de 32 A dissipa 3 x 6 = 18 W,
+#      não 6 W. Esquecer isso subdimensiona a ventilação por um fator de três.
+#   2. É a máxima ADMITIDA pela norma, não a medida típica. Erra pro lado do
+#      frio — que é o lado certo de errar em painel.
+FONTE_MDWH = "WEG MDW 50163906 p.17 (05/08/2026)"
+FONTE_CWB = "WEG CWB 50042424 p.7 (05/08/2026)"
+
+BASE_DISSIPACAO = [
+    ["Disjuntor", "MDWH", "Minidisjuntor In < 10 A — por polo", "WEG", "", 3, 3, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 10 a 16 A — por polo", "WEG", "", 3.5, 3.5, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 16 a 25 A — por polo", "WEG", "", 4.5, 4.5, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 25 a 32 A — por polo", "WEG", "", 6, 6, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 32 a 40 A — por polo", "WEG", "", 7.5, 7.5, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 40 a 50 A — por polo", "WEG", "", 9, 9, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 50 a 63 A — por polo", "WEG", "", 13, 13, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 63 a 100 A — por polo", "WEG", "", 15, 15, FONTE_MDWH],
+    ["Disjuntor", "MDWH", "Minidisjuntor 100 a 125 A — por polo", "WEG", "", 20, 20, FONTE_MDWH],
+    ["Contator", "CWB", "Bobina CC, contator até 38 A (máximo)", "WEG", 5.8, "", 5.8, FONTE_CWB],
+    ["Contator", "CWB", "Bobina CA, contator até 38 A — 7,5 VA", "WEG", 7.5, "", 7.5, FONTE_CWB],
+    ["Fonte 24 VCC", "", "CALCULADO: Psaída x (1/rend - 1). Ex.: 240 W a 93% = 18 W", "", "", "", "", "rendimento do datasheet do modelo"],
+    ["Inversor", "", "CALCULADO: Pmotor x (1 - rend). Ex.: 5,5 kW a 97% = 165 W", "", "", "", "", "rendimento do datasheet do modelo"],
+]
+
+
 def design_termico():
     wb, ws = novo("Dissipação")
     carimbo(ws, 7)
@@ -237,14 +274,20 @@ def design_termico():
     wbase = wb.create_sheet("Base de dissipação")
     wbase["A1"] = "Base de dissipação por componente"
     wbase["A1"].font = f_secao
+    linhas_base = list(BASE_DISSIPACAO)
+    linhas_base.append(["", "", "", "", "", "", "=E%d+F%d" % (4 + len(BASE_DISSIPACAO),
+                                                              4 + len(BASE_DISSIPACAO)), ""])
     fim = tabela(
         wbase, 3,
         ["Categoria", "Código", "Descrição", "Fabricante", "Dissip. bobina (W)", "Dissip. contatos (W)", "Total (W)", "Fonte do dado"],
-        [18, 14, 38, 16, 18, 18, 14, 26],
-        exemplos=[["", "", "", "", "", "", "=E4+F4", ""]],
+        [18, 14, 38, 16, 18, 18, 14, 40],
+        exemplos=linhas_base,
         mono_cols=(2, 5, 6, 7),
     )
-    fim = nota(wbase, fim + 1, "Preencher a partir do catálogo de cada fabricante. Esta base cresce a cada projeto e é ativo próprio.")
+    fim = nota(wbase, fim + 1, "As linhas acima vieram do catálogo do fabricante, com documento e data na última coluna. Conferir na revisão do catálogo em uso.")
+    fim = nota(wbase, fim, "Disjuntor: o valor é POR POLO — multiplicar pelo número de polos. E é o MÁXIMO da norma, não o típico medido: erra a favor do frio.")
+    fim = nota(wbase, fim, "Fonte e inversor não têm valor de tabela: a dissipação sai do rendimento. Ver as duas últimas linhas.")
+    fim = nota(wbase, fim + 1, "Esta base cresce a cada projeto e é ativo próprio.")
     nota(wbase, fim, "Nunca copiar base de dados de terceiros — o dado é público no datasheet, a compilação é sua.")
     salvar(wb, "MODELO - Design Térmico.xlsx")
 

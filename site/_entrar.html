@@ -49,7 +49,37 @@
         <button type="submit" class="botao" id="btEntrar">Entrar</button>
       </div>
     </form>
-    <p class="aviso">Não recebeu ou perdeu a senha? Responda o email do orçamento que eu mando outra.</p>
+
+    <!-- Entrar com o Google. Só aparece se o Worker disser que está ligado
+         (GET /api/acesso/google devolve o client_id) — botão morto é pior que
+         botão nenhum. O iframe do botão é do próprio Google: é o desenho que
+         o cliente reconhece de todo site. -->
+    <div class="oculto" id="cxGoogle" style="margin-top:0.9rem">
+      <div style="display:flex;align-items:center;gap:0.7rem;color:#6B6B6B;font-size:0.82rem;margin-bottom:0.7rem">
+        <span style="flex:1;height:1px;background:#DCDCDC"></span>ou
+        <span style="flex:1;height:1px;background:#DCDCDC"></span>
+      </div>
+      <div id="btGoogle"></div>
+      <p class="recado ruim" id="erroGoogle"></p>
+    </div>
+
+    <!-- Quem não achou a senha estava sem saída: o pedido repetido deixou de
+         mandar senha nova (era o que confundia), então o único caminho era
+         esperar alguém responder na mão. Isto resolve na hora. -->
+    <p class="aviso">A senha é a que chegou no email com o assunto “Seu acesso”.
+      <button type="button" class="link-acao" id="btPerdi">Não achei minha senha</button></p>
+
+    <div class="oculto" id="cxReenviar" style="margin-top:0.6rem">
+      <div class="campo">
+        <label for="emailReenvio">Seu email</label>
+        <input type="email" id="emailReenvio" autocomplete="email" inputmode="email"
+               placeholder="o mesmo do pedido de orçamento">
+      </div>
+      <p class="recado" id="recadoReenvio"></p>
+      <div class="acoes">
+        <button type="button" class="botao botao--vazado" id="btReenviar">Mandar senha nova</button>
+      </div>
+    </div>
   </div>
 
   <!-- trocar a senha provisoria -->
@@ -121,6 +151,41 @@ function ocupado(bt, sim, rotulo) {
   bt.textContent = sim ? 'Um momento…' : rotulo;
 }
 
+/* ---------- não achei minha senha ---------- */
+
+document.getElementById('btPerdi').addEventListener('click', function () {
+  var cx = document.getElementById('cxReenviar');
+  cx.classList.remove('oculto');
+  this.classList.add('oculto');
+  /* já traz o email que a pessoa digitou em cima, pra não digitar duas vezes */
+  var e = document.getElementById('email').value.trim();
+  if (e) { document.getElementById('emailReenvio').value = e; }
+  document.getElementById('emailReenvio').focus();
+});
+
+document.getElementById('btReenviar').addEventListener('click', function () {
+  var bt = this;
+  var e = document.getElementById('emailReenvio').value.trim();
+  if (!/^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(e)) {
+    recado('recadoReenvio', 'Escreva um email válido.');
+    return;
+  }
+  ocupado(bt, true, 'Mandar senha nova');
+  api('reenviar', { email: e }).then(function (r) {
+    ocupado(bt, false, 'Mandar senha nova');
+    /* O servidor responde igual exista ou não a conta — dizer "esse email não
+       tem cadastro" entregaria a lista de clientes pra quem ficasse testando
+       endereços. O recado aqui acompanha essa escolha. */
+    recado('recadoReenvio', r.recado || r.erro
+      || 'Se esse email tiver conta aqui, a senha nova chega em instantes.');
+  });
+});
+
+/* Enter no campo do reenvio também manda */
+document.getElementById('emailReenvio').addEventListener('keydown', function (ev) {
+  if (ev.key === 'Enter') { ev.preventDefault(); document.getElementById('btReenviar').click(); }
+});
+
 /* pra onde ir depois de entrar: /entrar?ir=/projeto volta pra ficha */
 function destino() {
   var m = /[?&]ir=([^&]+)/.exec(location.search);
@@ -186,6 +251,46 @@ function dentro(r) {
     (r.contato ? r.contato.split(' ')[0] + ', tudo certo' : 'Tudo certo');
   mostrar('cxDentro');
 }
+
+/* ---------- entrar com o Google ---------- */
+
+/* O script do Google só é carregado se o Worker disser que o login está
+   ligado. Sem client_id configurado, a página fica exatamente como era. */
+function ligarGoogle() {
+  fetch('/api/acesso/google', { credentials: 'same-origin' })
+    .then(function (x) { return x.json(); })
+    .then(function (cfg) {
+      if (!cfg.client_id) { return; }
+      var s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.async = true;
+      s.onload = function () {
+        google.accounts.id.initialize({
+          client_id: cfg.client_id,
+          callback: function (resp) {
+            recado('erroGoogle', '');
+            api('google', { credential: resp.credential }).then(function (r) {
+              if (!r.ok) {
+                /* sem_conta: o Google confirmou o email, mas ninguém pediu
+                   orçamento com ele — a conta nasce lá, não aqui */
+                recado('erroGoogle', r.erro || 'não consegui entrar com o Google');
+                return;
+              }
+              location.href = destino() || '/conta';
+            });
+          }
+        });
+        google.accounts.id.renderButton(document.getElementById('btGoogle'), {
+          theme: 'outline', size: 'large', text: 'signin_with',
+          locale: 'pt-BR', width: 280
+        });
+        document.getElementById('cxGoogle').classList.remove('oculto');
+      };
+      document.head.appendChild(s);
+    })
+    .catch(function () { /* sem rede: a senha continua funcionando */ });
+}
+ligarGoogle();
 
 function carregar() {
   fetch('/api/acesso/eu', { credentials: 'same-origin' })

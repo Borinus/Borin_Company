@@ -17,6 +17,13 @@ projeto elétrico industrial ponta a ponta (freelancer, solo). Aqui ficam os cli
 - `tarefas.md` — lista de tarefas corrente
 - `templates/skills/` — templates de skills prontos pra personalizar com /mapear
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
+- `site/` — site da marca (fontes, build e publicação)
+- `CONFERENCIAS/` — sistema próprio de geração + conferência de projetos EPLAN. Ferramenta do Mateus,
+  que ele usa na FlowSistem onde presta serviço. Contexto próprio em `CONFERENCIAS/AGENTS.md`. Fora
+  do git porque a pasta guarda dados reais da FlowSistem — o código é dele, os dados não.
+  As skills dele (`/gerar-loop`, `/conferir`, `/atualizar-macros`, `/sync-teams`) e os subagentes
+  aparecem na raiz por junction em `.claude/skills/` e `.claude/agents/` — a fonte é sempre
+  `CONFERENCIAS/.claude/`, editar lá.
 
 ## Sobre o negócio
 
@@ -104,6 +111,95 @@ Não é necessário listar o que foi lido nem confirmar a leitura. Apenas usar o
 - Proposta fechada e contrato assinado ficam na pasta do cliente; modelos e versões em rascunho ficam em `comercial/`
 - Antes de definir escopo ou entregável de um projeto, consultar `padroes/` — é lá que mora o padrão de entrega
 - Chave de API ou token vai sempre no `.env`, nunca em arquivo versionado
+
+---
+
+## Três regras que vieram de erro repetido
+
+Escritas em 03/08/2026 depois de as mesmas falhas aparecerem quatro sessões seguidas.
+
+### 1. Teste só passa se eu provar que ele sabe falhar
+
+Um teste que fica verde sem exercitar nada é pior que teste nenhum: ele faz a gente
+parar de olhar. Casos reais deste projeto:
+
+- `eu === (process.env.CAIXA || '')` — sem a variável virava `'' === ''`, e o passo de
+  login passava **com ninguém logado**
+- os testes de admin batiam em `/api/admin/*`, rota que não existe. Caíam no 405 de
+  método e todos "recusavam" por acidente — a autenticação nunca foi tocada
+- o teste de injeção aceitava 429: o freio respondia antes e o passo dizia ok
+- o extrator de senha exigia minúscula; com `BORIN482913` passou a achar nada
+
+Antes de dizer que uma suíte está verde: quebrar de propósito o que ela testa e mostrar
+que ela fica vermelha. Se continuar verde, o teste é enfeite. E 404, 405 ou 429 nunca
+contam como sucesso — são "não cheguei a testar".
+
+**Rodar tudo:** `python testar-tudo.py` (offline, de graça) ou `--tudo`, que inclui a
+travessia e fala com o site de verdade. Antes de publicar, sempre `--tudo`.
+
+**O outro lado da mesma regra, aprendido em 05/08/2026:** teste que acusa defeito ERRADO
+custa igual. A travessia apontou 8 falhas na primeira execução e as 8 eram dela — batia
+em rota de admin achando que era do cliente, mandava campo com nome que o formulário não
+usa, e lia um campo que a resposta nunca teve (campo inexistente lê como lista vazia, e
+lista vazia parece defeito). Antes de dizer que achou um defeito no sistema, provar que o
+teste está chamando a coisa certa.
+
+**E o KV da Cloudflare é eventualmente consistente.** Escrever e ler no instante seguinte
+devolve o estado velho. Toda leitura de estado derivado em teste precisa insistir com
+espera — senão a suíte oscila, e suíte que oscila ninguém olha.
+
+### 2. Preço de terceiro nunca sai da memória
+
+Buscar a página oficial, citar a URL e a data. Vale pra Meta/WhatsApp, Cloudflare,
+Resend, Zoho, plano da Anthropic e qualquer cota.
+
+Custou caro duas vezes: eu afirmei que a franquia grátis da Meta cobria o caso de uso
+(cobre conversa que o **cliente** começa, não a que o negócio começa) e o Zoho tinha
+tirado o plano grátis do ar sem que eu soubesse.
+
+### 3. Nada pode falhar calado
+
+Quase todo defeito real deste projeto foi silêncio, não erro. O relay aberto, o cliente
+que volta e não recebe email nenhum, o pedido órfão depois de apagar a conta, o desconto
+que dependia de eu lembrar de uma opção, o registro da proposta que dava `return` quando
+não achava o segredo.
+
+Toda função que pode não fazer o que promete tem que dizer isso — em log, em retorno ou
+na tela. `return` calado dentro de `if (!x)` é o padrão a caçar.
+
+---
+
+## Armadilhas desta máquina
+
+Coisas que já custaram tempo mais de uma vez. Ler antes de perder de novo.
+
+- **Heredoc do bash come `\n` e barra invertida.** Script gerado por heredoc sai com
+  quebra de linha de verdade dentro da string, ou sem a barra. Usar a ferramenta Write
+  para qualquer script, sempre
+- **`wrangler kv key list/get` lê o KV LOCAL por padrão.** Sem `--remote` a chave "não
+  existe" mesmo existindo em produção
+- **A Cloudflare devolve erro 1010 pra user-agent de script.** Qualquer `urllib` sem
+  `User-Agent` de navegador leva 403 no site. Não é o site fora do ar
+- **O Git Bash converte `/padrao` em `C:/Program Files/Git/padrao`** ao passar por
+  variável de ambiente. Passar sem a barra e montar a rota no destino
+- **O mail.tm limita criação de caixa** e devolve 429 sem token. Tratar como limite do
+  serviço de teste, nunca como defeito do site
+- **O freio do site é 40 pedidos/hora por IP.** Rodar a bateria inteira duas vezes
+  estoura. Se der 429 no teste, é o freio, não regressão
+
+---
+
+## Conteúdo técnico de projeto é do Mateus
+
+Definido em 05/08/2026. **Simbologia, banco de artigos, memorial descritivo, dissipação, normas,
+cores de cabo, padrão de identificação** — nada disso se propõe, preenche ou "melhora" por conta
+própria. É o trabalho dele, e ele faz junto quando pedir.
+
+Vale também para *apontar pendência técnica*: não cobrar decisão de projeto nem listar isso como
+tarefa aberta. Se aparecer uma inconsistência técnica no meio de outra tarefa, mencionar uma vez e
+seguir — não transformar em item que volta toda sessão.
+
+O que continua sendo nosso: comercial, formalização, marca, site, sistema, automação e preço.
 
 ---
 

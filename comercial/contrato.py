@@ -330,7 +330,9 @@ def gerar(p, saida=None):
 </div></html>""" % (
         (p["contato"] or "[nome de quem assina]")
         + (", " + p["cadastro"]["rep_cargo"] if p.get("cadastro", {}).get("rep_cargo") else ""),
-        (p["empresa"] or "[Razão social]")
+        # bloco de assinatura é documento: aqui vale a razão social, nunca o
+        # nome comercial. O `empresa` só entra quando não há cadastro nenhum.
+        (p.get("razao_social") or p["empresa"] or "[Razão social]")
         + (" &middot; CNPJ " + p["cadastro"]["cnpj"] if p.get("cadastro", {}).get("cnpj") else ""))
 
     os.makedirs(PASTA, exist_ok=True)
