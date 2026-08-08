@@ -34,6 +34,13 @@ DESTINO = "mateusborin73@gmail.com"
 # VERDADE — resolve o cliente responder no numero automatico (que nao recebe).
 ZAP_TEMPLATE = "pedido_recebido_botoes"
 
+# Entrar com o Google. O client_id NAO e segredo — ele vai dentro do HTML de
+# qualquer site que use login do Google, e a seguranca vem da conferencia da
+# assinatura do token no google.js, nao de esconder isto. Por isso fica em
+# [vars] (versionado), nao em secret. Criado em 08/08/2026, projeto "Borin
+# Site", app publicado em producao (qualquer conta Google entra).
+GOOGLE_CLIENT_ID = "65339244748-lgt3gvfqip747m5b6pdhmuvel9s28jgt.apps.googleusercontent.com"
+
 # Conta do cliente. KV e nao banco: sao poucos registros, nenhuma consulta por
 # campo, e nao ha esquema pra migrar.
 [[kv_namespaces]]
