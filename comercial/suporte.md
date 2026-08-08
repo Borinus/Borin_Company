@@ -64,15 +64,31 @@ não quer assinar nada — e para o cliente descobrir sozinho que o anual sai ma
 - Projeto novo, ainda que pequeno — é projeto, tem proposta
 - Erro meu — sem limite e sem custo, sempre. Isso é contrato, não suporte
 
-## Números sugeridos, a confirmar
+## Números — fechados em 08/08/2026
 
-Partindo do piso de **R$ 235/h** de `precificacao.md`:
+Alinhados ao que `precificacao.md` **já decidiu**, não a um número novo. O documento de preço fixa a
+hora avulsa em **R$ 250** (*"hora avulsa a R$ 250 e não R$ 235 de propósito: escopo indefinido
+carrega risco"*) — então o avulso do suporte é R$ 250, não os R$ 280 que estavam sugeridos aqui. Um
+serviço com dois preços de hora diferentes é a incoerência que o cliente nota.
 
-| Formato | Sugestão | Raciocínio |
+| Formato | Preço | De onde sai |
 |---|---|---|
-| Avulso | R$ 280/h, mínimo 1 h | acima do piso: atendimento fora de fila custa mais |
-| Pacote 10 h | R$ 2.350 (R$ 235/h) | o preço cheio, com a vantagem de já estar pago |
-| Anual | R$ 490/mês, até 2 h/mês | R$ 5.880/ano, e o cliente compra tranquilidade, não horas |
+| **Avulso** | R$ 250/h, mínimo 1 h | o mesmo da hora avulsa de `precificacao.md`, já decidido |
+| **Pacote 10 h** | R$ 2.350 (R$ 235/h) | dez horas ao piso, com a vantagem de já estar pago |
+| **Anual** | R$ 490/mês, até 2 h/mês | R$ 5.880/ano; o único número que foi escolha, não conta |
+
+O único genuinamente discricionário é o **anual** — R$ 490/mês é o alvo. Os outros dois são
+aritmética sobre preços que já existiam. Se quiser mexer, é só nesse.
+
+**A conta que importa:** cinco clientes no anual são **R$ 2.450/mês** entrando antes de vender
+qualquer projeto — mais de um quarto da meta de R$ 8.940, com custo marginal perto de zero nos meses
+em que ninguém liga.
+
+### O mês 1 do anual — decidido: começa depois dos 30 dias
+
+Os 30 dias inclusos já cobrem o primeiro mês pós-entrega. O anual **começa a contar quando eles
+acabam** — sem mês grátis em cima de mês grátis, que confunde a cobrança e o teto de horas. Assim a
+primeira mensalidade vence 30 dias após a entrega, e o teto de 2 h vale a partir daí.
 
 **A conta que importa:** cinco clientes no anual são **R$ 2.450/mês** entrando antes de vender
 qualquer projeto — mais de um quarto da meta de R$ 8.940. Com o custo marginal perto de zero nos
@@ -89,6 +105,7 @@ está lendo com a decisão em aberto.
 
 Por isso a proposta em PDF já traz a linha "suporte após a entrega" — e é aí que a conversa começa.
 
-- [ ] Confirmar os três preços junto com a próxima revisão de `precificacao.md`
-- [ ] Escrever a cláusula de suporte pro `modelo-contrato.md`, com o teto de horas
-- [ ] Decidir se o mês 1 do anual entra grátis junto com os 30 dias inclusos
+- [x] Preços fechados em 08/08/2026 — avulso R$ 250 (alinhado ao `precificacao.md`), pacote 10 h R$ 2.350, anual R$ 490/mês
+- [x] Cláusula de suporte escrita — **Anexo IV** do `modelo-contrato.md`, opcional, com o teto de 2 h/mês e a regra "passou do teto, vira avulso"
+- [x] Mês 1 do anual decidido: começa **depois** dos 30 dias inclusos, sem grátis em cima de grátis
+- [ ] Passar o Anexo IV na mesma revisão de advogado que o resto do contrato já espera

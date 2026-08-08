@@ -35,7 +35,7 @@ condição de paridade.
 | **Itens fora do banco de artigos previstos** | [N] |
 | **Preço total** | **R$ [valor]** ([por extenso]) |
 | **Prazo de entrega** | [N] dias úteis |
-| **Anexos** | I — Proposta · II — Ficha Técnica, confirmada na forma da cláusula 6 · III — Padrão de Entrega |
+| **Anexos** | I — Proposta · II — Ficha Técnica, confirmada na forma da cláusula 6 · III — Padrão de Entrega[ · IV — Suporte, quando contratado] |
 | **Emails oficiais** | CLIENTE: [email], aos cuidados de [nome do representante] · BORIN: contato@borinprojetos.com.br |
 
 **1.** BORIN elabora a documentação do Quadro Resumo no formato do Padrão de Entrega, a partir da
@@ -171,6 +171,44 @@ Caxias do Sul/RS.
 [Cidade], [dd] de [mês] de [aaaa].
 
 
+
+---
+
+# Anexo IV — Suporte após a entrega (opcional)
+
+> **Só entra quando o CLIENTE contrata suporte.** Se a proposta não vendeu suporte pago, este anexo
+> não é anexado, e o contrato segue com os Anexos I a III. Escrito em 08/08/2026 a partir de
+> `comercial/suporte.md`; passa na mesma revisão de advogado que o corpo do contrato.
+
+**A.1 — O que está incluso sem custo.** Nos **30 dias corridos** após o aceite, BORIN atende dúvida
+de leitura do diagrama, da régua de bornes e das listas, sem custo e sem consumir horas de pacote. A
+correção de erro de BORIN é regida pela garantia da cláusula 15 e nunca depende deste anexo.
+
+**A.2 — Escopo do suporte pago.** Terminados os 30 dias, mediante a modalidade escolhida em A.4,
+BORIN presta: acompanhamento remoto de montagem e comissionamento; revisão por alteração pedida
+pelo CLIENTE a partir da 3ª rodada; *as-built* (atualização do projeto com o que mudou no campo);
+troca de componente por obsolescência; e reemissão de lista de identificação.
+
+**A.3 — O que não entra.** Visita presencial (orçada à parte, com deslocamento); projeto novo, ainda
+que pequeno, que segue como proposta própria; e erro de BORIN, que é garantia da cláusula 15, sem
+custo e sem limite.
+
+**A.4 — Modalidades e preços.** O CLIENTE escolhe uma, indicada no Quadro Resumo:
+
+| Modalidade | Preço | Como funciona |
+|---|---|---|
+| Avulso | R$ 250,00/h, mínimo 1 h | cobrado por acionamento, após execução aprovada por email |
+| Pacote de 10 h | R$ 2.350,00 | pré-pago, válido por 12 meses do aceite; horas não usadas não são restituídas |
+| Anual | R$ 490,00/mês | teto de 2 h por mês, sem acúmulo; começa 30 dias após a entrega |
+
+**A.5 — Teto do anual.** No plano anual, o atendimento que passar de 2 h no mês é cobrado como
+avulso da linha A.4, comunicado por email antes da execução. As horas não usadas no mês não passam
+para o mês seguinte. O plano é anual e se renova por igual período, salvo aviso escrito de qualquer
+das partes com 30 dias de antecedência.
+
+**A.6 — Pagamento do suporte.** Avulso e horas excedentes: 15 dias após a execução aprovada. Pacote:
+na contratação. Anual: mensal, com a primeira mensalidade vencendo 30 dias após a entrega do
+projeto. Aplicam-se a multa e os juros da cláusula 14.
 
 ---
 
