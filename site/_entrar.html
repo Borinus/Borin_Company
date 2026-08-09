@@ -50,17 +50,21 @@
       </div>
     </form>
 
-    <!-- Entrar com o Google. Só aparece se o Worker disser que está ligado
-         (GET /api/acesso/google devolve o client_id) — botão morto é pior que
-         botão nenhum. O iframe do botão é do próprio Google: é o desenho que
-         o cliente reconhece de todo site. -->
-    <div class="oculto" id="cxGoogle" style="margin-top:0.9rem">
-      <div style="display:flex;align-items:center;gap:0.7rem;color:#6B6B6B;font-size:0.82rem;margin-bottom:0.7rem">
-        <span style="flex:1;height:1px;background:#DCDCDC"></span>ou
-        <span style="flex:1;height:1px;background:#DCDCDC"></span>
+    <!-- Entrar com o Google ou a Microsoft. O container só aparece se ao menos
+         um provedor estiver ligado (o Worker devolve o client_id) — botão morto
+         é pior que botão nenhum. Um divisor "ou" só pros dois. -->
+    <div class="oculto" id="cxSocial" style="margin-top:0.9rem">
+      <div style="display:flex;align-items:center;gap:0.7rem;color:var(--ink-soft);font-size:0.82rem;margin-bottom:0.7rem">
+        <span style="flex:1;height:1px;background:var(--rule)"></span>ou
+        <span style="flex:1;height:1px;background:var(--rule)"></span>
       </div>
       <div id="btGoogle"></div>
-      <p class="recado ruim" id="erroGoogle"></p>
+      <button type="button" class="oculto" id="btMicrosoft"
+        style="margin-top:0.55rem;width:280px;max-width:100%;min-height:2.5rem;display:inline-flex;align-items:center;justify-content:center;gap:0.55rem;background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:0;font-family:var(--sans);font-size:0.875rem;font-weight:600;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 21 21" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg>
+        Continuar com a Microsoft
+      </button>
+      <p class="recado ruim" id="erroSocial"></p>
     </div>
 
     <!-- Quem não achou a senha estava sem saída: o pedido repetido deixou de
@@ -252,7 +256,10 @@ function dentro(r) {
   mostrar('cxDentro');
 }
 
-/* ---------- entrar com o Google ---------- */
+/* ---------- entrar com provedor social (Google / Microsoft) ---------- */
+
+/* O botão entra se a conta já existe E cria se não existe — o provedor já
+   provou que o email é da pessoa. Conta criada assim não tem senha. */
 
 /* O script do Google só é carregado se o Worker disser que o login está
    ligado. Sem client_id configurado, a página fica exatamente como era. */
@@ -268,12 +275,10 @@ function ligarGoogle() {
         google.accounts.id.initialize({
           client_id: cfg.client_id,
           callback: function (resp) {
-            recado('erroGoogle', '');
+            recado('erroSocial', '');
             api('google', { credential: resp.credential }).then(function (r) {
               if (!r.ok) {
-                /* sem_conta: o Google confirmou o email, mas ninguém pediu
-                   orçamento com ele — a conta nasce lá, não aqui */
-                recado('erroGoogle', r.erro || 'não consegui entrar com o Google');
+                recado('erroSocial', r.erro || 'não consegui entrar com o Google');
                 return;
               }
               location.href = destino() || '/conta';
@@ -281,16 +286,108 @@ function ligarGoogle() {
           }
         });
         google.accounts.id.renderButton(document.getElementById('btGoogle'), {
-          theme: 'outline', size: 'large', text: 'signin_with',
+          theme: 'outline', size: 'large', text: 'continue_with',
           locale: 'pt-BR', width: 280
         });
-        document.getElementById('cxGoogle').classList.remove('oculto');
+        document.getElementById('cxSocial').classList.remove('oculto');
       };
       document.head.appendChild(s);
     })
     .catch(function () { /* sem rede: a senha continua funcionando */ });
 }
 ligarGoogle();
+
+/* ---------- Microsoft: fluxo implícito por redirect (sem SDK, sem secret) ----
+   O botão leva o navegador ao login da Microsoft, que redireciona de volta pra
+   /entrar com um id_token no fragmento (#). A página lê o token, confere state
+   e nonce, e posta pro Worker, que valida a assinatura (microsoft.js). */
+
+function rnd() {
+  if (window.crypto && crypto.getRandomValues) {
+    var a = new Uint8Array(16);
+    crypto.getRandomValues(a);
+    return Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+  }
+  return String(Math.random()).slice(2) + String(Math.random()).slice(2);
+}
+
+/* lê só o campo nonce do corpo do JWT, pra conferir contra o que mandamos.
+   A segurança de verdade é a assinatura, conferida no Worker; isto é defesa
+   a mais contra um token injetado de outra sessão. */
+function nonceDoToken(jwt) {
+  try {
+    var p = jwt.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (p.length % 4) { p += '='; }
+    return (JSON.parse(atob(p)) || {}).nonce || '';
+  } catch (e) { return ''; }
+}
+
+function ligarMicrosoft() {
+  fetch('/api/acesso/microsoft', { credentials: 'same-origin' })
+    .then(function (x) { return x.json(); })
+    .then(function (cfg) {
+      if (!cfg.client_id) { return; }
+      var bt = document.getElementById('btMicrosoft');
+      bt.classList.remove('oculto');
+      document.getElementById('cxSocial').classList.remove('oculto');
+      bt.addEventListener('click', function () {
+        var nonce = rnd(), state = rnd();
+        sessionStorage.setItem('ms.nonce', nonce);
+        sessionStorage.setItem('ms.state', state);
+        var p = new URLSearchParams({
+          client_id: cfg.client_id,
+          response_type: 'id_token',
+          redirect_uri: location.origin + '/entrar',
+          scope: 'openid email profile',
+          response_mode: 'fragment',
+          nonce: nonce,
+          state: state
+        });
+        location.href = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?' + p.toString();
+      });
+    })
+    .catch(function () {});
+}
+ligarMicrosoft();
+
+/* Volta da Microsoft: id_token (ou erro) vem no fragmento. Roda antes do
+   carregar() normal e assume a página se detectar um retorno. */
+function checarRetornoMicrosoft() {
+  if (!location.hash || location.hash.length < 2) { return false; }
+  var h = new URLSearchParams(location.hash.slice(1));
+  var idt = h.get('id_token');
+  var erro = h.get('error');
+  if (!idt && !erro) { return false; }
+
+  /* limpa o fragmento da URL na hora — token não fica na barra nem no histórico */
+  history.replaceState(null, '', location.pathname + location.search);
+  mostrar('cxEntrar');
+
+  if (erro) {
+    recado('erroSocial', 'A Microsoft não concluiu o login. Tente de novo ou use a senha.');
+    return true;
+  }
+  if (h.get('state') !== sessionStorage.getItem('ms.state')) {
+    recado('erroSocial', 'Sessão do login não confere. Tente de novo.');
+    return true;
+  }
+  if (nonceDoToken(idt) !== sessionStorage.getItem('ms.nonce')) {
+    recado('erroSocial', 'Sessão do login não confere. Tente de novo.');
+    return true;
+  }
+  sessionStorage.removeItem('ms.nonce');
+  sessionStorage.removeItem('ms.state');
+
+  recado('erroSocial', '');
+  api('microsoft', { credential: idt }).then(function (r) {
+    if (!r.ok) {
+      recado('erroSocial', r.erro || 'não consegui entrar com a Microsoft');
+      return;
+    }
+    location.href = destino() || '/conta';
+  });
+  return true;
+}
 
 function carregar() {
   fetch('/api/acesso/eu', { credentials: 'same-origin' })
@@ -301,7 +398,9 @@ function carregar() {
     .catch(function () { mostrar('cxEntrar'); });
 }
 
-carregar();
+/* se a página é a volta do login da Microsoft, o retorno assume — não roda o
+   carregar() normal (que redirecionaria antes do POST do token acontecer) */
+if (!checarRetornoMicrosoft()) { carregar(); }
 </script>
 
 <!-- ANALYTICS -->

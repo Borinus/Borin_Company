@@ -46,10 +46,18 @@ export function emailValido(v) {
   return /^[^\s@]{1,64}@[^\s@.]{1,63}(\.[^\s@.]{2,63})+$/.test(String(v || "").trim());
 }
 
-function inteiro(v, max) {
-  const n = parseInt(String(v || "").replace(/\D/g, ""), 10);
-  if (!isFinite(n) || n < 0) return 0;
-  return Math.min(n, max);
+/* Campo de contagem opcional. VAZIO e ok (vale 0). Texto nao-numerico e
+   RECUSADO — nao coagido.
+   Antes isto era `inteiro()`, que fazia replace(/\D/g,"") e parseInt: "10 a 15"
+   virava 1015 e "abc" virava 0, os dois em silencio. Coacao calada e o padrao
+   que a regra #3 do AGENTS.md manda cacar — o dado do cliente sumia ou se
+   deformava sem ninguem ver. Agora o servidor devolve o erro, o front mostra,
+   e o mascara do site ja impede o cliente de digitar letra em primeiro lugar. */
+function numero(v, max) {
+  const s = String(v || "").trim();
+  if (!s) return { n: 0 };
+  if (!/^\d+$/.test(s)) return { erro: true };
+  return { n: Math.min(parseInt(s, 10), max) };
 }
 
 function daLista(v, lista) {
@@ -62,6 +70,10 @@ function daLista(v, lista) {
  * limpo, com tamanho e formato conferidos no servidor.
  */
 export function lerPedido(dados) {
+  const nIos = numero(dados.ios, 100000);
+  const nAcio = numero(dados.acionamentos, 10000);
+  const nSeg = numero(dados.seg_qtd, 10000);
+
   const p = {
     empresa: limpo(dados.empresa, 120),
     contato: limpo(dados.contato, 120),
@@ -72,9 +84,9 @@ export function lerPedido(dados) {
     escopo: daLista(dados.escopo, ["A", "B", "?"]),
     nr12: daLista(dados.nr12, ["sim", "nao", "?"]),
     canal: daLista(dados.canal, ["email", "email+whats"]) || "email",
-    ios: inteiro(dados.ios, 100000),
-    acionamentos: inteiro(dados.acionamentos, 10000),
-    seg_qtd: inteiro(dados.seg_qtd, 10000),
+    ios: nIos.n || 0,
+    acionamentos: nAcio.n || 0,
+    seg_qtd: nSeg.n || 0,
     prazo: limpo(dados.prazo, 40),
     observacao: limpo(dados.observacao, LIMITE_TEXTO),
   };
@@ -87,6 +99,11 @@ export function lerPedido(dados) {
   if (p.canal === "email+whats" && p.fone.replace(/\D/g, "").length < 12) {
     falta.push("o WhatsApp completo, com DDD");
   }
+  /* contagens: opcionais, mas se vieram tem que ser numero. So o site ja
+     impede letra pela mascara; isto pega o pedido montado na mao ou por robo. */
+  if (nIos.erro) falta.push("os pontos de I/O só em número");
+  if (nAcio.erro) falta.push("os acionamentos só em número");
+  if (nSeg.erro) falta.push("os dispositivos de segurança só em número");
   return { p, falta };
 }
 

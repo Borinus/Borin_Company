@@ -154,11 +154,13 @@
       <div class="grade grade--larga">
         <div class="campo">
           <label for="acionamentos">Acionamentos</label>
-          <input type="text" id="acionamentos" placeholder="partidas de motor, inversores, válvulas e resistências">
+          <input type="text" id="acionamentos" inputmode="numeric" oninput="mascaraNumero(this)" placeholder="quantos, ao todo — ex.: 8">
+          <span class="campo__dica">Some partidas de motor, inversores, válvulas e resistências.</span>
         </div>
         <div class="campo">
           <label for="ios">Pontos de I/O <span style="font-weight:400; color:var(--ink-soft)">(se souber)</span></label>
-          <input type="text" id="ios" placeholder="entradas e saídas somadas">
+          <input type="text" id="ios" inputmode="numeric" oninput="mascaraNumero(this)" placeholder="só o número — ex.: 96">
+          <span class="campo__dica">Entradas e saídas somadas.</span>
         </div>
         <div class="campo">
           <span style="font-size:var(--fs-small); font-weight:600">A máquina tem NR-12?</span>
@@ -179,7 +181,8 @@
         </div>
         <div class="campo se-nr12">
           <label for="seg_qtd">Quantos dispositivos de segurança</label>
-          <input type="text" id="seg_qtd" placeholder="emergência, trava de porta, cortina, scanner, tapete">
+          <input type="text" id="seg_qtd" inputmode="numeric" oninput="mascaraNumero(this)" placeholder="quantos, ao todo — ex.: 6">
+          <span class="campo__dica">Emergência, trava de porta, cortina, scanner, tapete.</span>
         </div>
         <div class="campo">
           <label for="prazo">Data alvo de entrega <span style="font-weight:400; color:var(--ink-soft)">(se já tem)</span></label>

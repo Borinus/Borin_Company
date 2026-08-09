@@ -24,6 +24,7 @@ import { guardarArquivo, listarArquivos, lerArquivo, apagarArquivo,
          limparCodigo, LIMITE_ARQUIVO } from "./arquivos.js";
 import { montarPainel } from "./painel.js";
 import { validarTokenGoogle, buscarJwks } from "./google.js";
+import { validarTokenMicrosoft, buscarJwksMicrosoft } from "./microsoft.js";
 
 const SESSAO_HORAS = 12;
 const TENTATIVAS_MAX = 8;      // por email, antes de travar
@@ -285,29 +286,96 @@ async function entrarComGoogle(request, env, dados) {
     return json({ erro: "não consegui confirmar sua conta Google. tente de novo" }, 401);
   }
 
-  const email = normalizarEmail(r.email);
-  const cru = await env.CLIENTES.get("cliente:" + email);
-  if (!cru) {
-    return json({
-      erro: "não achei conta para " + email + ". a conta é criada junto com o "
-          + "pedido de orçamento",
-      sem_conta: true,
-    }, 404);
-  }
-  const conta = JSON.parse(cru);
-
-  /* entrou pelo Google = dono do email confirmado. A trava de tentativas de
-     senha perde o motivo de existir pra essa conta agora. */
-  await env.CLIENTES.delete("freio:" + email);
-  const cookie = await abrirSessao(env, email);
+  const { conta, criada, cookie } = await entrarOuCriarPorEmail(
+    env, r.email, r.nome, "entrar com o Google");
   return json({
     ok: true,
     empresa: conta.empresa,
     contato: conta.contato,
-    /* mesmo que a conta ainda tenha senha provisoria, quem entra pelo Google
-       nao precisa trocar senha nenhuma — o caminho dele nao passa por ela */
     senha_provisoria: false,
     google: true,
+    criada,
+  }, 200, { "Set-Cookie": cookie });
+}
+
+/**
+ * Login social (Google/Microsoft): o provedor JÁ PROVOU que o email é da
+ * pessoa, então a conta entra direto — e nasce na hora se ainda não existe.
+ *
+ * A conta criada aqui NÃO tem senha usável: o cliente entra só pela conexão da
+ * conta. Guarda-se um hash de uma senha aleatória que ninguém conhece só pra
+ * manter o mesmo formato das outras contas; ele nunca é usado pra login.
+ *
+ * empresa_id e papel NÃO nascem aqui: o primeiro quemE() resolve via
+ * garantirEmpresa (é assim que toda conta funciona, inclusive a do pedido).
+ * Por isso conta sem empresa vinculada é válida — o cliente preenche a empresa
+ * quando pedir um orçamento, e o vínculo é sempre o email.
+ */
+async function entrarOuCriarPorEmail(env, emailCru, nome, origem) {
+  const email = normalizarEmail(emailCru);
+  let cru = await env.CLIENTES.get("cliente:" + email);
+  let criada = false;
+
+  if (!cru) {
+    const salt = aleatorio(16);
+    const senha = gerarSenha();          // aleatória, nunca usada pra entrar
+    const nova = {
+      email,
+      empresa: "",
+      contato: (nome || "").slice(0, 120),
+      salt,
+      hash: await derivar(senha, salt, env.PIMENTA),
+      provisorias_antigas: [],
+      criado_em: new Date().toISOString(),
+      senha_provisoria: false,
+      estado: "ativa",
+      origem,
+    };
+    await env.CLIENTES.put("cliente:" + email, JSON.stringify(nova));
+    cru = JSON.stringify(nova);
+    criada = true;
+  }
+
+  const conta = JSON.parse(cru);
+  /* entrou por provedor social = dono do email confirmado. A trava de
+     tentativas de senha perde o motivo de existir pra essa conta agora. */
+  await env.CLIENTES.delete("freio:" + email);
+  const cookie = await abrirSessao(env, email);
+  return { conta, criada, cookie };
+}
+
+/**
+ * Entrar com a Microsoft. Espelha entrarComGoogle: o botão devolve um id_token
+ * da Microsoft, o microsoft.js confere a assinatura contra o JWKS da Microsoft,
+ * e só então o email do token vira verdade. Cria a conta se não existir.
+ */
+async function entrarComMicrosoft(request, env, dados) {
+  if (!env.MICROSOFT_CLIENT_ID) {
+    return json({ erro: "a entrada com Microsoft ainda não está ligada" }, 503);
+  }
+  let jwks;
+  try {
+    jwks = await buscarJwksMicrosoft();
+  } catch (e) {
+    console.error("certs da Microsoft fora do ar:", e && e.message);
+    return json({ erro: "não consegui falar com a Microsoft agora. use a senha" }, 502);
+  }
+  const r = await validarTokenMicrosoft(dados.credential, jwks,
+                                        { aud: env.MICROSOFT_CLIENT_ID });
+  if (!r.ok) {
+    console.error("token Microsoft recusado:", r.motivo);
+    return json({ erro: "não consegui confirmar sua conta Microsoft. tente de novo" }, 401);
+  }
+
+  const { conta, criada, cookie } = await entrarOuCriarPorEmail(
+    env, r.email, r.nome, "entrar com a Microsoft");
+  return json({
+    ok: true,
+    empresa: conta.empresa,
+    contato: conta.contato,
+    senha_provisoria: false,
+    microsoft: true,
+    criada,
   }, 200, { "Set-Cookie": cookie });
 }
 
@@ -1033,6 +1101,7 @@ export async function rotaAcesso(request, env, url) {
        informacao publica (vai dentro da propria pagina em qualquer site que
        use Google); null = botao nao aparece, em vez de um botao morto */
     if (rota === "google") return json({ client_id: env.GOOGLE_CLIENT_ID || null });
+    if (rota === "microsoft") return json({ client_id: env.MICROSOFT_CLIENT_ID || null });
     if (rota === "ficha") return lerFicha(request, env, url);
     if (rota === "projetos") return listarProjetos(request, env);
     if (rota === "equipe") return verEquipe(request, env);
@@ -1063,6 +1132,7 @@ export async function rotaAcesso(request, env, url) {
   if (rota === "criar") return criar(request, env, dados);
   if (rota === "entrar") return entrar(request, env, dados);
   if (rota === "google") return entrarComGoogle(request, env, dados);
+  if (rota === "microsoft") return entrarComMicrosoft(request, env, dados);
   if (rota === "trocar") return trocarSenha(request, env, dados);
   if (rota === "reenviar") return reenviarSenha(request, env, dados);
   if (rota === "sair") return sair(request, env);
