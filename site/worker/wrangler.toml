@@ -45,7 +45,10 @@ GOOGLE_CLIENT_ID = "65339244748-lgt3gvfqip747m5b6pdhmuvel9s28jgt.apps.googleuser
 # não é segredo — vai na URL de login. A segurança vem da conferência da
 # assinatura do id_token no microsoft.js. Preencher com o ID do app registrado
 # em portal.azure.com (Entra ID > App registrations). Vazio = botão não aparece.
-MICROSOFT_CLIENT_ID = ""
+# App "Borin Projetos Elétricos" registrado no Entra ID em 09/08/2026, contas
+# multilocatário + pessoais, redirect https://borinprojetos.com.br/entrar,
+# ID tokens habilitado (fluxo implícito). Não é segredo — vai na URL de login.
+MICROSOFT_CLIENT_ID = "6eedbd6d-a79b-4e19-be6c-45edbfbfde22"
 
 # Conta do cliente. KV e nao banco: sao poucos registros, nenhuma consulta por
 # campo, e nao ha esquema pra migrar.
