@@ -74,13 +74,9 @@
   --invert-bg: #171717; --invert-ink: #FFFFFF; --acento: #C1121F;
 }
 
-/* obrigatorio junto com o doctype: sem isso o box model muda e a grade,
-   as reguas e o carimbo passam a contar padding por fora da largura */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  /* sem isto o navegador aplica 8px de margem e a largura util encolhe;
-     no celular era o suficiente pra os dois botoes do hero empilharem */
   margin: 0;
   background: var(--ground);
   color: var(--ink);
@@ -90,16 +86,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.pagina {
-  /* com border-box o max-width passou a incluir o padding lateral; somar a
-     goteira mantem a largura de conteudo que a pagina sempre teve */
-  max-width: calc(74rem + 2 * var(--gutter));
-  margin: 0 auto;
-  padding: 0 var(--gutter) var(--stack);
-  display: flex;
-  flex-direction: column;
-  gap: var(--stack);
-}
+/* rolagem suave do "Como funciona ↓" — desligada pra quem pede menos movimento */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+a { color: var(--ink); }
 
 .rotulo {
   font-family: var(--mono);
@@ -109,496 +100,160 @@ body {
   color: var(--ink-micro);
 }
 
-/* link no corpo do texto: nunca azul, sublinhado fino, acento no hover */
-.pagina p a, .pagina li a {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  text-decoration-color: var(--rule);
+/* ---------- barra fixa ---------- */
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule);
 }
-.pagina p a:hover, .pagina li a:hover { text-decoration-color: var(--acento); }
+.barra__in {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 0.5rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+svg.barra__marca { width: 6.5rem; height: auto; display: block; color: var(--ink); flex: none; }
+.barra__acoes { display: flex; align-items: center; gap: 0.6rem; }
 
-/* ---------- topo ---------- */
+/* o quadrado vermelho e a ação primária são a ÚNICA cor fora do monocromático */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  background: var(--acento);
+  color: #FFFFFF;
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  padding: 0.9rem 1.7rem;
+  border: 1px solid var(--acento);
+  border-radius: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--ink); border-color: var(--ink); color: var(--ground); }
+.btn--sm { min-height: 2.5rem; padding: 0 1.1rem; font-size: var(--fs-small); }
 
-.topo {
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+/* ---------- container ---------- */
+
+.env {
+  max-width: calc(74rem + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--stack);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  gap: var(--stack);
 }
 
-.marca svg { width: min(13rem, 48%); height: auto; display: block; color: var(--ink); }
+/* ---------- hero ---------- */
 
-/* A entrada da conta existia só numa linha do rodapé. Quem já é cliente caía
-   na home e tinha que rolar a página inteira pra achar como entrar — ou
-   desistia e mandava WhatsApp, que é o que a conta existe pra evitar. */
-.topo-linha {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  gap: 1rem 2rem; flex-wrap: wrap;
-}
-.topo-linha .marca { flex: 1 1 12rem; }
-.topo-linha .marca svg { width: min(13rem, 100%); }
-.entrar-topo {
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  min-height: 2.75rem; padding: 0 0.85rem;
-  font-family: var(--mono); font-size: var(--fs-micro);
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-soft); text-decoration: none;
-  border: 1px solid var(--rule); white-space: nowrap; flex: none;
-}
-.entrar-topo:hover, .entrar-topo:focus-visible { color: var(--ink); border-color: var(--ink); }
-
-.hero { display: flex; flex-direction: column; gap: 1rem; }
-
+.hero { display: flex; flex-direction: column; gap: 1.4rem; padding-top: clamp(2rem, 4vw, 3.5rem); }
 .hero h1 {
   font-size: var(--fs-hero);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.02;
   text-wrap: balance;
-  max-width: 17ch;
+  max-width: 19ch;
   margin: 0;
 }
-
 .hero__texto { max-width: 54ch; color: var(--ink-soft); margin: 0; }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
 
-.hero__acoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-
-.botao {
-  display: inline-block;
-  background: var(--ink);
-  color: var(--ground);
-  font-size: var(--fs-small);
-  font-weight: 600;
-  padding: 0.75rem 1.4rem;
-  border: 1px solid var(--ink);
-  text-decoration: none;
-}
-.botao:hover { background: transparent; color: var(--ink); }
-.botao--vazado { background: transparent; color: var(--ink); }
-.botao--vazado:hover { background: var(--ink); color: var(--ground); }
-
-
-/* ---------- prazos no hero ---------- */
-
-.prazos {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  margin-top: 0.4rem;
-}
-
-.prazo {
-  background: var(--ground);
-  padding: 0.85rem 1rem 0.95rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.prazo__valor {
-  font-size: 1.375rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-/* a comparacao com o mercado e o argumento mais forte da pagina; estava em
-   micro cinza, do tamanho de nota de rodape. Vira uma linha de dado, com
-   regua em cima e o valor legivel — comparacao, nao rodape */
-.prazo__ref {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: 0.2rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-micro);
-}
-
-.prazo__ref b {
-  font-size: var(--fs-small);
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink-soft);
-  white-space: nowrap;
-}
-
-.prazos__nota {
-  font-size: var(--fs-small);
-  color: var(--ink-soft);
-  max-width: 72ch;
-  margin: 0;
-}
-
-@media (max-width: 52rem) { .prazos { grid-template-columns: 1fr; } }
-
-/* ---------- condição ---------- */
-
-.condicoes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.condicao {
-  background: var(--ground);
-  padding: 1.1rem 1.15rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.condicao__marcador { display: flex; align-items: center; gap: 0.5rem; }
-.condicao__marcador .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
-.condicao p { margin: 0; }
-.condicao__titulo { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
-.condicao__texto { font-size: var(--fs-small); color: var(--ink-soft); max-width: 66ch; }
-
-/* ---------- seções ---------- */
-
-.secao { display: flex; flex-direction: column; gap: 1.1rem; }
-
-.secao__cabeca { border-top: 1px solid var(--ink); padding-top: 0.7rem; }
-
-.secao__cabeca h2 {
-  font-size: var(--fs-h2);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  margin: 0;
-}
-
-.secao__cabeca p {
-  max-width: 68ch;
-  color: var(--ink-soft);
-  font-size: var(--fs-small);
-  margin: 0.3rem 0 0;
-}
-
-/* ---------- fluxo ---------- */
-
-.fluxo {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.etapa-fluxo {
-  background: var(--ground);
-  padding: 1.1rem 1.15rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-
-.etapa-fluxo__topo { display: flex; align-items: center; gap: 0.5rem; }
-.etapa-fluxo__topo .no { width: 0.5rem; height: 0.5rem; background: var(--ink); flex: none; }
-.etapa-fluxo--voce .no { background: var(--acento); }
-.etapa-fluxo__topo span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; }
-
-.etapa-fluxo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.etapa-fluxo li {
-  font-size: var(--fs-small);
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-.etapa-fluxo li:last-child { border-bottom: 0; }
-.etapa-fluxo__nota { font-size: var(--fs-micro); color: var(--ink-soft); margin: 0; font-family: var(--mono); line-height: 1.6; }
-
-@media (max-width: 64rem) { .fluxo { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 40rem) { .fluxo { grid-template-columns: 1fr; } }
-
-/* ---------- figuras ---------- */
-
-.figuras {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.figura { background: var(--ground); padding: 1rem 1.15rem 1.15rem; display: flex; flex-direction: column; gap: 0.7rem; }
-.figura svg { width: 100%; max-width: 30rem; height: auto; display: block; color: var(--ink); }
-.figura figcaption { font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro); line-height: 1.6; margin: 0; }
-.figura figcaption b { color: var(--ink); font-weight: 400; display: block; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
-
-/* ---------- pacote ---------- */
-
-.regua {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-
-.regua__bloco {
-  background: var(--ground);
-  padding: 1rem 1.15rem 1.15rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-
-.bornes { list-style: none; margin: 0; padding: 0; }
-
-.bornes > li {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  font-size: var(--fs-small);
-  padding: 0.42rem 0;
-}
-
-/* o borne: quadrado numerado, como no diagrama de regua */
-.borne {
-  flex: none;
-  width: 1.35rem;
-  height: 1.35rem;
-  border: 1px solid var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  line-height: 1;
-}
-
-/* o fio que sai do borne pro destino */
-.fio {
-  flex: none;
-  width: 1.1rem;
-  height: 1px;
-  background: var(--ink);
-  margin-right: 0.6rem;
-}
-
-/* o ultimo ponto da regua fecha com o acento, como o no do logo */
-.bornes > li:last-child .borne { border-color: var(--acento); color: var(--acento); }
-.bornes > li:last-child .fio { background: var(--acento); }
-
-.bornes > li { padding: 0; }
-
-/* o item inteiro e o alvo do clique */
-.item {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  width: 100%;
-  text-align: left;
-  font-family: var(--sans);
-  font-size: var(--fs-small);
-  color: var(--ink);
-  background: none;
-  border: 0;
-  border-radius: 0;
-  padding: 0.42rem 0;
-  cursor: pointer;
-}
-.item--estatico { cursor: default; }
-
-/* indentacao do que esta dentro de uma instalacao */
-.dentro .item { padding-left: 1.2rem; }
-
-/* cabecalho de instalacao: nao clicavel */
-.grupo {
-  font-family: var(--mono);
-  font-size: var(--fs-small);
-  color: var(--ink);
-  padding: 0.55rem 0 0.2rem;
-}
-
-/* afordancia: no hover o fio acende */
-.item:not(.item--estatico):hover .fio { background: var(--acento); }
-.item:not(.item--estatico):hover .borne { border-color: var(--acento); }
-
-/* selecionado: borne cheio em Comando.
-   O seletor leva o `.bornes > li` na frente porque a regra do :last-child
-   abaixo tem especificidade maior — sem isso, o ultimo item fica com texto
-   vermelho sobre fundo vermelho e o numero some. */
-.bornes > li .item.ativo .borne {
-  background: var(--acento);
-  border-color: var(--acento);
-  color: var(--papel);
-}
-.bornes > li .item.ativo .fio { background: var(--acento); }
-.item.ativo { font-weight: 600; }
-
-.dica-clique {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin: 0;
-}
-.dica-clique .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
-
-/* cabecalho da coluna, com o botao de abrir.
-   nowrap de proposito: com wrap o botao descia pra uma segunda linha e o
-   cabecalho ficava com o dobro da altura das outras colunas */
-.regua__topo {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: nowrap;
-}
-.regua__topo > .rotulo { white-space: nowrap; }
-
-.link-expandir {
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--rule);
-  padding: 0 0 0.1rem;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.link-expandir:hover { color: var(--ink); border-bottom-color: var(--acento); }
-
-/* fechada: so o item selecionado aparece */
-.bornes.fechada > li { display: none; }
-.bornes.fechada > li.visivel { display: block; }
-
-/* o numero repetido na legenda amarra a figura ao item */
-.figura figcaption .borne {
-  display: inline-flex;
-  width: 1.2rem;
-  height: 1.2rem;
-  margin-right: 0.5rem;
-  vertical-align: -0.25rem;
-  background: var(--acento);
-  border-color: var(--acento);
-  color: var(--papel);
-}
-.figura figcaption b { display: flex; align-items: center; }
-
-/* a figura acende por um instante quando recebe o clique */
-.figura.piscou { animation: piscar 0.9s ease-out; }
-@keyframes piscar {
-  0%   { background: var(--ground-alt); }
-  100% { background: var(--ground); }
-}
-
-/* so a figura ativa aparece */
-.figura { display: none; }
-.figura.ativo { display: flex; }
-.figuras { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
-.figuras__lado { background: var(--ground); display: flex; flex-direction: column; }
-
-.tag-b {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  border: 1px solid var(--rule);
-  padding: 0.02rem 0.3rem;
-  color: var(--ink-soft);
-  margin-left: 0.3rem;
-  white-space: nowrap;
-}
-
-/* a regua e as figuras sao um bloco so, divididos por um fio */
-.pacote-box { border: 1px solid var(--rule); }
-.pacote-box .regua,
-.pacote-box .figuras { border: 0; max-width: none; }
-.pacote-box .figuras { border-top: 1px solid var(--rule); }
-
-/* tabela dentro de secao ganha a mesma moldura do resto da pagina */
-.secao > .tabela-wrap {
-  border: 1px solid var(--rule);
-  padding: 0.4rem 1.15rem 0.9rem;
-}
-
-/* link discreto no fim do rodape */
-.rodape-acao { margin: 0.7rem 0 0; text-align: right; }
-.rodape-acao a {
+.desce {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  font-family: var(--mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-micro);
+  padding: 0 0.5rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--ink);
   text-decoration: none;
   border-bottom: 1px solid var(--rule);
 }
-.rodape-acao a:hover { color: var(--ink); border-bottom-color: var(--acento); }
+.desce:hover { border-bottom-color: var(--acento); }
 
-/* ---------- conferência ---------- */
+/* grade genérica de cartões: fio de 1px aparecendo por baixo */
+.cartoes { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.cel { background: var(--ground); padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; }
 
-.checagem {
-  display: grid;
-  /* fixo, e sempre divisor de 12 — com auto-fit sobrava celula vazia
-     mostrando o fundo da grade */
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-@media (max-width: 64rem) { .checagem { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 44rem) { .checagem { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 30rem) { .checagem { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.checagem div {
-  background: var(--ground);
-  padding: 0.65rem 0.9rem;
-  font-size: var(--fs-small);
-  display: flex;
-  gap: 0.5rem;
-}
-.checagem span { font-family: var(--mono); color: var(--ink-soft); font-size: var(--fs-micro); padding-top: 0.15rem; }
+.prazos { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0.4rem; }
+.prazos .cel { gap: 0.3rem; padding: 0.85rem 1rem 0.95rem; }
+.prazo__dias { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.prazo__mkt { font-size: var(--fs-small); color: var(--ink-soft); }
 
-/* ---------- tabelas ---------- */
+/* ---------- seções ---------- */
 
-.tabela-wrap { overflow-x: auto; min-width: 0; max-width: 100%; }
+.sec { display: flex; flex-direction: column; gap: 1.1rem; }
+.sec__cabeca { border-top: 1px solid var(--ink); padding-top: 0.7rem; }
+.sec__cabeca h2 { font-size: var(--fs-h2); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; margin: 0; }
+.sec__cabeca p { max-width: 68ch; color: var(--ink-soft); font-size: var(--fs-small); margin: 0.3rem 0 0; }
 
-table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); font-variant-numeric: tabular-nums; }
-th { text-align: left; font-weight: 600; padding: 0.5rem 1rem 0.5rem 0; border-bottom: 1px solid var(--ink); white-space: nowrap; }
-td { padding: 0.55rem 1rem 0.55rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-td:last-child, th:last-child { padding-right: 0; }
-.mono { font-family: var(--mono); }
-.destaque-td { font-weight: 600; }
+/* ---------- os quatro passos ---------- */
+
+.passos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.passo__topo { display: flex; align-items: center; gap: 0.5rem; }
+.passo__topo .rotulo { color: var(--ink); }
+.ponto { width: 0.5rem; height: 0.5rem; flex: none; background: var(--ink); }
+.ponto--seu { background: var(--acento); }
+.passo p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
+.passo__rodape { margin-top: auto; font-family: var(--mono); font-size: var(--fs-micro); color: var(--ink-micro); }
+
+/* passo 1 é um link: começa o fluxo. Contorno vermelho = clique seu */
+a.passo { text-decoration: none; color: var(--ink); }
+a.passo:hover { background: var(--ground-alt); }
+.passo--acao { outline: 2px solid var(--acento); outline-offset: -2px; }
+.seguir { margin-top: auto; font-size: var(--fs-small); font-weight: 600; color: var(--acento); }
+
+/* ---------- o que você recebe ---------- */
+
+.recebe { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.recebe .cel { gap: 0.7rem; }
+.recebe .cel p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
+.normas { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-micro); margin: 0; }
 
 /* ---------- escopos ---------- */
 
-.escopos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-}
-.escopo { background: var(--ground); padding: 1.1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
-.escopo__letra { display: flex; align-items: center; gap: 0.5rem; }
-.escopo__letra .no { width: 0.5rem; height: 0.5rem; background: var(--acento); flex: none; }
+.escopos { grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+a.escopo { text-decoration: none; color: var(--ink); gap: 0.6rem; }
+a.escopo:hover { background: var(--ground-alt); }
 .escopo h3 { font-size: 1.0625rem; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
 .escopo p { margin: 0; font-size: var(--fs-small); color: var(--ink-soft); }
 
-/* ---------- contato ---------- */
+/* ---------- o combinado ---------- */
 
-.contato {
+/* contagem fixa de colunas de propósito: com auto-fit uma célula vazia mostra
+   o fundo da grade — bug já documentado no repo */
+.combinado { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.combinado .cel { gap: 0.2rem; padding: 0.9rem 1rem; }
+.combinado .cel p { margin: 0; font-size: var(--fs-small); font-weight: 600; }
+
+/* ---------- CTA final ---------- */
+
+.cta {
   border: 1px solid var(--ink);
   padding: clamp(1.25rem, 3vw, 2rem);
   display: grid;
@@ -606,778 +261,236 @@ td:last-child, th:last-child { padding-right: 0; }
   gap: 1.5rem;
   align-items: start;
 }
-.contato__acao { margin-top: 1.1rem; }
+.cta h2 { font-size: var(--fs-h2); font-weight: 700; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+.cta__texto { margin: 0; color: var(--ink-soft); font-size: var(--fs-small); max-width: 44ch; }
+.cta__contatos { display: flex; flex-direction: column; gap: 0.85rem; }
+.cta__grupo { display: flex; flex-direction: column; gap: 0.15rem; }
+.cta__linha {
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: var(--fs-small);
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+.cta__linha:hover { border-bottom-color: var(--ink); }
+.cta__valor { color: var(--ink); font-family: var(--mono); font-size: var(--fs-small); }
 
-/* trava de especificidade: .pagina p a (0,1,2) ganha de .botao (0,1,0) e
-   pintaria de cinza sublinhado qualquer botao dentro de paragrafo */
-.pagina p a.botao, .pagina li a.botao { color: var(--ground); text-decoration: none; }
-.pagina p a.botao--vazado, .pagina li a.botao--vazado { color: var(--ink); }
-.pagina p a.botao:hover, .pagina li a.botao:hover { color: var(--ink); }
+/* ---------- rodapé ---------- */
 
-.contato h2 { font-size: var(--fs-h2); font-weight: 700; margin: 0 0 0.5rem; letter-spacing: -0.02em; }
-.contato p { margin: 0; color: var(--ink-soft); font-size: var(--fs-small); max-width: 44ch; }
-.dados { display: flex; flex-direction: column; gap: 0.85rem; }
-.dado { display: flex; flex-direction: column; gap: 0.15rem; }
-.dado a, .dado span.v { color: var(--ink); text-decoration: none; font-family: var(--mono); font-size: var(--fs-small); width: fit-content; }
-/* alvo de toque: 16px de altura de texto e menos da metade do minimo de 44 */
-.dado a { display: inline-flex; align-items: center; min-height: 2.75rem; }
-.dado a { border-bottom: 1px solid var(--rule); }
-.dado a:hover { border-bottom-color: var(--ink); }
-
-/* ---------- carimbo ---------- */
-
+footer { display: flex; flex-direction: column; }
 .carimbo {
   border: 1px solid var(--ink);
   display: grid;
   grid-template-columns: 5rem 1.4fr 1fr 0.6fr 1fr;
   font-family: var(--mono);
   font-size: var(--fs-micro);
-  min-width: 32rem;
 }
-.carimbo > div { padding: 0.5rem 0.65rem; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
-.carimbo > div:last-child { border-right: 0; }
-.carimbo .campo { color: var(--ink-soft); letter-spacing: 0.08em; }
-.carimbo .valor { color: var(--ink); overflow-wrap: anywhere; }
-.carimbo__marca { align-items: flex-start; justify-content: center; color: var(--ink); }
-.carimbo__marca svg { width: 3rem; height: auto; }
-
-/* a arvore do pacote e feita de <button>; sem eles aqui, quem navega por
-   teclado nao ve onde esta */
-
-/* ---------- celular: o que transbordava ---------- */
-
-@media (max-width: 34rem) {
-  /* A tabela de condicoes tinha 412px de conteudo dentro de 348 e exigia
-     arrastar de lado. Sao 4 etapas com dois numeros — vira escada. */
-  .secao > .tabela-wrap { border: 0; padding: 0; }
-  .secao table thead { position: absolute; left: -9999px; }
-  .secao table tr {
-    display: block;
-    border: 1px solid var(--rule);
-    padding: 0.7rem 0.85rem;
-    margin-bottom: -1px;
-  }
-  .secao table td { display: block; border: 0; padding: 0.1rem 0; }
-  .secao table td:first-child { font-weight: 600; margin-bottom: 0.2rem; }
-  /* o rotulo da coluna volta como prefixo, senao "24 h" sozinho nao diz nada */
-  .secao table td[data-rot]::before {
-    content: attr(data-rot) " ";
-    font-family: var(--mono);
-    font-size: var(--fs-micro);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-micro);
-  }
-
-  /* O carimbo tinha min-width de 32rem: 510px dentro de 350. Empilha. */
-  .carimbo { grid-template-columns: 1fr 1fr; min-width: 0; }
-  .carimbo__marca { grid-column: 1 / -1; align-items: flex-start; padding-bottom: 0.2rem; }
-  .carimbo > div { border-right: 0; border-top: 1px solid var(--rule); }
-  .carimbo > div:first-child { border-top: 0; }
+.carimbo > div {
+  padding: 0.5rem 0.65rem;
+  border-left: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
 }
+.carimbo > div:first-child { border-left: 0; align-items: flex-start; justify-content: center; }
+.carimbo__marca svg { width: 3rem; height: auto; color: var(--ink); }
+.carimbo .c-campo { color: var(--ink-micro); letter-spacing: 0.08em; }
+.carimbo .c-valor { color: var(--ink); }
+.rodape-acao { margin: 0.7rem 0 0; text-align: right; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.1em; text-transform: uppercase; }
+.rodape-acao a { color: var(--ink-micro); text-decoration: none; border-bottom: 1px solid var(--rule); display: inline-flex; align-items: center; min-height: 2.75rem; }
+.rodape-acao a:hover { color: var(--ink); border-bottom-color: var(--acento); }
 
-/* Alvo de toque: 57x16 e menos de um terco do minimo de 44px. */
-.link-expandir { min-height: 2.75rem; display: inline-flex; align-items: center; }
-.item { min-height: 2.75rem; }
-
-/* Link solto herdava o azul do navegador, a única cor fora da marca na
-   página. O que já tem estilo próprio fica de fora. */
-.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.entrar-topo):not(.link-expandir) {
+/* links soltos dentro do conteúdo nunca caem no azul do navegador */
+.env a:not(.btn):not(.btn-ghost):not(.desce):not(.passo):not(.escopo):not(.cta__linha) {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--rule);
   text-underline-offset: 0.22em;
   text-decoration-thickness: 1px;
 }
-.pagina a:not(.botao):not(.voltar):not(.link-acao):not(.entrar-topo):not(.link-expandir):hover {
+.env a:not(.btn):not(.btn-ghost):not(.desce):not(.passo):not(.escopo):not(.cta__linha):hover,
+.env a:not(.btn):not(.btn-ghost):not(.desce):not(.passo):not(.escopo):not(.cta__linha):focus-visible {
   color: var(--acento);
   text-decoration-color: var(--acento);
 }
 
-a:focus-visible, button:focus-visible, .botao:focus-visible {
-  outline: 2px solid var(--acento); outline-offset: 3px;
+/* foco visível pra quem navega por teclado */
+a:focus-visible, button:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
 }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------- responsivo ---------- */
+
+@media (max-width: 64rem) {
+  .prazos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .passos, .combinado { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 40rem) {
+  .prazos, .passos, .combinado { grid-template-columns: 1fr; }
+  .carimbo { grid-template-columns: auto 1fr; }
+}
 </style>
 
-<div class="pagina">
+<div class="barra">
+  <div class="barra__in">
+    <svg class="barra__marca" viewBox="0 0 420 96" role="img" aria-label="Borin">
+      <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+        <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+        <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+        <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+      </g>
+    </svg>
+    <div class="barra__acoes">
+      <a class="btn-ghost" id="entrarTopo" href="/entrar">Minha conta</a>
+      <a class="btn btn--sm" href="/orcamento">Pedir orçamento</a>
+    </div>
+  </div>
+</div>
 
-  <header class="topo">
-    <div class="topo-linha">
-      <div class="marca">
-        <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
-          <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
-            <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
-            <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
-            <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
-            <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
-          </g>
-        </svg>
-      </div>
+<div class="env">
 
-      <a class="entrar-topo" id="entrarTopo" href="/entrar">Minha conta</a>
+  <header class="hero">
+    <span class="rotulo">Projeto elétrico industrial · Caxias do Sul · RS</span>
+    <h1>Você descreve a máquina. Eu entrego o projeto elétrico completo.</h1>
+    <p class="hero__texto">Diagramas, listas, layout e identificações, conferidos antes da entrega. Valor e prazo fechados em 24 h — e o primeiro projeto sai com 50% de desconto.</p>
+
+    <div class="hero__cta">
+      <a class="btn" href="/orcamento">Pedir orçamento — 5 minutos</a>
+      <a class="desce" href="#caminho">Como funciona ↓</a>
     </div>
 
-    <div class="hero">
-      <span class="rotulo">Projeto elétrico industrial · Caxias do Sul · RS</span>
-      <h1>Projetos de painéis elétricos e instalações.</h1>
-
-      <div class="prazos">
-        <div class="prazo">
-          <span class="rotulo">Até 15 páginas de diagrama</span>
-          <span class="prazo__valor">5 dias úteis</span>
-          <span class="prazo__ref">Mercado <b>2 semanas</b></span>
-        </div>
-        <div class="prazo">
-          <span class="rotulo">15 a 40 páginas</span>
-          <span class="prazo__valor">8 dias úteis</span>
-          <span class="prazo__ref">Mercado <b>3 semanas</b></span>
-        </div>
-        <div class="prazo">
-          <span class="rotulo">40 a 80 páginas</span>
-          <span class="prazo__valor">12 dias úteis</span>
-          <span class="prazo__ref">Mercado <b>4 semanas</b></span>
-        </div>
+    <div class="cartoes prazos">
+      <div class="cel">
+        <span class="rotulo">Até 15 páginas</span>
+        <span class="prazo__dias">5 dias úteis</span>
+        <span class="prazo__mkt">mercado: 2 semanas</span>
       </div>
-
-      <div class="hero__acoes">
-        <a class="botao" href="/orcamento">Solicitar orçamento</a>
-        <a class="botao botao--vazado" href="#pacote">Ver o pacote</a>
+      <div class="cel">
+        <span class="rotulo">15 a 40 páginas</span>
+        <span class="prazo__dias">8 dias úteis</span>
+        <span class="prazo__mkt">mercado: 3 semanas</span>
+      </div>
+      <div class="cel">
+        <span class="rotulo">40 a 80 páginas</span>
+        <span class="prazo__dias">12 dias úteis</span>
+        <span class="prazo__mkt">mercado: 4 semanas</span>
       </div>
     </div>
   </header>
 
-  <!-- FLUXO -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <h2>Como funciona, do começo ao fim</h2>
+  <section class="sec" id="caminho">
+    <div class="sec__cabeca">
+      <h2>Quatro passos, um clique pra começar</h2>
+      <p>O quadrado vermelho marca o que é seu. O resto é comigo.</p>
     </div>
-
-    <div class="fluxo">
-      <div class="etapa-fluxo etapa-fluxo--voce">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>1 · Solicitação</span></div>
-        <ul>
-          <li>Descrição do equipamento</li>
-          <li>Acionamentos e pontos de I/O</li>
-          <li>NR-12 e itens de segurança</li>
-          <li>Prazo a cumprir</li>
-        </ul>
+    <div class="cartoes passos">
+      <a class="cel passo passo--acao" href="/orcamento">
+        <span class="passo__topo"><span class="ponto ponto--seu"></span><span class="rotulo">1 · Você descreve</span></span>
+        <p>Campos sobre a máquina: acionamentos, I/O, NR-12 e prazo.</p>
+        <span class="seguir">Começar agora →</span>
+      </a>
+      <div class="cel passo">
+        <span class="passo__topo"><span class="ponto"></span><span class="rotulo">2 · Eu respondo</span></span>
+        <p>Valor e prazo fechados em 24 h, com o pacote de entrega e o contrato.</p>
+        <span class="passo__rodape">EM 24 H · SEM CUSTO</span>
       </div>
-
-      <div class="etapa-fluxo">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>2 · Proposta</span></div>
-        <ul>
-          <li>Valor e prazo fechados, em 24 h</li>
-          <li>Escopo A ou B definido</li>
-          <li>Pacote de entrega anexo</li>
-          <li>Contrato para assinatura</li>
-        </ul>
+      <div class="cel passo">
+        <span class="passo__topo"><span class="ponto ponto--seu"></span><span class="rotulo">3 · Você aceita</span></span>
+        <p>Assina o contrato digitalmente e preenche a ficha completa.</p>
+        <span class="passo__rodape">ENTRADA DE 40%</span>
       </div>
-
-      <div class="etapa-fluxo etapa-fluxo--voce">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>3 · Dados do projeto</span></div>
-        <ul>
-          <li>O padrão da sua empresa</li>
-          <li>Informações do projeto</li>
-          <li>Layout da área, no escopo B</li>
-          <li>Lista de I/O, quando houver</li>
-        </ul>
-      </div>
-
-      <div class="etapa-fluxo">
-        <div class="etapa-fluxo__topo"><span class="no" aria-hidden="true"></span><span>4 · Entrega</span></div>
-        <ul>
-          <li>Diagrama, listas e identificações</li>
-          <li>Conferência de 12 blocos</li>
-          <li>PDF indexado e Excel editável</li>
-          <li>Correção de erro sem limite</li>
-        </ul>
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- PACOTE -->
-  <section class="secao" id="pacote">
-    <div class="secao__cabeca">
-      <h2>Pacote de entrega</h2>
-    </div>
-
-    <div class="pacote-box">
-      <div class="regua">
-
-      <div class="regua__bloco">
-        <div class="regua__topo"><span class="rotulo">Árvore do PDF</span><button type="button" class="link-expandir" data-abre="pdf">ver os 9</button></div>
-        <ul class="bornes fechada" data-lista="pdf">
-          <li><button type="button" class="item" data-lado="pdf" data-fig="capa"><span class="borne">1</span><span class="fio"></span>Capa e memorial descritivo</button></li>
-          <li><button type="button" class="item" data-lado="pdf" data-fig="indice"><span class="borne">2</span><span class="fio"></span>Índice por instalação</button></li>
-          <li class="grupo">=Painel</li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="potencia"><span class="borne">3</span><span class="fio"></span>+Potência e proteções</button></li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="clp"><span class="borne">4</span><span class="fio"></span>+Arquitetura do CLP</button></li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="comando"><span class="borne">5</span><span class="fio"></span>+Multifilar de comando</button></li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="bornes"><span class="borne">6</span><span class="fio"></span>+Régua de bornes</button></li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="layout"><span class="borne">7</span><span class="fio"></span>+Layout</button></li>
-          <li class="grupo">=Campo<span class="tag-b">B</span></li>
-          <li class="dentro"><button type="button" class="item" data-lado="pdf" data-fig="campo"><span class="borne">8</span><span class="fio"></span>+Interconexão</button></li>
-          <li><button type="button" class="item" data-lado="pdf" data-fig="databook"><span class="borne">9</span><span class="fio"></span>Databook de manuais</button></li>
-        </ul>
-      </div>
-
-      <div class="regua__bloco">
-        <div class="regua__topo"><span class="rotulo">Excel editável</span><button type="button" class="link-expandir" data-abre="xls">ver os 5</button></div>
-        <ul class="bornes fechada" data-lista="xls">
-          <li><button type="button" class="item" data-lado="xls" data-fig="xls_materiais"><span class="borne">1</span><span class="fio"></span>Lista de materiais</button></li>
-          <li><button type="button" class="item" data-lado="xls" data-fig="xls_clp"><span class="borne">2</span><span class="fio"></span>Arquitetura de CLP</button></li>
-          <li><button type="button" class="item" data-lado="xls" data-fig="xls_termico"><span class="borne">3</span><span class="fio"></span>Design térmico</button></li>
-          <li><button type="button" class="item" data-lado="xls" data-fig="xls_ident"><span class="borne">4</span><span class="fio"></span>Identificações, prontas pra imprimir</button></li>
-          <li><button type="button" class="item" data-lado="xls" data-fig="xls_instalacao"><span class="borne">5</span><span class="fio"></span>Lista de instalação, com horas<span class="tag-b">B</span></button></li>
-        </ul>
-      </div>
-
-      </div>
-
-      <div class="figuras">
-      <div class="figuras__lado">
-        <figure class="figura ativo" data-lado="pdf" data-fig="capa">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Capa e memorial">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="8" y="8" width="384" height="234" stroke-opacity="0.35"/>
-            <rect x="26" y="26" width="200" height="14" stroke-opacity="0.75"/>
-            <rect x="26" y="52" width="150" height="8" stroke-opacity="0.3"/>
-            <line x1="26" y1="82" x2="366" y2="82" stroke-opacity="0.3"/>
-            <line x1="26" y1="104" x2="366" y2="104" stroke-opacity="0.3"/>
-            <line x1="26" y1="126" x2="366" y2="126" stroke-opacity="0.3"/>
-            <line x1="26" y1="148" x2="366" y2="148" stroke-opacity="0.3"/>
-            <line x1="196" y1="82" x2="196" y2="148" stroke-opacity="0.3"/>
-            <rect x="26" y="176" width="340" height="46" stroke-opacity="0.55"/>
-            <line x1="110" y1="176" x2="110" y2="222" stroke-opacity="0.55"/>
-            <line x1="230" y1="176" x2="230" y2="222" stroke-opacity="0.55"/>
-            <line x1="300" y1="176" x2="300" y2="222" stroke-opacity="0.55"/>
-            <line x1="26" y1="199" x2="366" y2="199" stroke-opacity="0.55"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">1</span>Capa e memorial</b>Descrição do quadro, normas aplicadas e tabela de revisões.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="indice">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Índice por instalação">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
-            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
-            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
-            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
-            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
-            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
-            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
-            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
-            <line x1="70" y1="30" x2="70" y2="222" stroke-opacity="0.25"/>
-            <line x1="240" y1="30" x2="240" y2="222" stroke-opacity="0.25"/>
-            <line x1="310" y1="30" x2="310" y2="222" stroke-opacity="0.25"/>
-            <line x1="34" y1="66" x2="52" y2="66" stroke-opacity="0.45"/>
-            <line x1="34" y1="90" x2="52" y2="90" stroke-opacity="0.45"/>
-            <line x1="34" y1="114" x2="52" y2="114" stroke-opacity="0.45"/>
-            <line x1="34" y1="138" x2="52" y2="138" stroke-opacity="0.45"/>
-            <line x1="86" y1="66" x2="210" y2="66" stroke-opacity="0.45"/>
-            <line x1="86" y1="90" x2="190" y2="90" stroke-opacity="0.45"/>
-            <line x1="86" y1="114" x2="224" y2="114" stroke-opacity="0.45"/>
-            <line x1="86" y1="138" x2="176" y2="138" stroke-opacity="0.45"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">2</span>Índice por instalação</b>Uma linha por folha: página, descrição, instalação e montagem.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="potencia">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Potência e proteções">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <line x1="60" y1="24" x2="60" y2="60" stroke-opacity="0.7"/>
-            <line x1="140" y1="24" x2="140" y2="60" stroke-opacity="0.7"/>
-            <line x1="220" y1="24" x2="220" y2="60" stroke-opacity="0.7"/>
-            <line x1="60" y1="60" x2="76" y2="44" stroke-opacity="0.7"/>
-            <line x1="140" y1="60" x2="156" y2="44" stroke-opacity="0.7"/>
-            <line x1="220" y1="60" x2="236" y2="44" stroke-opacity="0.7"/>
-            <line x1="60" y1="60" x2="60" y2="96" stroke-opacity="0.7"/>
-            <line x1="140" y1="60" x2="140" y2="96" stroke-opacity="0.7"/>
-            <line x1="220" y1="60" x2="220" y2="96" stroke-opacity="0.7"/>
-            <rect x="48" y="96" width="24" height="34" stroke-opacity="0.7"/>
-            <rect x="128" y="96" width="24" height="34" stroke-opacity="0.7"/>
-            <rect x="208" y="96" width="24" height="34" stroke-opacity="0.7"/>
-            <line x1="60" y1="130" x2="60" y2="164" stroke-opacity="0.7"/>
-            <line x1="140" y1="130" x2="140" y2="164" stroke-opacity="0.7"/>
-            <line x1="220" y1="130" x2="220" y2="164" stroke-opacity="0.7"/>
-            <line x1="40" y1="164" x2="240" y2="164" stroke-opacity="0.7"/>
-            <rect x="288" y="96" width="64" height="46" stroke-opacity="0.7"/>
-            <line x1="320" y1="60" x2="320" y2="96" stroke-opacity="0.7"/>
-            <line x1="320" y1="142" x2="320" y2="176" stroke-opacity="0.7"/>
-            <line x1="288" y1="176" x2="352" y2="176" stroke-opacity="0.7"/>
-            <line x1="24" y1="206" x2="376" y2="206" stroke-opacity="0.25"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">3</span>Potência e proteções</b>Alimentação, chave geral, proteção e distribuição de 24 VCC.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="clp">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Arquitetura do CLP">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="30" y="60" width="46" height="90" stroke-opacity="0.7"/>
-            <rect x="84" y="60" width="30" height="90" stroke-opacity="0.7"/>
-            <rect x="118" y="60" width="30" height="90" stroke-opacity="0.7"/>
-            <rect x="152" y="60" width="30" height="90" stroke-opacity="0.7"/>
-            <rect x="186" y="60" width="30" height="90" stroke-opacity="0.7"/>
-            <line x1="90" y1="76" x2="108" y2="76" stroke-opacity="0.3"/>
-            <line x1="90" y1="92" x2="108" y2="92" stroke-opacity="0.3"/>
-            <line x1="124" y1="76" x2="142" y2="76" stroke-opacity="0.3"/>
-            <line x1="124" y1="92" x2="142" y2="92" stroke-opacity="0.3"/>
-            <line x1="158" y1="76" x2="176" y2="76" stroke-opacity="0.3"/>
-            <line x1="192" y1="76" x2="210" y2="76" stroke-opacity="0.3"/>
-            <line x1="53" y1="150" x2="53" y2="188" stroke-opacity="0.6"/>
-            <line x1="53" y1="188" x2="356" y2="188" stroke-opacity="0.6"/>
-            <rect x="270" y="60" width="60" height="46" stroke-opacity="0.6"/>
-            <line x1="300" y1="106" x2="300" y2="188" stroke-opacity="0.6"/>
-            <rect x="336" y="120" width="40" height="34" stroke-opacity="0.6"/>
-            <line x1="356" y1="154" x2="356" y2="188" stroke-opacity="0.6"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">4</span>Arquitetura do CLP</b>CPU, módulos de I/O, remotas e a rede que liga tudo.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="comando">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Multifilar de comando">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <line x1="40" y1="26" x2="40" y2="224" stroke-opacity="0.65"/>
-            <line x1="360" y1="26" x2="360" y2="224" stroke-opacity="0.65"/>
-            <line x1="40" y1="60" x2="150" y2="60" stroke-opacity="0.6"/>
-            <line x1="176" y1="60" x2="290" y2="60" stroke-opacity="0.6"/>
-            <line x1="150" y1="50" x2="150" y2="70" stroke-opacity="0.6"/>
-            <line x1="176" y1="50" x2="172" y2="70" stroke-opacity="0.6"/>
-            <circle cx="316" cy="60" r="14" stroke-opacity="0.6"/>
-            <line x1="330" y1="60" x2="360" y2="60" stroke-opacity="0.6"/>
-            <line x1="40" y1="118" x2="150" y2="118" stroke-opacity="0.6"/>
-            <line x1="176" y1="118" x2="292" y2="118" stroke-opacity="0.6"/>
-            <line x1="150" y1="108" x2="150" y2="128" stroke-opacity="0.6"/>
-            <line x1="176" y1="108" x2="172" y2="128" stroke-opacity="0.6"/>
-            <rect x="292" y="104" width="30" height="28" stroke-opacity="0.6"/>
-            <line x1="322" y1="118" x2="360" y2="118" stroke-opacity="0.6"/>
-            <line x1="40" y1="176" x2="150" y2="176" stroke-opacity="0.6"/>
-            <line x1="176" y1="176" x2="290" y2="176" stroke-opacity="0.6"/>
-            <line x1="150" y1="166" x2="150" y2="186" stroke-opacity="0.6"/>
-            <line x1="176" y1="166" x2="172" y2="186" stroke-opacity="0.6"/>
-            <circle cx="316" cy="176" r="14" stroke-opacity="0.6"/>
-            <line x1="330" y1="176" x2="360" y2="176" stroke-opacity="0.6"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">5</span>Multifilar de comando</b>Entradas, saídas e acionamentos, com referência cruzada entre folhas.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="bornes">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Régua de bornes">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <line x1="40" y1="88" x2="360" y2="88" stroke-opacity="0.65"/>
-            <line x1="40" y1="150" x2="360" y2="150" stroke-opacity="0.65"/>
-            <rect x="44" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="57" y1="56" x2="57" y2="88" stroke-opacity="0.45"/><line x1="57" y1="150" x2="57" y2="188" stroke-opacity="0.45"/>
-            <rect x="82" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="95" y1="56" x2="95" y2="88" stroke-opacity="0.45"/><line x1="95" y1="150" x2="95" y2="188" stroke-opacity="0.45"/>
-            <rect x="120" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="133" y1="56" x2="133" y2="88" stroke-opacity="0.45"/><line x1="133" y1="150" x2="133" y2="188" stroke-opacity="0.45"/>
-            <rect x="158" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="171" y1="56" x2="171" y2="88" stroke-opacity="0.45"/><line x1="171" y1="150" x2="171" y2="188" stroke-opacity="0.45"/>
-            <rect x="196" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="209" y1="56" x2="209" y2="88" stroke-opacity="0.45"/><line x1="209" y1="150" x2="209" y2="188" stroke-opacity="0.45"/>
-            <rect x="234" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="247" y1="56" x2="247" y2="88" stroke-opacity="0.45"/><line x1="247" y1="150" x2="247" y2="188" stroke-opacity="0.45"/>
-            <rect x="272" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="285" y1="56" x2="285" y2="88" stroke-opacity="0.45"/><line x1="285" y1="150" x2="285" y2="188" stroke-opacity="0.45"/>
-            <rect x="310" y="88" width="26" height="62" stroke-opacity="0.7"/><line x1="323" y1="56" x2="323" y2="88" stroke-opacity="0.45"/><line x1="323" y1="150" x2="323" y2="188" stroke-opacity="0.45"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">6</span>Régua de bornes</b>Um diagrama por régua, com o destino de cada ponto.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="layout">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Layout do painel">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="30" y="24" width="340" height="202" stroke-opacity="0.6"/>
-            <line x1="30" y1="56" x2="370" y2="56" stroke-opacity="0.28"/>
-            <line x1="30" y1="112" x2="370" y2="112" stroke-opacity="0.28"/>
-            <line x1="30" y1="168" x2="370" y2="168" stroke-opacity="0.28"/>
-            <rect x="46" y="66" width="34" height="38" stroke-opacity="0.7"/>
-            <rect x="86" y="66" width="34" height="38" stroke-opacity="0.7"/>
-            <rect x="126" y="66" width="22" height="38" stroke-opacity="0.7"/>
-            <rect x="154" y="66" width="22" height="38" stroke-opacity="0.7"/>
-            <rect x="46" y="122" width="60" height="38" stroke-opacity="0.7"/>
-            <rect x="112" y="122" width="26" height="38" stroke-opacity="0.7"/>
-            <rect x="144" y="122" width="26" height="38" stroke-opacity="0.7"/>
-            <rect x="250" y="66" width="106" height="94" stroke-opacity="0.4"/>
-            <rect x="46" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="60" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="74" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="88" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="102" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="116" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="130" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="144" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="158" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="172" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="186" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="200" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="214" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="228" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="242" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="256" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="270" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="284" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="298" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="312" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            <rect x="326" y="180" width="10" height="34" stroke-opacity="0.5"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">7</span>Layout do painel</b>Disposição física na placa de montagem, com trilhos e canaletas.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="campo">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Interconexão de campo">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="80" width="76" height="96" stroke-opacity="0.7"/>
-            <line x1="26" y1="104" x2="102" y2="104" stroke-opacity="0.3"/>
-            <line x1="26" y1="152" x2="102" y2="152" stroke-opacity="0.3"/>
-            <line x1="102" y1="102" x2="200" y2="102" stroke-opacity="0.6"/>
-            <line x1="200" y1="102" x2="200" y2="56" stroke-opacity="0.6"/>
-            <line x1="102" y1="128" x2="242" y2="128" stroke-opacity="0.6"/>
-            <line x1="102" y1="154" x2="200" y2="154" stroke-opacity="0.6"/>
-            <line x1="200" y1="154" x2="200" y2="198" stroke-opacity="0.6"/>
-            <rect x="176" y="30" width="48" height="26" stroke-opacity="0.7"/>
-            <circle cx="264" cy="128" r="22" stroke-opacity="0.7"/>
-            <rect x="176" y="198" width="48" height="26" stroke-opacity="0.7"/>
-            <rect x="300" y="96" width="64" height="64" stroke-opacity="0.7"/>
-            <line x1="286" y1="128" x2="300" y2="128" stroke-opacity="0.6"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">8</span>Interconexão de campo</b>Um bloco por conjunto de cabos, com origem, destino, vias e bitola.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="pdf" data-fig="databook">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Databook">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="40" y="26" width="250" height="198" stroke-opacity="0.35"/>
-            <rect x="32" y="34" width="250" height="198" stroke-opacity="0.5"/>
-            <rect x="24" y="42" width="250" height="198" stroke-opacity="0.7"/>
-            <line x1="24" y1="70" x2="274" y2="70" stroke-opacity="0.6"/>
-            <line x1="40" y1="58" x2="140" y2="58" stroke-opacity="0.5"/>
-            <line x1="40" y1="94" x2="240" y2="94" stroke-opacity="0.25"/>
-            <line x1="40" y1="116" x2="212" y2="116" stroke-opacity="0.25"/>
-            <line x1="40" y1="138" x2="240" y2="138" stroke-opacity="0.25"/>
-            <line x1="40" y1="160" x2="196" y2="160" stroke-opacity="0.25"/>
-            <line x1="40" y1="182" x2="228" y2="182" stroke-opacity="0.25"/>
-            <line x1="40" y1="204" x2="180" y2="204" stroke-opacity="0.25"/>
-            <rect x="274" y="60" width="52" height="26" stroke-opacity="0.7"/>
-            <rect x="274" y="98" width="52" height="26" stroke-opacity="0.7"/>
-            <rect x="274" y="136" width="52" height="26" stroke-opacity="0.7"/>
-            <rect x="274" y="174" width="52" height="26" stroke-opacity="0.7"/>
-            <line x1="286" y1="73" x2="314" y2="73" stroke-opacity="0.3"/>
-            <line x1="286" y1="111" x2="314" y2="111" stroke-opacity="0.3"/>
-            <line x1="286" y1="149" x2="314" y2="149" stroke-opacity="0.3"/>
-            <line x1="286" y1="187" x2="314" y2="187" stroke-opacity="0.3"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">9</span>Databook</b>Manual e datasheet de cada equipamento do projeto, indexado por tag.</figcaption>
-        </figure>
-      </div>
-      <div class="figuras__lado">
-        <figure class="figura ativo" data-lado="xls" data-fig="xls_materiais">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Lista de materiais">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
-            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
-            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
-            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
-            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
-            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
-            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
-            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
-            <line x1="96" y1="30" x2="96" y2="222" stroke-opacity="0.25"/>
-            <line x1="250" y1="30" x2="250" y2="222" stroke-opacity="0.25"/>
-            <line x1="310" y1="30" x2="310" y2="222" stroke-opacity="0.25"/>
-            <line x1="36" y1="70" x2="82" y2="70" stroke-opacity="0.28"/>
-            <line x1="36" y1="94" x2="82" y2="94" stroke-opacity="0.28"/>
-            <line x1="36" y1="118" x2="82" y2="118" stroke-opacity="0.28"/>
-            <line x1="36" y1="142" x2="82" y2="142" stroke-opacity="0.28"/>
-            <line x1="36" y1="166" x2="82" y2="166" stroke-opacity="0.28"/>
-            <line x1="110" y1="70" x2="230" y2="70" stroke-opacity="0.28"/>
-            <line x1="110" y1="94" x2="206" y2="94" stroke-opacity="0.28"/>
-            <line x1="110" y1="118" x2="240" y2="118" stroke-opacity="0.28"/>
-            <line x1="110" y1="142" x2="196" y2="142" stroke-opacity="0.28"/>
-            <line x1="110" y1="166" x2="222" y2="166" stroke-opacity="0.28"/>
-            <line x1="322" y1="70" x2="340" y2="70" stroke-opacity="0.28"/>
-            <line x1="322" y1="94" x2="340" y2="94" stroke-opacity="0.28"/>
-            <line x1="322" y1="118" x2="340" y2="118" stroke-opacity="0.28"/>
-            <line x1="322" y1="142" x2="340" y2="142" stroke-opacity="0.28"/>
-            <line x1="322" y1="166" x2="340" y2="166" stroke-opacity="0.28"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">1</span>Lista de materiais</b>Código, descrição, fabricante e quantidade, por instalação.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="xls" data-fig="xls_clp">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Arquitetura de CLP">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
-            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
-            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
-            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
-            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
-            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
-            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
-            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
-            <line x1="90" y1="30" x2="90" y2="222" stroke-opacity="0.25"/>
-            <line x1="170" y1="30" x2="170" y2="222" stroke-opacity="0.25"/>
-            <line x1="268" y1="30" x2="268" y2="222" stroke-opacity="0.25"/>
-            <line x1="36" y1="70" x2="76" y2="70" stroke-opacity="0.28"/>
-            <line x1="36" y1="94" x2="76" y2="94" stroke-opacity="0.28"/>
-            <line x1="36" y1="118" x2="76" y2="118" stroke-opacity="0.28"/>
-            <line x1="36" y1="142" x2="76" y2="142" stroke-opacity="0.28"/>
-            <line x1="36" y1="166" x2="76" y2="166" stroke-opacity="0.28"/>
-            <line x1="102" y1="70" x2="146" y2="70" stroke-opacity="0.28"/>
-            <line x1="102" y1="94" x2="146" y2="94" stroke-opacity="0.28"/>
-            <line x1="102" y1="118" x2="146" y2="118" stroke-opacity="0.28"/>
-            <line x1="102" y1="142" x2="146" y2="142" stroke-opacity="0.28"/>
-            <line x1="102" y1="166" x2="146" y2="166" stroke-opacity="0.28"/>
-            <line x1="182" y1="70" x2="236" y2="70" stroke-opacity="0.28"/>
-            <line x1="182" y1="94" x2="220" y2="94" stroke-opacity="0.28"/>
-            <line x1="182" y1="118" x2="236" y2="118" stroke-opacity="0.28"/>
-            <line x1="182" y1="142" x2="212" y2="142" stroke-opacity="0.28"/>
-            <line x1="182" y1="166" x2="236" y2="166" stroke-opacity="0.28"/>
-            <rect x="280" y="180" width="58" height="18" stroke-opacity="0.55"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">2</span>Arquitetura de CLP</b>Endereço, tag, tipo e a reserva declarada, ponto a ponto.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="xls" data-fig="xls_termico">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Design térmico">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="30" width="200" height="192" stroke-opacity="0.5"/>
-            <line x1="26" y1="52" x2="226" y2="52" stroke-opacity="0.65"/>
-            <line x1="150" y1="30" x2="150" y2="222" stroke-opacity="0.25"/>
-            <line x1="26" y1="76" x2="226" y2="76" stroke-opacity="0.18"/>
-            <line x1="26" y1="100" x2="226" y2="100" stroke-opacity="0.18"/>
-            <line x1="26" y1="124" x2="226" y2="124" stroke-opacity="0.18"/>
-            <line x1="26" y1="148" x2="226" y2="148" stroke-opacity="0.18"/>
-            <line x1="26" y1="172" x2="226" y2="172" stroke-opacity="0.18"/>
-            <line x1="36" y1="66" x2="120" y2="66" stroke-opacity="0.28"/>
-            <line x1="36" y1="90" x2="112" y2="90" stroke-opacity="0.28"/>
-            <line x1="36" y1="114" x2="124" y2="114" stroke-opacity="0.28"/>
-            <line x1="36" y1="138" x2="108" y2="138" stroke-opacity="0.28"/>
-            <line x1="162" y1="66" x2="196" y2="66" stroke-opacity="0.28"/>
-            <line x1="162" y1="90" x2="196" y2="90" stroke-opacity="0.28"/>
-            <line x1="162" y1="114" x2="196" y2="114" stroke-opacity="0.28"/>
-            <rect x="250" y="30" width="124" height="112" stroke-opacity="0.6"/>
-            <line x1="264" y1="58" x2="360" y2="58" stroke-opacity="0.3"/>
-            <line x1="264" y1="82" x2="330" y2="82" stroke-opacity="0.3"/>
-            <line x1="264" y1="106" x2="344" y2="106" stroke-opacity="0.3"/>
-            <rect x="250" y="160" width="124" height="62" stroke-opacity="0.6"/>
-            <circle cx="282" cy="191" r="18" stroke-opacity="0.6"/>
-            <line x1="270" y1="181" x2="294" y2="201" stroke-opacity="0.6"/>
-            <line x1="294" y1="181" x2="270" y2="201" stroke-opacity="0.6"/>
-            <line x1="312" y1="184" x2="360" y2="184" stroke-opacity="0.4"/>
-            <line x1="312" y1="198" x2="344" y2="198" stroke-opacity="0.4"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">3</span>Design térmico</b>Dissipação por item e o veredito de ventilação ou climatização.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="xls" data-fig="xls_ident">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Identificações">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="30" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="49" x2="90" y2="49" stroke-opacity="0.28"/>
-            <rect x="112" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="49" x2="172" y2="49" stroke-opacity="0.28"/>
-            <rect x="194" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="49" x2="254" y2="49" stroke-opacity="0.28"/>
-            <rect x="276" y="34" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="49" x2="336" y2="49" stroke-opacity="0.28"/>
-            <rect x="30" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="93" x2="90" y2="93" stroke-opacity="0.28"/>
-            <rect x="112" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="93" x2="172" y2="93" stroke-opacity="0.28"/>
-            <rect x="194" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="93" x2="254" y2="93" stroke-opacity="0.28"/>
-            <rect x="276" y="78" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="93" x2="336" y2="93" stroke-opacity="0.28"/>
-            <rect x="30" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="137" x2="90" y2="137" stroke-opacity="0.28"/>
-            <rect x="112" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="137" x2="172" y2="137" stroke-opacity="0.28"/>
-            <rect x="194" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="137" x2="254" y2="137" stroke-opacity="0.28"/>
-            <rect x="276" y="122" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="137" x2="336" y2="137" stroke-opacity="0.28"/>
-            <rect x="30" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="42" y1="181" x2="90" y2="181" stroke-opacity="0.28"/>
-            <rect x="112" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="124" y1="181" x2="172" y2="181" stroke-opacity="0.28"/>
-            <rect x="194" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="206" y1="181" x2="254" y2="181" stroke-opacity="0.28"/>
-            <rect x="276" y="166" width="72" height="30" stroke-opacity="0.6"/><line x1="288" y1="181" x2="336" y2="181" stroke-opacity="0.28"/>
-            <line x1="26" y1="212" x2="374" y2="212" stroke-opacity="0.4"/>
-            <rect x="26" y="206" width="12" height="12" stroke-opacity="0.4"/>
-            <rect x="356" y="206" width="12" height="12" stroke-opacity="0.4"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">4</span>Identificações</b>Fios, bornes, dispositivos e relés, prontos pra impressora de etiqueta.</figcaption>
-        </figure>
-        <figure class="figura" data-lado="xls" data-fig="xls_instalacao">
-          <svg viewBox="0 0 400 250" role="img" aria-label="Lista de instalação">
-            <g stroke="currentColor" fill="none" stroke-width="1">
-            <rect x="26" y="30" width="348" height="192" stroke-opacity="0.5"/>
-            <line x1="26" y1="52" x2="374" y2="52" stroke-opacity="0.65"/>
-            <line x1="26" y1="76" x2="374" y2="76" stroke-opacity="0.18"/>
-            <line x1="26" y1="101" x2="374" y2="101" stroke-opacity="0.18"/>
-            <line x1="26" y1="125" x2="374" y2="125" stroke-opacity="0.18"/>
-            <line x1="26" y1="149" x2="374" y2="149" stroke-opacity="0.18"/>
-            <line x1="26" y1="173" x2="374" y2="173" stroke-opacity="0.18"/>
-            <line x1="26" y1="198" x2="374" y2="198" stroke-opacity="0.18"/>
-            <line x1="120" y1="30" x2="120" y2="222" stroke-opacity="0.25"/>
-            <line x1="200" y1="30" x2="200" y2="222" stroke-opacity="0.25"/>
-            <line x1="262" y1="30" x2="262" y2="222" stroke-opacity="0.25"/>
-            <line x1="320" y1="30" x2="320" y2="222" stroke-opacity="0.25"/>
-            <line x1="36" y1="70" x2="108" y2="70" stroke-opacity="0.28"/>
-            <line x1="36" y1="94" x2="108" y2="94" stroke-opacity="0.28"/>
-            <line x1="36" y1="118" x2="108" y2="118" stroke-opacity="0.28"/>
-            <line x1="36" y1="142" x2="108" y2="142" stroke-opacity="0.28"/>
-            <line x1="36" y1="166" x2="108" y2="166" stroke-opacity="0.28"/>
-            <line x1="36" y1="190" x2="108" y2="190" stroke-opacity="0.28"/>
-            <line x1="132" y1="70" x2="172" y2="70" stroke-opacity="0.28"/>
-            <line x1="132" y1="94" x2="172" y2="94" stroke-opacity="0.28"/>
-            <line x1="132" y1="118" x2="172" y2="118" stroke-opacity="0.28"/>
-            <line x1="132" y1="142" x2="172" y2="142" stroke-opacity="0.28"/>
-            <line x1="132" y1="166" x2="172" y2="166" stroke-opacity="0.28"/>
-            <line x1="132" y1="190" x2="172" y2="190" stroke-opacity="0.28"/>
-            <line x1="274" y1="70" x2="300" y2="70" stroke-opacity="0.28"/>
-            <line x1="274" y1="94" x2="300" y2="94" stroke-opacity="0.28"/>
-            <line x1="274" y1="118" x2="300" y2="118" stroke-opacity="0.28"/>
-            <line x1="274" y1="142" x2="300" y2="142" stroke-opacity="0.28"/>
-            <line x1="274" y1="166" x2="300" y2="166" stroke-opacity="0.28"/>
-            <line x1="274" y1="190" x2="300" y2="190" stroke-opacity="0.28"/>
-            <rect x="330" y="66" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="66" width="30" height="8" stroke-opacity="0.75"/>
-            <rect x="330" y="90" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="90" width="22" height="8" stroke-opacity="0.75"/>
-            <rect x="330" y="114" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="114" width="36" height="8" stroke-opacity="0.75"/>
-            <rect x="330" y="138" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="138" width="12" height="8" stroke-opacity="0.75"/>
-            <rect x="330" y="162" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="162" width="8" height="8" stroke-opacity="0.75"/>
-            <rect x="330" y="186" width="36" height="8" stroke-opacity="0.35"/><rect x="330" y="186" width="26" height="8" stroke-opacity="0.75"/>
-            </g>
-          </svg>
-          <figcaption><b><span class="borne">5</span>Lista de instalação</b>Uma linha por tarefa, com horas estimadas e percentual concluído.</figcaption>
-        </figure>
-      </div>
+      <div class="cel passo">
+        <span class="passo__topo"><span class="ponto"></span><span class="rotulo">4 · Eu entrego</span></span>
+        <p>PDF indexado e Excel editável, conferidos em 12 blocos.</p>
+        <span class="passo__rodape">60% NA APROVAÇÃO</span>
       </div>
     </div>
   </section>
 
-  <!-- CONFERÊNCIA -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <h2>O que é conferido antes de sair</h2>
+  <section class="sec">
+    <div class="sec__cabeca"><h2>O que você recebe</h2></div>
+    <div class="cartoes recebe">
+      <div class="cel">
+        <span class="rotulo">PDF Completo</span>
+        <p>Capa e memorial, índice, potência e proteções, arquitetura do CLP, multifilar de comando, régua de bornes, layout do painel, interconexão de campo e databook de manuais.</p>
+      </div>
+      <div class="cel">
+        <span class="rotulo">Excel editável · 5 listas</span>
+        <p>Lista de materiais, arquitetura de CLP, design térmico, identificações prontas pra imprimir e lista de instalação com horas.</p>
+      </div>
     </div>
-
-    <div class="checagem">
-      <div><span>01</span>Tags sem duplicação</div>
-      <div><span>02</span>Cabos com bitola e destino</div>
-      <div><span>03</span>Folhas e índice sem furo</div>
-      <div><span>04</span>Bornes com destino coerente</div>
-      <div><span>05</span>I/Os do CLP sem conflito</div>
-      <div><span>06</span>Proteção de toda carga</div>
-      <div><span>07</span>Consumo dentro da fonte</div>
-      <div><span>08</span>Dissipação x tamanho do quadro</div>
-      <div><span>09</span>Layout x lista de materiais</div>
-      <div><span>10</span>Interconexão coerente nos dois lados</div>
-      <div><span>11</span>Identificações completas</div>
-      <div><span>12</span>Arquivos, nomes e revisão</div>
-    </div>
-
-    <p class="rotulo">Normas: IEC 81346 · IEC 61082 · NFPA 79 · IEC 60204-1 · NR-10 · NR-12</p>
+    <p class="normas">Conferência de 12 blocos antes de sair · IEC 81346 · IEC 61082 · NFPA 79 · IEC 60204-1 · NR-10 · NR-12</p>
   </section>
 
-  <!-- ESCOPOS -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <h2>Escopos de projeto</h2>
+  <section class="sec">
+    <div class="sec__cabeca">
+      <h2>Qual escopo é o seu?</h2>
+      <p>Não sabe? Marque "não sei" no pedido — eu digo qual cabe.</p>
     </div>
-
-    <div class="escopos">
-      <div class="escopo">
-        <span class="escopo__letra"><span class="no" aria-hidden="true"></span> <span class="rotulo">Escopo A</span></span>
-        <h3>Projeto de painel</h3>
-        <p>O painel completo: diagrama, régua de bornes, layout, listas, identificações, arquitetura de CLP e design térmico.</p>
-        <p><strong>Para quem</strong> monta e instala por conta.</p>
-      </div>
-      <div class="escopo">
-        <span class="escopo__letra"><span class="no" aria-hidden="true"></span> <span class="rotulo">Escopo B</span></span>
-        <h3>Projeto de painel e instalação</h3>
-        <p>Tudo do A, mais interconexão de campo, layout 2D, base de cabos, identificações de campo e a lista de instalação com horas.</p>
-        <p><strong>Para quem</strong> também vai instalar, ou contratar quem instale.</p>
-      </div>
+    <div class="cartoes escopos">
+      <a class="cel escopo" href="/orcamento">
+        <span class="passo__topo"><span class="ponto ponto--seu"></span><span class="rotulo">Escopo A</span></span>
+        <h3>Só o painel</h3>
+        <p>Pra quem monta e instala por conta. Diagrama, bornes, layout, listas, identificações, CLP e térmico.</p>
+        <span class="seguir">Orçar escopo A →</span>
+      </a>
+      <a class="cel escopo" href="/orcamento">
+        <span class="passo__topo"><span class="ponto ponto--seu"></span><span class="rotulo">Escopo B</span></span>
+        <h3>Painel e instalação em campo</h3>
+        <p>Tudo do A, mais interconexão de campo, layout 2D, base de cabos e lista de instalação com horas.</p>
+        <span class="seguir">Orçar escopo B →</span>
+      </a>
     </div>
-
   </section>
 
-  <!-- ORÇAMENTO -->
-  <section class="secao">
-    <div class="secao__cabeca">
-      <h2>Condições comerciais</h2>
-    </div>
-
-    <div class="condicoes">
-      <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Preço</span></span>
-        <p class="condicao__titulo">Preço fechado, antes de começar.</p>
-        <p class="condicao__texto">O valor sai das páginas de diagrama e do escopo. Não muda no meio do projeto.</p>
+  <section class="sec">
+    <div class="sec__cabeca"><h2>O combinado</h2></div>
+    <div class="cartoes combinado">
+      <div class="cel">
+        <span class="rotulo">Preço</span>
+        <p>Fechado antes de começar. Não muda no meio.</p>
       </div>
-      <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Condição de início</span></span>
-        <p class="condicao__titulo">Desconto de 50% no primeiro projeto.</p>
-        <p class="condicao__texto">Vale uma vez por cliente. Você não me conhece, e eu preciso do primeiro projeto pra mostrar o padrão.</p>
+      <div class="cel">
+        <span class="rotulo">Primeiro projeto</span>
+        <p>50% de desconto, uma vez por cliente.</p>
       </div>
-      <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Revisões</span></span>
-        <p class="condicao__titulo">Erro meu eu corrijo sempre.</p>
-        <p class="condicao__texto">Sem limite e sem cobrança, comparando contra a ficha que você assinou. Alteração que você pedir depois: duas rodadas inclusas.</p>
+      <div class="cel">
+        <span class="rotulo">Revisões</span>
+        <p>Duas rodadas inclusas. Erro meu, sem limite.</p>
       </div>
-      <div class="condicao">
-        <span class="condicao__marcador"><span class="no" aria-hidden="true"></span> <span class="rotulo">Sigilo</span></span>
-        <p class="condicao__titulo">Nada seu é publicado sem a sua autorização.</p>
-        <p class="condicao__texto">Desenho, padrão e informação comercial ficam em sigilo por dois anos depois da entrega, em cláusula de contrato. O que você salva na sua conta fica só na sua conta.</p>
+      <div class="cel">
+        <span class="rotulo">Sigilo</span>
+        <p>Dois anos, em contrato.</p>
       </div>
     </div>
-
-    <div class="tabela-wrap">
-      <table>
-        <thead>
-          <tr><th>Etapa</th><th>O que acontece</th><th>Prazo</th><th>Pagamento</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="destaque-td">1 · Orçamento</td>
-            <td data-rot="O que acontece">Você descreve o projeto. Respondo com valor e prazo fechados.</td>
-            <td data-rot="Prazo" class="mono">em 24 h</td>
-            <td data-rot="Pagamento" class="mono">sem custo</td>
-          </tr>
-          <tr>
-            <td class="destaque-td">2 · Aceite</td>
-            <td data-rot="O que acontece">Você aceita a proposta e assina o contrato digitalmente.</td>
-            <td data-rot="Prazo" class="mono">até 3 dias</td>
-            <td data-rot="Pagamento" class="mono destaque-td">40%</td>
-          </tr>
-          <tr>
-            <td class="destaque-td">3 · Execução</td>
-            <td data-rot="O que acontece">Desenvolvimento e conferência dos 12 blocos. O prazo conta do pagamento.</td>
-            <td data-rot="Prazo" class="mono">prazo da proposta</td>
-            <td data-rot="Pagamento" class="mono">—</td>
-          </tr>
-          <tr>
-            <td class="destaque-td">4 · Entrega</td>
-            <td data-rot="O que acontece">Pacote completo, com revisões inclusas.</td>
-            <td data-rot="Prazo" class="mono">na data fechada</td>
-            <td data-rot="Pagamento" class="mono destaque-td">60% na aprovação</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
   </section>
 
-  <!-- CONTATO -->
-  <section class="contato" id="contato">
+  <section class="cta">
     <div>
-      <h2>Descreva o que você precisa projetar</h2>
-      <p>Onze campos. Respondo com valor e prazo fechados em até 24 h.</p>
-      <div class="contato__acao"><a class="botao" href="/orcamento">Solicitar orçamento</a></div>
+      <h2>Pronto pra começar?</h2>
+      <p class="cta__texto">Onze campos, cinco minutos. Respondo com valor e prazo fechados em até 24 h.</p>
+      <div style="margin-top:1.1rem"><a class="btn" href="/orcamento">Pedir orçamento</a></div>
     </div>
-    <div class="dados">
-      <div class="dado">
-        <span class="rotulo">Email</span>
-        <a href="mailto:contato@borinprojetos.com.br">contato@borinprojetos.com.br</a>
+    <div class="cta__contatos">
+      <div class="cta__grupo">
+        <span class="rotulo">Prefere falar direto?</span>
+        <a class="cta__linha" href="https://wa.me/5554996642003">WhatsApp · +55 (54) 99664-2003</a>
+        <a class="cta__linha" href="mailto:contato@borinprojetos.com.br">contato@borinprojetos.com.br</a>
       </div>
-      <div class="dado">
-        <span class="rotulo">WhatsApp</span>
-        <a href="https://wa.me/5554996642003?text=Ol%C3%A1%20Mateus%2C%20vi%20o%20site%20e%20queria%20falar%20sobre%20um%20projeto%20el%C3%A9trico.">+55 (54) 99664-2003</a>
-      </div>
-      <div class="dado">
+      <div class="cta__grupo">
         <span class="rotulo">Onde</span>
-        <span class="v">Caxias do Sul · RS<br>Atendimento remoto no Brasil</span>
+        <span class="cta__valor">Caxias do Sul · RS · Atendimento remoto no Brasil</span>
       </div>
     </div>
   </section>
 
-  <footer class="tabela-wrap">
+  <footer>
     <div class="carimbo">
       <div class="carimbo__marca">
         <svg viewBox="0 0 160 72" role="img" aria-label="BRN">
@@ -1386,12 +499,12 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
           </g>
         </svg>
       </div>
-      <div><span class="campo">EMPRESA</span><span class="valor">Borin Projetos Elétricos</span></div>
-      <div><span class="campo">RESPONSÁVEL</span><span class="valor">Mateus Borin · projetista</span></div>
-      <div><span class="campo">CNPJ</span><span class="valor">65.749.097/0001-85</span></div>
-      <div><span class="campo">LOCAL</span><span class="valor">Caxias do Sul · RS</span></div>
+      <div><span class="c-campo">EMPRESA</span><span class="c-valor">Borin Projetos Elétricos</span></div>
+      <div><span class="c-campo">RESPONSÁVEL</span><span class="c-valor">Mateus Borin · projetista</span></div>
+      <div><span class="c-campo">CNPJ</span><span class="c-valor">65.749.097/0001-85</span></div>
+      <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
     </div>
-    <p class="rodape-acao"><a href="/entrar">Entrar na minha conta</a> · <a href="/orcamento">Pedir orçamento</a> · <a href="/privacidade">Privacidade</a></p>
+    <p class="rodape-acao"><a href="/entrar">Entrar na minha conta</a> · <a href="/privacidade">Privacidade</a></p>
   </footer>
 
 </div>
@@ -1412,62 +525,6 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
       }
     })
     .catch(function () {});
-})();
-
-(function () {
-  ['pdf', 'xls'].forEach(function (lado) {
-    var lista = document.querySelector('.bornes[data-lista="' + lado + '"]');
-    var bt = document.querySelector('.link-expandir[data-abre="' + lado + '"]');
-    var itens = document.querySelectorAll('.item[data-lado="' + lado + '"]');
-    var figs = document.querySelectorAll('.figura[data-lado="' + lado + '"]');
-    if (!lista || !itens.length) { return; }
-
-    var rotuloAberto = 'recolher';
-    var rotuloFechado = bt ? bt.textContent : 'ver todos';
-
-    function fechar(sim) {
-      lista.classList.toggle('fechada', sim);
-      if (bt) { bt.textContent = sim ? rotuloFechado : rotuloAberto; }
-    }
-
-    /* quando fechada, mostra so a linha do item selecionado */
-    function marcarVisivel(chave) {
-      lista.querySelectorAll('li').forEach(function (li) {
-        var b = li.querySelector('.item');
-        li.classList.toggle('visivel', !!b && b.dataset.fig === chave);
-      });
-    }
-
-    function mostrar(chave, irAte) {
-      itens.forEach(function (b) { b.classList.toggle('ativo', b.dataset.fig === chave); });
-      var alvo = null;
-      figs.forEach(function (f) {
-        var eh = f.dataset.fig === chave;
-        f.classList.toggle('ativo', eh);
-        if (eh) { alvo = f; }
-      });
-      marcarVisivel(chave);
-      if (irAte && alvo) {
-        /* nao fechar a lista aqui: quem abriu com "ver os 9" perdia as nove
-           linhas no primeiro clique, e ainda levava um scroll junto */
-        alvo.classList.remove('piscou');
-        void alvo.offsetWidth;
-        alvo.classList.add('piscou');
-        /* 'nearest' nao rola quando a figura ja esta na tela */
-        alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
-
-    itens.forEach(function (b) {
-      b.addEventListener('click', function () { mostrar(b.dataset.fig, true); });
-    });
-
-    if (bt) {
-      bt.addEventListener('click', function () { fechar(!lista.classList.contains('fechada')); });
-    }
-
-    mostrar(itens[0].dataset.fig, false);
-  });
 })();
 </script>
 

@@ -1,50 +1,113 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pedir orçamento — Borin Projetos Elétricos</title>
-<meta name="description" content="Onze campos para eu fechar valor e prazo de um projeto elétrico industrial. O detalhe vem depois, se você fechar.">
+<meta name="description" content="Onze campos em três passos para eu fechar valor e prazo de um projeto elétrico industrial. O detalhe vem depois, se você fechar.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
 
 <style>
 /* FONTES */
 /* BASE-FORM */
+
+/* ---------- específico do orçamento: passos ---------- */
+
+/* progresso em bornes: atual = cheio vermelho, feito = borda vermelha e
+   clicável pra voltar, futuro = borda neutra */
+.passos-barra { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.borne {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: default;
+  padding: 0;
+}
+.borne--feito { border-color: var(--acento); color: var(--acento); cursor: pointer; }
+.borne--atual { border-color: var(--acento); background: var(--acento); color: #FFFFFF; }
+.fio { flex: none; width: 2rem; height: 1px; background: var(--rule); }
+.fio--feito { background: var(--acento); }
+.passo-label {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+  margin-left: 0.6rem;
+}
+
+/* a barra de navegação entre passos */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.1rem;
+  margin-top: 0.4rem;
+}
+.voltar-btn {
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-micro);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 0 0 0.1rem;
+  cursor: pointer;
+}
+.voltar-btn:hover { color: var(--ink); }
+
+/* botão primário vermelho = a ação final. O de avançar segue o padrão (tinta) */
+.botao--acento { background: var(--acento); border-color: var(--acento); color: #FFFFFF; }
+.botao--acento:hover { background: var(--ink); border-color: var(--ink); color: var(--ground); }
+
+.topo h1 { transition: none; }
 </style>
 
 <div class="pagina">
 
   <header class="topo">
-    <div class="marca">
-      <svg viewBox="0 0 420 128" role="img" aria-label="Borin — projetos elétricos industriais">
-        <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
-          <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
-          <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
-          <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
-          <text x="0" y="118" font-size="16" font-weight="500" letter-spacing="1.92" fill="currentColor" opacity="0.62">projetos elétricos industriais</text>
-        </g>
-      </svg>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem">
+      <div class="marca">
+        <svg viewBox="0 0 420 96" role="img" aria-label="Borin">
+          <g font-family="Inter, 'Segoe UI', Arial, sans-serif">
+            <text x="0" y="62" font-size="72" font-weight="700" letter-spacing="5.76" fill="currentColor">BORIN</text>
+            <rect x="0" y="84" width="316" height="4" fill="currentColor"></rect>
+            <rect x="322" y="79" width="14" height="14" fill="var(--acento)"></rect>
+          </g>
+        </svg>
+      </div>
+      <a class="voltar" href="/">← Início</a>
     </div>
-
-    <a class="voltar" href="/">← Início</a>
 
     <div>
-      <span class="rotulo">Pedido de orçamento</span>
-      <h1>Onze campos e eu te mando valor e prazo.</h1>
-      <p class="topo__texto">O detalhe técnico só depois, se você fechar.</p>
+      <span class="rotulo">Pedido de orçamento · sem custo</span>
+      <h1 id="tituloPasso">O que você precisa projetar?</h1>
     </div>
 
-    <div class="perfil-barra" id="perfilBarra">
-      <span class="perfil-barra__topo"><span class="no" aria-hidden="true"></span><span class="rotulo">Seus dados já estão salvos</span></span>
-      <p class="perfil-barra__resumo" id="perfilResumo"></p>
-      <div class="perfil-barra__acoes">
-        <button type="button" class="link-acao" onclick="alternarPerfil()" id="btPerfil">Ver e editar</button>
-        <button type="button" class="link-acao" onclick="apagarPadrao()">Apagar</button>
-      </div>
+    <div class="passos-barra" id="passosBarra">
+      <button type="button" class="borne" data-ir="0">1</button>
+      <span class="fio" data-fio="0"></span>
+      <button type="button" class="borne" data-ir="1">2</button>
+      <span class="fio" data-fio="1"></span>
+      <button type="button" class="borne" data-ir="2">3</button>
+      <span class="passo-label" id="passoLabel">Passo 1 de 3</span>
     </div>
   </header>
 
   <!-- novalidate: a validacao nativa do navegador barra o submit ANTES do
      nosso codigo rodar, e a bolha dela some ao rolar a pagina. Com ela
      desligada, quem valida e o validar() daqui: uma mensagem so, no mesmo
-     lugar, com o campo focado. -->
+     lugar, com o campo focado — e revelando o passo em que o campo mora. -->
   <form id="formOrcamento" novalidate>
 
     <!-- isca de robo: fica fora da tela e humano nunca preenche.
@@ -54,120 +117,109 @@
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
     </div>
 
-    <div class="bloco perfil">
-      <div class="bloco__cabeca">
-        <h2>Você</h2>
-        <span class="marca-perfil">fica salvo</span>
-      </div>
-      <div class="grade">
-        <div class="campo"><label for="empresa">Empresa</label><input type="text" id="empresa" data-perfil></div>
-        <div class="campo"><label for="contato">Seu nome</label><input type="text" id="contato" data-perfil></div>
-        <div class="campo"><label for="email">Email</label><input type="email" id="email" data-perfil></div>
-        <div class="campo"><label for="fone">WhatsApp</label><input type="tel" id="fone" data-perfil inputmode="tel" oninput="mascaraFone(this)" placeholder="+55 54 99664-2003"></div>
-      </div>
-    </div>
-
-    <div class="bloco">
-      <div class="bloco__cabeca"><h2>O projeto</h2></div>
-      <div class="grade">
+    <!-- passo 1: o projeto -->
+    <div class="passo-form" data-passo="0">
+      <div class="grade grade--larga">
         <div class="campo">
-          <label for="equipamento">Máquina, painel ou processo</label>
-          <input type="text" id="equipamento" placeholder="painel de controle de estufa de pintura">
+          <label for="equipamento">O que precisa de projeto?</label>
+          <input type="text" id="equipamento" placeholder="ex.: painel de controle de estufa de pintura">
+          <span class="campo__dica">Máquina, painel ou processo, do seu jeito.</span>
         </div>
         <div class="campo">
-          <label for="codigo">Código</label>
+          <label for="codigo">Código interno <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label>
           <input type="text" id="codigo" placeholder="o número que vocês usam">
         </div>
-      </div>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="escopo" value="A">
-          <span class="opcao__texto">
-            <span class="opcao__titulo">Só o painel</span>
-            <span class="opcao__nota">Escopo A</span>
-          </span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="escopo" value="B">
-          <span class="opcao__texto">
-            <span class="opcao__titulo">Painel e instalação em campo</span>
-            <span class="opcao__nota">Escopo B</span>
-          </span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="escopo" value="?" checked>
-          <span class="opcao__texto">
-            <span class="opcao__titulo">Não sei</span>
-            <span class="opcao__nota">Eu digo qual cabe</span>
-          </span>
-        </label>
+        <div class="campo">
+          <span style="font-size:var(--fs-small); font-weight:600">Escopo</span>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="escopo" value="A">
+              <span class="opcao__texto"><span class="opcao__titulo">Só o painel</span><span class="opcao__nota">Escopo A</span></span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="escopo" value="B">
+              <span class="opcao__texto"><span class="opcao__titulo">Painel e instalação em campo</span><span class="opcao__nota">Escopo B</span></span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="escopo" value="?" checked>
+              <span class="opcao__texto"><span class="opcao__titulo">Não sei</span><span class="opcao__nota">Eu digo qual cabe</span></span>
+            </label>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="bloco">
-      <div class="bloco__cabeca">
-        <h2>Dados mínimos para orçamento</h2>
-      </div>
-      <div class="grade">
+    <!-- passo 2: dados mínimos -->
+    <div class="passo-form" data-passo="1" hidden>
+      <div class="grade grade--larga">
         <div class="campo">
           <label for="acionamentos">Acionamentos</label>
           <input type="text" id="acionamentos" placeholder="partidas de motor, inversores, válvulas e resistências">
         </div>
         <div class="campo">
-          <label for="ios">Pontos de I/O</label>
+          <label for="ios">Pontos de I/O <span style="font-weight:400; color:var(--ink-soft)">(se souber)</span></label>
           <input type="text" id="ios" placeholder="entradas e saídas somadas">
         </div>
         <div class="campo">
-          <label for="prazo">Data alvo de entrega</label>
-          <input type="date" id="prazo">
-          <span class="campo__dica">Se ainda não tem data, deixe em branco.</span>
+          <span style="font-size:var(--fs-small); font-weight:600">A máquina tem NR-12?</span>
+          <div class="opcoes">
+            <label class="opcao">
+              <input type="radio" name="nr12" value="sim" onchange="alternarNr12()">
+              <span class="opcao__texto"><span class="opcao__titulo">Tem NR-12</span></span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="nr12" value="nao" onchange="alternarNr12()">
+              <span class="opcao__texto"><span class="opcao__titulo">Não tem NR-12</span></span>
+            </label>
+            <label class="opcao">
+              <input type="radio" name="nr12" value="?" checked onchange="alternarNr12()">
+              <span class="opcao__texto"><span class="opcao__titulo">Não sei</span></span>
+            </label>
+          </div>
         </div>
-      </div>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="nr12" value="sim" onchange="alternarNr12()">
-          <span class="opcao__texto"><span class="opcao__titulo">Tem NR-12</span></span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="nr12" value="nao" onchange="alternarNr12()">
-          <span class="opcao__texto"><span class="opcao__titulo">Não tem NR-12</span></span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="nr12" value="?" checked onchange="alternarNr12()">
-          <span class="opcao__texto"><span class="opcao__titulo">Não sei</span></span>
-        </label>
-      </div>
-      <div class="grade se-nr12">
-        <div class="campo">
+        <div class="campo se-nr12">
           <label for="seg_qtd">Quantos dispositivos de segurança</label>
           <input type="text" id="seg_qtd" placeholder="emergência, trava de porta, cortina, scanner, tapete">
+        </div>
+        <div class="campo">
+          <label for="prazo">Data alvo de entrega <span style="font-weight:400; color:var(--ink-soft)">(se já tem)</span></label>
+          <input type="date" id="prazo">
         </div>
       </div>
     </div>
 
-    <div class="bloco" style="margin-bottom: 0;">
-      <div class="bloco__cabeca">
-        <h2>Onde você quer receber o orçamento</h2>
+    <!-- passo 3: onde te respondo -->
+    <div class="passo-form" data-passo="2" hidden>
+      <div class="grade">
+        <div class="campo"><label for="empresa">Empresa</label><input type="text" id="empresa" data-perfil></div>
+        <div class="campo"><label for="contato">Seu nome</label><input type="text" id="contato" data-perfil></div>
+        <div class="campo"><label for="email">Email</label><input type="email" id="email" data-perfil></div>
+        <div class="campo"><label for="fone">WhatsApp <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label><input type="tel" id="fone" data-perfil inputmode="tel" oninput="mascaraFone(this)" placeholder="+55 54 99664-2003"></div>
       </div>
-      <div class="opcoes">
-        <label class="opcao">
-          <input type="radio" name="canal" value="email" checked>
-          <span class="opcao__texto"><span class="opcao__titulo">Só por email</span></span>
-        </label>
-        <label class="opcao">
-          <input type="radio" name="canal" value="email+whats">
-          <span class="opcao__texto">
-            <span class="opcao__titulo">Por email e WhatsApp</span>
-          </span>
-        </label>
+      <div class="campo" style="margin-top:1.1rem">
+        <span style="font-size:var(--fs-small); font-weight:600">Onde você quer receber o orçamento</span>
+        <div class="opcoes">
+          <label class="opcao">
+            <input type="radio" name="canal" value="email" checked>
+            <span class="opcao__texto"><span class="opcao__titulo">Só por email</span></span>
+          </label>
+          <label class="opcao">
+            <input type="radio" name="canal" value="email+whats">
+            <span class="opcao__texto"><span class="opcao__titulo">Por email e WhatsApp</span></span>
+          </label>
+        </div>
       </div>
-      <div class="acoes">
-        <button type="submit" class="botao" id="btSolicitar">Solicitar orçamento</button>
-      </div>
-      <p class="aviso falta" id="avisoFalta"></p>
-      <p class="aviso">Respondo com valor e prazo em até 24 h. O pedido chega direto no meu email. Seus dados de contato ficam salvos neste navegador para o próximo pedido.</p>
-      <pre class="resumo" id="resumo"></pre>
+      <p class="aviso" style="margin-top:0.9rem">Respondo com valor e prazo em até 24 h. Seus dados de contato ficam salvos neste navegador para o próximo pedido.</p>
     </div>
+
+    <div class="nav">
+      <button type="button" class="voltar-btn" id="btVoltar" style="visibility:hidden">← Voltar</button>
+      <button type="button" class="botao" id="btAvancar">Continuar — falta pouco</button>
+      <button type="submit" class="botao botao--acento" id="btSolicitar" hidden>Enviar pedido</button>
+    </div>
+
+    <p class="aviso falta" id="avisoFalta"></p>
+    <pre class="resumo" id="resumo"></pre>
 
   </form>
 
@@ -183,7 +235,6 @@
       <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Pedido de orçamento</span></div>
       <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
       <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
-      <div><span class="c-campo">DADOS</span><span class="c-valor"><a href="/privacidade">privacidade</a></span></div>
     </div>
   </footer>
 
@@ -239,11 +290,86 @@ var OBRIGATORIOS = [
   ['equipamento', 'a máquina, painel ou processo']
 ];
 
-/* Enter agora envia. Antes o form tinha onsubmit="return false" e o botao
-   era type=button: nao existia submissao, e quem preenche no teclado apertava
-   Enter e nao acontecia nada. */
+/* ---------- navegação por passos ----------
+   Os campos NUNCA saem do DOM — só ficam escondidos. Assim o notificar() lê
+   todos por id na hora do envio, e o data-perfil preenche o passo 3 mesmo
+   quando ele está oculto. */
+var passo = 0;
+var TITULOS = [
+  'O que você precisa projetar?',
+  'Dados mínimos pra fechar valor e prazo',
+  'Onde eu te respondo'
+];
+/* pra validação saber a que passo levar quando faltar um campo */
+var PASSO_DO_CAMPO = {
+  equipamento: 0, codigo: 0,
+  acionamentos: 1, ios: 1, seg_qtd: 1, prazo: 1,
+  empresa: 2, contato: 2, email: 2, fone: 2
+};
+
+function telas() { return document.querySelectorAll('.passo-form'); }
+
+function renderPasso() {
+  telas().forEach(function (t) {
+    t.hidden = Number(t.getAttribute('data-passo')) !== passo;
+  });
+  document.getElementById('tituloPasso').textContent = TITULOS[passo];
+  document.getElementById('passoLabel').textContent = 'Passo ' + (passo + 1) + ' de 3';
+
+  document.querySelectorAll('.borne').forEach(function (b) {
+    var i = Number(b.getAttribute('data-ir'));
+    b.classList.toggle('borne--atual', i === passo);
+    b.classList.toggle('borne--feito', i < passo);
+  });
+  document.querySelectorAll('.fio').forEach(function (f) {
+    f.classList.toggle('fio--feito', Number(f.getAttribute('data-fio')) < passo);
+  });
+
+  document.getElementById('btVoltar').style.visibility = passo === 0 ? 'hidden' : 'visible';
+
+  var av = document.getElementById('btAvancar');
+  var env = document.getElementById('btSolicitar');
+  if (passo < 2) {
+    av.hidden = false; env.hidden = true;
+    av.textContent = passo === 0 ? 'Continuar — falta pouco' : 'Continuar';
+  } else {
+    av.hidden = true; env.hidden = false;
+  }
+}
+
+function irPasso(n) {
+  passo = Math.max(0, Math.min(2, n));
+  renderPasso();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function avancar() { irPasso(passo + 1); }
+function voltar() { irPasso(passo - 1); }
+
+/* quando a validação aponta um campo de outro passo, revela o passo dele
+   antes de focar — senão focar um campo escondido não faz nada */
+function mostrarPassoDoCampo(id) {
+  if (PASSO_DO_CAMPO.hasOwnProperty(id) && PASSO_DO_CAMPO[id] !== passo) {
+    passo = PASSO_DO_CAMPO[id];
+    renderPasso();
+  }
+}
+
+document.getElementById('btAvancar').addEventListener('click', avancar);
+document.getElementById('btVoltar').addEventListener('click', voltar);
+document.querySelectorAll('.borne').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var i = Number(b.getAttribute('data-ir'));
+    if (i <= passo) { irPasso(i); }   // só volta pra passo já visto
+  });
+});
+
+/* Enter e o submit: nos passos 1 e 2 avança; só no 3 envia de verdade.
+   Antes o form tinha onsubmit="return false" e o botao era type=button: nao
+   existia submissao, e quem preenche no teclado apertava Enter e nada
+   acontecia. Agora Enter faz a coisa esperada em cada tela. */
 document.getElementById('formOrcamento').addEventListener('submit', function (ev) {
   ev.preventDefault();
+  if (passo < 2) { avancar(); return; }
   solicitar(document.getElementById('btSolicitar'));
 });
 
@@ -279,6 +405,8 @@ function validar() {
     if (aviso) { aviso.textContent = ''; }
     return true;
   }
+  /* revela o passo do campo ANTES de focar; campo escondido não recebe foco */
+  mostrarPassoDoCampo(falta);
   var el = document.getElementById(falta);
   if (aviso) { aviso.textContent = 'Falta ' + rotulo + '. Sem isso eu não consigo te responder.'; }
   el.focus();
@@ -292,6 +420,7 @@ document.addEventListener('input', function (e) {
 });
 
 iniciarForm();
+renderPasso();
 </script>
 
 <!-- ANALYTICS -->
