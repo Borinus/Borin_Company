@@ -25,6 +25,7 @@ import { guardarArquivo, listarArquivos, lerArquivo, apagarArquivo,
 import { montarPainel } from "./painel.js";
 import { validarTokenGoogle, buscarJwks } from "./google.js";
 import { validarTokenMicrosoft, buscarJwksMicrosoft } from "./microsoft.js";
+import { blocoEstimativaHtml } from "./estimativa.js";
 
 const SESSAO_HORAS = 12;
 const TENTATIVAS_MAX = 8;      // por email, antes de travar
@@ -290,6 +291,7 @@ async function entrarComGoogle(request, env, dados) {
     env, r.email, r.nome, "entrar com o Google");
   return json({
     ok: true,
+    email: conta.email,
     empresa: conta.empresa,
     contato: conta.contato,
     senha_provisoria: false,
@@ -371,6 +373,7 @@ async function entrarComMicrosoft(request, env, dados) {
     env, r.email, r.nome, "entrar com a Microsoft");
   return json({
     ok: true,
+    email: conta.email,
     empresa: conta.empresa,
     contato: conta.contato,
     senha_provisoria: false,
@@ -748,7 +751,7 @@ const RODAPE = [
   "</div></div></div>",
 ].join("");
 
-function senhaJaFoi(contato, email) {
+function senhaJaFoi(contato, email, estimativaHtml) {
   const nome = (contato || "").split(" ")[0];
   return [
     '<div style="margin:0;padding:24px 16px;background:#F4F4F4;',
@@ -766,6 +769,7 @@ function senhaJaFoi(contato, email) {
     '<h1 style="font-size:22px;font-weight:700;margin:0 0 10px;letter-spacing:-.02em;color:#111111">',
     (nome ? nome + ", recebi seu pedido" : "Recebi seu pedido"),
     "</h1>",
+    estimativaHtml || "",
     '<p style="font-size:14px;line-height:1.6;color:#111111;margin:0 0 16px">',
     "Respondo com valor e prazo fechados em até 24 horas.",
     "</p>",
@@ -792,7 +796,7 @@ function senhaJaFoi(contato, email) {
   ].join("");
 }
 
-function pedidoRecebido(contato, email) {
+function pedidoRecebido(contato, email, estimativaHtml) {
   const nome = (contato || "").split(" ")[0];
   return [
     '<div style="margin:0;padding:24px 16px;background:#F4F4F4;',
@@ -810,6 +814,7 @@ function pedidoRecebido(contato, email) {
     '<h1 style="font-size:22px;font-weight:700;margin:0 0 10px;letter-spacing:-.02em;color:#111111">',
     (nome ? nome + ", recebi seu pedido" : "Recebi seu pedido"),
     "</h1>",
+    estimativaHtml || "",
     '<p style="font-size:14px;line-height:1.6;color:#111111;margin:0 0 16px">',
     "Respondo com valor e prazo fechados em até 24 horas.",
     "</p>",
@@ -825,7 +830,7 @@ function pedidoRecebido(contato, email) {
   ].join("");
 }
 
-function boasVindas(contato, email, senha, repetido) {
+function boasVindas(contato, email, senha, repetido, estimativaHtml) {
   const nome = (contato || "").split(" ")[0];
   /* Pedido repetido gera senha nova e mata a anterior. Sem este aviso, o
      cliente fica com dois ou três emails IDÊNTICOS na caixa, tenta a senha do
@@ -859,7 +864,9 @@ function boasVindas(contato, email, senha, repetido) {
     '<p style="font-size:14px;line-height:1.6;color:#111111;margin:0 0 16px">',
     "Respondo com valor e prazo fechados em até 24 horas. Enquanto isso, criei um acesso ",
     "para você acompanhar o projeto e preencher a parte técnica sem precisar repetir dado.",
-    "</p></div>",
+    "</p>",
+    estimativaHtml || "",
+    "</div>",
     aviso,
     '<div style="padding:0 28px">',
     '<table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;',
@@ -899,7 +906,7 @@ function boasVindas(contato, email, senha, repetido) {
  * reenvia nada — o cliente que pede dois orcamentos nao pode receber duas
  * senhas diferentes e ficar sem saber qual vale.
  */
-export async function contaDoLead(env, email, empresa, contato) {
+export async function contaDoLead(env, email, empresa, contato, estimativaHtml) {
   const chave = normalizarEmail(email);
   if (!chave.includes("@")) return { estado: "email_invalido" };
 
@@ -917,7 +924,7 @@ export async function contaDoLead(env, email, empresa, contato) {
       const r = await enviarPara(env, {
         para: chave,
         assunto: "Recebi seu pedido — Borin Projetos Elétricos",
-        corpo: pedidoRecebido(contato || antes.contato, chave),
+        corpo: pedidoRecebido(contato || antes.contato, chave, estimativaHtml),
         html: true,
       });
       return { estado: r.entregue ? "ja_tinha" : "ja_tinha_sem_entregar" };
@@ -937,7 +944,7 @@ export async function contaDoLead(env, email, empresa, contato) {
       const r = await enviarPara(env, {
         para: chave,
         assunto: "Recebi seu pedido — Borin Projetos Elétricos",
-        corpo: senhaJaFoi(contato || antes.contato, chave),
+        corpo: senhaJaFoi(contato || antes.contato, chave, estimativaHtml),
         html: true,
       });
       return { estado: r.entregue ? "reenviada" : "reenviada_sem_entregar" };
@@ -972,7 +979,7 @@ export async function contaDoLead(env, email, empresa, contato) {
          como saber qual é o mais novo sem abrir os dois */
       assunto: antes ? "Sua senha nova — Borin Projetos Elétricos"
                      : "Seu acesso — Borin Projetos Elétricos",
-      corpo: boasVindas(contato, chave, senha, !!antes),
+      corpo: boasVindas(contato, chave, senha, !!antes, estimativaHtml),
       html: true,
     });
     return { estado: r.entregue ? (antes ? "reenviada" : "criada")

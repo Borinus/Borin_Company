@@ -24,6 +24,7 @@
  */
 
 import { rotaAcesso, contaDoLead } from "./acesso.js";
+import { estimativaDoPedido, blocoEstimativaHtml } from "./estimativa.js";
 import { guardarPedido } from "./equipe.js";
 import { avisarNoZap, rotaZap } from "./zap.js";
 import { enviarPara, limpo } from "./correio.js";
@@ -95,9 +96,15 @@ async function pedidoDoSite(request, env) {
   /* Pedido com email valido abre a conta do cliente na hora e manda a senha
      pra ele. Era o que faltava: ate entao a senha so existia se o Mateus
      rodasse um comando e copiasse na mao. */
+  /* Estimativa na hora: se o cliente deu escopo e tamanho, o email já leva
+     páginas, prazo e uma FAIXA de preço (não o valor fechado — isso o Mateus
+     confirma). Sem dados suficientes, sai null e o email cai no texto de
+     "preparando", sem inventar número. */
+  const estHtml = blocoEstimativaHtml(estimativaDoPedido(p));
+
   let conta = null;
   try {
-    conta = await contaDoLead(env, p.email, p.empresa, p.contato);
+    conta = await contaDoLead(env, p.email, p.empresa, p.contato, estHtml);
   } catch (e) {
     console.error("nao criei a conta do lead:", e && e.message);
   }
