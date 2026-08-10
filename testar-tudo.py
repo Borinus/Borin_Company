@@ -42,6 +42,8 @@ SUITES = [
      "o teto do MEI e o saldo a receber", False),
     ("comercial/testar-proposta.py",
      "a proposta em PDF cabendo numa folha", False),
+    ("site/testar-rascunho.py",
+     "o link de rascunho preenchendo o formulário certo", False),
     ("site/testar-travessia.py",
      "o caminho inteiro do cliente, do pedido à entrega", True),
 ]

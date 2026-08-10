@@ -1481,6 +1481,11 @@ function preencherDaConta(u) {
   document.getElementById('socialTitulo').textContent = 'Conectado';
   var g = document.getElementById('btGoogle'); if (g) { g.style.display = 'none'; }
   var m = document.getElementById('btMicrosoft'); if (m) { m.style.display = 'none'; }
+  /* se o resumo já está aberto (rascunho em conferência), o que entrar por
+     aqui tem que aparecer nele: resumo congelado com email chegando por baixo
+     é o pedido saindo diferente do que foi conferido */
+  var res = document.getElementById('resumo');
+  if (res && res.classList.contains('ativo')) { res.textContent = montar(true); }
 }
 
 /* já logado ao chegar? preenche e nem mostra os botões */
@@ -1593,6 +1598,66 @@ ligarMicrosoftOrc();
     if (!r.ok) { document.getElementById('socialRecado').textContent = r.erro || 'não consegui entrar com a Microsoft'; return; }
     preencherDaConta({ email: r.email, empresa: r.empresa, contato: r.contato });
   });
+})();
+
+/* ---------- rascunho por link — uso interno ----------
+   Um link /orcamento#rascunho=<base64url do JSON de lerFormulario()> abre o
+   formulário inteiro preenchido, pra CONFERIR nos três passos e enviar. Serve
+   pro pedido que chega por conversa: o Mateus monta a ficha fora do site
+   (comercial/rascunho.py gera o link) e revisa aqui, na tela real.
+
+   O fragmento nunca vai pro servidor, e abrir o link não envia nada: só
+   preenche ESTE navegador — quem envia continua sendo o botão, com a validação
+   de sempre. Não há poder nenhum aqui: qualquer pessoa com um link desses só
+   preenche a própria tela, como se tivesse digitado.
+
+   Roda por último de propósito: o valor do rascunho ganha do padrão salvo no
+   localStorage, que o iniciarForm() já aplicou lá em cima. */
+(function carregarRascunhoDoLink() {
+  if (location.hash.indexOf('rascunho=') < 0) { return; }
+  var cru = new URLSearchParams(location.hash.slice(1)).get('rascunho');
+  if (!cru) { return; }
+  var dados;
+  try {
+    var b = cru.replace(/-/g, '+').replace(/_/g, '/');
+    while (b.length % 4) { b += '='; }
+    /* atob devolve bytes crus; escape/decodeURIComponent remonta o UTF-8 —
+       sem isso "instalação" chega como "instalaÃ§Ã£o" */
+    dados = JSON.parse(decodeURIComponent(escape(atob(b))));
+  } catch (e) {
+    /* link cortado no meio (colagem pela metade) não pode falhar calado */
+    avisoConta('O link de rascunho veio quebrado — confira se copiou o endereço inteiro.');
+    return;
+  }
+  /* a isca de robô fica intocada: se um link a preenchesse, o Worker
+     descartaria o pedido em silêncio, achando que é robô */
+  if (dados && dados.campos) { delete dados.campos.website; }
+  /* a tela vira EXATAMENTE o link. Sem o reset, campo que o rascunho não traz
+     herdava o padrão salvo no localStorage — o fone do cliente da semana
+     passada entrando no resumo deste pedido como se fosse dele, calado. */
+  document.getElementById('formOrcamento').reset();
+  var n;
+  try {
+    n = aplicarFormulario(dados);
+  } catch (e2) {
+    /* valor com aspas num radio derruba o querySelector; morrer aqui em
+       silêncio deixaria o form meio preenchido SEM o banner de conferência */
+    avisoConta('O rascunho veio com dados que não consegui aplicar — gere o link de novo.');
+    return;
+  }
+  /* o link já cumpriu o papel: sai da barra de endereço. Sem isso, F5 depois
+     de uma correção manual reaplicava o rascunho por cima, calado, com o
+     mesmo banner de sucesso — o replaceState espelha o do retorno Microsoft */
+  history.replaceState(null, '', location.pathname + location.search);
+  /* o resumo já aberto embaixo: a conferência inteira numa olhada só */
+  var res = document.getElementById('resumo');
+  res.textContent = montar(true);
+  res.classList.add('ativo');
+  avisoConta('Rascunho carregado — ' + n + ' campos preenchidos. '
+    + 'Confira os três passos e o resumo antes de enviar.');
+  /* a barra e a mesma do "Sua conta"; aqui o rotulo certo e outro */
+  var rot = document.querySelector('#barraConta .rotulo');
+  if (rot) { rot.textContent = 'Rascunho pra conferir'; }
 })();
 </script>
 
