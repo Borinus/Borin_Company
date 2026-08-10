@@ -40,6 +40,8 @@ curriculo/
 !.claude/skills/mapear/
 !.claude/skills/novo-projeto/
 !.claude/skills/atualizar/
+# skills do negócio criadas aqui (não são junction da CONFERENCIAS): versionam
+!.claude/skills/orcar/
 
 # Ponte pro Codex enxergar as skills — criada pelo /setup em CADA máquina
 # (symlink no Mac/Linux, cópia no Windows). Nunca vai pro git.
