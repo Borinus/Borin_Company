@@ -231,6 +231,8 @@ def composicao(p, o):
                       (o.abertura, "condição de abertura −50%")):
         if liga:
             partes.append(txt)
+    if getattr(o, "desconto", 0):
+        partes.append("desconto combinado −%g%%" % o.desconto)
     return " · ".join(partes)
 
 
@@ -385,6 +387,12 @@ def aplicar_primeira_vez(o):
     entre um caminho e o outro é R$ 6.700 num Escopo B — o tipo de número que
     não pode ser decidido por um `if` que ninguém vê.
     """
+    if getattr(o, "desconto", 0):
+        # desconto negociado NO projeto substitui a condição de abertura;
+        # deixar a abertura entrar junto empilharia 50% + N% sem ninguém decidir
+        print("  cliente:  desconto combinado de %g%% pedido na mão — "
+              "substitui a condição de abertura" % o.desconto)
+        return
     if o.ja_e_cliente:
         print("  cliente:  ANTIGO por --ja-e-cliente — sem condição de abertura")
         return
@@ -406,7 +414,8 @@ def aplicar_primeira_vez(o):
 def montar(o):
     paginas = o.paginas or calc.estimar_paginas(o.io, o.acionamentos, o.seguranca, o.escopo)
     r = calc.calcular(paginas, o.itens_manuais, o.setup_padrao,
-                      o.urgencia, o.arquivo_fonte, o.abertura)
+                      o.urgencia, o.arquivo_fonte, o.abertura,
+                      desconto_pct=getattr(o, "desconto", 0))
     escopo = o.escopo.upper()
     entrega = [
         "Diagramas de alimentação, comando e I/O",
@@ -518,6 +527,8 @@ def main():
     a.add_argument("--urgencia", action="store_true")
     a.add_argument("--arquivo-fonte", action="store_true")
     a.add_argument("--abertura", action="store_true")
+    a.add_argument("--desconto", type=float, default=0, metavar="PCT",
+                   help="desconto combinado deste projeto, em %% — substitui a condição de abertura")
     a.add_argument("--enviar", action="store_true")
     a.add_argument("--para-mim", action="store_true", help="manda so pro Mateus, identico ao do cliente")
     a.add_argument("--sem-contrato", action="store_true", help="nao anexa o contrato")

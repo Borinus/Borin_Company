@@ -109,6 +109,40 @@ ab, st, _ = decidir(Ped(abertura=True, ja_e_cliente=True))
 P("--abertura na mão sobrevive a --ja-e-cliente", ab, "o que foi digitado manda")
 
 print()
+print("  [desconto combinado] --desconto N substitui a abertura, sem empilhar")
+
+com_ficheiro({})
+ab, st, recado = decidir(Ped(desconto=20))
+P("--desconto 20 desliga a abertura automática do novo", not ab and not st,
+  recado[:52])
+P("e diz em voz alta o que decidiu",
+  "20" in recado and "abertura" in recado, recado[:52])
+
+r20 = orc.calc.calcular(40, desconto_pct=20)
+P("calcular põe a linha do desconto combinado",
+  any("20%" in r for r, _ in r20["linhas"]) and r20["total"] < r20["valor_cheio"],
+  "total %s, cheio %s" % (r20["total"], r20["valor_cheio"]))
+# a sobra do arredondamento e absorvida na linha do projeto (como nos outros
+# descontos), entao o cheio desce junto — o que tem que bater e a COLUNA
+soma = round(sum(v for _, v in r20["linhas"]), 2)
+P("a conta fecha: 40 páginas −20% = R$ 7.500 e a coluna soma exata",
+  r20["total"] == 7500.0 and soma == r20["total"],
+  "coluna %s, total %s, cheio %s" % (soma, r20["total"], r20["valor_cheio"]))
+
+try:
+    orc.calc.calcular(40, abertura=True, desconto_pct=20)
+    P("abertura + desconto juntos LEVANTA erro", False,
+      "aceitou os dois — seria 60% de desconto sem ninguém decidir")
+except ValueError:
+    P("abertura + desconto juntos LEVANTA erro", True, "nada de empilhar calado")
+
+try:
+    orc.calc.calcular(40, desconto_pct=120)
+    P("desconto acima de 100% LEVANTA erro", False, "aceitou pagar o cliente")
+except ValueError:
+    P("desconto acima de 100% LEVANTA erro", True, "")
+
+print()
 print("  [nada calado] toda decisão de R$ 6.700 tem que aparecer na tela")
 for rot, p, ficha in [("novo", Ped(), {}),
                       ("antigo", Ped(), VELHO),

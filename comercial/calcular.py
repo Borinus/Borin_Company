@@ -57,7 +57,8 @@ def estimar_paginas(io=0, acionamentos=0, seguranca=0, escopo="A"):
     return math.ceil(p)
 
 
-def _fechar(base, itens, setup, urgencia, arquivo_fonte, abertura):
+def _fechar(base, itens, setup, urgencia, arquivo_fonte, abertura,
+            desconto_pct=0):
     """O total exatamente como a coluna mostra: cada parcela arredondada em
     centavos, na mesma ordem. E esse numero que precisa cair redondo, nao o
     calculo continuo."""
@@ -69,18 +70,30 @@ def _fechar(base, itens, setup, urgencia, arquivo_fonte, abertura):
         total += round(subtotal * ACRESCIMO_FONTE, 2)
     if abertura:
         total -= round(total * DESCONTO_ABERTURA, 2)
+    if desconto_pct:
+        total -= round(total * desconto_pct / 100.0, 2)
     return round(total, 2)
 
 
 def calcular(paginas, itens_manuais=0, setup_padrao=False,
-             urgencia=False, arquivo_fonte=False, abertura=False):
+             urgencia=False, arquivo_fonte=False, abertura=False,
+             desconto_pct=0):
     """Monta o valor. Ordem importa: acrescimo antes do desconto, senao o
     desconto tambem reduz o que nao deveria ser descontado.
+
+    `desconto_pct` e o desconto COMBINADO num projeto especifico (ex.: 20).
+    Substitui a condicao de abertura — pedir os dois e erro em voz alta,
+    porque empilhar 50% + 20% calado seria dar 60% sem ninguem decidir isso.
 
     O total sai sempre num multiplo de ARREDONDA, pra baixo. A sobra e
     descontada da linha do projeto — a unica que e estimativa. Os precos de
     tabela (cadastro de item, setup) ficam intactos, e a coluna continua
     fechando na conta do cliente."""
+    if abertura and desconto_pct:
+        raise ValueError(
+            "abertura e desconto_pct juntos empilhariam dois descontos — escolha um")
+    if not 0 <= desconto_pct < 100:
+        raise ValueError("desconto_pct fora de 0..99: %r" % (desconto_pct,))
     itens = itens_manuais * POR_ITEM_MANUAL
     setup = SETUP_PADRAO if setup_padrao else 0
     base = paginas * POR_PAGINA
@@ -98,6 +111,8 @@ def calcular(paginas, itens_manuais=0, setup_padrao=False,
         fator += ACRESCIMO_FONTE
     if abertura:
         fator *= (1 - DESCONTO_ABERTURA)
+    if desconto_pct:
+        fator *= (1 - desconto_pct / 100.0)
 
     total = (base + itens + setup) * fator
 
@@ -107,7 +122,7 @@ def calcular(paginas, itens_manuais=0, setup_padrao=False,
     # um caso com acrescimo caia em 8.499,99 em vez de 8.500,00.
     alvo = int(total / ARREDONDA) * ARREDONDA
     if alvo >= ARREDONDA:
-        arg = (itens, setup, urgencia, arquivo_fonte, abertura)
+        arg = (itens, setup, urgencia, arquivo_fonte, abertura, desconto_pct)
         # 1. aproxima: o quanto a base precisa mudar pra o total virar o alvo
         for _ in range(3):
             novo = base + (alvo - _fechar(base, *arg)) / fator
@@ -150,6 +165,9 @@ def calcular(paginas, itens_manuais=0, setup_padrao=False,
     if abertura:
         v = -round(total * DESCONTO_ABERTURA, 2)
         linhas.append(("Condição de abertura (-50%)", v)); total += v
+    if desconto_pct:
+        v = -round(total * desconto_pct / 100.0, 2)
+        linhas.append(("Desconto combinado (-%g%%)" % desconto_pct, v)); total += v
 
     total = round(total, 2)
     cheio = round(cheio, 2)
@@ -214,13 +232,15 @@ def main():
     a.add_argument("--urgencia", action="store_true")
     a.add_argument("--arquivo-fonte", action="store_true")
     a.add_argument("--abertura", action="store_true", help="primeiro projeto do cliente, -50%%")
+    a.add_argument("--desconto", type=float, default=0, metavar="PCT",
+                   help="desconto combinado deste projeto, em %% — substitui a abertura")
     a.add_argument("--hora-sua", type=float, help="pra ver quanto rende por hora")
     a.add_argument("--json", action="store_true")
     o = a.parse_args()
 
     paginas = o.paginas or estimar_paginas(o.io, o.acionamentos, o.seguranca, o.escopo)
     r = calcular(paginas, o.itens_manuais, o.setup_padrao,
-                 o.urgencia, o.arquivo_fonte, o.abertura)
+                 o.urgencia, o.arquivo_fonte, o.abertura, desconto_pct=o.desconto)
 
     if o.json:
         print(json.dumps({k: v for k, v in r.items() if k != "linhas"}

@@ -89,6 +89,17 @@
 
 ## Comercial
 
+### Elevador do Zucolotto — primeiro pedido real, aberto em 10/08/2026
+
+- Pedido por WhatsApp (Matheus Zucolotto): elevador de cargas até 20 andares — LOGO! ou IHM
+  Weintek, remota, inversor, 2 motores, encoder; trava, sensor de porta e botoeira por andar
+- Ficha lida: 48 I/O + 2 acionamentos + **20 travas como NR-12** (regra na skill `/orcar`)
+- [ ] **Desconto combinado: 20%** — decidido em 10/08/2026. A proposta sai com
+  `--desconto 20` (substitui a condição de abertura; a ferramenta recusa os dois juntos)
+- Referência: escopo A ~37 pág → **R$ 6.900** · escopo B ~40 pág → **R$ 7.500**
+- [ ] Falta empresa e email dele pra enviar o pedido pelo link de rascunho
+- [ ] Projeto ainda não fechado do lado dele (nº de andares em aberto)
+
 ### Conversa com possível sócio — aberta em 29/07/2026
 
 - [x] Conversa inicial feita em 29/07/2026 — positiva, e ele já reconhece que o software é do Mateus
