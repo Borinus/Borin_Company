@@ -31,6 +31,12 @@ ACRESCIMO_URGENCIA = 0.30
 ACRESCIMO_FONTE = 0.50
 DESCONTO_ABERTURA = 0.50
 
+# Validade da proposta, em dias corridos. Decidido em 11/08/2026: 15 dias, o
+# que o modelo-proposta.md sempre prometeu — cliente industrial aprova com
+# chefe e compras, 3 dias viravam proposta vencida antes da reuniao. UM lugar
+# so: proposta (PDF/HTML/txt), email e registro na conta leem daqui.
+VALIDADE_DIAS = 15
+
 # ---------- estimativa de paginas ----------
 # calibrado contra 04003478: 96 I/O, 8 acionamentos, 6 disp. seguranca,
 # escopo B -> 50,1 -> 51 paginas. O projeto real tem 51 folhas.

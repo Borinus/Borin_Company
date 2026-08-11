@@ -135,8 +135,34 @@ for pedaco, rotulo in [("TESTE-001", "o número da proposta"),
 
 P("o total confere com o calculado", calc.brl(maior["total"]) in txt,
   calc.brl(maior["total"]))
-P("o valor cheio aparece quando há desconto", calc.brl(maior["valor_cheio"]) in txt,
+P("o valor cheio aparece com 2+ somas e desconto", calc.brl(maior["valor_cheio"]) in txt,
   calc.brl(maior["valor_cheio"]))
+
+# o redesenho de 11/08/2026: validade com data-limite, escopo protegido,
+# normas de volta e o carimbo de folha no rodapé
+for pedaco, rotulo in [("15 dias — até", "a validade com a data-limite"),
+                       (maior["data_curta"], "a data de emissão no carimbo"),
+                       ("BRN", "o monograma no carimbo"),
+                       ("Não inclusos", "a proteção de escopo"),
+                       ("IEC 60204-1", "a linha de normas"),
+                       ("REV", "o campo de revisão do carimbo")]:
+    P("aparece: %s" % rotulo, pedaco in txt, "" if pedaco in txt else "SUMIU")
+
+print()
+print("  [--direto] proposta de WhatsApp: sem /cadastro, mas COM aceite")
+n3, txt3, _ = gerar(pedido(direto=True), "direto")
+P("--direto sai sem o bloco do /cadastro",
+  "borinprojetos.com.br/cadastro" not in txt3)
+P("--direto tem a instrução 'Para fechar'",
+  "PARA FECHAR" in txt3.upper() and "contrato preenchido" in txt3)
+P("--direto também cabe em 1 folha", n3 == 1, "%d folha(s)" % n3)
+
+print()
+print("  [valor cheio] só quando informa algo")
+_, txt4, _ = gerar(pedido(desconto=20), "uma-soma")
+P("uma soma só + desconto: SEM linha 'Valor cheio'",
+  "Valor cheio" not in txt4 and "Desconto combinado" in txt4,
+  "riscado repetindo o mesmo número era ruído")
 
 print()
 print("  [sujeira] nada de campo cru vazando pro cliente")

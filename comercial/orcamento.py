@@ -41,7 +41,7 @@ API = "https://borinprojetos.com.br/api/enviar"
 # outro email que chega na mesma caixa — se divergir, parecem duas empresas.
 T, CINZA, RULE, ACENTO = "#111111", "#6B6B6B", "#DCDCDC", "#C1121F"
 MONO = "Consolas,'Courier New',monospace"
-SANS = "'Segoe UI',Arial,Helvetica,sans-serif"
+SANS = "'Inter','Segoe UI',Arial,Helvetica,sans-serif"
 
 _s = importlib.util.spec_from_file_location("calc", os.path.join(AQUI, "calcular.py"))
 calc = importlib.util.module_from_spec(_s)
@@ -183,7 +183,7 @@ def html(p):
         "empresa": esc(p["empresa"]),
         "contato": (" &middot; " + esc(p["contato"])) if p["contato"] else "",
         "cabecalho": bloco("Escopo", p["escopo_txt"]) + bloco("Páginas estimadas", str(p["paginas"]))
-                     + bloco("Prazo", p["prazo"]) + bloco("Validade", "3 dias"),
+                     + bloco("Prazo", p["prazo"]) + bloco("Validade", p["validade"]),
         "entrega": entrega, "itens": itens, "total": total,
         "nota_abertura": (
             '<div style="font-size:12px;color:%s;margin-top:10px">A condição de início vale uma vez '
@@ -199,8 +199,8 @@ def texto(p):
     t += "=" * 52 + "\n\n"
     t += "%s\n%s%s\n\n" % (p["equipamento"], p["empresa"],
                            (" · " + p["contato"]) if p["contato"] else "")
-    t += "Escopo: %s\nPáginas estimadas: %d\nPrazo: %s\nValidade: 3 dias\n\n" % (
-        p["escopo_txt"], p["paginas"], p["prazo"])
+    t += "Escopo: %s\nPáginas estimadas: %d\nPrazo: %s\nValidade: %s\n\n" % (
+        p["escopo_txt"], p["paginas"], p["prazo"], p["validade"])
     t += "O QUE ESTÁ INCLUSO\n"
     for x in p["entrega"]:
         t += "  - %s\n" % x
@@ -361,7 +361,7 @@ def registrar_na_conta(p, pdf=None, pdf_proposta=None):
         "email": p["email"], "numero": p["numero"],
         "equipamento": p["equipamento"], "codigo": p["codigo"],
         "escopo": p["escopo_txt"], "paginas": p["paginas"],
-        "total": p["total"], "prazo": p["prazo"], "validade": "3 dias",
+        "total": p["total"], "prazo": p["prazo"], "validade": p["validade"],
     }, ensure_ascii=False).encode("utf-8"), "application/json; charset=utf-8")
 
     if not d.get("ok"):
@@ -448,9 +448,14 @@ def montar(o):
         entrega += ["Interconexão de campo e base de cabos",
                     "Lista de instalação com horas estimadas"]
     hoje = datetime.date.today()
+    ate = hoje + datetime.timedelta(days=calc.VALIDADE_DIAS)
     return {
         "numero": o.numero or numero(),
         "data": "%d de %s de %d" % (hoje.day, MESES[hoje.month - 1], hoje.year),
+        # a validade sem a data de emissão não diz nada: "15 dias" a partir de
+        # quando? O carimbo leva a data cheia; o chapéu leva o "até"
+        "data_curta": hoje.strftime("%d/%m/%Y"),
+        "validade": "%d dias — até %s" % (calc.VALIDADE_DIAS, ate.strftime("%d/%m")),
         "empresa": o.empresa, "contato": o.contato, "equipamento": o.equipamento,
         "codigo": o.codigo, "email": o.email,
         "escopo_txt": "B — painel e instalação" if escopo == "B" else "A — painel",

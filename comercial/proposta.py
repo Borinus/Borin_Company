@@ -40,6 +40,12 @@ _s = importlib.util.spec_from_file_location("calc", os.path.join(AQUI, "calcular
 calc = importlib.util.module_from_spec(_s)
 _s.loader.exec_module(calc)
 
+# a marca (cabeçalho + carimbo) mora num módulo só, compartilhado com o
+# contrato — ver o porquê em identidade.py
+_i = importlib.util.spec_from_file_location("ident", os.path.join(AQUI, "identidade.py"))
+ident = importlib.util.module_from_spec(_i)
+_i.loader.exec_module(ident)
+
 CHROMES = [r"C:\Program Files\Google\Chrome\Application\chrome.exe",
            r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
            shutil.which("chrome") or ""]
@@ -56,77 +62,67 @@ def esc(t):
     return (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
-# O fio acompanha a largura do NOME, não a do descritor — regra revisada no
-# design-guide em 05/08/2026. Em CSS isso sai de graça: o bloco da marca é
-# inline-block (encolhe até o texto) e o fio é flex dentro dele. Assim o fio
-# nunca sobra pra fora do N, mesmo se a fonte do sistema mudar de métrica.
+# O cabeçalho de marca e o carimbo vêm de identidade.py — o mesmo do contrato.
+# O fio acompanha a largura do NOME (regra dos três elementos, 05/08/2026): o
+# bloco é inline-block e o fio é flex dentro dele, então nunca sobra do N.
 CSS = """
 /* Tudo aqui está calibrado pra proposta caber em UMA folha, inclusive no caso
    maior (Escopo B, 51 páginas, com desconto de abertura). Proposta que vira
    duas folhas chega grampeada, e a segunda folha é onde moram as condições de
    pagamento — a parte que o cliente precisa ler. Ao mexer em corpo, entrelinha
    ou espaçamento, rodar `python comercial/testar-proposta.py`, que falha se
-   passar de uma página. */
-@page { size: A4; margin: 13mm 14mm 9mm; }
-body { font: 9.5pt/1.42 'Segoe UI', Arial, sans-serif; color: #111; margin: 0; }
+   passar de uma página.
 
-.marcabloco { display: inline-block; }
-.marca { font-size: 19pt; font-weight: 700; letter-spacing: .16em; line-height: 1; }
-.fio { display: flex; align-items: center; gap: 4px; margin-top: 5pt; }
-.fio .regua { flex: 1; height: 2.4px; background: #111; }
-/* o nó é o acento da marca — vermelho, como no contrato e no site. Estava
-   #111 e a marca saía toda preta; divergia do proprio contrato (10/08/2026) */
-.fio .no { width: 6px; height: 6px; background: #C1121F; }
-.sub { font-family: Consolas, monospace; font-size: 7.5pt; letter-spacing: .12em;
-       text-transform: uppercase; color: #6B6B6B; margin-top: 4pt; }
-.topo { border-bottom: 1px solid #111; padding-bottom: 7pt; margin-bottom: 9pt; }
+   Escala tipográfica (guia: no máximo três tamanhos por página):
+   7.5pt rótulo/mono · 9.5pt corpo · 17pt título e total — mais os 7/9pt que a
+   seção "O carimbo" do guia fixa pro rodapé.
 
-.rotulo { font-family: Consolas, monospace; font-size: 7.5pt; letter-spacing: .12em;
-          text-transform: uppercase; color: #6B6B6B; }
-h1 { font-size: 17pt; font-weight: 700; letter-spacing: -.02em; margin: 4pt 0 2pt;
+   Margens: 25mm de lateral, como o guia pede. Coube com a folga vinda de dois
+   lugares: espaçamentos apertados (respiro, nunca corpo de letra) e o carimbo
+   de geometria fixa, que não cresce com nome comprido. */
+@page { size: A4; margin: 13mm 25mm 10mm; }
+body { font: 9.5pt/1.42 'Inter', Arial, Helvetica, sans-serif; color: #111111;
+       margin: 0; }
+
+.rotulo { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 7.5pt;
+          letter-spacing: .12em; text-transform: uppercase; color: #6B6B6B; }
+h1 { font-size: 17pt; font-weight: 700; letter-spacing: -.02em; margin: 3pt 0 1pt;
      line-height: 1.18; }
-.cliente { font-size: 10pt; color: #6B6B6B; margin-bottom: 9pt; }
+.cliente { font-size: 9.5pt; color: #6B6B6B; margin-bottom: 6pt; }
 
-.chapeu { display: flex; gap: 22pt; margin: 0 0 11pt; }
-.chapeu .cel .v { font-size: 10pt; margin-top: 1pt; }
+.chapeu { display: flex; gap: 20pt; margin: 0 0 8pt; }
+.chapeu .cel .v { font-size: 9.5pt; margin-top: 1pt; white-space: nowrap; }
 
-.secao { font-family: Consolas, monospace; font-size: 7.5pt; letter-spacing: .12em;
-         text-transform: uppercase; color: #6B6B6B; border-bottom: 1px solid #111;
-         padding-bottom: 3.5pt; margin: 0 0 5pt; page-break-after: avoid; }
-.bloco { margin-bottom: 6pt; page-break-inside: avoid; }
+.secao { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 7.5pt;
+         letter-spacing: .12em; text-transform: uppercase; color: #6B6B6B;
+         border-bottom: 1px solid #DCDCDC; padding-bottom: 3.5pt; margin: 0 0 5pt;
+         page-break-after: avoid; }
+.bloco { margin-bottom: 4pt; page-break-inside: avoid; }
 
 /* Duas colunas: são itens curtos, e em coluna única viravam uma lista magra de
    dez linhas que sozinha empurrava as condições de pagamento pra folha 2. */
-ul.inclui { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 20pt; }
-ul.inclui li { font-size: 9pt; color: #444; padding: 1.5pt 0;
-               border-bottom: 1px solid #F0F0F0; break-inside: avoid; }
+ul.inclui { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 18pt; }
+ul.inclui li { font-size: 9.5pt; color: #111111; padding: 1pt 0;
+               border-bottom: 1px solid #F4F4F4; break-inside: avoid; }
 
 table.val { width: 100%; border-collapse: collapse; }
-table.val td { padding: 2.9pt 0; border-bottom: 1px solid #DCDCDC; font-size: 10pt;
+table.val td { padding: 2.3pt 0; border-bottom: 1px solid #DCDCDC; font-size: 9.5pt;
                vertical-align: top; }
 table.val td.r { text-align: right; white-space: nowrap; }
 table.val td.rot { color: #6B6B6B; }
 table.val tr.cheio td { color: #6B6B6B; text-decoration: line-through; }
-table.val tr.total td { border-bottom: 0; padding-top: 8pt; font-weight: 700; }
-table.val tr.total td.r { font-size: 18pt; letter-spacing: -.02em; }
+table.val tr.total td { border-bottom: 0; padding-top: 6pt; font-weight: 700; }
+table.val tr.total td.r { font-size: 17pt; letter-spacing: -.02em; }
 
-.obs { font-size: 8.5pt; color: #6B6B6B; margin-top: 6pt; }
-.passo { border: 1px solid #111; padding: 8pt 10pt; margin-top: 2pt;
+.obs { font-size: 7.5pt; color: #6B6B6B; margin-top: 3pt; line-height: 1.45; }
+.passo { border: 1px solid #DCDCDC; padding: 6pt 8pt; margin-top: 2pt;
          page-break-inside: avoid; }
-.passo .t { font-weight: 600; font-size: 10.5pt; margin-bottom: 3pt; }
-.passo .d { font-size: 9pt; color: #444; }
-.passo .link { font-family: Consolas, monospace; font-size: 9.5pt; margin-top: 6pt; }
-.pe { border-top: 1px solid #DCDCDC; margin-top: 6pt; padding-top: 5pt;
-      font-family: Consolas, monospace; font-size: 7pt; color: #6B6B6B; line-height: 1.65; }
-"""
-
-CABECA = """<div class="topo">
-  <div class="marcabloco">
-    <div class="marca">BORIN</div>
-    <div class="fio"><span class="regua"></span><span class="no"></span></div>
-  </div>
-  <div class="sub">projetos elétricos industriais</div>
-</div>"""
+.passo .t { font-weight: 600; font-size: 9.5pt; margin-bottom: 2pt; }
+.passo .d { font-size: 9.5pt; color: #6B6B6B; }
+.passo .link { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 9pt;
+               margin-top: 5pt; }
+.rodape { margin-top: 6pt; }
+""" + ident.CSS_MARCA + ident.CSS_CARIMBO
 
 
 def documento(p):
@@ -137,9 +133,13 @@ def documento(p):
         for r, v in [("Escopo", p["escopo_txt"]),
                      ("Páginas estimadas", str(p["paginas"])),
                      ("Prazo", p["prazo"]),
-                     ("Validade", "3 dias")])
+                     ("Validade", p.get("validade", ""))])
 
     inclui = "".join("<li>%s</li>" % esc(x) for x in p["entrega"])
+    # a linha de normas é argumento de venda (modelo-proposta.md) — o rigor de
+    # documentação é o que diferencia; o PDF tinha perdido isso
+    normas = ('<div class="obs">Projeto desenvolvido em CAD elétrico, conforme '
+              'IEC 81346, IEC 61082, NFPA 79 e IEC 60204-1.</div>')
 
     # o desconto vem DEPOIS do valor cheio: "-50%" antes do número que ele
     # desconta não se lê. Mesma ordem do email, de propósito.
@@ -148,12 +148,22 @@ def documento(p):
     linhas = "".join('<tr><td class="rot">%s</td><td class="r">%s</td></tr>'
                      % (esc(r), calc.brl(v)) for r, v in somas)
     if abates:
-        linhas += ('<tr class="cheio"><td class="rot">Valor cheio</td>'
-                   '<td class="r">%s</td></tr>' % calc.brl(p["valor_cheio"]))
+        # com UMA soma só, a linha riscada repetia o mesmo número da linha de
+        # cima (R$ 7.500 duas vezes) — o "cheio" só informa quando é uma SOMA
+        if len(somas) >= 2:
+            linhas += ('<tr class="cheio"><td class="rot">Valor cheio</td>'
+                       '<td class="r">%s</td></tr>' % calc.brl(p["valor_cheio"]))
         linhas += "".join('<tr><td class="rot">%s</td><td class="r">%s</td></tr>'
                           % (esc(r), calc.brl(v)) for r, v in abates)
     linhas += ('<tr class="total"><td>Total</td><td class="r">%s</td></tr>'
                % calc.brl(p["total"]))
+
+    # protege o escopo: sem esta linha, "projeto elétrico" parece incluir ART,
+    # programação e obra — e a conversa difícil fica pra depois do aceite
+    nao_incluso = ('<div class="obs">Não inclusos: responsabilidade técnica (ART), '
+                   'programação de CLP, IHM ou supervisório, montagem e comissionamento, '
+                   'compra ou intermediação de material, arquivo-fonte do CAD e '
+                   'acompanhamento em obra.</div>')
 
     cond = "".join('<tr><td class="rot">%s</td><td class="r">%s</td></tr>'
                    % (esc(r), esc(v)) for r, v in p["condicoes"])
@@ -167,9 +177,19 @@ def documento(p):
     # dois documentos da mesma mensagem com condições diferentes.
 
     # Negócio conduzido na mão (--direto, ex.: proposta que vai por WhatsApp)
-    # sai SEM o bloco "preencher os dados e gerar o contrato": o cliente desse
-    # caminho não vai passar pelo /cadastro — o contrato é combinado direto.
-    passo = "" if p.get("direto") else """
+    # não passa pelo /cadastro — mas precisa de UMA instrução de aceite, senão
+    # a proposta termina sem dizer o que fazer pra fechar.
+    if p.get("direto"):
+        passo = """
+<div class="bloco">
+  <div class="secao">Para fechar</div>
+  <div class="passo">
+    <div class="d">Responda esta mensagem que eu devolvo o contrato preenchido
+    no mesmo dia, faltando só a assinatura.</div>
+  </div>
+</div>"""
+    else:
+        passo = """
 <div class="bloco">
   <div class="secao">Próximo passo</div>
   <div class="passo">
@@ -180,8 +200,23 @@ def documento(p):
   </div>
 </div>"""
 
-    return """<!doctype html><html lang="pt-BR"><meta charset="utf-8">
-<title>Proposta %(num)s</title><style>%(css)s</style>
+    # o carimbo de folha — a assinatura estrutural da marca ("peça sem carimbo"
+    # está na lista do que nunca fazer). Campo sem valor sai sozinho.
+    carimbo = ident.carimbo([
+        ("Documento", "Proposta " + p["numero"]),
+        ("Cliente", p["empresa"] or p["contato"]),
+        ("Rev", "00"),
+        ("Data", p.get("data_curta", "")),
+    ])
+
+    return """<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Proposta %(num)s</title>
+<style>%(css)s</style>
+</head>
+<body>
 %(cabeca)s
 <div class="rotulo">Proposta %(num)s</div>
 <h1>%(equip)s</h1>
@@ -192,11 +227,13 @@ def documento(p):
 <div class="bloco">
   <div class="secao">O que está incluso</div>
   <ul class="inclui">%(inclui)s</ul>
+  %(normas)s
 </div>
 
 <div class="bloco">
   <div class="secao">Valor</div>
   <table class="val">%(linhas)s</table>
+  %(nao_incluso)s
   %(obs)s
 </div>
 
@@ -205,16 +242,15 @@ def documento(p):
   <table class="val">%(cond)s</table>
 </div>
 %(passo)s
-<div class="pe">
-  Borin Projetos Elétricos &middot; 65.749.097 MATEUS BORIN &middot; CNPJ 65.749.097/0001-85<br>
-  Caxias do Sul / RS &middot; contato@borinprojetos.com.br &middot; borinprojetos.com.br
-</div>
+<div class="rodape">%(carimbo)s</div>
+</body>
 </html>""" % {
-        "css": CSS, "cabeca": CABECA, "num": esc(p["numero"]),
+        "css": CSS, "cabeca": ident.CABECA, "num": esc(p["numero"]),
         "equip": esc(p["equipamento"]), "empresa": esc(p["empresa"]),
         "contato": (" &middot; " + esc(p["contato"])) if p.get("contato") else "",
-        "chapeu": chapeu, "inclui": inclui, "linhas": linhas, "cond": cond, "obs": obs,
-        "passo": passo,
+        "chapeu": chapeu, "inclui": inclui, "normas": normas, "linhas": linhas,
+        "nao_incluso": nao_incluso, "cond": cond, "obs": obs, "passo": passo,
+        "carimbo": carimbo,
     }
 
 

@@ -31,36 +31,37 @@ CHROMES = [r"C:\Program Files\Google\Chrome\Application\chrome.exe",
            r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
            shutil.which("chrome") or ""]
 
+# A marca (cabeçalho) vem de identidade.py — a MESMA da proposta, de
+# propósito: os dois chegam na mesma caixa e não podem parecer duas empresas.
+import importlib.util as _ilu
+_i = _ilu.spec_from_file_location(
+    "ident", os.path.join(os.path.dirname(os.path.abspath(__file__)), "identidade.py"))
+ident = _ilu.module_from_spec(_i)
+_i.loader.exec_module(ident)
+
 CSS = """
 @page { size: A4; margin: 18mm 16mm; }
-body { font: 10.5pt/1.5 'Segoe UI', Arial, sans-serif; color: #111; margin: 0; }
+body { font: 10.5pt/1.5 'Inter', Arial, Helvetica, sans-serif; color: #111111; margin: 0; }
 h1 { font-size: 15pt; letter-spacing: -.01em; margin: 0 0 14pt; line-height: 1.25; }
-h2 { font-size: 11pt; margin: 16pt 0 6pt; border-top: 1px solid #111; padding-top: 5pt;
+h2 { font-size: 11pt; margin: 16pt 0 6pt; border-top: 1px solid #DCDCDC; padding-top: 5pt;
      page-break-after: avoid; }
-h3 { font-size: 10pt; margin: 10pt 0 4pt; color: #5A5A5A; page-break-after: avoid; }
+h3 { font-size: 10pt; margin: 10pt 0 4pt; color: #6B6B6B; page-break-after: avoid; }
 p { margin: 0 0 6pt; text-align: justify; }
 table { width: 100%; border-collapse: collapse; margin: 0 0 10pt; font-size: 9.5pt; }
 td { border-bottom: 1px solid #DCDCDC; padding: 4pt 8pt 4pt 0; vertical-align: top; }
-tr td:first-child { width: 32%; color: #5A5A5A; }
+tr td:first-child { width: 32%; color: #6B6B6B; }
 strong { font-weight: 600; }
 hr { border: 0; border-top: 1px solid #DCDCDC; margin: 12pt 0; }
-.marca { font-size: 20pt; font-weight: 700; letter-spacing: 3px; }
-.regua { height: 2px; background: #111; width: 118px; margin: 3pt 0 0; }
-.no { display: inline-block; width: 6px; height: 6px; background: #C1121F;
-      position: relative; top: -6px; left: 122px; }
-.sub { font-family: Consolas, monospace; font-size: 7.5pt; letter-spacing: .12em;
-       text-transform: uppercase; color: #5A5A5A; margin-top: -3pt; }
-.topo { border-bottom: 1px solid #111; padding-bottom: 10pt; margin-bottom: 14pt; }
 .falta { background: #FDE7E9; color: #C1121F; padding: 0 2px; font-weight: 600; }
 .assina { margin-top: 22pt; page-break-inside: avoid; display: flex;
           gap: 26pt; }
 .assina .linha { flex: 1; }
-.assina .papel { font-family: Consolas, monospace; font-size: 7.5pt;
-                 letter-spacing: .1em; color: #5A5A5A; }
-.assina .traco { border-bottom: 1px solid #111; height: 34pt; }
+.assina .papel { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 7.5pt;
+                 letter-spacing: .1em; color: #6B6B6B; }
+.assina .traco { border-bottom: 1px solid #111111; height: 34pt; }
 .assina .quem { font-size: 9.5pt; font-weight: 600; padding-top: 3pt; }
-.assina .qual { font-size: 8pt; color: #5A5A5A; }
-"""
+.assina .qual { font-size: 8pt; color: #6B6B6B; }
+""" + ident.CSS_MARCA
 
 
 def calc_brl(v):
@@ -308,13 +309,12 @@ def gerar(p, saida=None):
     # o que sobrou pra preencher fica visivel, nao escondido
     html = re.sub(r"\[([^\]<>]{1,60})\]", r'<span class="falta">[\1]</span>', html)
 
-    doc = ("""<!doctype html><html lang="pt-BR"><meta charset="utf-8">
-<title>Contrato %s</title><style>%s</style>
-<div class="topo">
-  <div class="marca">BORIN</div><div class="regua"></div><span class="no"></span>
-  <div class="sub">projetos elétricos industriais</div>
-</div>
-""" % (p["numero"], CSS)) + html + """
+    doc = ("""<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Contrato %s</title><style>%s</style></head>
+<body>
+%s
+""" % (p["numero"], CSS, ident.CABECA)) + html + """
 <div class="assina">
   <div class="linha">
     <div class="papel">CONTRATADO</div>
@@ -328,7 +328,7 @@ def gerar(p, saida=None):
     <div class="quem">%s</div>
     <div class="qual">%s</div>
   </div>
-</div></html>""" % (
+</div></body></html>""" % (
         (p["contato"] or "[nome de quem assina]")
         + (", " + p["cadastro"]["rep_cargo"] if p.get("cadastro", {}).get("rep_cargo") else ""),
         # bloco de assinatura é documento: aqui vale a razão social, nunca o
