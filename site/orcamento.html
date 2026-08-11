@@ -5,7 +5,7 @@
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "c5c4954f09154f5d8b60f75535dc7afa"}'></script>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","xvrvwys25k");</script>
 <title>Pedir orçamento — Borin Projetos Elétricos</title>
-<meta name="description" content="Onze campos em três passos para eu fechar valor e prazo de um projeto elétrico industrial. O detalhe vem depois, se você fechar.">
+<meta name="description" content="Três passos, cinco minutos, para eu fechar valor e prazo de um projeto elétrico industrial. O detalhe vem depois, se você fechar.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cstyle%3E.t%7Bfill%3A%23111111%7D%40media%28prefers-color-scheme%3Adark%29%7B.t%7Bfill%3A%23FFFFFF%7D%7D%3C%2Fstyle%3E%3Cpath%20class%3D%27t%27%20d%3D%27M4%204h10.4c3.9%200%206.3%202%206.3%205.2%200%202.1-1.2%203.6-3.1%204.3%202.4.6%203.9%202.4%203.9%205%200%203.7-2.7%206-7.1%206H4V4zm4.4%203.7v4.9h5.6c1.8%200%202.8-.9%202.8-2.4%200-1.6-1-2.5-2.8-2.5H8.4zm0%208.3v5.2h6.2c2%200%203.2-1%203.2-2.6%200-1.7-1.2-2.6-3.2-2.6H8.4z%27%2F%3E%3Crect%20x%3D%2724%27%20y%3D%2722%27%20width%3D%276%27%20height%3D%276%27%20fill%3D%27%23C1121F%27%2F%3E%3C%2Fsvg%3E">
 
 <style>
@@ -447,6 +447,10 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
 .botao--acento:hover { background: var(--ink); border-color: var(--ink); color: var(--ground); }
 
 .topo h1 { transition: none; }
+
+/* campo pendente na validação: marca junto do aviso, não em vez dele */
+.campo--falta input, .campo--falta textarea { border-color: var(--acento); }
+.campo--falta > label { color: var(--acento); }
 </style>
 
 <div class="pagina">
@@ -490,7 +494,7 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
       <button type="button" class="oculto" id="btMicrosoft"
         style="min-height:2.5rem; display:inline-flex; align-items:center; justify-content:center; gap:0.55rem; background:var(--ground); color:var(--ink); border:1px solid var(--rule); border-radius:0; font-family:var(--sans); font-size:0.875rem; font-weight:600; padding:0 1rem; cursor:pointer">
         <svg width="18" height="18" viewBox="0 0 21 21" aria-hidden="true" style="flex:none"><rect x="1" y="1" width="9" height="9" fill="#F25022"/><rect x="11" y="1" width="9" height="9" fill="#7FBA00"/><rect x="1" y="11" width="9" height="9" fill="#00A4EF"/><rect x="11" y="11" width="9" height="9" fill="#FFB900"/></svg>
-        Microsoft
+        Continuar com a Microsoft
       </button>
     </div>
     <p class="recado" id="socialRecado" style="margin:0.6rem 0 0"></p>
@@ -550,14 +554,14 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
     <div class="passo-form" data-passo="1" hidden>
       <div class="grade grade--larga">
         <div class="campo">
-          <label for="acionamentos">Acionamentos</label>
+          <label for="acionamentos">Acionamentos <span style="font-weight:400; color:var(--ink-soft)">(se souber)</span></label>
           <input type="text" id="acionamentos" inputmode="numeric" oninput="mascaraNumero(this)" placeholder="quantos, ao todo — ex.: 8">
-          <span class="campo__dica">Some partidas de motor, inversores, válvulas e resistências.</span>
+          <span class="campo__dica">Conte tudo: partidas de motor + inversores + válvulas + resistências. Não sabe? Deixe em branco que eu levanto com você.</span>
         </div>
         <div class="campo">
           <label for="ios">Pontos de I/O <span style="font-weight:400; color:var(--ink-soft)">(se souber)</span></label>
           <input type="text" id="ios" inputmode="numeric" oninput="mascaraNumero(this)" placeholder="só o número — ex.: 96">
-          <span class="campo__dica">Entradas e saídas somadas.</span>
+          <span class="campo__dica">Entradas e saídas somadas. Não sabe? Deixe em branco.</span>
         </div>
         <div class="campo">
           <span style="font-size:var(--fs-small); font-weight:600">A máquina tem NR-12?</span>
@@ -594,7 +598,7 @@ a:focus-visible, button:focus-visible, .botao:focus-visible {
         <div class="campo"><label for="empresa">Empresa</label><input type="text" id="empresa" data-perfil></div>
         <div class="campo"><label for="contato">Seu nome</label><input type="text" id="contato" data-perfil></div>
         <div class="campo"><label for="email">Email</label><input type="email" id="email" data-perfil></div>
-        <div class="campo"><label for="fone">WhatsApp <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label><input type="tel" id="fone" data-perfil inputmode="tel" oninput="mascaraFone(this)" placeholder="+55 54 99664-2003"></div>
+        <div class="campo"><label for="fone">WhatsApp <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label><input type="tel" id="fone" data-perfil inputmode="tel" oninput="mascaraFone(this)" placeholder="(DDD) 9 9999-9999"></div>
       </div>
       <div class="campo" style="margin-top:1.1rem">
         <span style="font-size:var(--fs-small); font-weight:600">Onde você quer receber o orçamento</span>
@@ -1379,10 +1383,18 @@ function renderPasso() {
   var env = document.getElementById('btSolicitar');
   if (passo < 2) {
     av.hidden = false; env.hidden = true;
-    av.textContent = passo === 0 ? 'Continuar — falta pouco' : 'Continuar';
+    /* era "Continuar — falta pouco" no passo 1 de 3: prometer "falta pouco"
+       com dois passos inteiros pela frente desmentia a própria barra */
+    av.textContent = 'Continuar';
   } else {
     av.hidden = true; env.hidden = false;
   }
+
+  /* o cartão social só faz sentido ANTES de começar a preencher: repetido nos
+     três passos ele custava uma tela de rolagem por passo no celular, com uma
+     promessa ("preencho seus dados") que só vale pro passo dos dados */
+  var social = document.getElementById('cxSocial');
+  if (social) { social.style.display = passo === 0 ? '' : 'none'; }
 }
 
 function irPasso(n) {
@@ -1427,38 +1439,50 @@ function emailValido(t) {
   return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test((t || '').trim());
 }
 
+/* TUDO de uma vez: a versão antiga apontava um campo por tentativa, e quem
+   esqueceu três levava três broncas seguidas — ciclo que a auditoria fria de
+   11/08/2026 pegou. Agora junta as pendências numa frase, marca cada campo e
+   rola até o primeiro. */
 function validar() {
-  var falta = '', rotulo = '';
+  var pendentes = [];
   for (var i = 0; i < OBRIGATORIOS.length; i++) {
-    if (!v(OBRIGATORIOS[i][0])) { falta = OBRIGATORIOS[i][0]; rotulo = OBRIGATORIOS[i][1]; break; }
+    if (!v(OBRIGATORIOS[i][0])) { pendentes.push(OBRIGATORIOS[i]); }
   }
   /* o email e sempre o canal de resposta; o WhatsApp so quando ele pede */
-  if (!falta && !v('email')) { falta = 'email'; rotulo = 'o seu email'; }
-  if (!falta && !emailValido(v('email'))) {
-    falta = 'email';
-    rotulo = 'um email válido — o que você escreveu não dá pra responder';
+  if (!v('email')) { pendentes.push(['email', 'o seu email']); }
+  else if (!emailValido(v('email'))) {
+    pendentes.push(['email', 'um email válido — o que você escreveu não dá pra responder']);
   }
-  if (!falta && radio('canal') === 'email+whats'
+  if (radio('canal') === 'email+whats'
       && v('fone').replace(/\D/g, '').length < 12) {
-    falta = 'fone';
-    rotulo = 'o WhatsApp completo, com DDD';
-  }
-  if (!falta && radio('canal') === 'email+whats' && !v('fone')) {
-    falta = 'fone';
-    rotulo = 'o WhatsApp, já que você pediu resposta por ele';
+    pendentes.push(['fone', 'o WhatsApp completo com DDD, já que você pediu resposta por ele']);
   }
 
+  document.querySelectorAll('.campo--falta').forEach(function (el) {
+    el.classList.remove('campo--falta');
+  });
+
   var aviso = document.getElementById('avisoFalta');
-  if (!falta) {
+  if (!pendentes.length) {
     if (aviso) { aviso.textContent = ''; }
     return true;
   }
+
+  pendentes.forEach(function (p) {
+    var el = document.getElementById(p[0]);
+    var caixa = el && el.closest ? el.closest('.campo') : null;
+    if (caixa) { caixa.classList.add('campo--falta'); }
+  });
+  var rotulos = pendentes.map(function (p) { return p[1]; });
+  var frase = rotulos.length === 1
+    ? 'Falta ' + rotulos[0] + '.'
+    : 'Faltam ' + rotulos.slice(0, -1).join(', ') + ' e ' + rotulos[rotulos.length - 1] + '.';
+  if (aviso) { aviso.textContent = frase + ' Sem isso eu não consigo te responder.'; }
   /* revela o passo do campo ANTES de focar; campo escondido não recebe foco */
-  mostrarPassoDoCampo(falta);
-  var el = document.getElementById(falta);
-  if (aviso) { aviso.textContent = 'Falta ' + rotulo + '. Sem isso eu não consigo te responder.'; }
-  el.focus();
-  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  mostrarPassoDoCampo(pendentes[0][0]);
+  var alvo = document.getElementById(pendentes[0][0]);
+  alvo.focus();
+  alvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
   return false;
 }
 

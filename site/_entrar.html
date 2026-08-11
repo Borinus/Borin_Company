@@ -38,11 +38,19 @@
   <!-- entrar -->
   <div class="cartao" id="cxEntrar">
     <h2>Entrar</h2>
-    <p>A senha chegou junto com o seu orçamento, no mesmo email.</p>
+    <!-- a tela dizia tudo sobre a senha e nada sobre PRA QUE serve a conta —
+         quem caía aqui pelo "minha conta" da home não descobria nem que a
+         conta nasce junto com o pedido (auditoria fria de 11/08/2026) -->
+    <p>Aqui você acompanha seu pedido e baixa a proposta e o contrato.
+    A conta é criada junto com o primeiro pedido de orçamento — a senha chega
+    no email com o assunto “Seu acesso”.</p>
+    <p class="aviso">Ainda não pediu orçamento? <a href="/orcamento">Comece por ele</a> — a conta nasce ali.</p>
     <form id="formEntrar">
       <div class="grade grade--larga">
         <div class="campo"><label for="email">Email</label><input type="email" id="email" autocomplete="username"></div>
-        <div class="campo"><label for="senha">Senha</label><input type="password" id="senha" autocomplete="current-password"></div>
+        <div class="campo"><label for="senha">Senha</label><input type="password" id="senha" autocomplete="current-password">
+          <span class="campo__dica"><button type="button" class="link-acao" id="btPerdi">Não achei minha senha — mandar outra</button></span>
+        </div>
       </div>
       <p class="recado ruim" id="erro"></p>
       <div class="acoes">
@@ -69,10 +77,9 @@
 
     <!-- Quem não achou a senha estava sem saída: o pedido repetido deixou de
          mandar senha nova (era o que confundia), então o único caminho era
-         esperar alguém responder na mão. Isto resolve na hora. -->
-    <p class="aviso">A senha é a que chegou no email com o assunto “Seu acesso”.
-      <button type="button" class="link-acao" id="btPerdi">Não achei minha senha</button></p>
-
+         esperar alguém responder na mão. O botão mora logo abaixo do campo
+         Senha (o socorro fica onde a dor acontece); aqui embaixo só o
+         formulário de reenvio que ele abre. -->
     <div class="oculto" id="cxReenviar" style="margin-top:0.6rem">
       <div class="campo">
         <label for="emailReenvio">Seu email</label>

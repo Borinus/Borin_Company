@@ -93,12 +93,17 @@
   <div id="vazio" class="vazio">
     <div class="bloco">
       <div class="bloco__cabeca">
-        <h2>Não há pedido nesta aba</h2>
-        <p>Esta página só mostra um pedido logo depois de ele ser enviado. Se você chegou aqui direto, comece pelo formulário.</p>
+        <h2>Se você acabou de enviar, o pedido chegou</h2>
+        <p>Alguns navegadores (o do Instagram e o do WhatsApp, principalmente) não deixam
+        esta página mostrar o resumo — mas o envio acontece antes dela abrir. Se você
+        preencheu o formulário e apertou Enviar, ele está comigo: respondo com valor e
+        prazo em até 24 horas, no email que você informou.</p>
+        <p>Se você chegou aqui direto, sem preencher nada, o caminho é o formulário —
+        ou o WhatsApp, se preferir conversar.</p>
       </div>
       <div class="acoes">
-        <a class="botao" href="/orcamento">Solicitar orçamento</a>
-        <a class="botao botao--vazado" href="https://wa.me/5554996642003?text=Ol%C3%A1%20Mateus%2C%20vi%20o%20site%20e%20queria%20falar%20sobre%20um%20projeto%20el%C3%A9trico.">Falar no WhatsApp</a>
+        <a class="botao" href="/orcamento">Pedir orçamento</a>
+        <a class="botao botao--vazado" href="https://wa.me/5554996642003?text=Ol%C3%A1%20Mateus%2C%20enviei%20um%20pedido%20pelo%20site%20e%20quero%20confirmar%20se%20chegou.">Confirmar no WhatsApp</a>
       </div>
     </div>
   </div>
@@ -112,7 +117,7 @@
           </g>
         </svg>
       </div>
-      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor">Pedido enviado</span></div>
+      <div><span class="c-campo">DOCUMENTO</span><span class="c-valor" id="docCarimbo">Pedido enviado</span></div>
       <div><span class="c-campo">CONTATO</span><span class="c-valor">contato@borinprojetos.com.br</span></div>
       <div><span class="c-campo">LOCAL</span><span class="c-valor">Caxias do Sul · RS</span></div>
       <div><span class="c-campo">DADOS</span><span class="c-valor"><a href="/privacidade">privacidade</a></span></div>
@@ -133,10 +138,17 @@
   try { carga = JSON.parse(sessionStorage.getItem('borin.envio') || 'null'); } catch (e) {}
 
   if (!carga || !carga.completo) {
+    /* estado vazio: navegador embutido que perdeu o sessionStorage, aba nova
+       ou visita direta. Quem ACABOU de enviar cai aqui também — então a tela
+       não pode negar o envio ("Nada pra enviar aqui." foi a frase que fez a
+       persona de teste desistir em 11/08/2026). O carimbo acompanha: dizia
+       "Pedido enviado" ao lado de "não há pedido", uma contradição. */
     document.getElementById('conteudo').style.display = 'none';
     document.getElementById('vazio').style.display = 'block';
-    document.getElementById('titulo').textContent = 'Nada pra enviar aqui.';
+    document.getElementById('titulo').textContent = 'Sobre o seu pedido';
     document.getElementById('subtitulo').textContent = '';
+    var doc = document.getElementById('docCarimbo');
+    if (doc) { doc.textContent = 'Pedido de orçamento'; }
     return;
   }
 
