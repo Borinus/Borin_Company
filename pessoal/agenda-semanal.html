@@ -180,24 +180,28 @@
   .bl.xs b { font-size: 5.4pt; }
   .bl.xs .t { font-size: 4.8pt; }
 
-  /* categorias — precisam funcionar em P&B */
-  .trabalho { background: var(--c100); border: 1px solid var(--c300); }
-  .refeicao {
-    background: repeating-linear-gradient(0deg, #FFFFFF 0 1.1mm, #EFEFEF 1.1mm 1.5mm);
-    border: 1px solid var(--c300);
-  }
+  /* categorias — cores claras que seguram impressão em A4 */
+  .trabalho { background: #DEEBF7; border: 1px solid #9DC3E6; }
+  .trabalho .t { color: #33608C; }
+  .refeicao { background: #FFF2CC; border: 1px solid #E6C35C; }
+  .refeicao .t { color: #8A6D1A; }
   .desloc {
-    background: repeating-linear-gradient(45deg, #FFFFFF 0 1mm, #E4E4E4 1mm 1.6mm);
-    border: 1px solid var(--c300);
-    color: var(--c600);
+    background: repeating-linear-gradient(45deg, #F2F2F2 0 1mm, #DDDDDD 1mm 1.6mm);
+    border: 1px solid #C9C9C9;
+    color: #555555;
   }
-  .casa { background: #FAFAFA; border: 1px dashed #C4C4C4; }
-  .aula { background: var(--c200); border: 1px solid #B9B9B9; }
-  .psico { background: var(--papel); border: 1px solid var(--tinta); }
-  .borin { background: var(--papel); border: 1px solid var(--c300); border-left: 1mm solid var(--comando); }
-  .borin b { letter-spacing: 0.02em; }
-  .lazer { background: var(--papel); border: 1px dotted #BDBDBD; color: var(--c600); }
-  .lazer b { font-weight: 500; }
+  .casa { background: #EFE6F7; border: 1px solid #C3A6E1; }
+  .casa .t { color: #6B4699; }
+  .aula { background: #E2F0D9; border: 1px solid #A9D18E; }
+  .aula .t { color: #4A7C31; }
+  .psico { background: #DAF2F0; border: 1px solid #7FC8C0; }
+  .psico .t { color: #24756C; }
+  .borin { background: #FBE9EA; border: 1px solid #E4A6AB; border-left: 1.2mm solid var(--comando); }
+  .borin b { letter-spacing: 0.02em; color: var(--comando); }
+  .borin .t { color: #8F2A31; }
+  .lazer { background: #FCE9DC; border: 1px solid #EFB98A; color: #7A4A1F; }
+  .lazer b { font-weight: 600; }
+  .lazer .t { color: #A06A38; }
 
   /* ---- carimbo ---- */
   .carimbo {
@@ -239,7 +243,7 @@
   <header>
     <div class="titulo">
       <h1>Agenda Semanal</h1>
-      <div class="sub">Segunda a sexta &middot; 6:30&ndash;23:00 &middot; deslocamento padr&atilde;o 20 min &middot; banho 30 min &middot; janta 40 min</div>
+      <div class="sub">Segunda a sexta &middot; 6:30&ndash;23:00 &middot; sa&iacute;da de casa 7:00 &middot; deslocamento 20 min &middot; banho 30 min &middot; janta 40 min</div>
     </div>
     <div class="totais">
       <div><span class="rot">Borin / sem</span><span class="val">8h00</span></div>
@@ -250,14 +254,14 @@
   </header>
 
   <div class="legenda">
-    <span class="chip"><span class="sw" style="background:#F4F4F4"></span>Trabalho</span>
-    <span class="chip"><span class="sw" style="background:repeating-linear-gradient(0deg,#FFF 0 1.1mm,#EFEFEF 1.1mm 1.5mm)"></span>Refei&ccedil;&atilde;o</span>
-    <span class="chip"><span class="sw" style="background:repeating-linear-gradient(45deg,#FFF 0 1mm,#E4E4E4 1mm 1.6mm)"></span>Deslocamento</span>
-    <span class="chip"><span class="sw" style="background:#FAFAFA;border-style:dashed"></span>Casa / rotina</span>
-    <span class="chip"><span class="sw" style="background:#EAEAEA;border-color:#B9B9B9"></span>Aula</span>
-    <span class="chip"><span class="sw" style="border-color:#111"></span>Psic&oacute;logo</span>
-    <span class="chip"><span class="sw" style="border-left:1mm solid #C1121F"></span>Borin Projetos El&eacute;tricos</span>
-    <span class="chip"><span class="sw" style="border-style:dotted"></span>Lazer</span>
+    <span class="chip"><span class="sw" style="background:#DEEBF7;border-color:#9DC3E6"></span>Trabalho</span>
+    <span class="chip"><span class="sw" style="background:#FFF2CC;border-color:#E6C35C"></span>Refei&ccedil;&atilde;o</span>
+    <span class="chip"><span class="sw" style="background:repeating-linear-gradient(45deg,#F2F2F2 0 1mm,#DDD 1mm 1.6mm);border-color:#C9C9C9"></span>Deslocamento</span>
+    <span class="chip"><span class="sw" style="background:#EFE6F7;border-color:#C3A6E1"></span>Casa / rotina</span>
+    <span class="chip"><span class="sw" style="background:#E2F0D9;border-color:#A9D18E"></span>Aula</span>
+    <span class="chip"><span class="sw" style="background:#DAF2F0;border-color:#7FC8C0"></span>Psic&oacute;logo</span>
+    <span class="chip"><span class="sw" style="background:#FBE9EA;border-color:#E4A6AB;border-left:1mm solid #C1121F"></span>Borin Projetos El&eacute;tricos</span>
+    <span class="chip"><span class="sw" style="background:#FCE9DC;border-color:#EFB98A"></span>Lazer</span>
   </div>
 
   <div class="grade-wrap">
@@ -314,8 +318,8 @@
     <div class="hora" style="grid-row:188">22:00</div>
 
     <!-- ============ SEGUNDA ============ -->
-    <div class="bl casa"     style="grid-column:2;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
-    <div class="bl desloc xs" style="grid-column:2;grid-row:10/14"><b>Desloc.</b><span class="t">7:10&ndash;7:30</span></div>
+    <div class="bl casa xs"  style="grid-column:2;grid-row:2/8"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:00</span></div>
+    <div class="bl desloc xs" style="grid-column:2;grid-row:8/14"><b>Desloc.</b><span class="t">7:00 &middot; chega 7:20</span></div>
     <div class="bl trabalho" style="grid-column:2;grid-row:14/65"><b>Trabalho</b><span class="t">7:30&ndash;11:45</span></div>
     <div class="bl refeicao" style="grid-column:2;grid-row:65/80"><b>Almo&ccedil;o</b><span class="t">11:45&ndash;13:00</span></div>
     <div class="bl trabalho" style="grid-column:2;grid-row:80/110"><b>Trabalho</b><span class="t">13:00&ndash;15:30</span></div>
@@ -328,8 +332,8 @@
     <div class="bl lazer"    style="grid-column:2;grid-row:182/200"><b>Lazer</b><span class="t">21:30&ndash;23:00</span></div>
 
     <!-- ============ TERÇA ============ -->
-    <div class="bl casa"     style="grid-column:3;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
-    <div class="bl desloc xs" style="grid-column:3;grid-row:10/14"><b>Desloc.</b><span class="t">7:10&ndash;7:30</span></div>
+    <div class="bl casa xs"  style="grid-column:3;grid-row:2/8"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:00</span></div>
+    <div class="bl desloc xs" style="grid-column:3;grid-row:8/14"><b>Desloc.</b><span class="t">7:00 &middot; chega 7:20</span></div>
     <div class="bl trabalho" style="grid-column:3;grid-row:14/65"><b>Trabalho</b><span class="t">7:30&ndash;11:45</span></div>
     <div class="bl refeicao" style="grid-column:3;grid-row:65/80"><b>Almo&ccedil;o</b><span class="t">11:45&ndash;13:00</span></div>
     <div class="bl trabalho" style="grid-column:3;grid-row:80/110"><b>Trabalho</b><span class="t">13:00&ndash;15:30</span></div>
@@ -344,8 +348,8 @@
     <div class="bl lazer"    style="grid-column:3;grid-row:188/200"><b>Lazer</b><span class="t">22:00&ndash;23:00</span></div>
 
     <!-- ============ QUARTA ============ -->
-    <div class="bl casa"     style="grid-column:4;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
-    <div class="bl desloc xs" style="grid-column:4;grid-row:10/14"><b>Desloc.</b><span class="t">7:10&ndash;7:30</span></div>
+    <div class="bl casa xs"  style="grid-column:4;grid-row:2/8"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:00</span></div>
+    <div class="bl desloc xs" style="grid-column:4;grid-row:8/14"><b>Desloc.</b><span class="t">7:00 &middot; chega 7:20</span></div>
     <div class="bl trabalho" style="grid-column:4;grid-row:14/65"><b>Trabalho</b><span class="t">7:30&ndash;11:45</span></div>
     <div class="bl refeicao" style="grid-column:4;grid-row:65/80"><b>Almo&ccedil;o</b><span class="t">11:45&ndash;13:00</span></div>
     <div class="bl trabalho" style="grid-column:4;grid-row:80/110"><b>Trabalho</b><span class="t">13:00&ndash;15:30</span></div>
@@ -360,8 +364,8 @@
     <div class="bl lazer"    style="grid-column:4;grid-row:190/200"><b>Lazer</b><span class="t">22:10&ndash;23:00</span></div>
 
     <!-- ============ QUINTA ============ -->
-    <div class="bl casa"     style="grid-column:5;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
-    <div class="bl desloc xs" style="grid-column:5;grid-row:10/14"><b>Desloc.</b><span class="t">7:10&ndash;7:30</span></div>
+    <div class="bl casa xs"  style="grid-column:5;grid-row:2/8"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:00</span></div>
+    <div class="bl desloc xs" style="grid-column:5;grid-row:8/14"><b>Desloc.</b><span class="t">7:00 &middot; chega 7:20</span></div>
     <div class="bl trabalho" style="grid-column:5;grid-row:14/65"><b>Trabalho</b><span class="t">7:30&ndash;11:45</span></div>
     <div class="bl refeicao" style="grid-column:5;grid-row:65/80"><b>Almo&ccedil;o</b><span class="t">11:45&ndash;13:00</span></div>
     <div class="bl trabalho" style="grid-column:5;grid-row:80/110"><b>Trabalho</b><span class="t">13:00&ndash;15:30</span></div>
@@ -374,8 +378,8 @@
     <div class="bl lazer"    style="grid-column:5;grid-row:182/200"><b>Lazer</b><span class="t">21:30&ndash;23:00</span></div>
 
     <!-- ============ SEXTA ============ -->
-    <div class="bl casa"     style="grid-column:6;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
-    <div class="bl desloc xs" style="grid-column:6;grid-row:10/14"><b>Desloc.</b><span class="t">7:10&ndash;7:30</span></div>
+    <div class="bl casa xs"  style="grid-column:6;grid-row:2/8"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:00</span></div>
+    <div class="bl desloc xs" style="grid-column:6;grid-row:8/14"><b>Desloc.</b><span class="t">7:00 &middot; chega 7:20</span></div>
     <div class="bl trabalho" style="grid-column:6;grid-row:14/65"><b>Trabalho</b><span class="t">7:30&ndash;11:45</span></div>
     <div class="bl refeicao" style="grid-column:6;grid-row:65/80"><b>Almo&ccedil;o</b><span class="t">11:45&ndash;13:00</span></div>
     <div class="bl trabalho" style="grid-column:6;grid-row:80/110"><b>Trabalho</b><span class="t">13:00&ndash;15:30</span></div>
@@ -397,7 +401,7 @@
     <div><span class="rot">Documento</span><span class="val">Agenda semanal</span></div>
     <div><span class="rot">Titular</span><span class="val">Mateus Borin</span></div>
     <div><span class="rot">Borin na semana</span><span class="val">8h00 (seg&ndash;qui, noite)</span></div>
-    <div><span class="rot">Rev</span><span class="val">01</span></div>
+    <div><span class="rot">Rev</span><span class="val">02</span></div>
     <div><span class="rot">Data</span><span class="val">11/08/2026</span></div>
   </div>
 
