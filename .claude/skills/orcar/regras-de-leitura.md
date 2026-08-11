@@ -6,10 +6,13 @@ Formato: **regra** — de onde veio.
 
 ## Segurança / NR-12
 
-- **Chave com trava (trava de porta) é SEMPRE item de NR-12** → conta em
-  `seg_qtd` (dispositivos de segurança), não nos pontos de I/O comuns. E se
-  tem item de NR-12, `--nr12 sim`. — 10/08/2026, orçamento do elevador
-  (20 travas de porta contadas primeiro como I/O comum; correção dele).
+- **Chave com trava (trava de porta) normalmente é item de NR-12** → conta em
+  `seg_qtd`, não em I/O comum. — 10/08/2026, orçamento do elevador.
+  **MAS não é "sempre": é decisão do projeto.** No mesmo elevador, o chefe
+  confirmou depois que chave e trava eram SEM NR-12 — aí contam como I/O
+  comum e `seg_qtd` fica zero. Na dúvida, contar como NR-12 e PERGUNTAR ao
+  Mateus antes de fechar; nunca decidir sozinho. — 10/08/2026, correção do
+  chefe no mesmo orçamento.
 
 ## I/O
 
