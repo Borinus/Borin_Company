@@ -95,7 +95,7 @@ export function lerPedido(dados) {
   if (!p.contato) falta.push("seu nome");
   if (!p.email) falta.push("seu email");
   else if (!emailValido(p.email)) falta.push("um email válido");
-  if (!p.equipamento) falta.push("a máquina ou o processo");
+  if (!p.equipamento) falta.push("o nome do projeto");
   if (p.canal === "email+whats" && p.fone.replace(/\D/g, "").length < 12) {
     falta.push("o WhatsApp completo, com DDD");
   }
@@ -126,7 +126,7 @@ export function montarTexto(p, ip) {
   linha("WhatsApp", p.fone);
   l.push("");
   l.push("O PROJETO");
-  linha("Máquina ou processo", p.equipamento);
+  linha("Projeto", p.equipamento);
   linha("Código", p.codigo);
   linha("Escopo", p.escopo === "A" ? "A — só o painel"
     : p.escopo === "B" ? "B — painel e instalação em campo" : "não sabe ainda");

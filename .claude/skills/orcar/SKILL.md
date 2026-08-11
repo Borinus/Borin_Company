@@ -17,9 +17,12 @@ ignorar uma é repetir um erro que ele já corrigiu.
 
 ## O passo a passo
 
-1. **Extrair da conversa**: contato, empresa, email, fone, equipamento (uma
-   frase fiel ao que o cliente escreveu, com marcas e opções que ele citou),
-   prazo se houver.
+1. **Extrair da conversa**: contato, empresa, email, fone, prazo se houver, e
+   o projeto em DOIS campos separados:
+   - `--equipamento` = o **nome curto** do projeto ("elevador de cargas de 20
+     andares"), nunca a lista de componentes
+   - `--observacao` = a lista livre do que ele tem, fiel às palavras do
+     cliente (CLP/IHM, remota, inversor, motores, sensores...)
 
 2. **Contar os pontos** aplicando as regras de `regras-de-leitura.md`. Mostrar
    a conta ABERTA no chat (ex.: "2 pontos × 20 andares + 8 do painel = 48") —

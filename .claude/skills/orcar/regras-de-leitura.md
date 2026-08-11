@@ -24,6 +24,13 @@ Formato: **regra** — de onde veio.
   I/O ou segurança NÃO conta de novo como acionamento (conta dobrada infla a
   estimativa).
 
+## Ficha
+
+- **`equipamento` é o NOME do projeto, curto** ("elevador de cargas de 20
+  andares"). A lista do que ele tem vai em `observacao`, com as palavras do
+  cliente. — 10/08/2026, correção do Mateus no orçamento do elevador (a spec
+  inteira tinha ido pro nome).
+
 ## Escopo e o que NÃO decidir
 
 - Escopo A/B e NR-12 só saem de `?` se a conversa disser explicitamente.

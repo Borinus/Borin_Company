@@ -79,6 +79,7 @@ def montar_dados(a):
         "fone": (a.fone or "").strip(),
         "equipamento": (a.equipamento or "").strip(),
         "codigo": (a.codigo or "").strip(),
+        "observacao": (a.observacao or "").strip(),
         "ios": contagem("--io", a.io),
         "acionamentos": contagem("--acionamentos", a.acionamentos),
         "seg_qtd": contagem("--seg", a.seg),
@@ -111,7 +112,7 @@ def link_de(dados):
 # o que o formulario exige pra deixar enviar (validar() do site)
 PRO_ENVIO = [("empresa", "a empresa"), ("contato", "o nome do contato"),
              ("email", "o email do cliente"),
-             ("equipamento", "o que precisa de projeto")]
+             ("equipamento", "o nome do projeto")]
 
 
 def main():
@@ -121,8 +122,10 @@ def main():
     p.add_argument("--contato", default="")
     p.add_argument("--email", default="")
     p.add_argument("--fone", default="", help="+55 54 99999-0000")
-    p.add_argument("--equipamento", default="")
+    p.add_argument("--equipamento", default="", help="NOME curto do projeto")
     p.add_argument("--codigo", default="", help="código interno do cliente")
+    p.add_argument("--observacao", default="",
+                   help="lista livre do que o projeto tem (CLP, remota, motores...)")
     p.add_argument("--escopo", default="?", choices=["A", "B", "?"])
     p.add_argument("--nr12", default="?", choices=["sim", "nao", "?"])
     p.add_argument("--canal", default="email", choices=["email", "email+whats"])

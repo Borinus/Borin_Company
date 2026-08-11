@@ -137,9 +137,9 @@
     <div class="passo-form" data-passo="0">
       <div class="grade grade--larga">
         <div class="campo">
-          <label for="equipamento">O que precisa de projeto?</label>
-          <input type="text" id="equipamento" placeholder="ex.: painel de controle de estufa de pintura">
-          <span class="campo__dica">Máquina, painel ou processo, do seu jeito.</span>
+          <label for="equipamento">Nome do projeto</label>
+          <input type="text" id="equipamento" placeholder="ex.: elevador de cargas de 20 andares">
+          <span class="campo__dica">Curto, do jeito que vocês chamam a máquina ou o painel.</span>
         </div>
         <div class="campo">
           <label for="codigo">Código interno <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label>
@@ -162,6 +162,11 @@
             </label>
           </div>
         </div>
+      </div>
+      <div class="campo" style="margin-top:1.1rem">
+        <label for="observacao">O que ele tem, o que faz <span style="font-weight:400; color:var(--ink-soft)">(opcional)</span></label>
+        <textarea id="observacao" placeholder="ex.: CLP ou IHM, remota, inversor, 2 motores, encoder; trava e botoeira por andar"></textarea>
+        <span class="campo__dica">Lista livre — quanto mais aqui, mais certeiro o valor.</span>
       </div>
     </div>
 
@@ -275,7 +280,8 @@ var SECOES = [
       ['Empresa', 'empresa'], ['Contato', 'contato'],
       ['Email', 'email'], ['WhatsApp', 'fone']] },
   { titulo: 'O projeto',
-    campos: [['Máquina ou processo', 'equipamento'], ['Código', 'codigo']],
+    campos: [['Projeto', 'equipamento'], ['Código', 'codigo']],
+    texto: [['O que ele tem', 'observacao']],
     extra: function () {
       var e = radio('escopo');
       var txt = e === 'A' ? 'Escopo A — só o painel'
@@ -306,7 +312,7 @@ var SECOES = [
 var OBRIGATORIOS = [
   ['empresa', 'a empresa'],
   ['contato', 'o seu nome'],
-  ['equipamento', 'a máquina, painel ou processo']
+  ['equipamento', 'o nome do projeto']
 ];
 
 /* ---------- navegação por passos ----------
@@ -321,7 +327,7 @@ var TITULOS = [
 ];
 /* pra validação saber a que passo levar quando faltar um campo */
 var PASSO_DO_CAMPO = {
-  equipamento: 0, codigo: 0,
+  equipamento: 0, codigo: 0, observacao: 0,
   acionamentos: 1, ios: 1, seg_qtd: 1, prazo: 1,
   empresa: 2, contato: 2, email: 2, fone: 2
 };

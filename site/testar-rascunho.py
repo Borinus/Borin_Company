@@ -88,8 +88,8 @@ class Args:
     """O argparse de mentira: os campos que o montar_dados() le."""
     def __init__(self, **kw):
         base = dict(empresa="", contato="", email="", fone="", equipamento="",
-                    codigo="", escopo="?", nr12="?", canal="email",
-                    io="", acionamentos="", seg="", prazo="")
+                    codigo="", observacao="", escopo="?", nr12="?",
+                    canal="email", io="", acionamentos="", seg="", prazo="")
         base.update(kw)
         self.__dict__.update(base)
 
@@ -104,7 +104,8 @@ print("  " + "=" * 70)
 rasc.ERROS[:] = []
 a = Args(empresa="Aço & Cia — Pintura Ltda", contato="João Vieira",
          email="joao@acocia.com.br", fone="+55 54 99911-2233",
-         equipamento="instalação de estufa de pintura", codigo="EQ-77",
+         equipamento="estufa de pintura", codigo="EQ-77",
+         observacao="CLP, remota, inversor — 2 motores, exaustão e aquecimento",
          escopo="B", nr12="sim", canal="email+whats",
          io="96", acionamentos="8", seg="6", prazo="15/09/2026")
 dados = rasc.montar_dados(a)
