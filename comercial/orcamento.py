@@ -461,7 +461,10 @@ def montar(o):
         "condicoes": [
             ("Entrada, na assinatura", "40%"),
             ("Saldo, na aprovação", "60% em 15 dias"),
-            ("Correção de erro meu", "sem limite"),
+            # Era "Correção de erro meu" — pedido do Mateus em 10/08/2026:
+            # "erro meu" não aparece em material de cliente. A garantia é a
+            # mesma; o nome agora diz o que o cliente ganha, não quem errou.
+            ("Garantia do projeto", "correções sem custo, sem limite"),
             ("Alteração de escopo inclusa", "2 rodadas"),
             ("Sigilo", "2 anos, em contrato"),
             # Suporte entra na PROPOSTA, não numa conversa seis meses depois.
