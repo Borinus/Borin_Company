@@ -26,6 +26,14 @@ if hasattr(sys.stdout, "reconfigure"):
 AQUI = os.path.dirname(os.path.abspath(__file__))
 TMP = os.environ.get("TEMP", "/tmp")
 
+# ANTES de carregar os módulos: proposta de teste NUNCA na pasta real.
+# O numero() conta os arquivos de comercial/propostas/, e cada rodada desta
+# suíte inflava a numeração — a primeira proposta real ia sair PROP-2026-115.
+import tempfile
+_SAIDA = tempfile.mkdtemp(prefix="borin-teste-")
+os.environ["BORIN_PROPOSTAS"] = _SAIDA
+os.environ["BORIN_CONTRATOS"] = _SAIDA
+
 
 def _mod(nome, arquivo):
     s = importlib.util.spec_from_file_location(nome, os.path.join(AQUI, arquivo))

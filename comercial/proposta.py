@@ -33,7 +33,8 @@ if hasattr(sys.stdout, "reconfigure"):
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AQUI = os.path.join(RAIZ, "comercial")
-PASTA = os.path.join(AQUI, "propostas")
+# mesma chave do orcamento.py: teste escreve longe da pasta real
+PASTA = os.environ.get("BORIN_PROPOSTAS") or os.path.join(AQUI, "propostas")
 
 _s = importlib.util.spec_from_file_location("calc", os.path.join(AQUI, "calcular.py"))
 calc = importlib.util.module_from_spec(_s)

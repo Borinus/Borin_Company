@@ -94,9 +94,13 @@
 - Pedido por WhatsApp (Matheus Zucolotto): elevador de cargas até 20 andares — LOGO! ou IHM
   Weintek, remota, inversor, 2 motores, encoder; trava, sensor de porta e botoeira por andar
 - Ficha lida: 48 I/O + 2 acionamentos + **20 travas como NR-12** (regra na skill `/orcar`)
-- [ ] **Desconto combinado: 20%** — decidido em 10/08/2026. A proposta sai com
+- [x] **Desconto combinado: 20%** — decidido em 10/08/2026. A proposta sai com
   `--desconto 20` (substitui a condição de abertura; a ferramenta recusa os dois juntos)
-- Referência: escopo A ~37 pág → **R$ 6.900** · escopo B ~40 pág → **R$ 7.500**
+- [x] **PROP-2026-001 gerada em 10/08/2026** — escopo B, 40 pág, **R$ 7.500** (cheio
+  R$ 9.375). PDF em `comercial/propostas/`, entregue pro Mateus mandar por WhatsApp.
+  Gerada com email provisório `zucolotto@a-confirmar` e `--sem-contrato`
+- [ ] Quando tiver empresa + email de verdade: regerar com `--numero PROP-2026-001`
+  e os dados certos, enviar com `--enviar --para-mim` primeiro; contrato depois
 - [ ] Falta empresa e email dele pra enviar o pedido pelo link de rascunho
 - [ ] Projeto ainda não fechado do lado dele (nº de andares em aberto)
 

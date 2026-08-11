@@ -28,7 +28,10 @@ import tempfile
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AQUI = os.path.join(RAIZ, "comercial")
-PASTA = os.path.join(AQUI, "propostas")
+# BORIN_PROPOSTAS: as suítes de teste apontam pra um diretório descartável.
+# Sem isso, cada rodada gerava proposta AQUI e o numero() — que conta os
+# arquivos da pasta — inflava: a primeira proposta real ia sair PROP-2026-115.
+PASTA = os.environ.get("BORIN_PROPOSTAS") or os.path.join(AQUI, "propostas")
 # /api/enviar e o caminho de admin: e o unico que aceita HTML, anexo e
 # escolher destinatario, e exige o segredo no cabecalho. O /api/orcamento
 # ficou so pro formulario do site, sem nenhum desses poderes.

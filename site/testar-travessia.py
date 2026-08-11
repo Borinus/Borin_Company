@@ -64,6 +64,14 @@ if hasattr(sys.stdout, "reconfigure"):
 SITE = "https://borinprojetos.com.br"
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ATENDIDOS = os.path.join(RAIZ, "comercial", "clientes-atendidos.json")
+
+# Proposta e contrato de TESTE nunca na pasta real: o numero() conta os
+# arquivos de comercial/propostas/, e cada travessia inflava a numeração das
+# propostas de verdade. Os subprocessos (orcamento.py etc.) herdam o ambiente.
+import tempfile
+_SAIDA = tempfile.mkdtemp(prefix="borin-travessia-")
+os.environ["BORIN_PROPOSTAS"] = _SAIDA
+os.environ["BORIN_CONTRATOS"] = _SAIDA
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36")
 NOVA_SENHA = "TravessiaDoTeste2026"

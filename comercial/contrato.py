@@ -21,7 +21,8 @@ import subprocess
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AQUI = os.path.join(RAIZ, "comercial")
 MODELO = os.path.join(AQUI, "modelo-contrato.md")
-PASTA = os.path.join(AQUI, "contratos")
+# BORIN_CONTRATOS: teste escreve longe da pasta real (ver orcamento.py)
+PASTA = os.environ.get("BORIN_CONTRATOS") or os.path.join(AQUI, "contratos")
 
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
          "agosto", "setembro", "outubro", "novembro", "dezembro"]
