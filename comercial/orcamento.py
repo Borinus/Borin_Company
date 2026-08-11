@@ -317,13 +317,15 @@ def marcar_atendido(email, numero):
         json.dump(d, f, ensure_ascii=False, indent=2, sort_keys=True)
 
 
-def registrar_na_conta(p, pdf=None):
-    """Põe a proposta na conta do cliente, com o contrato pra baixar.
+def registrar_na_conta(p, pdf=None, pdf_proposta=None):
+    """Põe a proposta na conta do cliente — o registro, o PDF dela e o contrato.
 
     A proposta existia só no email. Cliente que apagou sem querer, ou que foi
     procurar seis semanas depois, não tinha onde olhar — e valor e prazo são
-    justamente o que se procura depois. Falhar aqui NÃO derruba nada: o email
-    já saiu e o cliente já foi atendido.
+    justamente o que se procura depois. O PDF sobe também (10/08/2026): o
+    registro sozinho não bastava, o documento que se baixa e se repassa é o
+    PDF, e ele só existia no anexo do email. Falhar aqui NÃO derruba nada: o
+    email já saiu e o cliente já foi atendido.
     """
     import re
     import urllib.error
@@ -366,20 +368,32 @@ def registrar_na_conta(p, pdf=None):
         print("  conta:   nao registrei a proposta (%s)" % (d.get("erro") or "?"))
         return
 
-    if pdf and os.path.exists(pdf):
-        nome = os.path.basename(pdf)
+    def subir(caminho, titulo, etapa):
+        nome = os.path.basename(caminho)
         url = ("%s/api/acesso/arquivo?email=%s&codigo=%s&nome=%s&titulo=%s&etapa=%s"
                % (SITE, urllib.parse.quote(p["email"]),
                   urllib.parse.quote(p["numero"]), urllib.parse.quote(nome),
-                  urllib.parse.quote("Contrato " + p["numero"]),
-                  urllib.parse.quote("para assinar")))
-        a = bate(url, "PUT", io.open(pdf, "rb").read(), "application/pdf")
-        if not a.get("ok"):
-            print("  conta:   proposta registrada, contrato nao subiu (%s)"
-                  % (a.get("erro") or "?"))
-            return
+                  urllib.parse.quote(titulo), urllib.parse.quote(etapa)))
+        a = bate(url, "PUT", io.open(caminho, "rb").read(), "application/pdf")
+        return a.get("ok"), (a.get("erro") or "?")
 
-    print("  conta:   proposta e contrato disponiveis em /conta")
+    subiu = []
+    if pdf_proposta and os.path.exists(pdf_proposta):
+        ok_, erro_ = subir(pdf_proposta, "Proposta " + p["numero"], "proposta")
+        if ok_:
+            subiu.append("proposta em PDF")
+        else:
+            # em voz alta: PDF que nao sobe calado e documento que "sumiu"
+            print("  conta:   o PDF da proposta nao subiu (%s)" % erro_)
+    if pdf and os.path.exists(pdf):
+        ok_, erro_ = subir(pdf, "Contrato " + p["numero"], "para assinar")
+        if ok_:
+            subiu.append("contrato")
+        else:
+            print("  conta:   o contrato nao subiu (%s)" % erro_)
+
+    print("  conta:   registrado em /conta%s"
+          % ((" com " + " e ".join(subiu)) if subiu else " (sem arquivos)"))
 
 
 def aplicar_primeira_vez(o):
@@ -602,6 +616,7 @@ def main():
     print("  arquivo: %s.html" % base)
 
     anexos = []
+    pdf_prop = None
 
     # A proposta em PDF vai SEMPRE, mesmo com --sem-contrato: ela é o documento
     # que o contato repassa pro chefe ou pro comprador, e email encaminhado
@@ -678,7 +693,7 @@ def main():
             # proposta — foi o que aconteceu na primeira versão, por um import
             # que faltava. Registrar é bônus; entregar é o serviço.
             try:
-                registrar_na_conta(p, pdf if not o.sem_contrato else None)
+                registrar_na_conta(p, pdf if not o.sem_contrato else None, pdf_prop)
             except Exception as e:
                 print("  conta:   nao registrei a proposta (%s)" % str(e)[:70])
     else:
