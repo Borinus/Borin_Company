@@ -457,6 +457,7 @@ def montar(o):
         "paginas": paginas, "prazo": prazo(paginas), "entrega": entrega,
         "linhas": r["linhas"], "valor_cheio": r["valor_cheio"], "total": r["total"],
         "abertura": o.abertura,
+        "direto": getattr(o, "direto", False),
         "condicoes": [
             ("Entrada, na assinatura", "40%"),
             ("Saldo, na aprovação", "60% em 15 dias"),
@@ -546,6 +547,8 @@ def main():
     a.add_argument("--abertura", action="store_true")
     a.add_argument("--desconto", type=float, default=0, metavar="PCT",
                    help="desconto combinado deste projeto, em %% — substitui a condição de abertura")
+    a.add_argument("--direto", action="store_true",
+                   help="negócio conduzido na mão (WhatsApp): o PDF sai sem o bloco do /cadastro")
     a.add_argument("--enviar", action="store_true")
     a.add_argument("--para-mim", action="store_true", help="manda so pro Mateus, identico ao do cliente")
     a.add_argument("--sem-contrato", action="store_true", help="nao anexa o contrato")

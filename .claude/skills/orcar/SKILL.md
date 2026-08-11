@@ -54,7 +54,10 @@ ignorar uma é repetir um erro que ele já corrigiu.
 
 7. Proposta fechada: `python comercial/orcamento.py ... --enviar --para-mim`
    → ele confere na caixa dele → aprovou, roda de novo com `--enviar` pro
-   cliente.
+   cliente. **Negócio conduzido na mão (proposta que vai por WhatsApp): usar
+   `--direto`** — o PDF sai sem o bloco "preencher os dados e gerar o
+   contrato" do /cadastro, que só faz sentido no fluxo pelo site. Desconto
+   negociado no projeto: `--desconto N` (substitui a condição de abertura).
 8. Contrato: `comercial/contrato.py`, mesmo esquema — conferir, aprovar, sair.
 
 ## Quando o Mateus corrigir uma contagem ou regra

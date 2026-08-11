@@ -74,7 +74,9 @@ body { font: 9.5pt/1.42 'Segoe UI', Arial, sans-serif; color: #111; margin: 0; }
 .marca { font-size: 19pt; font-weight: 700; letter-spacing: .16em; line-height: 1; }
 .fio { display: flex; align-items: center; gap: 4px; margin-top: 5pt; }
 .fio .regua { flex: 1; height: 2.4px; background: #111; }
-.fio .no { width: 6px; height: 6px; background: #111; }
+/* o nó é o acento da marca — vermelho, como no contrato e no site. Estava
+   #111 e a marca saía toda preta; divergia do proprio contrato (10/08/2026) */
+.fio .no { width: 6px; height: 6px; background: #C1121F; }
 .sub { font-family: Consolas, monospace; font-size: 7.5pt; letter-spacing: .12em;
        text-transform: uppercase; color: #6B6B6B; margin-top: 4pt; }
 .topo { border-bottom: 1px solid #111; padding-bottom: 7pt; margin-bottom: 9pt; }
@@ -164,6 +166,20 @@ def documento(p):
     # p["condicoes"] (orcamento.py). Ela morava só aqui e o email saía sem —
     # dois documentos da mesma mensagem com condições diferentes.
 
+    # Negócio conduzido na mão (--direto, ex.: proposta que vai por WhatsApp)
+    # sai SEM o bloco "preencher os dados e gerar o contrato": o cliente desse
+    # caminho não vai passar pelo /cadastro — o contrato é combinado direto.
+    passo = "" if p.get("direto") else """
+<div class="bloco">
+  <div class="secao">Próximo passo</div>
+  <div class="passo">
+    <div class="t">Preencher os dados e gerar o contrato</div>
+    <div class="d">São nove campos: dados da empresa e quem assina. Devolvo o contrato
+    preenchido, faltando só a assinatura. Se preferir, responda o email desta proposta.</div>
+    <div class="link">borinprojetos.com.br/cadastro</div>
+  </div>
+</div>"""
+
     return """<!doctype html><html lang="pt-BR"><meta charset="utf-8">
 <title>Proposta %(num)s</title><style>%(css)s</style>
 %(cabeca)s
@@ -188,17 +204,7 @@ def documento(p):
   <div class="secao">Condições</div>
   <table class="val">%(cond)s</table>
 </div>
-
-<div class="bloco">
-  <div class="secao">Próximo passo</div>
-  <div class="passo">
-    <div class="t">Preencher os dados e gerar o contrato</div>
-    <div class="d">São nove campos: dados da empresa e quem assina. Devolvo o contrato
-    preenchido, faltando só a assinatura. Se preferir, responda o email desta proposta.</div>
-    <div class="link">borinprojetos.com.br/cadastro</div>
-  </div>
-</div>
-
+%(passo)s
 <div class="pe">
   Borin Projetos Elétricos &middot; 65.749.097 MATEUS BORIN &middot; CNPJ 65.749.097/0001-85<br>
   Caxias do Sul / RS &middot; contato@borinprojetos.com.br &middot; borinprojetos.com.br
@@ -208,6 +214,7 @@ def documento(p):
         "equip": esc(p["equipamento"]), "empresa": esc(p["empresa"]),
         "contato": (" &middot; " + esc(p["contato"])) if p.get("contato") else "",
         "chapeu": chapeu, "inclui": inclui, "linhas": linhas, "cond": cond, "obs": obs,
+        "passo": passo,
     }
 
 
