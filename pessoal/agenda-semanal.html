@@ -86,8 +86,9 @@
   .legenda {
     display: flex;
     align-items: center;
-    gap: 4.5mm;
+    gap: 4mm;
     padding: 1.8mm 0;
+    justify-content: space-between;
     font-size: 6.3pt;
     font-weight: 500;
     color: var(--tinta);
@@ -101,6 +102,12 @@
     width: 4.2mm; height: 2.6mm;
     border: 1px solid var(--c300);
     display: inline-block;
+  }
+  .legenda .h {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 6.3pt;
+    margin-left: 0.5mm;
   }
 
   /* ---- grade ---- */
@@ -246,22 +253,19 @@
       <div class="sub">Segunda a sexta &middot; 6:30&ndash;23:00 &middot; sa&iacute;da de casa 7:00 &middot; deslocamento 20 min &middot; banho 30 min &middot; janta 40 min</div>
     </div>
     <div class="totais">
-      <div><span class="rot">Borin / sem</span><span class="val">8h00</span></div>
-      <div><span class="rot">Aula / sem</span><span class="val">4h30</span></div>
-      <div><span class="rot">Psic&oacute;logo</span><span class="val">1h00</span></div>
-      <div><span class="rot">Lazer / sem</span><span class="val">~7h30</span></div>
+      <div><span class="rot">Total na semana</span><span class="val">82h30 acordado</span></div>
     </div>
   </header>
 
   <div class="legenda">
-    <span class="chip"><span class="sw" style="background:#B4D2EE;border-color:#2E74B5"></span>Trabalho</span>
-    <span class="chip"><span class="sw" style="background:#FFE066;border-color:#BF9000"></span>Refei&ccedil;&atilde;o</span>
-    <span class="chip"><span class="sw" style="background:repeating-linear-gradient(45deg,#E8E8E8 0 1mm,#B8B8B8 1mm 1.6mm);border-color:#6E6E6E"></span>Deslocamento</span>
-    <span class="chip"><span class="sw" style="background:#DCC1F0;border-color:#7030A0"></span>Casa / rotina</span>
-    <span class="chip"><span class="sw" style="background:#B7DE9C;border-color:#538135"></span>Aula</span>
-    <span class="chip"><span class="sw" style="background:#96DCD2;border-color:#1F7A70"></span>Psic&oacute;logo</span>
-    <span class="chip"><span class="sw" style="background:#F6B3B8;border-color:#C1121F;border-left:1mm solid #C1121F"></span>Borin Projetos El&eacute;tricos</span>
-    <span class="chip"><span class="sw" style="background:#FAC08F;border-color:#C55A11"></span>Lazer</span>
+    <span class="chip"><span class="sw" style="background:#B4D2EE;border-color:#2E74B5"></span>Trabalho<span class="h">41h30</span></span>
+    <span class="chip"><span class="sw" style="background:#FFE066;border-color:#BF9000"></span>Refei&ccedil;&otilde;es<span class="h">10h50</span></span>
+    <span class="chip"><span class="sw" style="background:repeating-linear-gradient(45deg,#E8E8E8 0 1mm,#B8B8B8 1mm 1.6mm);border-color:#6E6E6E"></span>Deslocamento<span class="h">5h40</span></span>
+    <span class="chip"><span class="sw" style="background:#DCC1F0;border-color:#7030A0"></span>Casa &middot; caf&eacute; e banho<span class="h">5h10</span></span>
+    <span class="chip"><span class="sw" style="background:#B7DE9C;border-color:#538135"></span>Aula<span class="h">4h30</span></span>
+    <span class="chip"><span class="sw" style="background:#96DCD2;border-color:#1F7A70"></span>Psic&oacute;logo<span class="h">1h00</span></span>
+    <span class="chip"><span class="sw" style="background:#F6B3B8;border-color:#C1121F;border-left:1mm solid #C1121F"></span>Borin<span class="h">8h00</span></span>
+    <span class="chip"><span class="sw" style="background:#FAC08F;border-color:#C55A11"></span>Lazer<span class="h">6h00</span></span>
   </div>
 
   <div class="grade-wrap">
