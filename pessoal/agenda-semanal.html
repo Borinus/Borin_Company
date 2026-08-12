@@ -210,6 +210,10 @@
   .lazer b { font-weight: 600; }
   .lazer .t { color: #6B3410; }
 
+  .treino { background: #1F4E79; border: 1px solid #16365C; color: #FFFFFF; }
+  .treino b { color: #FFFFFF; }
+  .treino .t { color: #BDD7EE; }
+
   /* ---- carimbo ---- */
   .carimbo {
     margin-top: 2.5mm;
@@ -265,7 +269,8 @@
     <span class="chip"><span class="sw" style="background:#B7DE9C;border-color:#538135"></span>Aula<span class="h">4h40</span></span>
     <span class="chip"><span class="sw" style="background:#96DCD2;border-color:#1F7A70"></span>Psic&oacute;logo<span class="h">1h00</span></span>
     <span class="chip"><span class="sw" style="background:#F6B3B8;border-color:#C1121F;border-left:1mm solid #C1121F"></span>Borin<span class="h">8h00</span></span>
-    <span class="chip"><span class="sw" style="background:#FAC08F;border-color:#C55A11"></span>Lazer<span class="h">4h00</span></span>
+    <span class="chip"><span class="sw" style="background:#1F4E79;border-color:#16365C"></span>Treino<span class="h">1h15</span></span>
+    <span class="chip"><span class="sw" style="background:#FAC08F;border-color:#C55A11"></span>Lazer<span class="h">2h45</span></span>
   </div>
 
   <div class="grade-wrap">
@@ -324,70 +329,74 @@
     <!-- ============ SEGUNDA ============ -->
     <div class="bl casa" style="grid-column:2;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
     <div class="bl desloc xs" style="grid-column:2;grid-row:10/14"><b>Desloc.</b><span class="t">sai 7:10 &middot; chega 7:30</span></div>
-    <div class="bl trabalho" style="grid-column:2;grid-row:14/66"><b>Trabalho</b><span class="t">7:30&ndash;11:50</span></div>
+    <div class="bl trabalho" style="grid-column:2;grid-row:14/38"><b>Trabalho</b><span class="t">7:30&ndash;9:30</span></div>
+    <div class="bl refeicao xs" style="grid-column:2;grid-row:38/41"><b>Lanche</b><span class="t">9:30&ndash;9:45</span></div>
+    <div class="bl trabalho" style="grid-column:2;grid-row:41/66"><b>Trabalho</b><span class="t">9:45&ndash;11:50</span></div>
     <div class="bl refeicao" style="grid-column:2;grid-row:66/77"><b>Almo&ccedil;o</b><span class="t">11:50&ndash;12:45</span></div>
-    <div class="bl trabalho" style="grid-column:2;grid-row:77/110"><b>Trabalho</b><span class="t">12:45&ndash;15:30</span></div>
-    <div class="bl refeicao xs" style="grid-column:2;grid-row:110/113"><b>Lanche</b><span class="t">15:30&ndash;15:45</span></div>
-    <div class="bl trabalho" style="grid-column:2;grid-row:113/137"><b>Trabalho</b><span class="t">15:45&ndash;17:45</span></div>
+    <div class="bl trabalho" style="grid-column:2;grid-row:77/137"><b>Trabalho</b><span class="t">12:45&ndash;17:45</span></div>
     <div class="bl desloc xs" style="grid-column:2;grid-row:137/143"><b>Desloc.</b><span class="t">17:45 &middot; ~30 min</span></div>
-    <div class="bl casa xs" style="grid-column:2;grid-row:143/149"><b>Banho</b><span class="t">18:15&ndash;18:45</span></div>
-    <div class="bl refeicao xs" style="grid-column:2;grid-row:149/157"><b>Janta</b><span class="t">18:45&ndash;19:25</span></div>
-    <div class="bl borin" style="grid-column:2;grid-row:157/188"><b>Borin</b><span class="t">19:25&ndash;22:00 &middot; 2h35</span></div>
-    <div class="bl lazer" style="grid-column:2;grid-row:188/200"><b>Lazer</b><span class="t">22:00&ndash;23:00</span></div>
+    <div class="bl refeicao xs" style="grid-column:2;grid-row:143/151"><b>Janta</b><span class="t">18:15&ndash;18:55</span></div>
+    <div class="bl borin" style="grid-column:2;grid-row:151/163"><b>Borin</b><span class="t">18:55&ndash;19:55 &middot; 1h</span></div>
+    <div class="bl treino xs" style="grid-column:2;grid-row:163/168"><b>Treino</b><span class="t">19:55&ndash;20:20</span></div>
+    <div class="bl casa xs" style="grid-column:2;grid-row:168/174"><b>Banho</b><span class="t">20:20&ndash;20:50</span></div>
+    <div class="bl borin" style="grid-column:2;grid-row:174/192"><b>Borin</b><span class="t">20:50&ndash;22:20 &middot; 1h30</span></div>
+    <div class="bl lazer xs" style="grid-column:2;grid-row:192/200"><b>Lazer</b><span class="t">22:20&ndash;23:00</span></div>
     <!-- ============ TER&Ccedil;A ============ -->
     <div class="bl casa" style="grid-column:3;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
     <div class="bl desloc xs" style="grid-column:3;grid-row:10/14"><b>Desloc.</b><span class="t">sai 7:10 &middot; chega 7:30</span></div>
-    <div class="bl trabalho" style="grid-column:3;grid-row:14/66"><b>Trabalho</b><span class="t">7:30&ndash;11:50</span></div>
+    <div class="bl trabalho" style="grid-column:3;grid-row:14/38"><b>Trabalho</b><span class="t">7:30&ndash;9:30</span></div>
+    <div class="bl refeicao xs" style="grid-column:3;grid-row:38/41"><b>Lanche</b><span class="t">9:30&ndash;9:45</span></div>
+    <div class="bl trabalho" style="grid-column:3;grid-row:41/66"><b>Trabalho</b><span class="t">9:45&ndash;11:50</span></div>
     <div class="bl refeicao" style="grid-column:3;grid-row:66/77"><b>Almo&ccedil;o</b><span class="t">11:50&ndash;12:45</span></div>
-    <div class="bl trabalho" style="grid-column:3;grid-row:77/110"><b>Trabalho</b><span class="t">12:45&ndash;15:30</span></div>
-    <div class="bl refeicao xs" style="grid-column:3;grid-row:110/113"><b>Lanche</b><span class="t">15:30&ndash;15:45</span></div>
-    <div class="bl trabalho" style="grid-column:3;grid-row:113/137"><b>Trabalho</b><span class="t">15:45&ndash;17:45</span></div>
+    <div class="bl trabalho" style="grid-column:3;grid-row:77/137"><b>Trabalho</b><span class="t">12:45&ndash;17:45</span></div>
     <div class="bl desloc xs" style="grid-column:3;grid-row:137/140"><b>Desloc.</b><span class="t">17:45&ndash;18:00</span></div>
     <div class="bl psico" style="grid-column:3;grid-row:140/152"><b>Psic&oacute;logo</b><span class="t">18:00&ndash;19:00</span></div>
     <div class="bl desloc xs" style="grid-column:3;grid-row:152/157"><b>Desloc.</b><span class="t">19:00&ndash;19:25</span></div>
     <div class="bl casa xs" style="grid-column:3;grid-row:157/163"><b>Banho</b><span class="t">19:25&ndash;19:55</span></div>
     <div class="bl refeicao xs" style="grid-column:3;grid-row:163/171"><b>Janta</b><span class="t">19:55&ndash;20:35</span></div>
-    <div class="bl borin" style="grid-column:3;grid-row:171/190"><b>Borin</b><span class="t">20:35&ndash;22:10 &middot; 1h35</span></div>
-    <div class="bl lazer" style="grid-column:3;grid-row:190/200"><b>Lazer</b><span class="t">22:10&ndash;23:00</span></div>
+    <div class="bl borin" style="grid-column:3;grid-row:171/192"><b>Borin</b><span class="t">20:35&ndash;22:20 &middot; 1h45</span></div>
+    <div class="bl lazer xs" style="grid-column:3;grid-row:192/200"><b>Lazer</b><span class="t">22:20&ndash;23:00</span></div>
     <!-- ============ QUARTA ============ -->
     <div class="bl casa" style="grid-column:4;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
     <div class="bl desloc xs" style="grid-column:4;grid-row:10/14"><b>Desloc.</b><span class="t">sai 7:10 &middot; chega 7:30</span></div>
-    <div class="bl trabalho" style="grid-column:4;grid-row:14/66"><b>Trabalho</b><span class="t">7:30&ndash;11:50</span></div>
+    <div class="bl trabalho" style="grid-column:4;grid-row:14/38"><b>Trabalho</b><span class="t">7:30&ndash;9:30</span></div>
+    <div class="bl refeicao xs" style="grid-column:4;grid-row:38/41"><b>Lanche</b><span class="t">9:30&ndash;9:45</span></div>
+    <div class="bl trabalho" style="grid-column:4;grid-row:41/66"><b>Trabalho</b><span class="t">9:45&ndash;11:50</span></div>
     <div class="bl refeicao" style="grid-column:4;grid-row:66/77"><b>Almo&ccedil;o</b><span class="t">11:50&ndash;12:45</span></div>
-    <div class="bl trabalho" style="grid-column:4;grid-row:77/110"><b>Trabalho</b><span class="t">12:45&ndash;15:30</span></div>
-    <div class="bl refeicao xs" style="grid-column:4;grid-row:110/113"><b>Lanche</b><span class="t">15:30&ndash;15:45</span></div>
-    <div class="bl trabalho" style="grid-column:4;grid-row:113/135"><b>Trabalho</b><span class="t">15:45&ndash;17:35</span></div>
+    <div class="bl trabalho" style="grid-column:4;grid-row:77/135"><b>Trabalho</b><span class="t">12:45&ndash;17:35</span></div>
     <div class="bl desloc xs" style="grid-column:4;grid-row:135/138"><b>Desloc.</b><span class="t">17:35&ndash;17:50</span></div>
     <div class="bl aula" style="grid-column:4;grid-row:138/158"><b>Aula</b><span class="t">in&iacute;cio 17:40 &middot; chega 17:50 &middot; sa&iacute;da real ~19:30</span></div>
     <div class="bl desloc xs" style="grid-column:4;grid-row:158/162"><b>Desloc.</b><span class="t">19:30&ndash;19:50</span></div>
     <div class="bl casa xs" style="grid-column:4;grid-row:162/168"><b>Banho</b><span class="t">19:50&ndash;20:20</span></div>
     <div class="bl refeicao xs" style="grid-column:4;grid-row:168/176"><b>Janta</b><span class="t">20:20&ndash;21:00</span></div>
     <div class="bl borin" style="grid-column:4;grid-row:176/191"><b>Borin</b><span class="t">21:00&ndash;22:15 &middot; 1h15</span></div>
-    <div class="bl lazer" style="grid-column:4;grid-row:191/200"><b>Lazer</b><span class="t">22:15&ndash;23:00</span></div>
+    <div class="bl lazer xs" style="grid-column:4;grid-row:191/200"><b>Lazer</b><span class="t">22:15&ndash;23:00</span></div>
     <!-- ============ QUINTA ============ -->
     <div class="bl casa" style="grid-column:5;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
     <div class="bl desloc xs" style="grid-column:5;grid-row:10/14"><b>Desloc.</b><span class="t">sai 7:10 &middot; chega 7:30</span></div>
-    <div class="bl trabalho" style="grid-column:5;grid-row:14/66"><b>Trabalho</b><span class="t">7:30&ndash;11:50</span></div>
+    <div class="bl trabalho" style="grid-column:5;grid-row:14/38"><b>Trabalho</b><span class="t">7:30&ndash;9:30</span></div>
+    <div class="bl refeicao xs" style="grid-column:5;grid-row:38/41"><b>Lanche</b><span class="t">9:30&ndash;9:45</span></div>
+    <div class="bl trabalho" style="grid-column:5;grid-row:41/66"><b>Trabalho</b><span class="t">9:45&ndash;11:50</span></div>
     <div class="bl refeicao" style="grid-column:5;grid-row:66/77"><b>Almo&ccedil;o</b><span class="t">11:50&ndash;12:45</span></div>
-    <div class="bl trabalho" style="grid-column:5;grid-row:77/110"><b>Trabalho</b><span class="t">12:45&ndash;15:30</span></div>
-    <div class="bl refeicao xs" style="grid-column:5;grid-row:110/113"><b>Lanche</b><span class="t">15:30&ndash;15:45</span></div>
-    <div class="bl trabalho" style="grid-column:5;grid-row:113/137"><b>Trabalho</b><span class="t">15:45&ndash;17:45</span></div>
+    <div class="bl trabalho" style="grid-column:5;grid-row:77/137"><b>Trabalho</b><span class="t">12:45&ndash;17:45</span></div>
     <div class="bl desloc xs" style="grid-column:5;grid-row:137/143"><b>Desloc.</b><span class="t">17:45 &middot; ~30 min</span></div>
-    <div class="bl casa xs" style="grid-column:5;grid-row:143/149"><b>Banho</b><span class="t">18:15&ndash;18:45</span></div>
-    <div class="bl refeicao xs" style="grid-column:5;grid-row:149/157"><b>Janta</b><span class="t">18:45&ndash;19:25</span></div>
-    <div class="bl borin" style="grid-column:5;grid-row:157/188"><b>Borin</b><span class="t">19:25&ndash;22:00 &middot; 2h35</span></div>
-    <div class="bl lazer" style="grid-column:5;grid-row:188/200"><b>Lazer</b><span class="t">22:00&ndash;23:00</span></div>
+    <div class="bl refeicao xs" style="grid-column:5;grid-row:143/151"><b>Janta</b><span class="t">18:15&ndash;18:55</span></div>
+    <div class="bl borin" style="grid-column:5;grid-row:151/163"><b>Borin</b><span class="t">18:55&ndash;19:55 &middot; 1h</span></div>
+    <div class="bl treino xs" style="grid-column:5;grid-row:163/168"><b>Treino</b><span class="t">19:55&ndash;20:20</span></div>
+    <div class="bl casa xs" style="grid-column:5;grid-row:168/174"><b>Banho</b><span class="t">20:20&ndash;20:50</span></div>
+    <div class="bl borin" style="grid-column:5;grid-row:174/192"><b>Borin</b><span class="t">20:50&ndash;22:20 &middot; 1h30</span></div>
+    <div class="bl lazer xs" style="grid-column:5;grid-row:192/200"><b>Lazer</b><span class="t">22:20&ndash;23:00</span></div>
     <!-- ============ SEXTA ============ -->
     <div class="bl casa" style="grid-column:6;grid-row:2/10"><b>Acordar &middot; caf&eacute;</b><span class="t">6:30&ndash;7:10</span></div>
     <div class="bl desloc xs" style="grid-column:6;grid-row:10/14"><b>Desloc.</b><span class="t">sai 7:10 &middot; chega 7:30</span></div>
-    <div class="bl trabalho" style="grid-column:6;grid-row:14/66"><b>Trabalho</b><span class="t">7:30&ndash;11:50</span></div>
+    <div class="bl trabalho" style="grid-column:6;grid-row:14/38"><b>Trabalho</b><span class="t">7:30&ndash;9:30</span></div>
+    <div class="bl refeicao xs" style="grid-column:6;grid-row:38/41"><b>Lanche</b><span class="t">9:30&ndash;9:45</span></div>
+    <div class="bl trabalho" style="grid-column:6;grid-row:41/66"><b>Trabalho</b><span class="t">9:45&ndash;11:50</span></div>
     <div class="bl refeicao" style="grid-column:6;grid-row:66/77"><b>Almo&ccedil;o</b><span class="t">11:50&ndash;12:45</span></div>
-    <div class="bl trabalho" style="grid-column:6;grid-row:77/110"><b>Trabalho</b><span class="t">12:45&ndash;15:30</span></div>
-    <div class="bl refeicao xs" style="grid-column:6;grid-row:110/113"><b>Lanche</b><span class="t">15:30&ndash;15:45</span></div>
-    <div class="bl trabalho" style="grid-column:6;grid-row:113/125"><b>Trabalho</b><span class="t">15:45&ndash;16:45</span></div>
+    <div class="bl trabalho" style="grid-column:6;grid-row:77/125"><b>Trabalho</b><span class="t">12:45&ndash;16:45</span></div>
     <div class="bl desloc xs" style="grid-column:6;grid-row:125/130"><b>Desloc.</b><span class="t">16:45 &middot; ~25 min</span></div>
-    <div class="bl casa xs" style="grid-column:6;grid-row:130/136"><b>Banho</b><span class="t">17:10&ndash;17:40</span></div>
-    <div class="bl lazer xs" style="grid-column:6;grid-row:136/141"><b>Lazer</b><span class="t">17:40&ndash;18:05</span></div>
+    <div class="bl treino xs" style="grid-column:6;grid-row:130/135"><b>Treino</b><span class="t">17:10&ndash;17:35</span></div>
+    <div class="bl casa xs" style="grid-column:6;grid-row:135/141"><b>Banho</b><span class="t">17:35&ndash;18:05</span></div>
     <div class="bl refeicao xs" style="grid-column:6;grid-row:141/149"><b>Janta</b><span class="t">18:05&ndash;18:45</span></div>
     <div class="bl desloc xs" style="grid-column:6;grid-row:149/158"><b>Desloc.</b><span class="t">sai 18:45 &middot; ~45 min</span></div>
     <div class="bl aula" style="grid-column:6;grid-row:158/194"><b>Aula</b><span class="t">19:30&ndash;22:30</span></div>
@@ -400,7 +409,7 @@
     <div><span class="rot">Documento</span><span class="val">Agenda semanal</span></div>
     <div><span class="rot">Titular</span><span class="val">Mateus Borin</span></div>
     <div><span class="rot">Borin na semana</span><span class="val">8h00 (seg&ndash;qui, noite)</span></div>
-    <div><span class="rot">Rev</span><span class="val">04</span></div>
+    <div><span class="rot">Rev</span><span class="val">05</span></div>
     <div><span class="rot">Data</span><span class="val">12/08/2026</span></div>
   </div>
 
