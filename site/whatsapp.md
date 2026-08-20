@@ -59,20 +59,3 @@ Quem comparar número recebido com número cadastrado tem que tratar as duas.
 
 Sempre logar o código. Sem ele, investigar vira adivinhação — foi o que
 aconteceu em 20/08.
-
-## Para um segundo projeto usar o mesmo número
-
-Não precisa de app novo nem de número novo. Copiar as credenciais e criar um
-template próprio, porque o `pedido_recebido_botoes` é texto de orçamento e não
-serve para notificação interna.
-
-Template sugerido para automação, categoria **Utilidade**:
-
-```
-Nome:   status_geracao
-Idioma: pt_BR
-Corpo:  Geração do projeto {{1}} concluída na volta {{2}}. Resultado: {{3}}.
-```
-
-Criar em **business.facebook.com/wa/manage/message-templates**. Utilidade
-aprova em minutos e custa menos que Marketing.
